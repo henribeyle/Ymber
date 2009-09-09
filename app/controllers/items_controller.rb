@@ -1,35 +1,4 @@
 class ItemsController < ApplicationController
-#   def index
-#     @items = Item.all
-#
-#     respond_to do |format|
-#       format.html # index.html.erb
-#       format.xml  { render :xml => @items }
-#     end
-#   end
-#
-#   def show
-#     @item = Item.find(params[:id])
-#
-#     respond_to do |format|
-#       format.html # show.html.erb
-#       format.xml  { render :xml => @item }
-#     end
-#   end
-#
-#   def new
-#     @item = Item.new
-#
-#     respond_to do |format|
-#       format.html # new.html.erb
-#       format.xml  { render :xml => @item }
-#     end
-#   end
-#
-#   def edit
-#     @item = Item.find(params[:id])
-#   end
-
   def create
     @item = Item.new(params[:item])
 
@@ -64,7 +33,7 @@ class ItemsController < ApplicationController
 
     @item.tags.clear
 
-    params[:tag].each do |x|
+    (params[:tag]||[]).each do |x|
       begin
         @item.tags << Tag.find(x)
       rescue ActiveRecord::RecordNotFound => e
@@ -85,5 +54,25 @@ class ItemsController < ApplicationController
 
     @item.destroy
     render :json => { :status => 'ok' }
+  end
+
+  def add_tag
+    begin
+      @item = Item.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      render :json => { :status => 'error', :error => e.to_s }
+      return
+    end
+
+    (params[:tag]||[]).each do |x|
+log('here')
+      begin
+        @item.tags << Tag.find(x)
+      rescue ActiveRecord::RecordNotFound => e
+        render :json => { :status => 'error', :error => e.to_s }
+        return
+      end
+    end
+    render :json => @item.json
   end
 end
