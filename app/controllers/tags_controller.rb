@@ -82,4 +82,10 @@ class TagsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def editor
+    value=params[:value]
+    log('value is',value)
+    #params[:value]
+  end
 end
