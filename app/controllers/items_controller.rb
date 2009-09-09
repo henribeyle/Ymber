@@ -33,7 +33,7 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(params[:item])
 
-    params[:tag].each do |x|
+    (params[:tag]||[]).each do |x|
       begin
         @item.tags << Tag.find(x)
       rescue ActiveRecord::RecordNotFound => e
