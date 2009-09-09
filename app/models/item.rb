@@ -10,4 +10,9 @@ class Item < ActiveRecord::Base
       errors.add_to_base "Tags in, next, and waiting are mutually exclusively" 
     end
   end
+
+  def json
+    self.to_json(:except => [:created_at, :updated_at],
+        :include => { :tags => { :only => :id }})
+  end
 end

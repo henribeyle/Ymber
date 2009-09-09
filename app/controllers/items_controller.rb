@@ -43,7 +43,7 @@ class ItemsController < ApplicationController
     end
 
     if @item.save then
-      render :json => @item.to_json(:except => [:created_at, :updated_at])
+      render :json => @item.json
     else
       render :json => { :status => 'error', :error => @item.errors } 
     end
