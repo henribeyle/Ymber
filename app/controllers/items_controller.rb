@@ -29,12 +29,21 @@ class ItemsController < ApplicationController
 #   def edit
 #     @item = Item.find(params[:id])
 #   end
-# 
+
   def create
     @item = Item.new(params[:item])
 
+    params[:tag].each do |x|
+      begin 
+        @item.tags << Tag.find(x)
+      rescue ActiveRecord::RecordNotFound => e
+        render :json => { :status => 'error', :error => e.to_s } 
+        return
+      end
+    end
+
     if @item.save then
-      render :json => @item.to_json
+      render :json => @item.to_json(:except => [:created_at, :updated_at])
     else
       render :json => { :status => 'error', :error => @item.errors } 
     end
