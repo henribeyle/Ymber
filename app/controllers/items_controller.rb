@@ -12,7 +12,7 @@ class ItemsController < ApplicationController
     end
 
     if @item.save then
-      render :json => @item.json
+      render :json => @item.to_json
     else
       render :json => { :status => 'error', :error => @item.errors }
     end
@@ -41,7 +41,7 @@ class ItemsController < ApplicationController
         return
       end
     end
-    render :json => @item.json
+    render :json => @item.to_json
   end
 
   def destroy
@@ -72,7 +72,7 @@ class ItemsController < ApplicationController
         return
       end
     end
-    render :json => @item.json
+    render :json => @item.to_json
   end
 
   def delete_tag
@@ -91,6 +91,31 @@ class ItemsController < ApplicationController
         return
       end
     end
-    render :json => @item.json
+    render :json => @item.to_json
+  end
+
+  def split
+    begin
+      @item = Item.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      render :json => { :status => 'error', :error => e.to_s }
+      return
+    end
+
+    items=[]
+    (params[:value]||[]).each do |x|
+      ei = @item.clone
+      ei.value=x
+      ei.tags=@item.tags
+      if !ei.save then
+        render :json => { :status => 'error', :error => @item.errors }
+        return 
+      end
+      items << ei 
+    end
+
+    @item.destroy
+
+    render :json => items.to_json #.map {|x| x.json} +"]"
   end
 end

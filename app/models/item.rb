@@ -11,8 +11,8 @@ class Item < ActiveRecord::Base
     end
   end
 
-  def json
-    self.to_json(:except => [:created_at, :updated_at],
+  def to_json(options = {})
+    super(:except => [:created_at, :updated_at],
         :include => { :tags => { :only => :id }})
   end
 end
