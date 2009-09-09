@@ -12,7 +12,7 @@ class ItemsController < ApplicationController
     end
 
     if @item.save then
-      render :json => @item.to_json
+      render :json => @item
     else
       render :json => { :status => 'error', :error => @item.errors }
     end
@@ -41,7 +41,7 @@ class ItemsController < ApplicationController
         return
       end
     end
-    render :json => @item.to_json
+    render :json => @item
   end
 
   def destroy
@@ -72,7 +72,7 @@ class ItemsController < ApplicationController
         return
       end
     end
-    render :json => @item.to_json
+    render :json => @item
   end
 
   def delete_tag
@@ -91,7 +91,7 @@ class ItemsController < ApplicationController
         return
       end
     end
-    render :json => @item.to_json
+    render :json => @item
   end
 
   def split
@@ -115,7 +115,6 @@ class ItemsController < ApplicationController
     end
 
     @item.destroy
-
-    render :json => items.to_json #.map {|x| x.json} +"]"
+    render :json => items
   end
 end
