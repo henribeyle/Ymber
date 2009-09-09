@@ -1,0 +1,15 @@
+in:
+  value: in
+
+next:
+  value: next 
+
+waiting:
+  value: waiting
+
+# these are for testing (Yes I know this is wrong)
+t1:
+  value: tag-one
+
+t2:
+  value: tag-two

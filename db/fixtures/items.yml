@@ -1,0 +1,7 @@
+i1:
+  value: item-one
+  tags: t2,in
+
+i2:
+  value: item-two
+  tags: next, t1, t2 
