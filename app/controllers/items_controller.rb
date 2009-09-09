@@ -65,9 +65,27 @@ class ItemsController < ApplicationController
     end
 
     (params[:tag]||[]).each do |x|
-log('here')
       begin
         @item.tags << Tag.find(x)
+      rescue ActiveRecord::RecordNotFound => e
+        render :json => { :status => 'error', :error => e.to_s }
+        return
+      end
+    end
+    render :json => @item.json
+  end
+
+  def delete_tag
+    begin
+      @item = Item.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      render :json => { :status => 'error', :error => e.to_s }
+      return
+    end
+
+    (params[:tag]||[]).each do |x|
+      begin
+        @item.tags.delete(Tag.find(x))
       rescue ActiveRecord::RecordNotFound => e
         render :json => { :status => 'error', :error => e.to_s }
         return
