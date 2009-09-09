@@ -75,13 +75,15 @@ class ItemsController < ApplicationController
     render :json => @item.json
   end
 
-#   def destroy
-#     @item = Item.find(params[:id])
-#     @item.destroy
-#
-#     respond_to do |format|
-#       format.html { redirect_to(items_url) }
-#       format.xml  { head :ok }
-#     end
-#   end
+  def destroy
+    begin
+      @item = Item.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      render :json => { :status => 'error', :error => e.to_s }
+      return
+    end
+
+    @item.destroy
+    render :json => { :status => 'ok' }
+  end
 end
