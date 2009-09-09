@@ -72,7 +72,9 @@ class TagsController < ApplicationController
 
   def editor
     value=params[:value]
-    log('value is',value)
-    #params[:value]
+    if(value) then
+      @tag = Tag.find_by_value(value)
+      redirect_to('/') if(!@tag)
+    end
   end
 end

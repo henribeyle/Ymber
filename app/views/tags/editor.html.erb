@@ -1,1 +1,7 @@
-<h1>You are in the editor</h1>
+<h1>
+<% if @tag then %>
+<%= @tag.value %>
+<% else %>
+No tag
+<% end %>
+</h1>
