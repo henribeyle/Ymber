@@ -3,6 +3,23 @@ class Tag < ActiveRecord::Base
 
   validates_presence_of :value
   validates_uniqueness_of :value, :case_sensitive => false
+
+  def value=(new_value)
+    if self[:value] == 'in' || self[:value] == 'next' || self[:value] == 'waiting' 
+      raise "Tag #{self[:value]} is inmutable"
+    else
+      self[:value]=new_value
+    end
+  end
+
+  def destroy
+    if self[:value] == 'in' || self[:value] == 'next' || self[:value] == 'waiting' 
+      raise "Tag #{self[:value]} is inmutable"
+    else
+      super
+    end
+  end
+
   def to_json(options = {})
     super(:except => [:created_at, :updated_at])
   end

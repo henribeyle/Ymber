@@ -12,28 +12,26 @@ class TagsController < ApplicationController
   def update
     begin
       @tag = Tag.find(params[:id])
-    rescue ActiveRecord::RecordNotFound => e
+      if !@tag.update_attributes!(params[:tag])
+        render :json => { :status => 'error', :error => 'could not update tag' }
+        return
+      end
+    rescue Exception => e
       render :json => { :status => 'error', :error => e.to_s }
       return
     end
-
-    if !@tag.update_attributes(params[:tag])
-      render :json => { :status => 'error', :error => 'could not update tag' }
-      return
-    end
-
     render :json => @tag
   end
 
   def destroy
     begin
       @tag = Tag.find(params[:id])
-    rescue ActiveRecord::RecordNotFound => e
+      @tag.destroy
+    rescue Exception => e
       render :json => { :status => 'error', :error => e.to_s }
       return
     end
 
-    @tag.destroy
     render :json => { :status => 'ok' }
   end
 
