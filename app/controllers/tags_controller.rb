@@ -29,22 +29,17 @@ class TagsController < ApplicationController
 #   def edit
 #     @tag = Tag.find(params[:id])
 #   end
-# 
-#   def create
-#     @tag = Tag.new(params[:tag])
-# 
-#     respond_to do |format|
-#       if @tag.save
-#         flash[:notice] = 'Tag was successfully created.'
-#         format.html { redirect_to(@tag) }
-#         format.xml  { render :xml => @tag, :status => :created, :location => @tag }
-#       else
-#         format.html { render :action => "new" }
-#         format.xml  { render :xml => @tag.errors, :status => :unprocessable_entity }
-#       end
-#     end
-#   end
-# 
+
+  def create
+    @tag = Tag.new(params[:tag])
+
+    if @tag.save then
+      render :json => @tag
+    else
+      render :json => { :status => 'error', :error => @tag.errors }
+    end
+  end
+
 #   def update
 #     @tag = Tag.find(params[:id])
 # 
