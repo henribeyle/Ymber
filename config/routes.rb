@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/items/:id/split', :controller => 'items', :action => 'split',
     :conditions => {:method => :post}
 
-  map.resources :tags, :only => [:create, :update]
+  map.resources :tags, :only => [:create, :update, :destroy]
   map.connect ':value', :controller => 'tags', :action => 'editor'
   map.root :controller => "tags", :action => 'editor'
 end

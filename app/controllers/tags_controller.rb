@@ -1,35 +1,4 @@
 class TagsController < ApplicationController
-#   def index
-#     @tags = Tag.all
-#
-#     respond_to do |format|
-#       format.html # index.html.erb
-#       format.xml  { render :xml => @tags }
-#     end
-#   end
-#
-#   def show
-#     @tag = Tag.find(params[:id])
-#
-#     respond_to do |format|
-#       format.html # show.html.erb
-#       format.xml  { render :xml => @tag }
-#     end
-#   end
-#
-#   def new
-#     @tag = Tag.new
-#
-#     respond_to do |format|
-#       format.html # new.html.erb
-#       format.xml  { render :xml => @tag }
-#     end
-#   end
-#
-#   def edit
-#     @tag = Tag.find(params[:id])
-#   end
-
   def create
     @tag = Tag.new(params[:tag])
 
@@ -56,15 +25,17 @@ class TagsController < ApplicationController
     render :json => @tag
   end
 
-#   def destroy
-#     @tag = Tag.find(params[:id])
-#     @tag.destroy
-#
-#     respond_to do |format|
-#       format.html { redirect_to(tags_url) }
-#       format.xml  { head :ok }
-#     end
-#   end
+  def destroy
+    begin
+      @tag = Tag.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      render :json => { :status => 'error', :error => e.to_s }
+      return
+    end
+
+    @tag.destroy
+    render :json => { :status => 'ok' }
+  end
 
   def editor
     value=params[:value]
