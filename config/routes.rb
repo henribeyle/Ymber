@@ -4,10 +4,10 @@ ActionController::Routing::Routes.draw do |map|
     :conditions => {:method => :put}
   map.connect '/items/:id/tag', :controller => 'items', :action => 'delete_tag',
     :conditions => {:method => :delete }
-  map.connect '/items/:id/split', :controller => 'items', :action => 'split', 
+  map.connect '/items/:id/split', :controller => 'items', :action => 'split',
     :conditions => {:method => :post}
 
-  map.resources :tags, :only => [:create] 
+  map.resources :tags, :only => [:create, :update]
   map.connect ':value', :controller => 'tags', :action => 'editor'
   map.root :controller => "tags", :action => 'editor'
 end
