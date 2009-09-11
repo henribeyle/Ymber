@@ -14,7 +14,7 @@ class ItemsController < ApplicationController
     if @item.save then
       render :json => @item
     else
-      render :json => { :status => 'error', :error => @item.errors }
+      render :json => { :status => 'error', :error => @item.errors.full_messages[0] }
     end
   end
 
