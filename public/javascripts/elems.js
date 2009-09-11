@@ -1,44 +1,3 @@
-function G() {
-  this.g=[]
-}
-
-G.prototype.to_s = function() {
-  var s='{'
-  for(var i=0;i<this.g.length;i++) {
-    s+=this.g[i].to_s()
-    if(i<this.g.length-1)
-      s+=", "
-  }
-  s+='}'
-  return s
-}
-
-G.prototype.find = function(value) {
-  for(var i=0;i<this.g.length;i++) {
-    if(this.g[i].value==value)
-      return i
-  }
-  return -1
-}
-
-G.prototype.find_by_id = function(id) {
-  for(var i=0;i<this.g.length;i++) {
-    if(this.g[i].id==id)
-      return i
-  }
-  return -1
-}
-
-G.prototype.add = function(s) { 
-  this.g.push(s)
-}
-
-G.prototype.remove = function(pos) { 
-  this.g.splice(pos,1)
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 function E(value,id) {
   this.value=value
   this.id=id
@@ -46,7 +5,11 @@ function E(value,id) {
 }
 
 E.prototype.to_s = function() {
-  return this.value+'['+this.id+']'
+  return this.value+' ['+this.id+']' 
+}
+
+E.prototype.to_sr = function() {
+  return this.value+' ['+this.id+'] ' + this.sub.to_s() 
 }
 
 E.prototype.log = function(x) {
