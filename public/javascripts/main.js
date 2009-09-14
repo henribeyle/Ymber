@@ -27,35 +27,49 @@ $(function() {
 
 
   $('#add_item_button').click(function() {
-    item_create($('#add_item_text').val())
+    //item_create($('#add_item_text').val())
 
-//     var i1=new E('item1',1)
-//     _items.add(i1)
-//     _items.log('items:')
-//     //i1.log('item1: ')
-// 
-//     var t1=new E('tag1',1)
-//     _tags.add(t1)
-//     _tags.log('tags:')
-// 
-//     i1.add(t1)
+    var i1=new E('item1',1)
+    _items.add(i1)
+    var i2=new E('item2',2)
+    _items.add(i2)
+
+    var t1=new E('tag1',1)
+    _tags.add(t1)
+    var t2=new E('tag2',2)
+    _tags.add(t2)
+
+    i1.add(t1)
+    i1.add(t2)
+    i2.add(t2)
+
+    i1.log('i1:')
+    i2.log('i2:')
+    t1.log('t1:')
+    t2.log('t2:')
+    _items.log('items:')
+    _tags.log('tags:')
+
+
+    i2.remove(t2)
+
 // //     i1.log('item1 after tag1: ')
 //     _items.logr('items after connection: ')
 //     _tags.logr('items after connection: ')
-// 
-
-
-
-
+//
+//
+//
+//
+//
 //     _items.log('items after tag:')
 //     _tags.log('tags after tag:')
-// 
+//
 //     i1.add(t1)
 //     _items.log('items after connection:')
 //     _tags.log('tags after connection:')
 //     i1.log('item1 + tag1: ')
-// 
-// 
+//
+//
 //     t1.value='tag1-mod'
 //     _items.log('items after mod:')
 //     _tags.log('tags after mod:')
