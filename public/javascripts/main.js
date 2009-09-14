@@ -11,7 +11,10 @@ function item_create(x) { // missing tags
         if(is_error(b)) {
           normal_error(b.error)
         } else {
-          log('no error' + a)
+          //log('no error' + a)
+          var i1=new E(b.item.value,b.item.id)
+          _items.add(i1)
+          //missing tags for this item
         }
       },
       error: terrible_error
@@ -22,23 +25,24 @@ $(function() {
   _items=new G()
   _tags=new G()
 
+
   $('#add_item_button').click(function() {
-    //var v=$('#add_item_text').val()
-    //item_create(v)
-    var i1=new E('item1',1)
-    _items.add(i1)
-    _items.log('items:')
-    //i1.log('item1: ')
+    item_create($('#add_item_text').val())
 
-    var t1=new E('tag1',1)
-    _tags.add(t1)
-    _tags.log('tags:')
-
-    i1.add(t1)
-//     i1.log('item1 after tag1: ')
-    _items.logr('items after connection: ')
-    _tags.logr('items after connection: ')
-
+//     var i1=new E('item1',1)
+//     _items.add(i1)
+//     _items.log('items:')
+//     //i1.log('item1: ')
+// 
+//     var t1=new E('tag1',1)
+//     _tags.add(t1)
+//     _tags.log('tags:')
+// 
+//     i1.add(t1)
+// //     i1.log('item1 after tag1: ')
+//     _items.logr('items after connection: ')
+//     _tags.logr('items after connection: ')
+// 
 
 
 
@@ -62,5 +66,12 @@ $(function() {
 //     _tags.log('tags after removing:')
 //     //i1.log('item1 after removing: ')
 //     //t1.log('tag1 after removing: ')
+  })
+
+  $('#show_all_items').click(function() {
+    _items.log('all items:')
+  })
+  $('#show_all_tags').click(function() {
+    _tags.log('all tags:')
   })
 })
