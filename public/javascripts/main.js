@@ -132,6 +132,24 @@ function item_remove_tag(ii,ti) {
   })
 }
 
+function item_split(i) {
+  var els=_items.g[i].value.split("\n")
+  var post_data=$.map(els,function(x,j) { return 'value[]='+x }).join('&')
+
+  $.ajax({
+    type: "POST",
+    url: "/items/"+_items.g[i].id+'/split',
+    data: post_data,
+    success: function(a) {
+      if(a=parse(a)) {
+        _items.remove(i)
+        $.each(a,function(i,x) { parse_new_item(x) } )
+      }
+    },
+    error: terrible_error
+  })
+}
+
 $(function() {
   build_db()
 
@@ -154,6 +172,10 @@ $(function() {
 
   $('#remove_tag_item_button').click(function() {
     item_remove_tag(0,0)
+  })
+
+  $('#split_item_button').click(function() {
+    item_split(0)
   })
 
   $('#show_all_items').click(function() {
