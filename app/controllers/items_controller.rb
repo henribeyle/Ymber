@@ -41,7 +41,12 @@ class ItemsController < ApplicationController
         return
       end
     end
-    render :json => @item
+
+    if @item.save then
+      render :json => @item
+    else
+      render :json => { :status => 'error', :error => @item.errors.full_messages[0] }
+    end
   end
 
   def destroy
@@ -72,7 +77,11 @@ class ItemsController < ApplicationController
         return
       end
     end
-    render :json => @item
+    if @item.save then
+      render :json => @item
+    else
+      render :json => { :status => 'error', :error => @item.errors.full_messages[0] }
+    end
   end
 
   def delete_tag
@@ -91,7 +100,11 @@ class ItemsController < ApplicationController
         return
       end
     end
-    render :json => @item
+    if @item.save then
+      render :json => @item
+    else
+      render :json => { :status => 'error', :error => @item.errors.full_messages[0] }
+    end
   end
 
   def split
@@ -108,7 +121,7 @@ class ItemsController < ApplicationController
       ei.value=x
       ei.tags=@item.tags
       if !ei.save then
-        render :json => { :status => 'error', :error => @item.errors }
+        render :json => { :status => 'error', :error => ei.errors.full_messages[0] }
         return 
       end
       items << ei 

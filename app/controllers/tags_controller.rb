@@ -5,7 +5,7 @@ class TagsController < ApplicationController
     if @tag.save then
       render :json => @tag
     else
-      render :json => { :status => 'error', :error => @tag.errors }
+      render :json => { :status => 'error', :error => @tag.errors.full_messages[0] }
     end
   end
 
