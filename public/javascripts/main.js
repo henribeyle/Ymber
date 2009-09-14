@@ -72,7 +72,6 @@ function item_update(i,x) {
   $.each(_items.g[i].sub.g,function(j,x) {
     post_data+='&'+'tag[]='+x.id
   })
-  log(post_data)
   $.ajax({
     type: "PUT",
     url: "/items/"+_items.g[i].id,
@@ -87,8 +86,26 @@ function item_update(i,x) {
   })
 }
 
+function item_destroy(i,x) {
+  $.ajax({
+    type: "DELETE",
+    url: "/items/"+_items.g[i].id,
+    success: function(a) {
+      if(a=parse(a)) {
+        _items.remove(i)
+      }
+    },
+    error: terrible_error
+  })
+}
+
 $(function() {
   build_db()
+
+  $('#destroy_item_text').val(_items.g[0].value)
+  $('#destroy_item_button').click(function() {
+    item_destroy(0,$('#destroy_item_text').val())
+  })
 
   $('#update_item_text').val(_items.g[0].value)
   $('#update_item_button').click(function() {
