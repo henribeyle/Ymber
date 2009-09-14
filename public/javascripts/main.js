@@ -68,7 +68,6 @@ function item_create(x) {
 
 function item_update(i,x) {
   var post_data=$.param({'item[value]': x})
-  log(post_data)
   $.each(_items.g[i].sub.g,function(j,x) {
     post_data+='&'+'tag[]='+x.id
   })
@@ -99,10 +98,43 @@ function item_destroy(i,x) {
   })
 }
 
+function item_add_tag(ii,ti) {
+  $.ajax({
+    type: "PUT",
+    url: "/items/"+_items.g[ii].id+'/tag',
+    data: 'tag[]='+_tags.g[ti].id,
+    success: function(a) {
+      if(a=parse(a)) {
+        _items.g[ii].add(_tags.g[ti])
+      }
+    },
+    error: terrible_error
+  })
+}
+
+function item_remove_tag(ii,ti) {
+  var tid=_items.g[ii].sub.g[ti].id
+  $.ajax({
+    type: "DELETE",
+    url: "/items/"+_items.g[ii].id+'/tag',
+    data: 'tag[]='+tid,
+    success: function(a) {
+      if(a=parse(a)) {
+        var tidpos=_tags.find_by_id(tid)
+        if(tidpos==-1) {
+          assert_failed('unknown tag id: '+tid)
+          return
+        }
+        _items.g[ii].remove(_tags.g[tidpos])
+      }
+    },
+    error: terrible_error
+  })
+}
+
 $(function() {
   build_db()
 
-  $('#destroy_item_text').val(_items.g[0].value)
   $('#destroy_item_button').click(function() {
     item_destroy(0,$('#destroy_item_text').val())
   })
@@ -114,6 +146,14 @@ $(function() {
 
   $('#add_item_button').click(function() {
     item_create($('#add_item_text').val())
+  })
+
+  $('#add_tag_item_button').click(function() {
+    item_add_tag(0,0)
+  })
+
+  $('#remove_tag_item_button').click(function() {
+    item_remove_tag(0,0)
   })
 
   $('#show_all_items').click(function() {

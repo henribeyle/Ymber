@@ -11,7 +11,6 @@ var all_items=<%= @items.to_json %>
 
 <hr>
 <h2>destroy 1st item</h2>
-<textarea id='destroy_item_text'></textarea>
 <input type='button' value='+' id='destroy_item_button'/>
 
 <hr>
@@ -24,4 +23,12 @@ var all_items=<%= @items.to_json %>
 <textarea id='add_item_text'></textarea>
 <input type='button' value='+' id='add_item_button'/>
 
+<hr>
+<h2>add 1st global tag to 1st item</h2>
+<input type='button' value='+' id='add_tag_item_button'/>
+<hr>
+<h2>remove 1st tag from 1st item</h2>
+<input type='button' value='+' id='remove_tag_item_button'/>
+
+<hr>
 <div id='log'>Here goes the log</div>
