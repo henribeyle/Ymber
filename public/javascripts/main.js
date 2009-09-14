@@ -150,6 +150,31 @@ function item_split(i) {
   })
 }
 
+function tag_create(x) {
+  $.ajax({
+    type: "POST",
+    url: "/tags",
+    data: { 'tag[value]': x },
+    success: function(a) {
+      if(a=parse(a))
+        parse_new_tag(a)
+    },
+    error: terrible_error
+  })
+}
+
+function tag_remove(i) {
+  $.ajax({
+    type: "DELETE",
+    url: "/tags/"+_tags.g[i].id,
+    success: function(a) {
+      if(a=parse(a))
+        _tags.remove(i)
+    },
+    error: terrible_error
+  })
+}
+
 $(function() {
   build_db()
 
@@ -176,6 +201,19 @@ $(function() {
 
   $('#split_item_button').click(function() {
     item_split(0)
+  })
+
+  $('#add_tag_button').click(function() {
+    tag_create($('#add_tag_text').val())
+  })
+
+  $('#remove_tag_button').click(function() {
+    var x=$('#remove_tag_text').val()
+    var tid=_tags.find(x)
+    if(tid==-1)
+      log('tag '+x+' not found')
+    else
+      tag_remove(tid)
   })
 
   $('#show_all_items').click(function() {
