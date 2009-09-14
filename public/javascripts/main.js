@@ -48,7 +48,7 @@ function build_db() {
   $.each(all_items,function(i,x) { parse_new_item(x) })
 }
 
-function item_create(x) { 
+function item_create(x) {
   var post_data={'item[value]': x}
   if(_this_tag) {
     post_data['tag[]']=_this_tag.id
@@ -60,7 +60,28 @@ function item_create(x) {
     data: post_data,
     success: function(a) {
       if(a=parse(a))
-        parse_new_item(b)
+        parse_new_item(a)
+    },
+    error: terrible_error
+  })
+}
+
+function item_update(i,x) {
+  var post_data=$.param({'item[value]': x})
+  log(post_data)
+  $.each(_items.g[i].sub.g,function(j,x) {
+    post_data+='&'+'tag[]='+x.id
+  })
+  log(post_data)
+  $.ajax({
+    type: "PUT",
+    url: "/items/"+_items.g[i].id,
+    data: post_data,
+    success: function(a) {
+      if(a=parse(a)) {
+        _items.remove(i)
+        parse_new_item(a)
+      }
     },
     error: terrible_error
   })
@@ -68,6 +89,11 @@ function item_create(x) {
 
 $(function() {
   build_db()
+
+  $('#update_item_text').val(_items.g[0].value)
+  $('#update_item_button').click(function() {
+    item_update(0,$('#update_item_text').val())
+  })
 
   $('#add_item_button').click(function() {
     item_create($('#add_item_text').val())
