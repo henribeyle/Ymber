@@ -1,85 +1,76 @@
 var _items=null
 var _tags=null
+var _this_tag=null
 
-function item_create(x) { // missing tags
-   $.ajax({
-      type: "POST",
-      url: "/items",
-      data: {'item[value]': x},
-      success: function(a) {
-        var b=get_response(a)
-        if(is_error(b)) {
-          normal_error(b.error)
-        } else {
-          //log('no error' + a)
-          var i1=new E(b.item.value,b.item.id)
-          _items.add(i1)
-          //missing tags for this item
-        }
-      },
-      error: terrible_error
-   })
+function parse_new_tag(x) {
+  var e=new E(x.tag.value,x.tag.id)
+  _tags.add(e)
+  return e
 }
 
-$(function() {
+function parse_new_item(x) {
+  var e=new E(x.item.value,x.item.id)
+  _items.add(e)
+  $.each(x.item.tags,function(it,xt) {
+    var tid=_tags.find_by_id(xt.id)
+    if(tid==-1) {
+      assert_failed('unknown tag id: '+xt.id)
+      return
+    }
+    e.add(_tags.g[tid])
+  })
+  return e
+}
+
+function build_db() {
   _items=new G()
   _tags=new G()
 
+  if(this_tag == undefined) {
+    assert_failed('this_tag is not defined')
+    return
+  }
+  if(all_tags == undefined) {
+    assert_failed('all_tags is not defined')
+    return
+  }
+  if(all_items == undefined) {
+    assert_failed('all_items is not defined')
+    return
+  }
+
+  $.each(all_tags,function(i,x) { parse_new_tag(x) })
+
+  var tid=_tags.find(this_tag)
+  if(tid!=-1)
+    _this_tag=_tags.g[tid]
+
+  $.each(all_items,function(i,x) { parse_new_item(x) })
+}
+
+function item_create(x) { 
+  var post_data={'item[value]': x}
+  if(_this_tag) {
+    post_data['tag[]']=_this_tag.id
+  }
+
+  $.ajax({
+    type: "POST",
+    url: "/items",
+    data: post_data,
+    success: function(a) {
+      if(a=parse(a))
+        parse_new_item(b)
+    },
+    error: terrible_error
+  })
+}
+
+$(function() {
+  build_db()
 
   $('#add_item_button').click(function() {
-    //item_create($('#add_item_text').val())
-
-    var i1=new E('item1',1)
-    _items.add(i1)
-    var i2=new E('item2',2)
-    _items.add(i2)
-
-    var t1=new E('tag1',1)
-    _tags.add(t1)
-    var t2=new E('tag2',2)
-    _tags.add(t2)
-
-    i1.add(t1)
-    i1.add(t2)
-    i2.add(t2)
-
-    i1.log('i1:')
-    i2.log('i2:')
-    t1.log('t1:')
-    t2.log('t2:')
-    _items.log('items:')
-    _tags.log('tags:')
-
-
-    i2.remove(t2)
-
-// //     i1.log('item1 after tag1: ')
-//     _items.logr('items after connection: ')
-//     _tags.logr('items after connection: ')
-//
-//
-//
-//
-//
-//     _items.log('items after tag:')
-//     _tags.log('tags after tag:')
-//
-//     i1.add(t1)
-//     _items.log('items after connection:')
-//     _tags.log('tags after connection:')
-//     i1.log('item1 + tag1: ')
-//
-//
-//     t1.value='tag1-mod'
-//     _items.log('items after mod:')
-//     _tags.log('tags after mod:')
-//     //i1.log('item1 + tag1 mod: ')
-//     //t1.log('tag1: ')
-//     t1.remove(i1)
-//     _items.log('items after removing:')
-//     _tags.log('tags after removing:')
-//     //i1.log('item1 after removing: ')
-//     //t1.log('tag1 after removing: ')
+    item_create($('#add_item_text').val())
   })
 
   $('#show_all_items').click(function() {

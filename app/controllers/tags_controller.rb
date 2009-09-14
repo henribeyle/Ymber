@@ -37,9 +37,17 @@ class TagsController < ApplicationController
 
   def editor
     value=params[:value]
+    @tags=Tag.find(:all)
     if(value) then
-      @tag = Tag.find_by_value(value)
-      redirect_to('/') if(!@tag)
+      tag = Tag.find_by_value(value)
+      redirect_to('/') if(!tag)
+      @tagname=tag.value
+      @items=tag.items
+    else
+      @tagname='(none)'
+      @items=Item.find_by_sql "SELECT * from items " +
+        "where items.id NOT IN " +
+        "(SELECT item_id from items_tags)"
     end
   end
 end

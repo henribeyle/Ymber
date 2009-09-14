@@ -27,3 +27,13 @@ function get_response(a) {
 function is_error(r) {
   return r.status == 'error'
 }
+
+function parse(a) {
+  var b=get_response(a)
+  if(is_error(b)) {
+    normal_error(b.error)
+    return false
+  }
+  else
+    return b
+}
