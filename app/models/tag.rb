@@ -21,6 +21,6 @@ class Tag < ActiveRecord::Base
   end
 
   def to_json(options = {})
-    super(:except => [:created_at, :updated_at])
+    super(:only => [:value, :id])
   end
 end

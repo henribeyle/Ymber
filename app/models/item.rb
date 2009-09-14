@@ -12,7 +12,7 @@ class Item < ActiveRecord::Base
   end
 
   def to_json(options = {})
-    super(:except => [:created_at, :updated_at],
+    super(:only => [:value, :id],
         :include => { :tags => { :only => :id }})
   end
 end
