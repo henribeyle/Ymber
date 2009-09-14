@@ -7,9 +7,12 @@ class Tag < ActiveRecord::Base
   def value=(new_value)
     if self[:value] == 'in' || self[:value] == 'next' || self[:value] == 'waiting' 
       raise "Tag #{self[:value]} is inmutable"
-    else
-      self[:value]=new_value
+      return
     end
+    if new_value == '(none)' 
+      raise "Tag (none) can't be used"
+    end
+    self[:value]=new_value
   end
 
   def destroy
