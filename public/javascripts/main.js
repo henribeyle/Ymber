@@ -175,6 +175,19 @@ function tag_remove(i) {
   })
 }
 
+function tag_update(i,x) {
+  $.ajax({
+    type: "PUT",
+    url: "/tags/"+_tags.g[i].id,
+    data: { 'tag[value]' : x },
+    success: function(a) {
+      if(a=parse(a)) {
+        _tags.g[i].value=a.tag.value
+      }
+    },
+    error: terrible_error
+  })
+}
 $(function() {
   build_db()
 
@@ -214,6 +227,15 @@ $(function() {
       log('tag '+x+' not found')
     else
       tag_remove(tid)
+  })
+
+  $('#update_tag_button').click(function() {
+    var x=$('#update_tag_text').val()
+    var tid=_tags.find('tag-one')
+    if(tid==-1)
+      log('tag-one not found')
+    else
+      tag_update(tid,x)
   })
 
   $('#show_all_items').click(function() {
