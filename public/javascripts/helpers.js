@@ -41,3 +41,60 @@ function parse(a) {
 function get_id(name) {
   return name.replace(/^(item|tag)-/,'')
 }
+
+function delete_button() {
+  return $('<img>').
+    attr('src','/images/Minus_Red_Button.png').
+    addClass('delete')
+}
+
+function accept_button() {
+  return $('<img>').
+    attr('src','/images/Clear_Green_Button.png').
+    addClass('accept')
+}
+
+function cancel_button() {
+  return $('<img>').
+    attr('src','/images/Stop_Red_Button.png').
+    addClass('cancel')
+}
+
+function ajax_tag_create(x,cont) {
+  $.ajax({
+    type: "POST",
+    url: "/tags",
+    data: { 'tag[value]': x },
+    success: function(a) { if(a=parse(a)) cont(a) },
+    error: terrible_error
+  })
+}
+
+function ajax_tag_destroy(id,cont) {
+  $.ajax({
+    type: "DELETE",
+    url: "/tags/"+id,
+    success: function(a) { if(a=parse(a)) cont(a) },
+    error: terrible_error
+  })
+}
+
+function ajax_tag_update(id,x,cont) {
+  $.ajax({
+    type: "PUT",
+    url: "/tags/"+id,
+    data: { 'tag[value]' : x },
+    success: function(a) { if(a=parse(a)) cont(a) },
+    error: terrible_error
+  })
+}
+
+function clear_selection() {
+  if(document.selection && document.selection.empty) {
+    document.selection.empty()
+  } else if(window.getSelection) {
+    var sel=window.getSelection()
+    if(sel && sel.removeAllRanges)
+      sel.removeAllRanges()
+  }
+}
