@@ -38,10 +38,6 @@ function parse(a) {
     return b
 }
 
-function get_id(name) {
-  return name.replace(/^(item|tag)-/,'')
-}
-
 function add_button() {
   return $('<img>').
     attr('src','/images/Add.png').
@@ -120,14 +116,48 @@ function ajax_item_destroy(id,cont) {
 }
 
 function ajax_item_update(id,value,tags,cont) {
-  var post_data=$.param({'item[value]': value})
-  $.each(tags,function(i,x) {
-    post_data+='&'+'tag[]='+x.id
-  })
+  var p=$.param({'item[value]': value})
+  p+=$.map(tags,function(x) {
+    return '&'+'tag[]='+x.id
+  }).join('')
+
   $.ajax({
     type: "PUT",
     url: "/items/"+id,
-    data: post_data,
+    data: p,
+    success: function(a) { if(a=parse(a)) cont(a) },
+    error: terrible_error
+  })
+}
+
+function ajax_item_add_tag(ii,ti,cont) {
+  $.ajax({
+    type: "PUT",
+    url: "/items/"+ii+'/tag',
+    data: 'tag[]='+ti,
+    success: function(a) { if(a=parse(a)) cont(a) },
+    error: terrible_error
+  })
+}
+
+function ajax_item_remove_tag(ii,ti) {
+  $.ajax({
+    type: "DELETE",
+    url: "/items/"+ii+'/tag',
+    data: 'tag[]='+ti,
+    success: function(a) { if(a=parse(a)) cont(a) },
+    error: terrible_error
+  })
+}
+
+function ajax_item_split(id,els) {
+  var p=$.map(els,function(x) { 
+    return encodeURIComponent('value[]='+x) }
+  ).join('&')
+  $.ajax({
+    type: "POST",
+    url: "/items/"+id+'/split',
+    data: p,
     success: function(a) { if(a=parse(a)) cont(a) },
     error: terrible_error
   })

@@ -49,7 +49,7 @@ Item.prototype.hide = function() {
 }
 
 Item.prototype.edit_start = function() {
-  log('edit_start.item:'+this.id)
+  //log('edit_start.item:'+this.id)
   this.ui.hide()
   this.uie.show()
   $('textarea',this.uie).val(this.value).focus()
@@ -58,7 +58,7 @@ Item.prototype.edit_start = function() {
 Item.prototype.edit_accept = function() {
   var self=this
   var nv=$('textarea',self.uie).val()
-  log('edit_accept.item:'+self.id+' into '+nv)
+  //log('edit_accept.item:'+self.id+' into '+nv)
   ajax_item_update(self.id,nv,self.tags,function(a) {
     self.update(a.item.value)
     var previous_tags=$.map(self.tags,function(x,i) { return x.value })
@@ -76,7 +76,7 @@ Item.prototype.edit_accept = function() {
 }
 
 Item.prototype.edit_cancel = function() {
-  log('edit_cancel.item:'+this.id)
+  //log('edit_cancel.item:'+this.id)
   this.uie.hide()
   this.ui.show()
 }
@@ -90,7 +90,7 @@ Item.prototype.update = function(new_value) {
 
 Item.prototype.add_tag = function(tag) {
   var self=this
-  log('add_tag.item:'+self.id+' '+tag.value)
+  //log('add_tag.item:'+self.id+' '+tag.value)
   if(self.find_tag(tag.value)!=-1)
     assert_failed("adding existing tag twice "+tag.value)
   if(tag.find_item(self.value)!=-1)
@@ -105,7 +105,7 @@ Item.prototype.add_tag = function(tag) {
 }
 
 Item.prototype.remove_tag = function(value) {
-  log('remove_tag.item:'+this.id+' '+value)
+  //log('remove_tag.item:'+this.id+' '+value)
   var pos=this.find_tag(value)
   var tag_id=this.tags[pos].id
   if(pos!=-1)
@@ -116,7 +116,7 @@ Item.prototype.remove_tag = function(value) {
 }
 
 Item.prototype.update_tag = function(tag) {
-  log('update_tag.item:'+this.id+' '+tag.value)
+  //log('update_tag.item:'+this.id+' '+tag.value)
   $('.tag-id-'+tag.id+' .content',self.ui).html(tag.value)
 }
 
