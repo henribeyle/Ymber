@@ -1,8 +1,5 @@
 var _d=null
 
-// 
-// 
-// 
 // function item_add_tag(ii,ti) {
 //   $.ajax({
 //     type: "PUT",
@@ -84,24 +81,17 @@ $(function() {
       i.show()
       _d.add_item(i)
       $('#add_item_text').val('').focus()
-      //missing add all tags
+      $.each(x.item.tags,function(it,xt) {
+        var pos=_d.find_tag_by_id(xt.id)
+        if(pos==-1) {
+          assert_failed('unknown tag id: '+xt.id)
+          return
+        }
+        i.add_tag(_d.tags[pos])
+      })
     })
   }))
 
-//   $('#add_tag_button').click(function() {
-//     ajax_tag_create($('#add_tag_text').val(),function(x) {
-//       var t=new Tag(x.tag.value,x.tag.id)
-//       t.show()
-//       _d.add_tag(t)
-//       $('#add_tag_text').val('').focus()
-//     })
-//   })
-
-//   $('#update_item_text').val(_items.g[0].value)
-//   $('#update_item_button').click(function() {
-//     item_update(0,$('#update_item_text').val())
-//   })
-// 
 //   $('#add_tag_item_button').click(function() {
 //     item_add_tag(0,0)
 //   })
