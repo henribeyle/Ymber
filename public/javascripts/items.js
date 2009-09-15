@@ -56,33 +56,34 @@ Item.prototype.hide = function() {
 
 Item.prototype.edit_start = function() {
   log('edit_start.item:'+this.id)
-//   $('textarea',this.uie).val(this.value)
-//   this.ui.hide()
-//   this.uie.show()
+  $('textarea',this.uie).val(this.value)
+  this.ui.hide()
+  this.uie.show()
 }
 
 Item.prototype.edit_accept = function() {
   var self=this
-  log('edit_accept.item:'+self.id)
-//   var nv=$('textarea',self.uie).val()
-//   //log('edit_accept.item into:'+nv)
-//   ajax_tag_update(self.id,nv,function(a) {
-//     self.update(a.tag.value)
-//     self.edit_cancel()
-//   })
+  var nv=$('textarea',self.uie).val()
+  log('edit_accept.item:'+self.id+' into '+nv)
+  ajax_item_update(self.id,nv,self.tags,function(a) {
+    self.update(a.item.value)
+    //need to update tags
+    self.edit_cancel()
+  })
 }
 
 Item.prototype.edit_cancel = function() {
   log('edit_cancel.item:'+this.id)
-//   this.uie.hide()
-//   this.ui.show()
+  this.uie.hide()
+  this.ui.show()
 }
 
-// function E(value,id) {
-//   this.value=value
-//   this.id=id
-//   this.sub=new G
-// }
+Item.prototype.update = function(new_value) {
+  var self=this
+  var prev=self.value
+  self.value=new_value
+  $('.value',self.ui).html(self.value)
+}
 
 // E.prototype.add = function(s) {
 //   if(this.sub.find(s.value)!=-1)
@@ -120,7 +121,3 @@ Item.prototype.edit_cancel = function() {
 //     }
 //   })
 // }
-
-////////////////////////////////////////////////////////////////////////////////
-
-

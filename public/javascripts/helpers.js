@@ -119,6 +119,20 @@ function ajax_item_destroy(id,cont) {
   })
 }
 
+function ajax_item_update(id,value,tags,cont) {
+  var post_data=$.param({'item[value]': value})
+  $.each(tags,function(i,x) {
+    post_data+='&'+'tag[]='+x.id
+  })
+  $.ajax({
+    type: "PUT",
+    url: "/items/"+id,
+    data: post_data,
+    success: function(a) { if(a=parse(a)) cont(a) },
+    error: terrible_error
+  })
+}
+
 function clear_selection() {
   if(document.selection && document.selection.empty) {
     document.selection.empty()

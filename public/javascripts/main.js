@@ -1,24 +1,6 @@
 var _d=null
 
 // 
-// function item_update(i,x) {
-//   var post_data=$.param({'item[value]': x})
-//   $.each(_items.g[i].sub.g,function(j,x) {
-//     post_data+='&'+'tag[]='+x.id
-//   })
-//   $.ajax({
-//     type: "PUT",
-//     url: "/items/"+_items.g[i].id,
-//     data: post_data,
-//     success: function(a) {
-//       if(a=parse(a)) {
-//         _items.remove(i)
-//         show_item(parse_new_item(a))
-//       }
-//     },
-//     error: terrible_error
-//   })
-// }
 // 
 // 
 // function item_add_tag(ii,ti) {

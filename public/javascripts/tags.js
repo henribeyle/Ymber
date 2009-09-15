@@ -57,9 +57,8 @@ Tag.prototype.edit_start = function() {
 
 Tag.prototype.edit_accept = function() {
   var self=this
-  //log('edit_accept.tag:'+self.id)
   var nv=$('textarea',self.uie).val()
-  //log('edit_accept.tag into:'+nv)
+  //log('edit_accept.tag:'+self.id+' into '+nv)
   ajax_tag_update(self.id,nv,function(a) {
     self.update(a.tag.value)
     self.edit_cancel()
