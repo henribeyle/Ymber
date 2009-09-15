@@ -52,3 +52,28 @@ a:hover { color: #fff; background-color:#000; }
   list-style: square;
 }
 
+#items .item {
+  margin-bottom: 5px;
+}
+
+#items .item .value {
+  font-size: 16px;
+}
+
+#items .item .tag { 
+  font-size: 12px;
+  vertical-align: super;
+  font-weight: bold;
+  border: 1px dashed black;
+  margin-left: 5px;
+  padding: 0px 5px 0px 5px;
+}
+
+#tags .tag {
+  margin-bottom: 5px;
+}
+
+#tags .tag .value { 
+  font-size: 16px;
+}
+

@@ -22,6 +22,24 @@ function parse_new_item(x) {
   return e
 }
 
+function show_item(e) {
+  var d=$('<div>').attr('id','item-'+e.id).addClass('item')
+  d.append($('<span>').addClass('value').html(e.value))
+  $.each(e.sub.g,function(i,x) {
+    var t1=$('<span>').addClass('tag').addClass('tag-id-'+x.id)
+    var t2=$('<span>').addClass('content').html(x.value)
+    t1.append(t2)
+    d.append(t1)
+  })
+  d.appendTo('#items')
+}
+
+function show_tag(e) {
+  var d=$('<div>').attr('id','tag-'+e.id).addClass('tag')
+  d.append($('<span>').addClass('value').html(e.value))
+  d.appendTo('#tags')
+}
+
 function build_db() {
   _items=new G()
   _tags=new G()
@@ -39,13 +57,13 @@ function build_db() {
     return
   }
 
-  $.each(all_tags,function(i,x) { parse_new_tag(x) })
+  $.each(all_tags,function(i,x) { show_tag(parse_new_tag(x)) })
 
   var tid=_tags.find(this_tag)
   if(tid!=-1)
     _this_tag=_tags.g[tid]
 
-  $.each(all_items,function(i,x) { parse_new_item(x) })
+  $.each(all_items,function(i,x) { show_item(parse_new_item(x)) })
 }
 
 function item_create(x) {
@@ -60,7 +78,7 @@ function item_create(x) {
     data: post_data,
     success: function(a) {
       if(a=parse(a))
-        parse_new_item(a)
+        show_item(parse_new_item(a))
     },
     error: terrible_error
   })
@@ -78,7 +96,7 @@ function item_update(i,x) {
     success: function(a) {
       if(a=parse(a)) {
         _items.remove(i)
-        parse_new_item(a)
+        show_item(parse_new_item(a))
       }
     },
     error: terrible_error
@@ -157,7 +175,7 @@ function tag_create(x) {
     data: { 'tag[value]': x },
     success: function(a) {
       if(a=parse(a))
-        parse_new_tag(a)
+        show_tag(parse_new_tag(a))
     },
     error: terrible_error
   })
@@ -188,6 +206,7 @@ function tag_update(i,x) {
     error: terrible_error
   })
 }
+
 $(function() {
   build_db()
 

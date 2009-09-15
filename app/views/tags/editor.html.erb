@@ -6,8 +6,11 @@ var all_tags=<%= @tags.to_json %>
 var all_items=<%= @items.to_json %>
 </script>
 
-<input type='button' value='§i' id='show_all_items'/>
-<input type='button' value='§t' id='show_all_tags'/><br>
+<hr>
+<h2>Items</h2>
+<div id='items'></div>
+<h2>Tags</h2>
+<div id='tags'></div>
 
 <!--
 <hr>
@@ -35,7 +38,6 @@ var all_items=<%= @items.to_json %>
 <hr>
 <h2>split 1st item into lines</h2>
 <input type='button' value='+' id='split_item_button'/>
--->
 
 <hr>
 <h2>add tag</h2>
@@ -51,6 +53,9 @@ var all_items=<%= @items.to_json %>
 <h2>update tag-one tag</h2>
 <textarea id='update_tag_text'></textarea>
 <input type='button' value='+' id='update_tag_button'/>
+-->
 
 <hr>
-<div id='log'>Here goes the log</div>
+<input type='button' value='§i' id='show_all_items'/>
+<input type='button' value='§t' id='show_all_tags'/><br>
+<div id='log'>Log:</div>
