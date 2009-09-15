@@ -23,7 +23,12 @@ function parse_new_item(x) {
 }
 
 function show_item(e) {
+  var i=$('<img>').attr('src','/images/Minus_Red_Button.png').
+    addClass('delete').click(function() {
+    item_destroy(get_id($(this).id()))
+  })
   var d=$('<div>').attr('id','item-'+e.id).addClass('item')
+  d.append(i)
   d.append($('<span>').addClass('value').html(e.value))
   $.each(e.sub.g,function(i,x) {
     var t1=$('<span>').addClass('tag').addClass('tag-id-'+x.id)
@@ -103,13 +108,19 @@ function item_update(i,x) {
   })
 }
 
-function item_destroy(i,x) {
+function item_destroy(id) {
   $.ajax({
     type: "DELETE",
-    url: "/items/"+_items.g[i].id,
+    url: "/items/"+id,
     success: function(a) {
       if(a=parse(a)) {
-        _items.remove(i)
+        var pos=_items.find_by_id(id)
+        if(pos==-1) {
+          assert_failed('unknown items id: '+id)
+          return
+        }
+        _items.remove(pos)
+        $('#item-'+id).empty()
       }
     },
     error: terrible_error
@@ -208,6 +219,16 @@ function tag_update(i,x) {
 }
 
 $(function() {
+  $.fn.extend({
+    id: function() { 
+      var i=this.attr('id')
+      if(i) return i
+      var p=this.parents('[id]').eq(0)
+      if(p) return p.attr('id')
+      return null
+    }
+  })
+
   build_db()
 
   $('#add_item_button').click(function() {
@@ -220,10 +241,6 @@ $(function() {
     $('#add_tag_text').val('')
   })
 
-//   $('#destroy_item_button').click(function() {
-//     item_destroy(0,$('#destroy_item_text').val())
-//   })
-// 
 //   $('#update_item_text').val(_items.g[0].value)
 //   $('#update_item_button').click(function() {
 //     item_update(0,$('#update_item_text').val())

@@ -56,8 +56,13 @@ a:hover { color: #fff; background-color:#000; }
   margin-bottom: 5px;
 }
 
+#items .item .delete {
+  height: 20px;
+}
+
 #items .item .value {
   font-size: 16px;
+  padding-left: 5px;
 }
 
 #items .item .tag { 

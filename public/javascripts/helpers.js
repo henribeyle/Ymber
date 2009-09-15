@@ -37,3 +37,7 @@ function parse(a) {
   else
     return b
 }
+
+function get_id(name) {
+  return name.replace(/^(item|tag)-/,'')
+}
