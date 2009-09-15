@@ -1,14 +1,5 @@
 var _d=null
-// var _items=null
-// var _tags=null
-// var _this_tag=null
 
-// function parse_new_tag(x) {
-//   var e=new E(x.tag.value,x.tag.id)
-//   _tags.add(e)
-//   return e
-// }
-// 
 // function parse_new_item(x) {
 //   var e=new E(x.item.value,x.item.id)
 //   _items.add(e)
@@ -64,7 +55,6 @@ function build_db() {
   })
 
   _d.set_main_tag(this_tag)
-
 
 //   $.each(all_items,function(i,x) { show_item(parse_new_item(x)) })
 }
@@ -177,19 +167,6 @@ function build_db() {
 //   })
 // }
 // 
-// function tag_update(i,x) {
-//   $.ajax({
-//     type: "PUT",
-//     url: "/tags/"+_tags.g[i].id,
-//     data: { 'tag[value]' : x },
-//     success: function(a) {
-//       if(a=parse(a)) {
-//         _tags.g[i].value=a.tag.value
-//       }
-//     },
-//     error: terrible_error
-//   })
-// }
 
 $(function() {
   $.fn.extend({
@@ -204,14 +181,23 @@ $(function() {
 
   build_db()
 
-  $('#add_tag_button').click(function() {
+  $('#add_tag').append(add_button().click(function() { 
     ajax_tag_create($('#add_tag_text').val(),function(x) {
       var t=new Tag(x.tag.value,x.tag.id)
       t.show()
       _d.add_tag(t)
       $('#add_tag_text').val('').focus()
     })
-  })
+  }))
+
+//   $('#add_tag_button').click(function() {
+//     ajax_tag_create($('#add_tag_text').val(),function(x) {
+//       var t=new Tag(x.tag.value,x.tag.id)
+//       t.show()
+//       _d.add_tag(t)
+//       $('#add_tag_text').val('').focus()
+//     })
+//   })
 
 //   $('#add_item_button').click(function() {
 //     item_create($('#add_item_text').val())
@@ -236,15 +222,6 @@ $(function() {
 //     item_split(0)
 //   })
 // 
-
-//   $('#update_tag_button').click(function() {
-//     var x=$('#update_tag_text').val()
-//     var tid=_tags.find('tag-one')
-//     if(tid==-1)
-//       log('tag-one not found')
-//     else
-//       tag_update(tid,x)
-//   })
 
   $('#dump').click(function() { _d.log() })
 })

@@ -42,6 +42,12 @@ function get_id(name) {
   return name.replace(/^(item|tag)-/,'')
 }
 
+function add_button() {
+  return $('<img>').
+    attr('src','/images/Add.png').
+    addClass('add')
+}
+
 function delete_button() {
   return $('<img>').
     attr('src','/images/Minus_Red_Button.png').

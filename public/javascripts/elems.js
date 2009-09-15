@@ -72,7 +72,7 @@ function Tag(value,id) {
   self.ui.appendTo('#tags')
   self.ui.dblclick(function(e) {
     clear_selection()
-    log('double click:'+self.id)
+    //log('double click:'+self.id)
     self.edit_start()
   })
 
@@ -117,9 +117,9 @@ Tag.prototype.edit_start = function() {
 
 Tag.prototype.edit_accept = function() {
   var self=this
-  log('edit_accept.tag:'+self.id)
+  //log('edit_accept.tag:'+self.id)
   var nv=$('textarea',self.uie).val()
-  log('edit_accept.tag into:'+nv)
+  //log('edit_accept.tag into:'+nv)
   ajax_tag_update(self.id,nv,function(a) {
     self.update(a.tag.value)
     self.edit_cancel()
@@ -127,7 +127,7 @@ Tag.prototype.edit_accept = function() {
 }
 
 Tag.prototype.edit_cancel = function() {
-  log('edit_cancel.tag:'+this.id)
+  //log('edit_cancel.tag:'+this.id)
   this.uie.hide()
   this.ui.show()
 }
