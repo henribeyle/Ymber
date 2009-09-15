@@ -33,8 +33,8 @@ Item.prototype.destroy = function() {
       x.remove_item(self.value)
     })
     _d.remove_item(self.value)
-    self.ui.empty()
-    self.uie.empty()
+    self.ui.remove()
+    self.uie.remove()
   })
 }
 

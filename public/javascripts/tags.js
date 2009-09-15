@@ -33,8 +33,8 @@ Tag.prototype.destroy = function() {
       x.remove_tag(self.value)
     })
     _d.remove_tag(self.value)
-    self.ui.empty()
-    self.uie.empty()
+    self.ui.remove()
+    self.uie.remove()
   })
 }
 
