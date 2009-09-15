@@ -50,9 +50,9 @@ Item.prototype.hide = function() {
 
 Item.prototype.edit_start = function() {
   log('edit_start.item:'+this.id)
-  $('textarea',this.uie).val(this.value)
   this.ui.hide()
   this.uie.show()
+  $('textarea',this.uie).val(this.value).focus()
 }
 
 Item.prototype.edit_accept = function() {
@@ -113,6 +113,11 @@ Item.prototype.remove_tag = function(value) {
   else
     assert_failed('item.remove_tag "unknown tag" '+value)
   $('.tag-id-'+tag_id,this.ui).remove()
+}
+
+Item.prototype.update_tag = function(tag) {
+  log('update_tag.item:'+this.id+' '+tag.value)
+  $('.tag-id-'+tag.id+' .content',self.ui).html(tag.value)
 }
 
 Item.prototype.find_tag = function(value) {

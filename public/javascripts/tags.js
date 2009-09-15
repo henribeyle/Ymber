@@ -50,9 +50,9 @@ Tag.prototype.hide = function() {
 
 Tag.prototype.edit_start = function() {
   //log('edit_start.tag:'+this.id)
-  $('textarea',this.uie).val(this.value)
   this.ui.hide()
   this.uie.show()
+  $('textarea',this.uie).val(this.value).focus()
 }
 
 Tag.prototype.edit_accept = function() {
@@ -73,11 +73,10 @@ Tag.prototype.edit_cancel = function() {
 
 Tag.prototype.update = function(new_value) {
   var self=this
-  var prev=self.value
   self.value=new_value
   $('.value',self.ui).html(self.value)
   $.each(self.items,function(i,x) {
-    x.update_tag(prev,new_value)
+    x.update_tag(self)
   })
 }
 
