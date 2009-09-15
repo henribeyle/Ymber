@@ -40,7 +40,12 @@ function show_item(e) {
 }
 
 function show_tag(e) {
+  var i=$('<img>').attr('src','/images/Minus_Red_Button.png').
+    addClass('delete').click(function() {
+    tag_destroy(get_id($(this).id()))
+  })
   var d=$('<div>').attr('id','tag-'+e.id).addClass('tag')
+  d.append(i)
   d.append($('<span>').addClass('value').html(e.value))
   d.appendTo('#tags')
 }
@@ -192,13 +197,21 @@ function tag_create(x) {
   })
 }
 
-function tag_remove(i) {
+function tag_destroy(id) {
   $.ajax({
     type: "DELETE",
-    url: "/tags/"+_tags.g[i].id,
+    url: "/tags/"+id,
     success: function(a) {
-      if(a=parse(a))
-        _tags.remove(i)
+      if(a=parse(a)) {
+        var pos=_tags.find_by_id(id)
+        if(pos==-1) {
+          assert_failed('unknown tag id: '+id)
+          return
+        }
+        _tags.g[pos].clear() 
+        _tags.remove(pos)
+        $('#tag-'+id).empty()
+      }
     },
     error: terrible_error
   })
@@ -258,16 +271,7 @@ $(function() {
 //     item_split(0)
 //   })
 // 
-/ 
-//   $('#remove_tag_button').click(function() {
-//     var x=$('#remove_tag_text').val()
-//     var tid=_tags.find(x)
-//     if(tid==-1)
-//       log('tag '+x+' not found')
-//     else
-//       tag_remove(tid)
-//   })
-// 
+
 //   $('#update_tag_button').click(function() {
 //     var x=$('#update_tag_text').val()
 //     var tid=_tags.find('tag-one')

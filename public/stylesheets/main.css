@@ -78,7 +78,11 @@ a:hover { color: #fff; background-color:#000; }
   margin-bottom: 5px;
 }
 
-#tags .tag .value { 
-  font-size: 16px;
+#tags .tag .delete {
+  height: 20px;
 }
 
+#tags .tag .value { 
+  font-size: 16px;
+  padding-left: 5px;
+}

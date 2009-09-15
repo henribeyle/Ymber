@@ -43,3 +43,15 @@ E.prototype.remove = function(s) {
     s.sub.remove(pj)
   }
 }
+
+E.prototype.clear = function() {
+  var self=this
+  $.each(this.sub.g,function(i,x) { 
+    var pj=x.sub.find(self.value)
+    if(pj==-1) {
+      assert_failed("trying to remove me from others (but not there)")
+    } else {
+      x.sub.remove(pj)
+    }
+  })
+}
