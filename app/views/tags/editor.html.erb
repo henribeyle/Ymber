@@ -9,8 +9,19 @@ var all_items=<%= @items.to_json %>
 <hr>
 <h2>Items</h2>
 <div id='items'></div>
+
+<div id='add_item'>
+<textarea id='add_item_text'></textarea>
+<input type='button' value='+item' id='add_item_button'/>
+</div>
+
+<hr>
 <h2>Tags</h2>
 <div id='tags'></div>
+<div id='add_tag'>
+<textarea id='add_tag_text'></textarea>
+<input type='button' value='+tag' id='add_tag_button'/>
+</div>
 
 <!--
 <hr>
@@ -23,11 +34,6 @@ var all_items=<%= @items.to_json %>
 <input type='button' value='+' id='update_item_button'/>
 
 <hr>
-<h2>add item</h2>
-<textarea id='add_item_text'></textarea>
-<input type='button' value='+' id='add_item_button'/>
-
-<hr>
 <h2>add 1st global tag to 1st item</h2>
 <input type='button' value='+' id='add_tag_item_button'/>
 
@@ -38,11 +44,6 @@ var all_items=<%= @items.to_json %>
 <hr>
 <h2>split 1st item into lines</h2>
 <input type='button' value='+' id='split_item_button'/>
-
-<hr>
-<h2>add tag</h2>
-<textarea id='add_tag_text'></textarea>
-<input type='button' value='+' id='add_tag_button'/>
 
 <hr>
 <h2>remove tag</h2>

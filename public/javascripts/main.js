@@ -210,52 +210,55 @@ function tag_update(i,x) {
 $(function() {
   build_db()
 
-  $('#destroy_item_button').click(function() {
-    item_destroy(0,$('#destroy_item_text').val())
-  })
-
-  $('#update_item_text').val(_items.g[0].value)
-  $('#update_item_button').click(function() {
-    item_update(0,$('#update_item_text').val())
-  })
-
   $('#add_item_button').click(function() {
     item_create($('#add_item_text').val())
-  })
-
-  $('#add_tag_item_button').click(function() {
-    item_add_tag(0,0)
-  })
-
-  $('#remove_tag_item_button').click(function() {
-    item_remove_tag(0,0)
-  })
-
-  $('#split_item_button').click(function() {
-    item_split(0)
+    $('#add_item_text').val('')
   })
 
   $('#add_tag_button').click(function() {
     tag_create($('#add_tag_text').val())
+    $('#add_tag_text').val('')
   })
 
-  $('#remove_tag_button').click(function() {
-    var x=$('#remove_tag_text').val()
-    var tid=_tags.find(x)
-    if(tid==-1)
-      log('tag '+x+' not found')
-    else
-      tag_remove(tid)
-  })
-
-  $('#update_tag_button').click(function() {
-    var x=$('#update_tag_text').val()
-    var tid=_tags.find('tag-one')
-    if(tid==-1)
-      log('tag-one not found')
-    else
-      tag_update(tid,x)
-  })
+//   $('#destroy_item_button').click(function() {
+//     item_destroy(0,$('#destroy_item_text').val())
+//   })
+// 
+//   $('#update_item_text').val(_items.g[0].value)
+//   $('#update_item_button').click(function() {
+//     item_update(0,$('#update_item_text').val())
+//   })
+// 
+//   $('#add_tag_item_button').click(function() {
+//     item_add_tag(0,0)
+//   })
+// 
+//   $('#remove_tag_item_button').click(function() {
+//     item_remove_tag(0,0)
+//   })
+// 
+//   $('#split_item_button').click(function() {
+//     item_split(0)
+//   })
+// 
+/ 
+//   $('#remove_tag_button').click(function() {
+//     var x=$('#remove_tag_text').val()
+//     var tid=_tags.find(x)
+//     if(tid==-1)
+//       log('tag '+x+' not found')
+//     else
+//       tag_remove(tid)
+//   })
+// 
+//   $('#update_tag_button').click(function() {
+//     var x=$('#update_tag_text').val()
+//     var tid=_tags.find('tag-one')
+//     if(tid==-1)
+//       log('tag-one not found')
+//     else
+//       tag_update(tid,x)
+//   })
 
   $('#show_all_items').click(function() {
     _items.log('all items:')
