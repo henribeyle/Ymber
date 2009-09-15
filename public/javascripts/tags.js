@@ -17,7 +17,10 @@ function Tag(value,id) {
   })
 
   self.uie=$('<div>').attr('id','edit-tag-'+self.id).addClass('edittag')
-  self.uie.append($('<textarea>'))
+  self.uie.append(editor($('<textarea>').attr('name','edit-tag-'+self.id),
+    'tag-id-'+self.id,
+    function() { self.edit_accept() },
+    function() { self.edit_cancel() }))
   self.uie.append(accept_button().click(function() { self.edit_accept() }))
   self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
   self.uie.hide()

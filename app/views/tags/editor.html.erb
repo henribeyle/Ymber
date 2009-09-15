@@ -5,6 +5,8 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>§</title>
   <%= javascript_include_tag 'jquery-1.3.2.min' %>
+  <%= javascript_include_tag 'jquery.hotkeys-0.7.9.min' %>
+  <%= javascript_include_tag 'editor' %>
   <%= javascript_include_tag 'helpers' %>
   <%= javascript_include_tag 'tags' %>
   <%= javascript_include_tag 'items' %>
@@ -27,14 +29,14 @@ var all_items=<%= @items.to_json %>
 <div id='items'></div>
 
 <div id='add_item'>
-<textarea id='add_item_text'></textarea>
+<textarea name='add_item_text' id='add_item_text'></textarea>
 </div>
 
 <hr>
 <h2>Tags</h2>
 <div id='tags'></div>
 <div id='add_tag'>
-<textarea id='add_tag_text'></textarea>
+<textarea name='add_tag_text' id='add_tag_text'></textarea>
 </div>
 
 <hr>

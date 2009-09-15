@@ -17,7 +17,10 @@ function Item(value,id,data) {
   })
 
   self.uie=$('<div>').attr('id','edit-item-'+self.id).addClass('edititem')
-  self.uie.append($('<textarea>'))
+  self.uie.append(editor($('<textarea>').attr('name','edit-item-'+self.id),
+    'tag-id-'+self.id,
+    function() { self.edit_accept() },
+    function() { self.edit_cancel() }))
   self.uie.append(accept_button().click(function() { self.edit_accept() }))
   self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
   self.uie.hide()
@@ -108,9 +111,10 @@ Item.prototype.remove_tag = function(value) {
   //log('remove_tag.item:'+this.id+' '+value)
   var pos=this.find_tag(value)
   var tag_id=this.tags[pos].id
-  if(pos!=-1)
+  if(pos!=-1) {
+    this.tags[pos].remove_item(this.value)
     this.tags.splice(pos,1)
-  else
+  } else
     assert_failed('item.remove_tag "unknown tag" '+value)
   $('.tag-id-'+tag_id,this.ui).remove()
 }
