@@ -31,15 +31,14 @@ function Data(this_tag, all_tags, all_items) {
     var i=new Item(x.item.value,x.item.id)
     i.show()
     self.add_item(i)
-
-//   $.each(x.item.tags,function(it,xt) {
-//     var tid=_tags.find_by_id(xt.id)
-//     if(tid==-1) {
-//       assert_failed('unknown tag id: '+xt.id)
-//       return
-//     }
-//     e.add(_tags.g[tid])
-//   })
+    $.each(x.item.tags,function(it,xt) {
+      var pos=self.find_tag_by_id(xt.id)
+      if(pos==-1) {
+        assert_failed('unknown tag id: '+xt.id)
+        return
+      }
+      i.add_tag(self.tags[pos])
+    })
   })
 }
 
@@ -70,6 +69,14 @@ Data.prototype.remove_item = function(value) {
 Data.prototype.find_tag = function(value) {
   for(var i=0;i<this.tags.length;i++) {
     if(this.tags[i].value==value)
+      return i
+  }
+  return -1
+}
+
+Data.prototype.find_tag_by_id = function(id) {
+  for(var i=0;i<this.tags.length;i++) {
+    if(this.tags[i].id == id)
       return i
   }
   return -1

@@ -8,15 +8,9 @@ function Item(value,id,data) {
   self.ui=$('<div>').attr('id','item-'+self.id).addClass('item')
   self.ui.append(delete_button().click(function() { self.destroy() }))
   self.ui.append($('<span>').addClass('value').html(self.value))
-//   $.each(e.sub.g,function(i,x) {
-//     var t1=$('<span>').addClass('tag').addClass('tag-id-'+x.id)
-//     var t2=$('<span>').addClass('content').html(x.value)
-//     t1.append(t2)
-//     d.append(t1)
-//   })
   self.ui.hide()
   self.ui.appendTo('#items')
-  self.ui.dblclick(function(e) {
+  $('.value',self.ui).dblclick(function(e) {
     clear_selection()
     //log('double click:'+self.id)
     self.edit_start()
@@ -67,7 +61,16 @@ Item.prototype.edit_accept = function() {
   log('edit_accept.item:'+self.id+' into '+nv)
   ajax_item_update(self.id,nv,self.tags,function(a) {
     self.update(a.item.value)
-    //need to update tags
+    var previous_tags=$.map(self.tags,function(x,i) { return x.value })
+    $.each(previous_tags,function(i,x) { self.remove_tag(x) })
+    $.each(a.item.tags,function(it,xt) {
+      var pos=_d.find_tag_by_id(xt.id)
+      if(pos==-1) {
+        assert_failed('unknown tag id: '+xt.id)
+        return
+      }
+      self.add_tag(_d.tags[pos])
+    })
     self.edit_cancel()
   })
 }
@@ -85,39 +88,37 @@ Item.prototype.update = function(new_value) {
   $('.value',self.ui).html(self.value)
 }
 
-// E.prototype.add = function(s) {
-//   if(this.sub.find(s.value)!=-1)
-//     assert_failed("adding subelement twice")
-//   if(s.sub.find(this.value)!=-1)
-//     assert_failed("adding subelement twice (in sub)")
-//   this.sub.add(s)
-//   s.sub.add(this)
-// }
+Item.prototype.add_tag = function(tag) {
+  var self=this
+  log('add_tag.item:'+self.id+' '+tag.value)
+  if(self.find_tag(tag.value)!=-1)
+    assert_failed("adding existing tag twice "+tag.value)
+  if(tag.find_item(self.value)!=-1)
+    assert_failed("adding existing item twice "+self.value)
+  self.tags.push(tag)
+  tag.items.push(self)
 
-// E.prototype.remove = function(s) {
-//   var pi=this.sub.find(s.value)
-//   if(pi==-1) {
-//     assert_failed("trying to remove but it is not here")
-//   }
-//   else {
-//     this.sub.remove(pi)
-//   }
-//   var pj=s.sub.find(this.value)
-//   if(pj==-1) {
-//     assert_failed("trying to remove but it is not here (in sub)")
-//   } else {
-//     s.sub.remove(pj)
-//   }
-// }
+  var t1=$('<span>').addClass('tag').addClass('tag-id-'+tag.id)
+  var t2=$('<span>').addClass('content').html(tag.value)
+  t1.append(t2)
+  self.ui.append(t1)
+}
 
-// E.prototype.clear = function() {
-//   var self=this
-//   $.each(this.sub.g,function(i,x) {
-//     var pj=x.sub.find(self.value)
-//     if(pj==-1) {
-//       assert_failed("trying to remove me from others (but not there)")
-//     } else {
-//       x.sub.remove(pj)
-//     }
-//   })
-// }
+Item.prototype.remove_tag = function(value) {
+  log('remove_tag.item:'+this.id+' '+value)
+  var pos=this.find_tag(value)
+  var tag_id=this.tags[pos].id
+  if(pos!=-1)
+    this.tags.splice(pos,1)
+  else
+    assert_failed('item.remove_tag "unknown tag" '+value)
+  $('.tag-id-'+tag_id,this.ui).remove()
+}
+
+Item.prototype.find_tag = function(value) {
+  for(var i=0;i<this.tags.length;i++) {
+    if(this.tags[i].value==value)
+      return i
+  }
+  return -1
+}

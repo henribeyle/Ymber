@@ -80,3 +80,20 @@ Tag.prototype.update = function(new_value) {
     x.update_tag(prev,new_value)
   })
 }
+
+Tag.prototype.remove_item = function(value) {
+  log('remove_item.tag:'+this.id+' '+value)
+  var pos=this.find_item(value)
+  if(pos!=-1)
+    this.items.splice(pos,1)
+  else
+    assert_failed('tag.remove_item "unknown item" '+value)
+}
+
+Tag.prototype.find_item = function(value) {
+  for(var i=0;i<this.items.length;i++) {
+    if(this.items[i].value==value)
+      return i
+  }
+  return -1
+}
