@@ -1,63 +1,87 @@
-// function G() {
-//   this.g=[]
-// }
-// 
-// G.prototype.to_s = function(level) {
-//   if(level==null) level=2
-//   return s='{ ' + $.map(this.g,function(x,i) {
-//     return x.to_s(level)
-//   }).join(', ') + ' } '
-// }
-// 
-// G.prototype.log = function(x,level) {
-//   if(level==null) level=2
-//   log(( x ? x : "")+" "+this.to_s(level))
-// }
-// 
-// G.prototype.find = function(value) {
-//   for(var i=0;i<this.g.length;i++) {
-//     if(this.g[i].value==value)
-//       return i
-//   }
-//   return -1
-// }
-// 
-// G.prototype.find_by_id = function(id) {
-//   for(var i=0;i<this.g.length;i++) {
-//     if(this.g[i].id==id)
-//       return i
-//   }
-//   return -1
-// }
-// 
-// G.prototype.add = function(s) {
-//   this.g.push(s)
-// }
-// 
-// G.prototype.remove = function(pos) {
-//   this.g.splice(pos,1)
-// }
+function Item(value,id,data) {
+  var self=this
 
+  self.value=value
+  self.id=id
+  self.tags=[]
+
+  self.ui=$('<div>').attr('id','item-'+self.id).addClass('item')
+  self.ui.append(delete_button().click(function() { self.destroy() }))
+  self.ui.append($('<span>').addClass('value').html(self.value))
+//   $.each(e.sub.g,function(i,x) {
+//     var t1=$('<span>').addClass('tag').addClass('tag-id-'+x.id)
+//     var t2=$('<span>').addClass('content').html(x.value)
+//     t1.append(t2)
+//     d.append(t1)
+//   })
+  self.ui.hide()
+  self.ui.appendTo('#items')
+  self.ui.dblclick(function(e) {
+    clear_selection()
+    //log('double click:'+self.id)
+    self.edit_start()
+  })
+
+  self.uie=$('<div>').attr('id','edit-item-'+self.id).addClass('edititem')
+  self.uie.append($('<textarea>'))
+  self.uie.append(accept_button().click(function() { self.edit_accept() }))
+  self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
+  self.uie.hide()
+  self.uie.appendTo('#items')
+}
+
+Item.prototype.destroy = function() {
+  var self=this
+  //log('destroy.item:'+self.id)
+  ajax_item_destroy(self.id,function(a) {
+    //log('destroyed.item:'+self.id)
+    $.each(self.tags,function(i,x) {
+      x.remove_item(self.value)
+    })
+    _d.remove_item(self.value)
+    self.ui.empty()
+    self.uie.empty()
+  })
+}
+
+Item.prototype.show = function() {
+  //log('show.item:'+this.id)
+  this.ui.show()
+}
+
+Item.prototype.hide = function() {
+  //log('hide.item:'+this.id)
+  this.ui.hide()
+}
+
+Item.prototype.edit_start = function() {
+  log('edit_start.item:'+this.id)
+//   $('textarea',this.uie).val(this.value)
+//   this.ui.hide()
+//   this.uie.show()
+}
+
+Item.prototype.edit_accept = function() {
+  var self=this
+  log('edit_accept.item:'+self.id)
+//   var nv=$('textarea',self.uie).val()
+//   //log('edit_accept.item into:'+nv)
+//   ajax_tag_update(self.id,nv,function(a) {
+//     self.update(a.tag.value)
+//     self.edit_cancel()
+//   })
+}
+
+Item.prototype.edit_cancel = function() {
+  log('edit_cancel.item:'+this.id)
+//   this.uie.hide()
+//   this.ui.show()
+}
 
 // function E(value,id) {
 //   this.value=value
 //   this.id=id
 //   this.sub=new G
-// }
-//
-// E.prototype.to_s = function(level) {
-//   if(level==null) level=2
-//   var s=''
-//   if(level>0)
-//     s=this.value+' ['+this.id+']'
-//   if(level>1)
-//     s+=' ' + this.sub.to_s(level-1)
-//   return s
-// }
-//
-// E.prototype.log = function(x,level) {
-//   if(level==null) level=2
-//   log(( x ? x : "")+" "+this.to_s(level))
 // }
 
 // E.prototype.add = function(s) {

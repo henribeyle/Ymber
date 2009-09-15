@@ -1,81 +1,5 @@
 var _d=null
 
-// function parse_new_item(x) {
-//   var e=new E(x.item.value,x.item.id)
-//   _items.add(e)
-//   $.each(x.item.tags,function(it,xt) {
-//     var tid=_tags.find_by_id(xt.id)
-//     if(tid==-1) {
-//       assert_failed('unknown tag id: '+xt.id)
-//       return
-//     }
-//     e.add(_tags.g[tid])
-//   })
-//   return e
-// }
-// 
-// function show_item(e) {
-//   var i=$('<img>').attr('src','/images/Minus_Red_Button.png').
-//     addClass('delete').click(function() {
-//     item_destroy(get_id($(this).id()))
-//   })
-//   var d=$('<div>').attr('id','item-'+e.id).addClass('item')
-//   d.append(i)
-//   d.append($('<span>').addClass('value').html(e.value))
-//   $.each(e.sub.g,function(i,x) {
-//     var t1=$('<span>').addClass('tag').addClass('tag-id-'+x.id)
-//     var t2=$('<span>').addClass('content').html(x.value)
-//     t1.append(t2)
-//     d.append(t1)
-//   })
-//   d.appendTo('#items')
-// }
-// 
- 
-function build_db() {
-  _d=new Data()
-
-  if(this_tag == undefined) {
-    assert_failed('this_tag is not defined')
-    return
-  }
-  if(all_tags == undefined) {
-    assert_failed('all_tags is not defined')
-    return
-  }
-  if(all_items == undefined) {
-    assert_failed('all_items is not defined')
-    return
-  }
-
-  $.each(all_tags,function(i,x) { 
-    var t=new Tag(x.tag.value,x.tag.id)
-    t.show()
-    _d.add_tag(t)
-  })
-
-  _d.set_main_tag(this_tag)
-
-//   $.each(all_items,function(i,x) { show_item(parse_new_item(x)) })
-}
-// 
-// function item_create(x) {
-//   var post_data={'item[value]': x}
-//   if(_this_tag) {
-//     post_data['tag[]']=_this_tag.id
-//   }
-// 
-//   $.ajax({
-//     type: "POST",
-//     url: "/items",
-//     data: post_data,
-//     success: function(a) {
-//       if(a=parse(a))
-//         show_item(parse_new_item(a))
-//     },
-//     error: terrible_error
-//   })
-// }
 // 
 // function item_update(i,x) {
 //   var post_data=$.param({'item[value]': x})
@@ -96,24 +20,6 @@ function build_db() {
 //   })
 // }
 // 
-// function item_destroy(id) {
-//   $.ajax({
-//     type: "DELETE",
-//     url: "/items/"+id,
-//     success: function(a) {
-//       if(a=parse(a)) {
-//         var pos=_items.find_by_id(id)
-//         if(pos==-1) {
-//           assert_failed('unknown items id: '+id)
-//           return
-//         }
-//         _items.remove(pos)
-//         $('#item-'+id).empty()
-//       }
-//     },
-//     error: terrible_error
-//   })
-// }
 // 
 // function item_add_tag(ii,ti) {
 //   $.ajax({
@@ -166,7 +72,7 @@ function build_db() {
 //     error: terrible_error
 //   })
 // }
-// 
+
 
 $(function() {
   $.fn.extend({
@@ -179,7 +85,7 @@ $(function() {
     }
   })
 
-  build_db()
+  _d=new Data(this_tag,all_tags,all_items)
 
   $('#add_tag').append(add_button().click(function() { 
     ajax_tag_create($('#add_tag_text').val(),function(x) {
@@ -187,6 +93,16 @@ $(function() {
       t.show()
       _d.add_tag(t)
       $('#add_tag_text').val('').focus()
+    })
+  }))
+
+  $('#add_item').append(add_button().click(function() { 
+    ajax_item_create($('#add_item_text').val(),_d.main_tag,function(x) {
+      var i=new Item(x.item.value,x.item.id)
+      i.show()
+      _d.add_item(i)
+      $('#add_item_text').val('').focus()
+      //missing add all tags
     })
   }))
 
@@ -198,12 +114,6 @@ $(function() {
 //       $('#add_tag_text').val('').focus()
 //     })
 //   })
-
-//   $('#add_item_button').click(function() {
-//     item_create($('#add_item_text').val())
-//     $('#add_item_text').val('')
-//   })
-// 
 
 //   $('#update_item_text').val(_items.g[0].value)
 //   $('#update_item_button').click(function() {
@@ -221,7 +131,6 @@ $(function() {
 //   $('#split_item_button').click(function() {
 //     item_split(0)
 //   })
-// 
 
   $('#dump').click(function() { _d.log() })
 })

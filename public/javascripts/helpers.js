@@ -95,6 +95,30 @@ function ajax_tag_update(id,x,cont) {
   })
 }
 
+function ajax_item_create(x,main_tag,cont) {
+  var post_data={'item[value]': x}
+  if(main_tag) {
+    post_data['tag[]']=main_tag.id
+  }
+
+  $.ajax({
+    type: "POST",
+    url: "/items",
+    data: post_data,
+    success: function(a) { if(a=parse(a)) cont(a) },
+    error: terrible_error
+  })
+}
+
+function ajax_item_destroy(id,cont) {
+  $.ajax({
+    type: "DELETE",
+    url: "/items/"+id,
+    success: function(a) { if(a=parse(a)) cont(a) },
+    error: terrible_error
+  })
+}
+
 function clear_selection() {
   if(document.selection && document.selection.empty) {
     document.selection.empty()
