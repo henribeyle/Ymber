@@ -172,3 +172,8 @@ function clear_selection() {
       sel.removeAllRanges()
   }
 }
+
+function distance(x,y) {
+  return Math.sqrt(Math.pow((x.left-y.left),2)+
+    Math.pow((x.top-y.top),2))
+}

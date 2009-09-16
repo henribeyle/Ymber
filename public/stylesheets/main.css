@@ -86,3 +86,9 @@ a:hover { color: #fff; background-color:#000; }
   font-size: 16px;
   padding-left: 5px;
 }
+
+.tobedeleted { 
+  background-color: orange;
+  opacity: 0.5;
+}
+

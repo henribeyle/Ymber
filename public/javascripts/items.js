@@ -103,12 +103,36 @@ Item.prototype.add_tag = function(tag) {
 
   var t1=$('<span>').addClass('tag').addClass('tag-id-'+tag.id)
   var t2=$('<span>').addClass('content').html(tag.value)
+
+  var max_dist=60
+  t1.draggable({ 
+    opacity: 0.5,
+    //helper: 'clone',
+    helper: function(event) {
+      return t1.clone().attr('id','draghelper')
+    },
+    cursor: 'move',
+    drag: function(e,ui) {
+      var d=distance($(this).offset(),ui.position)
+      if(d>max_dist) {
+        $('#draghelper').addClass('tobedeleted')    
+      } else {
+        $('#draghelper').removeClass('tobedeleted')    
+      }
+    },
+    stop: function(e, ui) {
+      var d=distance($(this).offset(),ui.position)
+      if(d>max_dist)
+        self.remove_tag(tag.value)
+    },
+    revert: true
+  })
   t1.append(t2)
   self.ui.append(t1)
 }
 
 Item.prototype.remove_tag = function(value) {
-  //log('remove_tag.item:'+this.id+' '+value)
+  log('remove_tag.item:'+this.id+' '+value)
   var pos=this.find_tag(value)
   var tag_id=this.tags[pos].id
   if(pos!=-1) {
