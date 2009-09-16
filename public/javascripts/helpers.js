@@ -140,7 +140,7 @@ function ajax_item_add_tag(ii,ti,cont) {
   })
 }
 
-function ajax_item_remove_tag(ii,ti) {
+function ajax_item_remove_tag(ii,ti,cont) {
   $.ajax({
     type: "DELETE",
     url: "/items/"+ii+'/tag',
@@ -150,7 +150,7 @@ function ajax_item_remove_tag(ii,ti) {
   })
 }
 
-function ajax_item_split(id,els) {
+function ajax_item_split(id,els,cont) {
   var p=$.map(els,function(x) { 
     return encodeURIComponent('value[]='+x) }
   ).join('&')
