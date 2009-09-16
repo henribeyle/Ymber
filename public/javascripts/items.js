@@ -132,7 +132,7 @@ Item.prototype.add_tag = function(tag) {
 }
 
 Item.prototype.remove_tag = function(value) {
-  log('remove_tag.item:'+this.id+' '+value)
+  //log('remove_tag.item:'+this.id+' '+value)
   var pos=this.find_tag(value)
   var tag_id=this.tags[pos].id
   if(pos!=-1) {
