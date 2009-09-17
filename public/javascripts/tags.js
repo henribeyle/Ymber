@@ -6,7 +6,6 @@ function Tag(value,id) {
   self.items=[]
 
   self.ui=$('<div>').attr('id','tag-'+self.id).addClass('tag')
-  self.ui.append(delete_button().click(function() { self.destroy() }))
   self.ui.append($('<span>').addClass('value').html(self.value))
   self.ui.hide()
   self.ui.appendTo('#tags')
@@ -29,9 +28,11 @@ function Tag(value,id) {
   self.uie.append(editor($('<textarea>').attr('name','edit-tag-'+self.id),
     'tag-id-'+self.id,
     function() { self.edit_accept() },
-    function() { self.edit_cancel() }))
+    function() { self.edit_cancel() },
+    function() { self.destroy() }))
   self.uie.append(accept_button().click(function() { self.edit_accept() }))
   self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
+  self.uie.append(delete_button().click(function() { self.destroy() }))
   self.uie.hide()
   self.uie.appendTo('#tags')
 }

@@ -6,7 +6,6 @@ function Item(value,id,data) {
   self.tags=[]
 
   self.ui=$('<div>').attr('id','item-'+self.id).addClass('item')
-  self.ui.append(delete_button().click(function() { self.destroy() }))
   self.ui.append($('<span>').addClass('value').html(self.value))
   self.ui.hide()
   self.ui.appendTo('#items')
@@ -37,9 +36,11 @@ function Item(value,id,data) {
   self.uie.append(editor($('<textarea>').attr('name','edit-item-'+self.id),
     'tag-id-'+self.id,
     function() { self.edit_accept() },
-    function() { self.edit_cancel() }))
+    function() { self.edit_cancel() },
+    function() { self.destroy() }))
   self.uie.append(accept_button().click(function() { self.edit_accept() }))
   self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
+  self.uie.append(delete_button().click(function() { self.destroy() }))
   self.uie.hide()
   self.uie.appendTo('#items')
 }
