@@ -192,3 +192,21 @@ function distance(x,y) {
   return Math.sqrt(Math.pow((x.left-y.left),2)+
     Math.pow((x.top-y.top),2))
 }
+
+function this_id(id) {
+  return function(x) { return x.id == id } 
+}
+
+function this_value(value) {
+  return function(x) { return x.value == value } 
+}
+
+jQuery.extend({
+  pos: function(elems,callback) {
+    for(var i=0;i<elems.length;i++) {
+      if(callback(elems[i]))
+        return i
+    }
+    return -1
+  }
+});

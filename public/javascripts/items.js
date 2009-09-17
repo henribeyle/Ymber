@@ -178,9 +178,5 @@ Item.prototype.update_tag = function(tag) {
 }
 
 Item.prototype.find_tag = function(value) {
-  for(var i=0;i<this.tags.length;i++) {
-    if(this.tags[i].value==value)
-      return i
-  }
-  return -1
+  return $.pos(this.tags,this_value(value))
 }

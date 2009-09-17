@@ -69,27 +69,15 @@ Data.prototype.remove_item = function(value) {
 }
 
 Data.prototype.find_tag = function(value) {
-  for(var i=0;i<this.tags.length;i++) {
-    if(this.tags[i].value==value)
-      return i
-  }
-  return -1
+  return $.pos(this.tags,this_value(value))
 }
 
 Data.prototype.find_tag_by_id = function(id) {
-  for(var i=0;i<this.tags.length;i++) {
-    if(this.tags[i].id == id)
-      return i
-  }
-  return -1
+  return $.pos(this.tags,this_id(id))
 }
 
 Data.prototype.find_item = function(value) {
-  for(var i=0;i<this.items.length;i++) {
-    if(this.items[i].value==value)
-      return i
-  }
-  return -1
+  return $.pos(this.items,this_value(value))
 }
 
 Data.prototype.log = function() {
@@ -97,11 +85,7 @@ Data.prototype.log = function() {
 }
 
 Data.prototype.find_filter = function(value) {
-  for(var i=0;i<this.filters.length;i++) {
-    if(this.filters[i].value==value)
-      return i
-  }
-  return -1
+  return $.pos(this.filters,this_value(value))
 }
 
 Data.prototype.filter = function(tag) {

@@ -110,11 +110,7 @@ Tag.prototype.remove_item = function(value) {
 }
 
 Tag.prototype.find_item = function(value) {
-  for(var i=0;i<this.items.length;i++) {
-    if(this.items[i].value==value)
-      return i
-  }
-  return -1
+  return $.pos(this.items,this_value(value))
 }
 
 Tag.prototype.toggle_filter = function() {
