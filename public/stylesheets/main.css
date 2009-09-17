@@ -108,3 +108,32 @@ a:hover { color: #fff; background-color:#000; }
 .go {
   width: 16px;
 }
+
+.filter { 
+  background-color: gold;
+  opacity: 0.5;
+}
+
+#title .main {
+  font-size:   22px;
+  font-weight: bold;
+}
+
+#title .sep {
+  font-size:   18px;
+  font-weight: bold;
+  margin-left: 3px;
+  margin-right: 5px;
+}
+
+#tag_filters .andor{
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size:   18px;
+  font-weight: bold;
+}
+
+#tag_filters .tag_filter {
+  font-size:   18px;
+  font-weight: bold;
+}

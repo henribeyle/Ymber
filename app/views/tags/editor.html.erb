@@ -18,13 +18,16 @@
 </head>
 <body>
 
-<h1><%= @tagname %></h1>
-
 <script type="text/javascript">
 var this_tag='<%= @tagname %>'
 var all_tags=<%= @tags.to_json %>
 var all_items=<%= @items.to_json %>
 </script>
+
+<div id='title'>
+<span class="main"><%= @tagname %></span>
+<span id='tag_filters'></span>
+</div>
 
 <hr>
 <h2>Items</h2>

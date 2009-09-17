@@ -2,6 +2,8 @@ function Data(this_tag, all_tags, all_items) {
   var self=this
   self.tags=[]
   self.items=[]
+  self.filters=[]
+  self.filter_type=true
   self.main_tag=null
 
   if(this_tag == undefined) {
@@ -92,4 +94,77 @@ Data.prototype.find_item = function(value) {
 
 Data.prototype.log = function() {
   console.dir(this)
+}
+
+Data.prototype.find_filter = function(value) {
+  for(var i=0;i<this.filters.length;i++) {
+    if(this.filters[i].value==value)
+      return i
+  }
+  return -1
+}
+
+Data.prototype.filter = function(tag) {
+  //log('filter: '+tag.value)
+  var pos=this.find_filter(tag.value)
+  if(pos!=-1) {
+    assert_failed('unknown filter: '+tag.value)
+    return
+  }
+  this.filters.push(tag)
+  this.update_filter()
+}
+
+Data.prototype.unfilter = function(tag) {
+  //log('unfilter: '+tag.value)
+  var pos=this.find_filter(tag.value)
+  if(pos==-1) {
+    assert_failed('unknown filter (-): '+tag.value)
+    return
+  }
+  this.filters.splice(pos,1)
+  this.update_filter()
+}
+
+Data.prototype.update_filter = function() {
+  var self=this
+  var tf=$('#tag_filters')
+  tf.empty()
+  var len=self.filters.length
+
+  if(len > 0) 
+    $('<span>').addClass('sep').html('&&').appendTo(tf)
+  if(len > 1) 
+    $('<span>').addClass('sep').html('(').appendTo(tf)
+    
+  var ft=self.filter_type ? '&&' : '||'
+  var ao=$('<span>').addClass('andor').html(ft).click(function() {
+    self.filter_type=!self.filter_type
+    self.update_filter()
+  })
+  $.each(self.filters,function(i,x) {
+    $('<span>').addClass('tag_filter').html(x.value).appendTo(tf)
+    if(i<self.filters.length-1)
+      ao.appendTo(tf)
+  })
+  if(len > 1) 
+    $('<span>').addClass('sep').html(')').appendTo(tf)
+
+  $.each(self.items,function(i,x) {
+    var show=self.filter_type
+    if(self.filter_type) {
+      for(var j=0;j<self.filters.length;j++)
+        if(x.find_tag(self.filters[j].value)==-1) {
+          show=false
+          break
+        }
+    } else {
+      for(var j=0;j<self.filters.length;j++)
+        if(x.find_tag(self.filters[j].value)!=-1) {
+          show=true
+          break
+        }
+    }
+    show ? x.show() : x.hide() 
+  })
 }

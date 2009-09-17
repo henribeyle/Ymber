@@ -12,11 +12,12 @@ function Tag(value,id) {
   self.ui.appendTo('#tags')
 
   self.ui.fixClick(function() {
-    log('click:'+self.value)
+    //log('click:'+self.value)
+    self.toggle_filter()
   },function() {
-    log('double click:'+self.value)
-//     clear_selection()
-//     self.edit_start()
+    //log('double click:'+self.value)
+    clear_selection()
+    self.edit_start()
   })
   self.ui.draggable({ 
     opacity: 0.5,
@@ -114,4 +115,17 @@ Tag.prototype.find_item = function(value) {
       return i
   }
   return -1
+}
+
+Tag.prototype.toggle_filter = function() {
+  if(this.value == _d.main_tag.value) 
+    return
+  var e=$('.value',this.ui)
+  if(e.hasClass('filter')) {
+    e.removeClass('filter')
+    _d.unfilter(this)
+  } else {
+    e.addClass('filter')
+    _d.filter(this)
+  } 
 }
