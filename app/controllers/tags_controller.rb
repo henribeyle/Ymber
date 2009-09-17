@@ -40,7 +40,10 @@ class TagsController < ApplicationController
     @tags=Tag.find(:all)
     if(value) then
       tag = Tag.find_by_value(value)
-      redirect_to('/') if(!tag)
+      if !tag
+        redirect_to('/') 
+        return
+      end
       @tagname=tag.value
       @items=tag.items
     else
