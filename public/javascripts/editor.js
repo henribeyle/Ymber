@@ -16,35 +16,16 @@
       var ctrldel=o.ctrldel
 
       self.focus(function(){ 
-        //log('focus '+name) 
-        on(self)
+        self.bind('keyup', 'ctrl+return',function(){ ctrlenter && ctrlenter() })
+        self.bind('keyup', 'esc', function(){ esc && esc() })
+        self.bind('keyup', 'ctrl+del', function(){ ctrldel && ctrldel() })
       })
 
       self.blur(function(){ 
-        //log('blur '+name) 
-        off(self)
+        self.unbind('keyup', 'ctrl+return')
+        self.unbind('keyup', 'esc')
+        self.unbind('keyup', 'ctrl+del')
       })
-
-      function on(e) {
-        e.bind('keyup', 'ctrl+return', function(){
-          //log('ctrlenter at '+name)
-          ctrlenter && ctrlenter() 
-        })
-        e.bind('keyup', 'esc', function(){
-          //log('escape at '+name)
-          esc && esc() 
-        })
-        e.bind('keyup', 'ctrl+del', function(){
-          //log('ctrldel at '+name)
-          ctrldel && ctrldel() 
-        })
-      }
-
-      function off(e) {
-        e.unbind('keyup', 'ctrl+return')
-        e.unbind('keyup', 'esc')
-        e.unbind('keyup', 'ctrl+del')
-      }
     })
   }
 })(jQuery);
