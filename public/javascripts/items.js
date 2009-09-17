@@ -138,8 +138,11 @@ Item.prototype.add_tag = function(tag) {
     },
     stop: function(e, ui) {
       var d=distance($(this).offset(),ui.position)
-      if(d>max_dist)
-        self.remove_tag(tag.value)
+      if(d>max_dist) {
+        ajax_item_remove_tag(self.id,tag.id,function(a) {
+          self.remove_tag(tag.value)
+        })
+      }
     },
     revert: true
   })
