@@ -135,20 +135,7 @@ Data.prototype.update_filter = function() {
     $('<span>').addClass('sep').html(')').appendTo(tf)
 
   $.each(self.items,function(i,x) {
-    var show= (len==0) ? true : self.filter_type
-    if(self.filter_type) {
-      for(var j=0;j<len;j++)
-        if(x.find_tag(self.filters[j].value)==-1) {
-          show=false
-          break
-        }
-    } else {
-      for(var j=0;j<len;j++)
-        if(x.find_tag(self.filters[j].value)!=-1) {
-          show=true
-          break
-        }
-    }
-    show ? x.show() : x.hide() 
+    var show=(self.filter_type ? $.and : $.or)(self.filters,related_to_item(x))
+    len==0 || show ? x.show() : x.hide() 
   })
 }

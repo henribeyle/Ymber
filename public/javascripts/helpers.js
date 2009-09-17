@@ -201,6 +201,14 @@ function this_value(value) {
   return function(x) { return x.value == value } 
 }
 
+function related_to_item(item) {
+  return function(tag) { return item.find_tag(tag.value)!=-1 }
+}
+
+function related_to_tag(tag) {
+  return function(item) { return tag.find_item(item.value)!=-1 } 
+}
+
 jQuery.extend({
   pos: function(elems,callback) {
     for(var i=0;i<elems.length;i++) {
@@ -208,5 +216,17 @@ jQuery.extend({
         return i
     }
     return -1
+  },
+  and: function(elems,callback) {
+    for(var i=0;i<elems.length;i++)
+      if(!callback(elems[i]))
+        return false
+    return true
+  },
+  or: function(elems,callback) {
+    for(var i=0;i<elems.length;i++)
+      if(callback(elems[i]))
+        return true
+    return false
   }
 });
