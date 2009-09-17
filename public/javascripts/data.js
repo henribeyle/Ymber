@@ -144,22 +144,22 @@ Data.prototype.update_filter = function() {
   })
   $.each(self.filters,function(i,x) {
     $('<span>').addClass('tag_filter').html(x.value).appendTo(tf)
-    if(i<self.filters.length-1)
+    if(i<len-1)
       ao.appendTo(tf)
   })
   if(len > 1) 
     $('<span>').addClass('sep').html(')').appendTo(tf)
 
   $.each(self.items,function(i,x) {
-    var show=self.filter_type
+    var show= (len==0) ? true : self.filter_type
     if(self.filter_type) {
-      for(var j=0;j<self.filters.length;j++)
+      for(var j=0;j<len;j++)
         if(x.find_tag(self.filters[j].value)==-1) {
           show=false
           break
         }
     } else {
-      for(var j=0;j<self.filters.length;j++)
+      for(var j=0;j<len;j++)
         if(x.find_tag(self.filters[j].value)!=-1) {
           show=true
           break
