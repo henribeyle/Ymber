@@ -42,8 +42,15 @@ $(function() {
 
   _d=new Data(this_tag,all_tags,all_items)
 
-  editor($('#add_item_text'),'add_item_text',add_item)
-  editor($('#add_tag_text'),'add_tag_text',add_tag)
+  $('#add_item_text').quick_editor({
+      name: 'add_item_text',
+      ctrlenter: add_item
+  })
+  $('#add_tag_text').quick_editor({
+      name: 'add_tag_text',
+      ctrlenter: add_tag
+  })
+
   $('#add_tag').append(add_button().click(add_tag))
   $('#add_item').append(add_button().click(add_item))
 

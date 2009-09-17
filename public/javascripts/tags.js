@@ -25,11 +25,14 @@ function Tag(value,id) {
 
 
   self.uie=$('<div>').attr('id','edit-tag-'+self.id).addClass('edittag')
-  self.uie.append(editor($('<textarea>').attr('name','edit-tag-'+self.id),
-    'tag-id-'+self.id,
-    function() { self.edit_accept() },
-    function() { self.edit_cancel() },
-    function() { self.destroy() }))
+  self.uie.append($('<textarea>').
+    attr('name','edit-tag-'+self.id).
+    quick_editor({
+      name: 'tag-id-'+self.id,
+      ctrlenter: function() { self.edit_accept() },
+      esc: function() { self.edit_cancel() },
+      ctrldel: function() { self.destroy() }
+  }))
   self.uie.append(accept_button().click(function() { self.edit_accept() }))
   self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
   self.uie.append(delete_button().click(function() { self.destroy() }))
