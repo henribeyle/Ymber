@@ -15,6 +15,15 @@ function Tag(value,id) {
     //log('double click:'+self.id)
     self.edit_start()
   })
+  self.ui.draggable({ 
+    opacity: 0.5,
+    helper: function(event) {
+      return self.ui.clone().attr('id','draghelper').addClass('dragging-tag')
+    },
+    cursor: 'move',
+    revert: true
+  })
+
 
   self.uie=$('<div>').attr('id','edit-tag-'+self.id).addClass('edittag')
   self.uie.append(editor($('<textarea>').attr('name','edit-tag-'+self.id),

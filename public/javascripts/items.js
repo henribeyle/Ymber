@@ -15,6 +15,23 @@ function Item(value,id,data) {
     //log('double click:'+self.id)
     self.edit_start()
   })
+  self.ui.droppable({
+    accept: '.tag',
+    hoverClass: 'dropping-into-item',
+    drop: function(event, ui) {
+      var tid=$(ui.draggable).oid()
+      //log('dropped '+tid+' into '+self.id)
+      var pos=_d.find_tag_by_id(tid)
+      if(pos==-1) {
+        assert_failed('unknown tag id: '+xt.id)
+        return
+      }
+      if(self.find_tag(_d.tags[pos].value)==-1)
+        ajax_item_add_tag(self.id,tid,function(a) {
+          self.add_tag(_d.tags[pos])
+        })
+    }
+  })
 
   self.uie=$('<div>').attr('id','edit-item-'+self.id).addClass('edititem')
   self.uie.append(editor($('<textarea>').attr('name','edit-item-'+self.id),
@@ -101,13 +118,12 @@ Item.prototype.add_tag = function(tag) {
   self.tags.push(tag)
   tag.items.push(self)
 
-  var t1=$('<span>').addClass('tag').addClass('tag-id-'+tag.id)
+  var t1=$('<span>').addClass('stag').addClass('tag-id-'+tag.id)
   var t2=$('<span>').addClass('content').html(tag.value)
 
   var max_dist=60
   t1.draggable({ 
     opacity: 0.5,
-    //helper: 'clone',
     helper: function(event) {
       return t1.clone().attr('id','draghelper')
     },

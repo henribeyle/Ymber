@@ -27,6 +27,19 @@ function add_item() {
 }
 
 $(function() {
+  $.fn.extend({
+    id: function() {
+      var i=this.attr('id')
+      if(i) return i
+      var p=this.parents('[id]').eq(0)
+      if(p) return p.attr('id')
+      return null
+    },
+    oid: function() {
+      return this.id().replace(/^(item|tag)-/,'')
+    }
+  })
+
   _d=new Data(this_tag,all_tags,all_items)
 
   editor($('#add_item_text'),'add_item_text',add_item)
