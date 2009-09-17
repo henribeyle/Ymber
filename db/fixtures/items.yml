@@ -8,3 +8,11 @@ i2:
 
 i3:
   value: item-three
+
+i4:
+  value: item-four
+  tags: t2, t1
+
+i5:
+  value: item-five
+  tags: t1, in
