@@ -7,12 +7,16 @@ function Tag(value,id) {
 
   self.ui=$('<div>').attr('id','tag-'+self.id).addClass('tag')
   self.ui.append($('<span>').addClass('value').html(self.value))
+  self.ui.append(go_button().click(function() { go_to(self.value) }))
   self.ui.hide()
   self.ui.appendTo('#tags')
-  self.ui.dblclick(function(e) {
-    clear_selection()
-    //log('double click:'+self.id)
-    self.edit_start()
+
+  self.ui.fixClick(function() {
+    log('click:'+self.value)
+  },function() {
+    log('double click:'+self.value)
+//     clear_selection()
+//     self.edit_start()
   })
   self.ui.draggable({ 
     opacity: 0.5,
@@ -22,7 +26,6 @@ function Tag(value,id) {
     cursor: 'move',
     revert: true
   })
-
 
   self.uie=$('<div>').attr('id','edit-tag-'+self.id).addClass('edittag')
   self.uie.append($('<textarea>').

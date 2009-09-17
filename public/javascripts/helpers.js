@@ -66,6 +66,17 @@ function cancel_button() {
     addClass('cancel')
 }
 
+function go_button() {
+  return $('<img>').
+    attr('src','/images/Transfer.png').
+    attr('title','go').
+    addClass('go')
+}
+
+function go_to(tag) {
+  location.href=tag
+}
+
 function ajax_tag_create(x,cont) {
   $.ajax({
     type: "POST",
