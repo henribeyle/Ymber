@@ -142,6 +142,11 @@ Item.prototype.add_tag = function(tag) {
       if(d>max_dist) {
         ajax_item_remove_tag(self.id,tag.id,function(a) {
           self.remove_tag(tag.value)
+          if(tag.value == _d.main_tag.value) {
+            _d.remove_item(self.value)
+            self.ui.remove()
+            self.uie.remove()
+          }
         })
       }
     },
@@ -162,11 +167,6 @@ Item.prototype.remove_tag = function(value) {
   } else
     assert_failed('item.remove_tag "unknown tag" '+value)
   $('.tag-id-'+tag_id,this.ui).remove()
-  if(value == _d.main_tag.value) {
-    _d.remove_item(self.value)
-    self.ui.remove()
-    self.uie.remove()
-  }
 }
 
 Item.prototype.update_tag = function(tag) {
