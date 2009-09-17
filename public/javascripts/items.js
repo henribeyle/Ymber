@@ -152,6 +152,7 @@ Item.prototype.add_tag = function(tag) {
 
 Item.prototype.remove_tag = function(value) {
   //log('remove_tag.item:'+this.id+' '+value)
+  var self=this
   var pos=this.find_tag(value)
   var tag_id=this.tags[pos].id
   if(pos!=-1) {
@@ -160,6 +161,11 @@ Item.prototype.remove_tag = function(value) {
   } else
     assert_failed('item.remove_tag "unknown tag" '+value)
   $('.tag-id-'+tag_id,this.ui).remove()
+  if(value == _d.main_tag.value) {
+    _d.remove_item(self.value)
+    self.ui.remove()
+    self.uie.remove()
+  }
 }
 
 Item.prototype.update_tag = function(tag) {
