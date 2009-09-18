@@ -85,6 +85,34 @@ function item_update(item,value,nextT,nextF) {
   })
 }
 
+function item_add_tag(item,tag,nextT,nextF) {
+  var nT=nextT
+  var nF=nextF
+  var itemO=item
+  var tagO=tag
+
+  if(itemO.has_tag(tagO))
+    return
+
+  $.ajax({
+    type: "PUT",
+    url: "/items/"+item.id+'/tag',
+    data: 'tag[]='+tag.id,
+    success: function(a) {
+      if(a=parse(a)) {
+        itemO.add_tag(tagO)
+        nT && nT()
+      } else {
+        nF && nF()
+      }
+    },
+    error: function(r,e) {
+      terrible_error(r,e)
+      nF && nF()
+    }
+  })
+}
+
 function tag_new(value,nextT,nextF) {
   var nT=nextT
   var nF=nextF

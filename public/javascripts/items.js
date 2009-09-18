@@ -18,17 +18,7 @@ function Item(value,id,data) {
     accept: '.tag',
     hoverClass: 'dropping-into-item',
     drop: function(event, ui) {
-      var tid=$(ui.draggable).oid()
-      //log('dropped '+tid+' into '+self.id)
-      var pos=_d.find_tag_by_id(tid)
-      if(pos==-1) {
-        assert_failed('unknown tag id: '+xt.id)
-        return
-      }
-      if(self.find_tag(_d.tags[pos].value)==-1)
-        ajax_item_add_tag(self.id,tid,function(a) {
-          self.add_tag(_d.tags[pos])
-        })
+      item_add_tag(self,_d.tag_id($(ui.draggable).oid()))
     }
   })
 
@@ -134,4 +124,8 @@ Item.prototype.update_tag = function(tag) {
 
 Item.prototype.find_tag = function(value) {
   return $.pos(this.tags,this_value(value))
+}
+
+Item.prototype.has_tag = function(tag) {
+  return $.exists(this.tags,this_value(tag.value))
 }

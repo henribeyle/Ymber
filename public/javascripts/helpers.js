@@ -83,16 +83,6 @@ function go_to(tag) {
   location.href=tag
 }
 
-function ajax_item_add_tag(ii,ti,cont) {
-  $.ajax({
-    type: "PUT",
-    url: "/items/"+ii+'/tag',
-    data: 'tag[]='+ti,
-    success: function(a) { if(a=parse(a)) cont(a) },
-    error: terrible_error
-  })
-}
-
 function ajax_item_remove_tag(ii,ti,cont) {
   $.ajax({
     type: "DELETE",
