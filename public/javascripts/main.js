@@ -27,6 +27,7 @@ function add_item() {
 }
 
 $(function() {
+  window.onerror=catch_all
   $.fn.extend({
     id: function() {
       var i=this.attr('id')
