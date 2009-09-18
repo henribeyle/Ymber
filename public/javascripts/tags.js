@@ -71,10 +71,6 @@ Tag.prototype.update = function(new_value) {
   _d.update_filter()
 }
 
-Tag.prototype.find_item = function(value) {
-  return $.pos(this.items,this_value(value))
-}
-
 Tag.prototype.item = function(item) {
   return $.index(this.items,this_value(item.value))
 }
