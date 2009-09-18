@@ -248,3 +248,13 @@ function tag_unfilter(tag,nextT,nextF) {
   _d.update_filter()
   nextT && nextT()
 }
+
+function and_filtering() {
+  _d.filter_type=true
+  _d.update_filter()
+}
+
+function or_filtering() {
+  _d.filter_type=false
+  _d.update_filter()
+}

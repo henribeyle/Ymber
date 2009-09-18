@@ -70,32 +70,26 @@ Data.prototype.has_filter = function(tag) {
 
 Data.prototype.update_filter = function() {
   var self=this
-  var tf=$('#tag_filters')
-  tf.empty()
+  var tf=$('#tag_filters').empty()
   var len=self.filters.length
 
-  if(len > 0)
-    $('<span>').addClass('sep').html('&&').appendTo(tf)
-  if(len > 1)
-    $('<span>').addClass('sep').html('(').appendTo(tf)
+  if(len > 0) span('sep','&&').appendTo(tf)
+  if(len > 1) span('sep','(').appendTo(tf)
 
-  var ft=self.filter_type ? '&&' : '||'
   $.each(self.filters,function(i,x) {
-    var z=$('<span>').addClass('tag_filter').html(x.value)
-    z.drag_deleter({
+    span('tag_filter',x.value).drag_deleter({
       on_delete: function() { tag_unfilter(x) }
-    })
-    z.appendTo(tf)
+    }).appendTo(tf)
     if(i<len-1) {
-      $('<span>').addClass('andor').html(ft).click(function() {
-        self.filter_type=!self.filter_type
-        self.update_filter()
-      }).appendTo(tf)
+      if(self.filter_type)
+        span('andor','&&').click(function() { or_filtering() }).appendTo(tf)
+      else
+        span('andor','||').click(function() { and_filtering() }).appendTo(tf)
     }
   })
 
   if(len > 1)
-    $('<span>').addClass('sep').html(')').appendTo(tf)
+    span('sep',')').appendTo(tf)
 
   $.each(self.items,function(i,x) {
     var show=(self.filter_type ? $.and : $.or)(self.filters,related_to_item(x))

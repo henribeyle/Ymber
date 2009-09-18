@@ -6,7 +6,7 @@ function Item(value,id,data) {
   self.tags=[]
 
   self.ui=$('<div>').attr('id','item-'+self.id).addClass('item')
-  self.ui.append($('<span>').addClass('value').html(self.value))
+  self.ui.append(span('value',self.value))
   self.ui.appendTo('#items')
   $('.value',self.ui).dblclick(function(e) {
     clear_selection()
@@ -74,8 +74,8 @@ Item.prototype.add_tag = function(tag) {
   self.tags.push(tag)
   tag.items.push(self)
 
-  var t1=$('<span>').addClass('stag').addClass('tag-id-'+tag.id)
-  var t2=$('<span>').addClass('content').html(tag.value)
+  var t1=span('stag').addClass('tag-id-'+tag.id)
+  var t2=span('content',tag.value)
   t1.drag_deleter({
     on_delete: function() { item_remove_tag(self,tag) }
   })

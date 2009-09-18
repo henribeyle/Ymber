@@ -44,6 +44,15 @@ function parse(a) {
     return b
 }
 
+function span(className,html) {
+  var s=$('<span>')
+  if(className)
+    s.addClass(className)
+  if(html)
+    s.html(html)
+  return s
+}
+
 function add_button() {
   return $('<img>').
     attr('src','/images/Add.png').

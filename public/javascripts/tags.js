@@ -7,7 +7,7 @@ function Tag(value,id) {
   self.filtering=false
 
   self.ui=$('<div>').attr('id','tag-'+self.id).addClass('tag')
-  self.ui.append($('<span>').addClass('value').html(self.value))
+  self.ui.append(span('value',self.value))
   self.ui.append(go_button().click(function() { go_to(self.value) }))
   self.ui.appendTo('#tags')
 
