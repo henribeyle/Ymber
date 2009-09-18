@@ -54,5 +54,20 @@ $(function() {
   $('#add_tag').append(add_button().click(add_tag))
   $('#add_item').append(add_button().click(add_item))
 
+  $('#title').droppable({
+    accept: '.tag',
+    hoverClass: 'dropping-into-item',
+    drop: function(event, ui) {
+      var tid=$(ui.draggable).oid()
+      log('dropped '+tid+' into title')
+      var pos=_d.find_tag_by_id(tid)
+      if(pos==-1) {
+        assert_failed('unknown tag id: '+xt.id)
+        return
+      }
+      _d.tags[pos].filter()
+    }
+  })
+
   $('#dump').click(function() { _d.log() })
 })

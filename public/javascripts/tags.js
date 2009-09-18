@@ -116,13 +116,23 @@ Tag.prototype.find_item = function(value) {
 }
 
 Tag.prototype.toggle_filter = function() {
+  this.filtering ? this.filter() : this.unfilter()
+}
+
+Tag.prototype.filter = function() {
   if(this.value == _d.main_tag.value) 
     return
 
-  this.filtering=!this.filtering
-  $('.value',this.ui).toggleClass('filter')
-  if(this.filtering)
-    _d.filter(this)
-  else
-    _d.unfilter(this)
+  this.filtering=true
+  $('.value',this.ui).addClass('filter')
+  _d.filter(this)
+}
+
+Tag.prototype.unfilter = function() {
+  if(this.value == _d.main_tag.value) 
+    return
+
+  this.filtering=false
+  $('.value',this.ui).removeClass('filter')
+  _d.unfilter(this)
 }
