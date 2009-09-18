@@ -22,78 +22,34 @@ function Data(this_tag, all_tags, all_items) {
   $.each(all_tags,function(i,x) {
     var t=new Tag(x.tag.value,x.tag.id)
     t.show()
-    self.add_tag(t)
+    self.tags.push(t)
   })
 
-  var tid=self.find_tag(this_tag)
-  if(tid!=-1)
+  try {
+    var tid=$.index(this.tags,this_value(this_tag))
     self.main_tag=self.tags[tid]
+  } catch(excp) {}
 
   $.each(all_items,function(i,x) {
     var i=new Item(x.item.value,x.item.id)
     i.show()
-    self.add_item(i)
+    self.items.push(i)
     $.each(x.item.tags,function(it,xt) {
-      var pos=self.find_tag_by_id(xt.id)
-      if(pos==-1) {
-        assert_failed('unknown tag id: '+xt.id)
-        return
-      }
-      i.add_tag(self.tags[pos])
+      i.add_tag(self.tag_id(xt.id))
     })
   })
 }
 
-Data.prototype.add_tag = function(t) {
-  this.tags.push(t)
+Data.prototype.item = function(item) {
+  return $.index(this.items,this_value(item.value))
 }
 
-Data.prototype.add_item = function(i) {
-  this.items.push(i)
+Data.prototype.tag = function(tag) {
+  return $.index(this.tags,this_value(tag.value))
 }
 
-Data.prototype.remove_tag = function(value) {
-  var main=(value==this.main_tag.value)
-
-  var posf=this.find_filter(value)
-  if(posf!=-1)
-    tag_unfilter(this.filters[posf])
-
-  var pos=this.find_tag(value)
-  if(pos!=-1)
-    this.tags.splice(pos,1)
-  else
-    assert_failed('remove_tag "unknown tag" '+value)
-  if(main)
-    go_to('')
-}
-
-Data.prototype.remove_item = function(value) {
-  var pos=this.find_item(value)
-  if(pos!=-1)
-    this.items.splice(pos,1)
-  else
-    assert_failed('remove_item "unknown item" '+value)
-}
-
-Data.prototype.find_tag = function(value) {
-  return $.pos(this.tags,this_value(value))
-}
-
-Data.prototype.find_tag_by_id = function(id) {
-  return $.pos(this.tags,this_id(id))
-}
-
-Data.prototype.find_item = function(value) {
-  return $.pos(this.items,this_value(value))
-}
-
-Data.prototype.log = function() {
-  console.dir(this)
-}
-
-Data.prototype.find_filter = function(value) {
-  return $.pos(this.filters,this_value(value))
+Data.prototype.tag_id = function(id) {
+  return this.tags[$.index(this.tags,this_id(id))]
 }
 
 Data.prototype.filter = function(tag) {
@@ -137,8 +93,4 @@ Data.prototype.update_filter = function() {
     var show=(self.filter_type ? $.and : $.or)(self.filters,related_to_item(x))
     len==0 || show ? x.show() : x.hide()
   })
-}
-
-Data.prototype.tag_id = function(id) {
-  return this.tags[$.index(this.tags,this_id(id))]
 }

@@ -45,5 +45,5 @@ $(function() {
     }
   })
 
-  $('#dump').click(function() { _d.log() })
+  $('#dump').click(function() { console.log(_d) })
 })

@@ -115,11 +115,11 @@ function this_value(value) {
 }
 
 function related_to_item(item) {
-  return function(tag) { return item.find_tag(tag.value)!=-1 }
+  return function(tag) { return item.has_tag(tag) }
 }
 
 function related_to_tag(tag) {
-  return function(item) { return tag.find_item(item.value)!=-1 } 
+  return function(item) { return tag.has_item(item) }
 }
 
 jQuery.extend({

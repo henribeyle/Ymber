@@ -78,10 +78,9 @@ Item.prototype.update = function(new_value) {
 
 Item.prototype.add_tag = function(tag) {
   var self=this
-  //log('add_tag.item:'+self.id+' '+tag.value)
-  if(self.find_tag(tag.value)!=-1)
+  if(self.has_tag(tag))
     assert_failed("adding existing tag twice "+tag.value)
-  if(tag.find_item(self.value)!=-1)
+  if(tag.has_item(self))
     assert_failed("adding existing item twice "+self.value)
   self.tags.push(tag)
   tag.items.push(self)
@@ -95,26 +94,13 @@ Item.prototype.add_tag = function(tag) {
   self.ui.append(t1)
 }
 
-Item.prototype.remove_tag = function(value) {
-  //log('remove_tag.item:'+this.id+' '+value)
-  var self=this
-  var pos=this.find_tag(value)
-  var tag_id=this.tags[pos].id
-  if(pos!=-1) {
-    this.tags[pos].remove_item(this.value)
-    this.tags.splice(pos,1)
-  } else
-    assert_failed('item.remove_tag "unknown tag" '+value)
-  $('.tag-id-'+tag_id,this.ui).remove()
-}
-
 Item.prototype.update_tag = function(tag) {
   //log('update_tag.item:'+this.id+' '+tag.value)
   $('.tag-id-'+tag.id+' .content',self.ui).html(tag.value)
 }
 
-Item.prototype.find_tag = function(value) {
-  return $.pos(this.tags,this_value(value))
+Item.prototype.tag = function(tag) {
+  return $.index(this.tags,this_value(tag.value))
 }
 
 Item.prototype.has_tag = function(tag) {

@@ -43,7 +43,6 @@ function Tag(value,id) {
 }
 
 Tag.prototype.show = function() {
-  //log('show.tag:'+this.id)
   this.ui.show()
 }
 
@@ -82,15 +81,14 @@ Tag.prototype.update = function(new_value) {
   _d.update_filter()
 }
 
-Tag.prototype.remove_item = function(value) {
-  //log('remove_item.tag:'+this.id+' '+value)
-  var pos=this.find_item(value)
-  if(pos!=-1)
-    this.items.splice(pos,1)
-  else
-    assert_failed('tag.remove_item "unknown item" '+value)
-}
-
 Tag.prototype.find_item = function(value) {
   return $.pos(this.items,this_value(value))
+}
+
+Tag.prototype.item = function(item) {
+  return $.index(this.items,this_value(item.value))
+}
+
+Tag.prototype.has_item = function(item) {
+  return $.exists(this.items,this_value(item.value))
 }

@@ -19,7 +19,7 @@ function item_new(value,main_tag,nextT,nextF) {
       if(a=parse(a)) {
         var item=new Item(a.item.value,a.item.id)
         item.show()
-        _d.add_item(item)
+        _d.items.push(item)
         $.each(a.item.tags,function(i,x) {
           item.add_tag(_d.tag_id(x.id))
         })
@@ -45,9 +45,9 @@ function item_delete(item,nextT,nextF) {
     success: function(a) {
       if(a=parse(a)) {
         $.each(itemO.tags.concat(),function(i,x) {
-          x.remove_item(itemO.value)
+          x.items.splice(x.item(itemO),1)
         })
-        _d.remove_item(itemO.value)
+        _d.items.splice(_d.item(itemO),1)
         itemO.ui.remove()
         itemO.uie.remove()
         nT && nT()
@@ -125,9 +125,11 @@ function item_remove_tag(item,tag,nextT,nextF) {
     data: 'tag[]='+tag.id,
     success: function(a) {
       if(a=parse(a)) {
-        item.remove_tag(tag.value)
+        item.tags.splice(item.tag(tag),1)
+        tag.items.splice(tag.item(item),1)
+        $('.tag-id-'+tag.id,item.ui).remove()
         if(tag.value == _d.main_tag.value) {
-          _d.remove_item(item.value)
+          _d.items.splice(_d.item(item),1)
           item.ui.remove()
           item.uie.remove()
         }
@@ -154,7 +156,7 @@ function tag_new(value,nextT,nextF) {
       if(a=parse(a)) {
         var tag=new Tag(a.tag.value,a.tag.id)
         tag.show()
-        _d.add_tag(tag)
+        _d.tags.push(tag)
         nT && nT()
       } else {
         nF && nF()
@@ -177,9 +179,17 @@ function tag_delete(tag,nextT,nextF) {
     success: function(a) {
       if(a=parse(a)) {
         $.each(tagO.items.concat(),function(i,x) {
-          x.remove_tag(tagO.value)
+          x.tags.splice(x.tag(tagO),1)
+          tagO.items.splice(tagO.item(x),1)
+          $('.tag-id-'+tag.id,x.ui).remove()
         })
-        _d.remove_tag(tagO.value)
+        var main=(tagO.value==this.main_tag.value)
+        if(_d.has_filter(tag0))
+          tag_unfilter(tag0)
+        _d.tags.splice(_d.tag(tagO),1)
+        if(main)
+          go_to('')
+
         tagO.ui.remove()
         tagO.uie.remove()
         nT && nT()
