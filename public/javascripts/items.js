@@ -7,7 +7,6 @@ function Item(value,id,data) {
 
   self.ui=$('<div>').attr('id','item-'+self.id).addClass('item')
   self.ui.append($('<span>').addClass('value').html(self.value))
-  self.ui.hide()
   self.ui.appendTo('#items')
   $('.value',self.ui).dblclick(function(e) {
     clear_selection()
@@ -37,16 +36,6 @@ function Item(value,id,data) {
   self.uie.append(delete_button().click(function() { item_delete(self) }))
   self.uie.hide()
   self.uie.appendTo('#items')
-}
-
-Item.prototype.show = function() {
-  //log('show.item:'+this.id)
-  this.ui.show()
-}
-
-Item.prototype.hide = function() {
-  //log('hide.item:'+this.id)
-  this.ui.hide()
 }
 
 Item.prototype.edit_start = function() {

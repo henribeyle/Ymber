@@ -18,7 +18,6 @@ function item_new(value,main_tag,nextT,nextF) {
     success: function(a) {
       if(a=parse(a)) {
         var item=new Item(a.item.value,a.item.id)
-        item.show()
         _d.items.push(item)
         $.each(a.item.tags,function(i,x) {
           item.add_tag(_d.tag_id(x.id))
@@ -155,7 +154,6 @@ function tag_new(value,nextT,nextF) {
     success: function(a) {
       if(a=parse(a)) {
         var tag=new Tag(a.tag.value,a.tag.id)
-        tag.show()
         _d.tags.push(tag)
         nT && nT()
       } else {

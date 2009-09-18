@@ -21,7 +21,6 @@ function Data(this_tag, all_tags, all_items) {
 
   $.each(all_tags,function(i,x) {
     var t=new Tag(x.tag.value,x.tag.id)
-    t.show()
     self.tags.push(t)
   })
 
@@ -32,7 +31,6 @@ function Data(this_tag, all_tags, all_items) {
 
   $.each(all_items,function(i,x) {
     var i=new Item(x.item.value,x.item.id)
-    i.show()
     self.items.push(i)
     $.each(x.item.tags,function(it,xt) {
       i.add_tag(self.tag_id(xt.id))
@@ -91,6 +89,6 @@ Data.prototype.update_filter = function() {
 
   $.each(self.items,function(i,x) {
     var show=(self.filter_type ? $.and : $.or)(self.filters,related_to_item(x))
-    len==0 || show ? x.show() : x.hide()
+    len==0 || show ?  x.ui.show() : x.ui.hide()
   })
 }

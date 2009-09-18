@@ -9,7 +9,6 @@ function Tag(value,id) {
   self.ui=$('<div>').attr('id','tag-'+self.id).addClass('tag')
   self.ui.append($('<span>').addClass('value').html(self.value))
   self.ui.append(go_button().click(function() { go_to(self.value) }))
-  self.ui.hide()
   self.ui.appendTo('#tags')
 
   self.ui.fixClick(function() {
@@ -40,15 +39,6 @@ function Tag(value,id) {
   self.uie.append(delete_button().click(function() { tag_delete(self) }))
   self.uie.hide()
   self.uie.appendTo('#tags')
-}
-
-Tag.prototype.show = function() {
-  this.ui.show()
-}
-
-Tag.prototype.hide = function() {
-  //log('hide.tag:'+this.id)
-  this.ui.hide()
 }
 
 Tag.prototype.edit_start = function() {
