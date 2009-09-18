@@ -26,23 +26,7 @@ class ItemsController < ApplicationController
       return
     end
 
-    if !@item.update_attributes(params[:item])
-      render :json => { :status => 'error', :error => 'could not update item' }
-      return
-    end
-
-    @item.tags.clear
-
-    (params[:tag]||[]).each do |x|
-      begin
-        @item.tags << Tag.find(x)
-      rescue ActiveRecord::RecordNotFound => e
-        render :json => { :status => 'error', :error => e.to_s }
-        return
-      end
-    end
-
-    if @item.save then
+    if @item.update_attributes(params[:item])
       render :json => @item
     else
       render :json => { :status => 'error', :error => @item.errors.full_messages[0] }
