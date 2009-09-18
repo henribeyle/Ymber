@@ -33,14 +33,15 @@ function Item(value,id,data) {
   })
 
   self.uie=$('<div>').attr('id','edit-item-'+self.id).addClass('edititem')
-  self.uie.append($('<textarea>').
+  self.textarea=$('<textarea>').
     attr('name','edit-item-'+self.id).
     quick_editor({
       name: 'item-id-'+self.id,
       ctrlenter: function() { self.edit_accept() },
       esc: function() { self.edit_cancel() },
       ctrldel: function() { item_delete(self) }
-  }))
+    })
+  self.uie.append(self.textarea)
   self.uie.append(accept_button().click(function() { self.edit_accept() }))
   self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
   self.uie.append(delete_button().click(function() { item_delete(self) }))
@@ -62,27 +63,14 @@ Item.prototype.edit_start = function() {
   //log('edit_start.item:'+this.id)
   this.ui.hide()
   this.uie.show()
-  $('textarea',this.uie).val(this.value).focus()
+  this.textarea.val(this.value).focus()
 }
 
 Item.prototype.edit_accept = function() {
   var self=this
-  var nv=$('textarea',self.uie).val()
-  //log('edit_accept.item:'+self.id+' into '+nv)
-  ajax_item_update(self.id,nv,self.tags,function(a) {
-    self.update(a.item.value)
-    var previous_tags=$.map(self.tags,function(x,i) { return x.value })
-    $.each(previous_tags,function(i,x) { self.remove_tag(x) })
-    $.each(a.item.tags,function(it,xt) {
-      var pos=_d.find_tag_by_id(xt.id)
-      if(pos==-1) {
-        assert_failed('unknown tag id: '+xt.id)
-        return
-      }
-      self.add_tag(_d.tags[pos])
-    })
-    self.edit_cancel()
-  })
+  item_update(self,self.textarea.val(),function() {
+    self.edit_cancel() 
+  }) 
 }
 
 Item.prototype.edit_cancel = function() {

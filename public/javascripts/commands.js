@@ -62,6 +62,29 @@ function item_delete(item,nextT,nextF) {
   })
 }
 
+function item_update(item,value,nextT,nextF) {
+  var nT=nextT
+  var nF=nextF
+  var itemO=item
+  $.ajax({
+    type: "PUT",
+    url: "/items/"+item.id,
+    data: {'item[value]': value},
+    success: function(a) {
+      if(a=parse(a)) {
+        itemO.update(a.item.value)
+        nT && nT()
+      } else {
+        nF && nF()
+      }
+    },
+    error: function(r,e) {
+      terrible_error(r,e)
+      nF && nF()
+    }
+  })
+}
+
 function tag_new(value,nextT,nextF) {
   var nT=nextT
   var nF=nextF
