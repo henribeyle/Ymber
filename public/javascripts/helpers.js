@@ -15,7 +15,7 @@ function normal_error(error) {
 }
 
 function assert_failed(what) {
-  log('assert_failed: '+what+)
+  log('assert_failed: '+what)
 }
 
 function catch_all(m,f,l) {
@@ -23,8 +23,6 @@ function catch_all(m,f,l) {
   assert_failed(m.replace(/uncaught exception: /,''))
   return true
 }
-
-
 
 function get_response(a) {
   var r=null
