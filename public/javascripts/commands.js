@@ -35,6 +35,33 @@ function item_new(value,main_tag,nextT,nextF) {
   })
 }
 
+function item_delete(item,nextT,nextF) {
+  var nT=nextT
+  var nF=nextF
+  var itemO=item
+  $.ajax({
+    type: "DELETE",
+    url: "/items/"+item.id,
+    success: function(a) {
+      if(a=parse(a)) {
+        $.each(itemO.tags.concat(),function(i,x) {
+          x.remove_item(itemO.value)
+        })
+        _d.remove_item(itemO.value)
+        itemO.ui.remove()
+        itemO.uie.remove()
+        nT && nT()
+      } else {
+        nF && nF()
+      }
+    },
+    error: function(r,e) {
+      terrible_error(r,e)
+      nF && nF()
+    }
+  })
+}
+
 function tag_new(value,nextT,nextF) {
   var nT=nextT
   var nF=nextF

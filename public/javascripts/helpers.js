@@ -93,15 +93,6 @@ function ajax_tag_update(id,x,cont) {
   })
 }
 
-function ajax_item_destroy(id,cont) {
-  $.ajax({
-    type: "DELETE",
-    url: "/items/"+id,
-    success: function(a) { if(a=parse(a)) cont(a) },
-    error: terrible_error
-  })
-}
-
 function ajax_item_update(id,value,tags,cont) {
   var p=$.param({'item[value]': value})
   p+=$.map(tags,function(x) {
