@@ -4,6 +4,7 @@ function Tag(value,id) {
   self.value=value
   self.id=id
   self.items=[]
+  self.filtering=false
 
   self.ui=$('<div>').attr('id','tag-'+self.id).addClass('tag')
   self.ui.append($('<span>').addClass('value').html(self.value))
@@ -98,6 +99,7 @@ Tag.prototype.update = function(new_value) {
   $.each(self.items,function(i,x) {
     x.update_tag(self)
   })
+  _d.update_filter()
 }
 
 Tag.prototype.remove_item = function(value) {
@@ -116,12 +118,11 @@ Tag.prototype.find_item = function(value) {
 Tag.prototype.toggle_filter = function() {
   if(this.value == _d.main_tag.value) 
     return
-  var e=$('.value',this.ui)
-  if(e.hasClass('filter')) {
-    e.removeClass('filter')
-    _d.unfilter(this)
-  } else {
-    e.addClass('filter')
+
+  this.filtering=!this.filtering
+  $('.value',this.ui).toggleClass('filter')
+  if(this.filtering)
     _d.filter(this)
-  } 
+  else
+    _d.unfilter(this)
 }
