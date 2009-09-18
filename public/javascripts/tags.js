@@ -121,6 +121,8 @@ Tag.prototype.filter = function() {
   if(this.value == _d.main_tag.value) 
     return
 
+  if(this.filtering) 
+    return
   this.filtering=true
   $('.value',this.ui).addClass('filter')
   _d.filter(this)
@@ -130,6 +132,8 @@ Tag.prototype.unfilter = function() {
   if(this.value == _d.main_tag.value) 
     return
 
+  if(!this.filtering) 
+    return
   this.filtering=false
   $('.value',this.ui).removeClass('filter')
   _d.unfilter(this)
