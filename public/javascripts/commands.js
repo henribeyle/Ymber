@@ -3,10 +3,7 @@
 // they all accept two functions at the end (may be null)
 // which will be called on success or on failure
 
-function item_new(value,mtag,nextT,nextF) {
-  var nT=nextT
-  var nF=nextF
-
+function item_new(value,mtag,nT,nF) {
   var post_data={'item[value]': value}
   if(mtag)
     post_data['tag[]']=mtag.id
@@ -26,16 +23,13 @@ function item_new(value,mtag,nextT,nextF) {
   })
 }
 
-function item_delete(item_,nextT,nextF) {
-  var nT=nextT
-  var nF=nextF
-  var item=item_
+function item_delete(item,nT,nF) {
   $.ajax({
     type: "DELETE",
     url: "/items/"+item.id,
     success: suc(nT,nF,function(a) {
-      $.each(item.tags.concat(),function(i,x) {
-        x.items.splice(x.item(item),1)
+      $.each(item.tags.concat(),function(i,tag) {
+        tag.items.splice(tag.item(item),1)
       })
       _d.rm_item(item)
       item.ui.remove()
@@ -45,10 +39,7 @@ function item_delete(item_,nextT,nextF) {
   })
 }
 
-function item_update(item_,value,nextT,nextF) {
-  var nT=nextT
-  var nF=nextF
-  var item=item_
+function item_update(item,value,nT,nF) {
   $.ajax({
     type: "PUT",
     url: "/items/"+item.id,
@@ -60,12 +51,7 @@ function item_update(item_,value,nextT,nextF) {
   })
 }
 
-function item_add_tag(item_,tag_,nextT,nextF) {
-  var nT=nextT
-  var nF=nextF
-  var item=item_
-  var tag=tag_
-
+function item_add_tag(item,tag,nT,nF) {
   if(item.has_tag(tag)) return
 
   $.ajax({
@@ -77,12 +63,7 @@ function item_add_tag(item_,tag_,nextT,nextF) {
   })
 }
 
-function item_remove_tag(item_,tag_,nextT,nextF) {
-  var nT=nextT
-  var nF=nextF
-  var item=item_
-  var tag=tag_
-
+function item_remove_tag(item,tag,nT,nF) {
   $.ajax({
     type: "DELETE",
     url: "/items/"+item.id+'/tag',
@@ -101,9 +82,7 @@ function item_remove_tag(item_,tag_,nextT,nextF) {
   })
 }
 
-function tag_new(value,nextT,nextF) {
-  var nT=nextT
-  var nF=nextF
+function tag_new(value,nT,nF) {
   $.ajax({
     type: "POST",
     url: "/tags",
@@ -113,18 +92,15 @@ function tag_new(value,nextT,nextF) {
   })
 }
 
-function tag_delete(tag_,nextT,nextF) {
-  var nT=nextT
-  var nF=nextF
-  var tag=tag_
+function tag_delete(tag,nT,nF) {
   $.ajax({
     type: "DELETE",
     url: "/tags/"+tag.id,
     success: suc(nT,nF,function(a) {
-      $.each(tag.items.concat(),function(i,x) {
-        x.tags.splice(x.tag(tag),1)
-        tag.items.splice(tag.item(x),1)
-        $('.tag-id-'+tag.id,x.ui).remove()
+      $.each(tag.items.concat(),function(i,item) {
+        item.tags.splice(item.tag(tag),1)
+        tag.items.splice(tag.item(item),1)
+        $('.tag-id-'+tag.id,item.ui).remove()
       })
       tag_unfilter(tag)
       _d.rm_tag(tag)
@@ -136,10 +112,7 @@ function tag_delete(tag_,nextT,nextF) {
   })
 }
 
-function tag_update(tag_,value,nextT,nextF) {
-  var nT=nextT
-  var nF=nextF
-  var tag=tag_
+function tag_update(tag,value,nT,nF) {
   $.ajax({
     type: "PUT",
     url: "/tags/"+tag.id,
@@ -149,9 +122,9 @@ function tag_update(tag_,value,nextT,nextF) {
   })
 }
 
-function tag_filter(tag,nextT,nextF) {
+function tag_filter(tag,nT,nF) {
   if(tag == _d.main_tag || _d.has_filter(tag)) {
-    nextF && nextF()
+    nF && nF()
     return
   }
 
@@ -159,12 +132,12 @@ function tag_filter(tag,nextT,nextF) {
   $('.value',tag.ui).addClass('filter')
   _d.add_filter(tag)
   _d.update_filter()
-  nextT && nextT()
+  nT && nT()
 }
 
-function tag_unfilter(tag,nextT,nextF) {
+function tag_unfilter(tag,nT,nF) {
   if(tag == _d.main_tag || !_d.has_filter(tag)) {
-    nextF && nextF()
+    nF && nF()
     return
   }
 
@@ -172,23 +145,23 @@ function tag_unfilter(tag,nextT,nextF) {
   $('.value',tag.ui).removeClass('filter')
   _d.rm_filter(tag)
   _d.update_filter()
-  nextT && nextT()
+  nT && nT()
 }
 
-function and_filtering(nextT,nextF) {
+function and_filtering(nT,nF) {
   if(_d.filter_type) {
-    nextF && nextF()
+    nF && nF()
   }
   _d.filter_type=true
   _d.update_filter()
-  nextT && nextT()
+  nT && nT()
 }
 
-function or_filtering(nextT,nextF) {
+function or_filtering(nT,nF) {
   if(!_d.filter_type) {
-    nextF && nextF()
+    nF && nF()
   }
   _d.filter_type=false
   _d.update_filter()
-  nextT && nextT()
+  nT && nT()
 }
