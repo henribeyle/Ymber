@@ -34,27 +34,13 @@ function Tag(value,id) {
       name: 'tag-id-'+self.id,
       ctrlenter: function() { self.edit_accept() },
       esc: function() { self.edit_cancel() },
-      ctrldel: function() { self.destroy() }
+      ctrldel: function() { tag_delete(self) }
   }))
   self.uie.append(accept_button().click(function() { self.edit_accept() }))
   self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
-  self.uie.append(delete_button().click(function() { self.destroy() }))
+  self.uie.append(delete_button().click(function() { tag_delete(self) }))
   self.uie.hide()
   self.uie.appendTo('#tags')
-}
-
-Tag.prototype.destroy = function() {
-  //log('destroy.tag:'+this.id)
-  var self=this
-  ajax_tag_destroy(self.id,function(a) {
-    //log('destroyed.tag:'+self.id+' ')
-    $.each(self.items.concat(),function(i,x) {
-      x.remove_tag(self.value)
-    })
-    _d.remove_tag(self.value)
-    self.ui.remove()
-    self.uie.remove()
-  })
 }
 
 Tag.prototype.show = function() {

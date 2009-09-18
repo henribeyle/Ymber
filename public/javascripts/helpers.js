@@ -83,15 +83,6 @@ function go_to(tag) {
   location.href=tag
 }
 
-function ajax_tag_destroy(id,cont) {
-  $.ajax({
-    type: "DELETE",
-    url: "/tags/"+id,
-    success: function(a) { if(a=parse(a)) cont(a) },
-    error: terrible_error
-  })
-}
-
 function ajax_tag_update(id,x,cont) {
   $.ajax({
     type: "PUT",

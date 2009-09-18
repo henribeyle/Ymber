@@ -58,3 +58,30 @@ function tag_new(value,nextT,nextF) {
     }
   })
 }
+
+function tag_delete(tag,nextT,nextF) {
+  var nT=nextT
+  var nF=nextF
+  var tagO=tag
+  $.ajax({
+    type: "DELETE",
+    url: "/tags/"+tag.id,
+    success: function(a) {
+      if(a=parse(a)) {
+        $.each(tagO.items.concat(),function(i,x) {
+          x.remove_tag(tagO.value)
+        })
+        _d.remove_tag(tagO.value)
+        tagO.ui.remove()
+        tagO.uie.remove()
+        nT && nT()
+      } else {
+        nF && nF()
+      }
+    },
+    error: function(r,e) {
+      terrible_error(r,e)
+      nF && nF()
+    }
+  })
+}
