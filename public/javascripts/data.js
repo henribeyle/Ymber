@@ -54,6 +54,11 @@ Data.prototype.add_item = function(i) {
 
 Data.prototype.remove_tag = function(value) {
   var main=(value==this.main_tag.value)
+
+  var posf=this.find_filter(value)
+  if(posf!=-1)
+    tag_unfilter(this.filters[posf])
+
   var pos=this.find_tag(value)
   if(pos!=-1)
     this.tags.splice(pos,1)
@@ -61,11 +66,6 @@ Data.prototype.remove_tag = function(value) {
     assert_failed('remove_tag "unknown tag" '+value)
   if(main)
     go_to('')
-  else {
-    var posf=this.find_filter(value)
-    if(posf!=-1)
-      this.unfilter(this.filters[posf])
-  }
 }
 
 Data.prototype.remove_item = function(value) {
@@ -97,32 +97,11 @@ Data.prototype.find_filter = function(value) {
 }
 
 Data.prototype.filter = function(tag) {
-  //log('filter: '+tag.value)
-  if(tag.value == this.main_tag.value) 
-    return false
-  
-  var pos=this.find_filter(tag.value)
-  if(pos!=-1) 
-    return true
-
-  this.filters.push(tag)
-  this.update_filter()
-  return true
+  return $.index(this.filters,this_value(tag.value))
 }
 
-Data.prototype.unfilter = function(tag) {
-  //log('unfilter: '+tag.value)
-  if(tag.value == this.main_tag.value) 
-    return false
-
-  var pos=this.find_filter(tag.value)
-  if(pos==-1) {
-    assert_failed('unknown filter (-): '+tag.value)
-    return false
-  }
-  this.filters.splice(pos,1)
-  this.update_filter()
-  return true
+Data.prototype.has_filter = function(tag) {
+  return $.exists(this.filters,this_value(tag.value))
 }
 
 Data.prototype.update_filter = function() {
@@ -140,7 +119,7 @@ Data.prototype.update_filter = function() {
   $.each(self.filters,function(i,x) {
     var z=$('<span>').addClass('tag_filter').html(x.value)
     z.drag_deleter({
-      on_delete: function() { x.unfilter() }
+      on_delete: function() { tag_unfilter(x) }
     })
     z.appendTo(tf)
     if(i<len-1) {
@@ -159,7 +138,6 @@ Data.prototype.update_filter = function() {
     len==0 || show ? x.show() : x.hide()
   })
 }
-
 
 Data.prototype.tag_id = function(id) {
   return this.tags[$.index(this.tags,this_id(id))]

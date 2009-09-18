@@ -41,14 +41,7 @@ $(function() {
     accept: '.tag',
     hoverClass: 'dropping-into-item',
     drop: function(event, ui) {
-      var tid=$(ui.draggable).oid()
-      //log('dropped '+tid+' into title')
-      var pos=_d.find_tag_by_id(tid)
-      if(pos==-1) {
-        assert_failed('unknown tag id: '+xt.id)
-        return
-      }
-      _d.tags[pos].filter()
+      tag_filter(_d.tag_id($(ui.draggable).oid()))
     }
   })
 

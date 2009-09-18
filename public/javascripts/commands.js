@@ -216,3 +216,29 @@ function tag_update(tag,value,nextT,nextF) {
     }
   })
 }
+
+function tag_filter(tag,nextT,nextF) {
+  if(tag.value == _d.main_tag.value || _d.has_filter(tag)) {
+    nextF && nextF()
+    return
+  }
+
+  tag.filtering=true
+  $('.value',tag.ui).addClass('filter')
+  _d.filters.push(tag)
+  _d.update_filter()
+  nextT && nextT()
+}
+
+function tag_unfilter(tag,nextT,nextF) {
+  if(tag.value == _d.main_tag.value || !_d.has_filter(tag)) {
+    nextF && nextF()
+    return
+  }
+
+  tag.filtering=false
+  $('.value',tag.ui).removeClass('filter')
+  _d.filters.splice(_d.filter(tag),1)
+  _d.update_filter()
+  nextT && nextT()
+}

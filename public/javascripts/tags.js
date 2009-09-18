@@ -13,10 +13,8 @@ function Tag(value,id) {
   self.ui.appendTo('#tags')
 
   self.ui.fixClick(function() {
-    //log('click:'+self.value)
-    self.toggle_filter()
+    self.filtering ? tag_unfilter(self) : tag_filter(self)
   },function() {
-    //log('double click:'+self.value)
     clear_selection()
     self.edit_start()
   })
@@ -95,22 +93,4 @@ Tag.prototype.remove_item = function(value) {
 
 Tag.prototype.find_item = function(value) {
   return $.pos(this.items,this_value(value))
-}
-
-Tag.prototype.toggle_filter = function() {
-  this.filtering ? this.unfilter() : this.filter()
-}
-
-Tag.prototype.filter = function() {
-  if(_d.filter(this)) {
-    this.filtering=true
-    $('.value',this.ui).addClass('filter')
-  }
-}
-
-Tag.prototype.unfilter = function() {
-  if(_d.unfilter(this)) {
-    this.filtering=false
-    $('.value',this.ui).removeClass('filter')
-  }
 }
