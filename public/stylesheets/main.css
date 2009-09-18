@@ -83,7 +83,7 @@ a:hover { color: #fff; background-color:#000; }
   padding-left: 5px;
 }
 
-.dragging-tag {
+.ui-draggable-dragging {
   border: 1px dashed black;
   background-color: yellow;
   padding: 5px;
