@@ -16,13 +16,16 @@
       var onint=go.on_intact
       var max_dist=go.max_dist
       var mygo = $.extend(go,{
-        helper: function() { return self.clone().attr('id','draghelper') },
+        helper: 'clone',
         drag: function(e,ui) {
           var d=dist($(this).offset(),ui.position)
-          if(d>max_dist)
-            $('#draghelper').addClass('tobedeleted')
-          else
-            $('#draghelper').removeClass('tobedeleted')
+          if(d>max_dist) {
+            ui.helper.addClass('tobedeleted')
+            self.draggable('option', 'revert', false);
+          } else {
+            ui.helper.removeClass('tobedeleted')
+            self.draggable('option', 'revert', true);
+          }
         },
         stop: function(e, ui) {
           var d=dist($(this).offset(),ui.position)
