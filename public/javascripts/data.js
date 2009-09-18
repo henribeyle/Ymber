@@ -25,8 +25,7 @@ function Data(this_tag, all_tags, all_items) {
   })
 
   try {
-    var tid=$.index(this.tags,this_value(this_tag))
-    self.main_tag=self.tags[tid]
+    self.main_tag=self.tags[$.index(this.tags,this_value(this_tag))]
   } catch(excp) {}
 
   $.each(all_items,function(i,x) {

@@ -3,13 +3,13 @@
 // they all accept two functions at the end (may be null)
 // which will be called on success or on failure
 
-function item_new(value,main_tag,nextT,nextF) {
+function item_new(value,mtag,nextT,nextF) {
   var nT=nextT
   var nF=nextF
 
   var post_data={'item[value]': value}
-  if(main_tag)
-    post_data['tag[]']=main_tag.id
+  if(mtag)
+    post_data['tag[]']=mtag.id
 
   $.ajax({
     type: "POST",
@@ -127,7 +127,7 @@ function item_remove_tag(item,tag,nextT,nextF) {
         item.tags.splice(item.tag(tag),1)
         tag.items.splice(tag.item(item),1)
         $('.tag-id-'+tag.id,item.ui).remove()
-        if(tag.value == _d.main_tag.value) {
+        if(tag == _d.main_tag) {
           _d.items.splice(_d.item(item),1)
           item.ui.remove()
           item.uie.remove()
@@ -181,9 +181,9 @@ function tag_delete(tag,nextT,nextF) {
           tagO.items.splice(tagO.item(x),1)
           $('.tag-id-'+tag.id,x.ui).remove()
         })
-        var main=(tagO.value==this.main_tag.value)
-        if(_d.has_filter(tag0))
-          tag_unfilter(tag0)
+        var main=(tagO == _d.main_tag)
+        if(_d.has_filter(tagO))
+          tag_unfilter(tagO)
         _d.tags.splice(_d.tag(tagO),1)
         if(main)
           go_to('')
@@ -226,7 +226,7 @@ function tag_update(tag,value,nextT,nextF) {
 }
 
 function tag_filter(tag,nextT,nextF) {
-  if(tag.value == _d.main_tag.value || _d.has_filter(tag)) {
+  if(tag == _d.main_tag || _d.has_filter(tag)) {
     nextF && nextF()
     return
   }
@@ -239,7 +239,7 @@ function tag_filter(tag,nextT,nextF) {
 }
 
 function tag_unfilter(tag,nextT,nextF) {
-  if(tag.value == _d.main_tag.value || !_d.has_filter(tag)) {
+  if(tag == _d.main_tag || !_d.has_filter(tag)) {
     nextF && nextF()
     return
   }
