@@ -48,7 +48,7 @@ Tag.prototype.destroy = function() {
   var self=this
   ajax_tag_destroy(self.id,function(a) {
     //log('destroyed.tag:'+self.id+' ')
-    $.each(self.items,function(i,x) {
+    $.each(self.items.concat(),function(i,x) {
       x.remove_tag(self.value)
     })
     _d.remove_tag(self.value)
