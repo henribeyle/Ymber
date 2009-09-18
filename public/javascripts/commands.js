@@ -112,3 +112,26 @@ function tag_delete(tag,nextT,nextF) {
     }
   })
 }
+
+function tag_update(tag,value,nextT,nextF) {
+  var nT=nextT
+  var nF=nextF
+  var tagO=tag
+  $.ajax({
+    type: "PUT",
+    url: "/tags/"+tag.id,
+    data: { 'tag[value]' : value },
+    success: function(a) {
+      if(a=parse(a)) {
+        tagO.update(a.tag.value)
+        nT && nT()
+      } else {
+        nF && nF()
+      }
+    },
+    error: function(r,e) {
+      terrible_error(r,e)
+      nF && nF()
+    }
+  })
+}

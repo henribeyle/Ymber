@@ -83,16 +83,6 @@ function go_to(tag) {
   location.href=tag
 }
 
-function ajax_tag_update(id,x,cont) {
-  $.ajax({
-    type: "PUT",
-    url: "/tags/"+id,
-    data: { 'tag[value]' : x },
-    success: function(a) { if(a=parse(a)) cont(a) },
-    error: terrible_error
-  })
-}
-
 function ajax_item_update(id,value,tags,cont) {
   var p=$.param({'item[value]': value})
   p+=$.map(tags,function(x) {

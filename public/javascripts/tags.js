@@ -28,14 +28,15 @@ function Tag(value,id) {
   })
 
   self.uie=$('<div>').attr('id','edit-tag-'+self.id).addClass('edittag')
-  self.uie.append($('<textarea>').
+  self.textarea=$('<textarea>').
     attr('name','edit-tag-'+self.id).
     quick_editor({
       name: 'tag-id-'+self.id,
       ctrlenter: function() { self.edit_accept() },
       esc: function() { self.edit_cancel() },
       ctrldel: function() { tag_delete(self) }
-  }))
+    })
+  self.uie.append(self.textarea)
   self.uie.append(accept_button().click(function() { self.edit_accept() }))
   self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
   self.uie.append(delete_button().click(function() { tag_delete(self) }))
@@ -57,15 +58,12 @@ Tag.prototype.edit_start = function() {
   //log('edit_start.tag:'+this.id)
   this.ui.hide()
   this.uie.show()
-  $('textarea',this.uie).val(this.value).focus()
+  this.textarea.val(this.value).focus()
 }
 
 Tag.prototype.edit_accept = function() {
   var self=this
-  var nv=$('textarea',self.uie).val()
-  //log('edit_accept.tag:'+self.id+' into '+nv)
-  ajax_tag_update(self.id,nv,function(a) {
-    self.update(a.tag.value)
+  tag_update(self,self.textarea.val(),function() {
     self.edit_cancel()
   })
 }
