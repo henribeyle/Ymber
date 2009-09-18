@@ -39,7 +39,6 @@ function Item(value,id,data) {
 }
 
 Item.prototype.edit_start = function() {
-  //log('edit_start.item:'+this.id)
   this.ui.hide()
   this.uie.show()
   this.textarea.val(this.value).focus()
@@ -47,22 +46,12 @@ Item.prototype.edit_start = function() {
 
 Item.prototype.edit_accept = function() {
   var self=this
-  item_update(self,self.textarea.val(),function() {
-    self.edit_cancel()
-  })
+  item_update(self,self.textarea.val(),function() { self.edit_cancel() })
 }
 
 Item.prototype.edit_cancel = function() {
-  //log('edit_cancel.item:'+this.id)
   this.uie.hide()
   this.ui.show()
-}
-
-Item.prototype.update = function(new_value) {
-  var self=this
-  var prev=self.value
-  self.value=new_value
-  $('.value',self.ui).html(self.value)
 }
 
 Item.prototype.add_tag = function(tag) {

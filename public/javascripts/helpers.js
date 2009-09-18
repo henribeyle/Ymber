@@ -10,6 +10,24 @@ function terrible_error(request,error) {
   log('terrible error happened: '+error)
 }
 
+function te(nF) {
+  return function(r,e) {
+    terrible_error(r,e)
+    nF && nF()
+  }
+}
+
+function suc(nT,nF,cont) {
+  return function(a) {
+    if(a=parse(a)) {
+      cont(a)
+      nT && nT()
+    } else {
+      nF && nF()
+    }
+  }
+}
+
 function normal_error(error) {
   log('normal error happened: '+error)
 }
