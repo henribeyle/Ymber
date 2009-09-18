@@ -84,7 +84,7 @@ function go_to(tag) {
 }
 
 function ajax_item_split(id,els,cont) {
-  var p=$.map(els,function(x) { 
+  var p=$.map(els,function(x) {
     return encodeURIComponent('value[]='+x) }
   ).join('&')
   $.ajax({
@@ -107,11 +107,11 @@ function clear_selection() {
 }
 
 function this_id(id) {
-  return function(x) { return x.id == id } 
+  return function(x) { return x.id == id }
 }
 
 function this_value(value) {
-  return function(x) { return x.value == value } 
+  return function(x) { return x.value == value }
 }
 
 function related_to_item(item) {

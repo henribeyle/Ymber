@@ -17,7 +17,7 @@ function Tag(value,id) {
     clear_selection()
     self.edit_start()
   })
-  self.ui.draggable({ 
+  self.ui.draggable({
     opacity: 0.5,
     helper: 'clone',
     cursor: 'move',
@@ -68,7 +68,8 @@ Tag.prototype.update = function(new_value) {
   $.each(self.items,function(i,x) {
     x.update_tag(self)
   })
-  _d.update_filter()
+  if(self.filtering) 
+    _d.update_filter()
 }
 
 Tag.prototype.item = function(item) {

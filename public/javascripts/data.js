@@ -25,17 +25,28 @@ function Data(this_tag, all_tags, all_items) {
   })
 
   try {
-    self.main_tag=self.tags[$.index(this.tags,this_value(this_tag))]
+    self.main_tag=self.tags[$.index(self.tags,this_value(this_tag))]
   } catch(excp) {}
 
   $.each(all_items,function(i,x) {
-    var i=new Item(x.item.value,x.item.id)
-    self.items.push(i)
-    $.each(x.item.tags,function(it,xt) {
-      i.add_tag(self.tag_id(xt.id))
+    var item=new Item(x.item.value,x.item.id)
+    self.items.push(item)
+    $.each(x.item.tags,function(it,tag) {
+      item.add_tag(self.tag_id(tag.id))
     })
   })
 }
+
+// adding and removing items, tags and filters
+
+Data.prototype.add_item = function(item) { this.items.push(item) }
+Data.prototype.rm_item = function(item) { this.items.splice(this.item(item),1) }
+Data.prototype.add_tag = function(tag) { this.tags.push(tag) }
+Data.prototype.rm_tag = function(tag) { this.tags.splice(this.tag(tag),1) }
+Data.prototype.add_filter = function(flt) { this.filters.push(flt) }
+Data.prototype.rm_filter = function(flt) { this.filters.splice(this.filter(flt),1) }
+
+// searching and indexing items, tags and filters
 
 Data.prototype.item = function(item) {
   return $.index(this.items,this_value(item.value))

@@ -48,8 +48,8 @@ Item.prototype.edit_start = function() {
 Item.prototype.edit_accept = function() {
   var self=this
   item_update(self,self.textarea.val(),function() {
-    self.edit_cancel() 
-  }) 
+    self.edit_cancel()
+  })
 }
 
 Item.prototype.edit_cancel = function() {

@@ -1,4 +1,4 @@
-(function($) { 
+(function($) {
   var defaults = {
     name: 'none',
     ctrlenter: null,
@@ -15,13 +15,13 @@
       var esc=o.esc
       var ctrldel=o.ctrldel
 
-      self.focus(function(){ 
+      self.focus(function(){
         self.bind('keyup', 'ctrl+return',function(){ ctrlenter && ctrlenter() })
         self.bind('keyup', 'esc', function(){ esc && esc() })
         self.bind('keyup', 'ctrl+del', function(){ ctrldel && ctrldel() })
       })
 
-      self.blur(function(){ 
+      self.blur(function(){
         self.unbind('keyup', 'ctrl+return')
         self.unbind('keyup', 'esc')
         self.unbind('keyup', 'ctrl+del')

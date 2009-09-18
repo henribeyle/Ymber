@@ -18,7 +18,7 @@ function item_new(value,mtag,nextT,nextF) {
     success: function(a) {
       if(a=parse(a)) {
         var item=new Item(a.item.value,a.item.id)
-        _d.items.push(item)
+        _d.add_item(item)
         $.each(a.item.tags,function(i,x) {
           item.add_tag(_d.tag_id(x.id))
         })
@@ -46,7 +46,7 @@ function item_delete(item,nextT,nextF) {
         $.each(itemO.tags.concat(),function(i,x) {
           x.items.splice(x.item(itemO),1)
         })
-        _d.items.splice(_d.item(itemO),1)
+        _d.rm_item(itemO)
         itemO.ui.remove()
         itemO.uie.remove()
         nT && nT()
@@ -128,7 +128,7 @@ function item_remove_tag(item,tag,nextT,nextF) {
         tag.items.splice(tag.item(item),1)
         $('.tag-id-'+tag.id,item.ui).remove()
         if(tag == _d.main_tag) {
-          _d.items.splice(_d.item(item),1)
+          _d.rm_item(item)
           item.ui.remove()
           item.uie.remove()
         }
@@ -154,7 +154,7 @@ function tag_new(value,nextT,nextF) {
     success: function(a) {
       if(a=parse(a)) {
         var tag=new Tag(a.tag.value,a.tag.id)
-        _d.tags.push(tag)
+        _d.add_tag(tag)
         nT && nT()
       } else {
         nF && nF()
@@ -182,11 +182,9 @@ function tag_delete(tag,nextT,nextF) {
           $('.tag-id-'+tag.id,x.ui).remove()
         })
         var main=(tagO == _d.main_tag)
-        if(_d.has_filter(tagO))
-          tag_unfilter(tagO)
-        _d.tags.splice(_d.tag(tagO),1)
-        if(main)
-          go_to('')
+        tag_unfilter(tagO)
+        _d.rm_tag(tagO)
+        if(main) go_to('')
 
         tagO.ui.remove()
         tagO.uie.remove()
@@ -233,7 +231,7 @@ function tag_filter(tag,nextT,nextF) {
 
   tag.filtering=true
   $('.value',tag.ui).addClass('filter')
-  _d.filters.push(tag)
+  _d.add_filter(tag)
   _d.update_filter()
   nextT && nextT()
 }
@@ -246,7 +244,7 @@ function tag_unfilter(tag,nextT,nextF) {
 
   tag.filtering=false
   $('.value',tag.ui).removeClass('filter')
-  _d.filters.splice(_d.filter(tag),1)
+  _d.rm_filter(tag)
   _d.update_filter()
   nextT && nextT()
 }
