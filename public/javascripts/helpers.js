@@ -223,6 +223,15 @@ jQuery.extend({
     }
     return -1
   },
+  exists: function(elems,callback) {
+    return this.pos(elems,callback)!=-1
+  },
+  rpos: function(elems,callback) {
+    var p=this.pos(elems,callback)
+    if(p==-1)
+      throw "unfound object"
+    return p
+  },
   and: function(elems,callback) {
     for(var i=0;i<elems.length;i++)
       if(!callback(elems[i]))
