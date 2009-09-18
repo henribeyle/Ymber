@@ -1,11 +1,25 @@
 class ItemsController < ApplicationController
+protected
+  def add_tag_to_item(item,x)
+    tag=Tag.find(x)
+    tg=item.tags.map {|t| t.value } << tag.value
+    if (tg & ['in','next','waiting']).size > 1 then
+      raise "Tags in, next, and waiting are mutually exclusively"
+    end
+    @item.tags << tag
+  end
+
+public
   def create
     @item = Item.new(params[:item])
 
     (params[:tag]||[]).each do |x|
       begin
-        @item.tags << Tag.find(x)
+        add_tag_to_item(@item,x)
       rescue ActiveRecord::RecordNotFound => e
+        render :json => { :status => 'error', :error => e.to_s }
+        return
+      rescue Exception => e
         render :json => { :status => 'error', :error => e.to_s }
         return
       end
@@ -55,8 +69,11 @@ class ItemsController < ApplicationController
 
     (params[:tag]||[]).each do |x|
       begin
-        @item.tags << Tag.find(x)
+        add_tag_to_item(@item,x)
       rescue ActiveRecord::RecordNotFound => e
+        render :json => { :status => 'error', :error => e.to_s }
+        return
+      rescue Exception => e
         render :json => { :status => 'error', :error => e.to_s }
         return
       end
