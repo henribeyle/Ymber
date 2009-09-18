@@ -132,18 +132,18 @@ Data.prototype.update_filter = function() {
     $('<span>').addClass('sep').html('(').appendTo(tf)
 
   var ft=self.filter_type ? '&&' : '||'
-  var ao=$('<span>').addClass('andor').html(ft).click(function() {
-    self.filter_type=!self.filter_type
-    self.update_filter()
-  })
   $.each(self.filters,function(i,x) {
     var z=$('<span>').addClass('tag_filter').html(x.value)
     z.drag_deleter({
       on_delete: function() { x.unfilter() }
     })
     z.appendTo(tf)
-    if(i<len-1)
-      ao.appendTo(tf)
+    if(i<len-1) {
+      $('<span>').addClass('andor').html(ft).click(function() {
+        self.filter_type=!self.filter_type
+        self.update_filter()
+      }).appendTo(tf)
+    }
   })
 
   if(len > 1)
