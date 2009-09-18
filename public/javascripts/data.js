@@ -93,24 +93,31 @@ Data.prototype.find_filter = function(value) {
 
 Data.prototype.filter = function(tag) {
   //log('filter: '+tag.value)
+  if(tag.value == this.main_tag.value) 
+    return false
+  
   var pos=this.find_filter(tag.value)
-  if(pos!=-1) {
-    assert_failed('unknown filter: '+tag.value)
-    return
-  }
+  if(pos!=-1) 
+    return true
+
   this.filters.push(tag)
   this.update_filter()
+  return true
 }
 
 Data.prototype.unfilter = function(tag) {
   //log('unfilter: '+tag.value)
+  if(tag.value == this.main_tag.value) 
+    return false
+
   var pos=this.find_filter(tag.value)
   if(pos==-1) {
     assert_failed('unknown filter (-): '+tag.value)
-    return
+    return false
   }
   this.filters.splice(pos,1)
   this.update_filter()
+  return true
 }
 
 Data.prototype.update_filter = function() {
