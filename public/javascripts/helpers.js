@@ -221,7 +221,7 @@ jQuery.extend({
   exists: function(elems,callback) {
     return this.pos(elems,callback)!=-1
   },
-  rpos: function(elems,callback) {
+  index: function(elems,callback) {
     var p=this.pos(elems,callback)
     if(p==-1)
       throw "unfound object"
