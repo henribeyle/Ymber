@@ -53,14 +53,19 @@ Data.prototype.add_item = function(i) {
 }
 
 Data.prototype.remove_tag = function(value) {
+  var main=(value==this.main_tag.value)
   var pos=this.find_tag(value)
   if(pos!=-1)
     this.tags.splice(pos,1)
   else
     assert_failed('remove_tag "unknown tag" '+value)
-  var posf=this.find_filter(value)
-  if(posf!=-1)
-    this.unfilter(this.filters[posf])
+  if(main)
+    go_to('')
+  else {
+    var posf=this.find_filter(value)
+    if(posf!=-1)
+      this.unfilter(this.filters[posf])
+  }
 }
 
 Data.prototype.remove_item = function(value) {
