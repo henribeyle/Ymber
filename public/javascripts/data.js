@@ -58,6 +58,9 @@ Data.prototype.remove_tag = function(value) {
     this.tags.splice(pos,1)
   else
     assert_failed('remove_tag "unknown tag" '+value)
+  var posf=this.find_filter(value)
+  if(posf!=-1)
+    this.unfilter(this.filters[posf])
 }
 
 Data.prototype.remove_item = function(value) {
