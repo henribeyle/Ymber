@@ -159,3 +159,8 @@ Data.prototype.update_filter = function() {
     len==0 || show ? x.show() : x.hide()
   })
 }
+
+
+Data.prototype.tag_id = function(id) {
+  return this.tags[$.index(this.tags,this_id(id))]
+}

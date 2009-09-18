@@ -83,16 +83,6 @@ function go_to(tag) {
   location.href=tag
 }
 
-function ajax_tag_create(x,cont) {
-  $.ajax({
-    type: "POST",
-    url: "/tags",
-    data: { 'tag[value]': x },
-    success: function(a) { if(a=parse(a)) cont(a) },
-    error: terrible_error
-  })
-}
-
 function ajax_tag_destroy(id,cont) {
   $.ajax({
     type: "DELETE",
@@ -107,21 +97,6 @@ function ajax_tag_update(id,x,cont) {
     type: "PUT",
     url: "/tags/"+id,
     data: { 'tag[value]' : x },
-    success: function(a) { if(a=parse(a)) cont(a) },
-    error: terrible_error
-  })
-}
-
-function ajax_item_create(x,main_tag,cont) {
-  var post_data={'item[value]': x}
-  if(main_tag) {
-    post_data['tag[]']=main_tag.id
-  }
-
-  $.ajax({
-    type: "POST",
-    url: "/items",
-    data: post_data,
     success: function(a) { if(a=parse(a)) cont(a) },
     error: terrible_error
   })
