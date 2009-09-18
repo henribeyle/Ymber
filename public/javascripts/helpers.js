@@ -194,11 +194,6 @@ function clear_selection() {
   }
 }
 
-function distance(x,y) {
-  return Math.sqrt(Math.pow((x.left-y.left),2)+
-    Math.pow((x.top-y.top),2))
-}
-
 function this_id(id) {
   return function(x) { return x.id == id } 
 }

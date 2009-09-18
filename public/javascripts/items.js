@@ -124,36 +124,17 @@ Item.prototype.add_tag = function(tag) {
 
   var t1=$('<span>').addClass('stag').addClass('tag-id-'+tag.id)
   var t2=$('<span>').addClass('content').html(tag.value)
-
-  var max_dist=60
-  t1.draggable({ 
-    opacity: 0.5,
-    helper: function(event) {
-      return t1.clone().attr('id','draghelper')
-    },
-    cursor: 'move',
-    drag: function(e,ui) {
-      var d=distance($(this).offset(),ui.position)
-      if(d>max_dist) {
-        $('#draghelper').addClass('tobedeleted')    
-      } else {
-        $('#draghelper').removeClass('tobedeleted')    
-      }
-    },
-    stop: function(e, ui) {
-      var d=distance($(this).offset(),ui.position)
-      if(d>max_dist) {
-        ajax_item_remove_tag(self.id,tag.id,function(a) {
-          self.remove_tag(tag.value)
-          if(tag.value == _d.main_tag.value) {
-            _d.remove_item(self.value)
-            self.ui.remove()
-            self.uie.remove()
-          }
-        })
-      }
-    },
-    revert: true
+  t1.drag_deleter({
+    on_delete: function() {
+      ajax_item_remove_tag(self.id,tag.id,function(a) {
+        self.remove_tag(tag.value)
+        if(tag.value == _d.main_tag.value) {
+          _d.remove_item(self.value)
+          self.ui.remove()
+          self.uie.remove()
+        }
+      })
+    }
   })
   t1.append(t2)
   self.ui.append(t1)
