@@ -26,6 +26,7 @@
         self.unbind('keyup', 'esc')
         self.unbind('keyup', 'ctrl+del')
       })
+      return self
     })
   }
 })(jQuery);
