@@ -113,6 +113,36 @@ function item_add_tag(item,tag,nextT,nextF) {
   })
 }
 
+function item_remove_tag(item,tag,nextT,nextF) {
+  var nT=nextT
+  var nF=nextF
+  var itemO=item
+  var tagO=tag
+
+  $.ajax({
+    type: "DELETE",
+    url: "/items/"+item.id+'/tag',
+    data: 'tag[]='+tag.id,
+    success: function(a) {
+      if(a=parse(a)) {
+        item.remove_tag(tag.value)
+        if(tag.value == _d.main_tag.value) {
+          _d.remove_item(item.value)
+          item.ui.remove()
+          item.uie.remove()
+        }
+        nT && nT()
+      } else {
+        nF && nF()
+      }
+    },
+    error: function(r,e) {
+      terrible_error(r,e)
+      nF && nF()
+    }
+  })
+}
+
 function tag_new(value,nextT,nextF) {
   var nT=nextT
   var nF=nextF

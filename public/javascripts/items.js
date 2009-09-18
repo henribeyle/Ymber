@@ -89,16 +89,7 @@ Item.prototype.add_tag = function(tag) {
   var t1=$('<span>').addClass('stag').addClass('tag-id-'+tag.id)
   var t2=$('<span>').addClass('content').html(tag.value)
   t1.drag_deleter({
-    on_delete: function() {
-      ajax_item_remove_tag(self.id,tag.id,function(a) {
-        self.remove_tag(tag.value)
-        if(tag.value == _d.main_tag.value) {
-          _d.remove_item(self.value)
-          self.ui.remove()
-          self.uie.remove()
-        }
-      })
-    }
+    on_delete: function() { item_remove_tag(self,tag) }
   })
   t1.append(t2)
   self.ui.append(t1)
