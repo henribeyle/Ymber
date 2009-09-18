@@ -119,26 +119,51 @@ Data.prototype.update_filter = function() {
   tf.empty()
   var len=self.filters.length
 
-  if(len > 0) 
+  if(len > 0)
     $('<span>').addClass('sep').html('&&').appendTo(tf)
-  if(len > 1) 
+  if(len > 1)
     $('<span>').addClass('sep').html('(').appendTo(tf)
-    
+
   var ft=self.filter_type ? '&&' : '||'
   var ao=$('<span>').addClass('andor').html(ft).click(function() {
     self.filter_type=!self.filter_type
     self.update_filter()
   })
   $.each(self.filters,function(i,x) {
-    $('<span>').addClass('tag_filter').html(x.value).appendTo(tf)
+    var z=$('<span>').addClass('tag_filter').html(x.value)
+    var max_dist=60
+    z.draggable({
+      opacity: 0.5,
+      helper: function(event) {
+        return z.clone().attr('id','draghelper')
+      },
+      cursor: 'move',
+      drag: function(e,ui) {
+        var d=distance($(this).offset(),ui.position)
+        if(d>max_dist) {
+          $('#draghelper').addClass('tobedeleted')
+        } else {
+          $('#draghelper').removeClass('tobedeleted')
+        }
+      },
+      stop: function(e, ui) {
+        var d=distance($(this).offset(),ui.position)
+        if(d>max_dist) {
+          x.unfilter()
+        }
+      },
+      revert: true
+    })
+    z.appendTo(tf)
     if(i<len-1)
       ao.appendTo(tf)
   })
-  if(len > 1) 
+
+  if(len > 1)
     $('<span>').addClass('sep').html(')').appendTo(tf)
 
   $.each(self.items,function(i,x) {
     var show=(self.filter_type ? $.and : $.or)(self.filters,related_to_item(x))
-    len==0 || show ? x.show() : x.hide() 
+    len==0 || show ? x.show() : x.hide()
   })
 }

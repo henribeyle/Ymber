@@ -116,7 +116,7 @@ Tag.prototype.find_item = function(value) {
 }
 
 Tag.prototype.toggle_filter = function() {
-  this.filtering ? this.filter() : this.unfilter()
+  this.filtering ? this.unfilter() : this.filter()
 }
 
 Tag.prototype.filter = function() {
