@@ -109,6 +109,10 @@ a:hover { color: #fff; background-color:#000; }
   width: 16px;
 }
 
+.show {
+  width: 16px;
+}
+
 .filter { 
   background-color: gold;
   opacity: 0.5;

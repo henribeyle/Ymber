@@ -6,11 +6,13 @@ function Item(value,id,data) {
   self.tags=[]
 
   self.ui=$('<div>').attr('id','item-'+self.id).addClass('item')
+  self.ui.append(show_mark().css('visibility','hidden'))
   self.ui.append(span('value',self.value))
   self.ui.appendTo('#items')
-  $('.value',self.ui).dblclick(function(e) {
+  $('.value',self.ui).fixClick(function() {
+    item_show(self)
+  },function() {
     clear_selection()
-    //log('double click:'+self.id)
     self.edit_start()
   })
   self.ui.droppable({
@@ -95,4 +97,8 @@ Item.prototype.rm_ui = function(tag) {
 Item.prototype.destroy_ui = function() {
   this.ui.remove()
   this.uie.remove()
+}
+
+Item.prototype.show_mark = function(on) {
+  $('img.show',this.ui).css('visibility',on?'visible':'hidden')
 }

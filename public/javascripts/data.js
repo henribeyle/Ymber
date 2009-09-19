@@ -5,6 +5,7 @@ function Data(this_tag, all_tags, all_items) {
   self.filters=[]
   self.filter_type=true
   self.main_tag=null
+  self.item_show=null
 
   if(this_tag == undefined) {
     assert_failed('this_tag is not defined')
@@ -117,10 +118,7 @@ Data.prototype.update_filter = function() {
     span('sep',')').appendTo(tf)
 
   $.each(self.items,function(i,item) {
-    if(self.filter_status(item))
-      item.ui.hide()
-    else
-      item.ui.show()
+    self.check_filtering(item)
   })
 }
 
@@ -128,4 +126,16 @@ Data.prototype.filter_status = function(item) {
   if(this.filters.length==0)
     return false
   return !(this.filter_type ? $.and : $.or)(this.filters,related_to_item(item))
+}
+
+Data.prototype.check_filtering = function(item) {
+  if(this.filter_status(item)) {
+    if(item==this.item_show) {
+      item.show_mark(false)
+      self.item_show=null
+    }
+    item.ui.hide()
+  }
+  else
+    item.ui.show()
 }

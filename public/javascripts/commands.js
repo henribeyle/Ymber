@@ -21,10 +21,7 @@ function item_new(value,mtag,nT,nF) {
         tag.add(item)
         item.tag_ui(tag)
       })
-      if(_d.filter_status(item))
-        item.ui.hide()
-      else
-        item.ui.show()
+      _d.check_filtering(item)
     }),
     error: te(nF)
   })
@@ -84,10 +81,7 @@ function item_remove_tag(item,tag,nT,nF) {
         _d.rm_item(item)
         item.destroy_ui()
       }
-      if(_d.filter_status(item))
-        item.ui.hide()
-      else
-        item.ui.show()
+      _d.check_filtering(item)
     }),
     error: te(nF)
   })
@@ -179,4 +173,11 @@ function or_filtering(nT,nF) {
   _d.filter_type=false
   _d.update_filter()
   nT && nT()
+}
+
+function item_show(item,nT,nF) {
+  if(_d.item_show)
+    _d.item_show.show_mark(false)
+  _d.item_show=item
+  _d.item_show.show_mark(true)
 }

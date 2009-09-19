@@ -71,6 +71,12 @@ function span(className,html) {
   return s
 }
 
+function show_mark() {
+  return $('<img>').
+    attr('src','/images/Play.png').
+    addClass('show')
+}
+
 function add_button() {
   return $('<img>').
     attr('src','/images/Add.png').
