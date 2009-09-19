@@ -180,4 +180,35 @@ function item_show(item,nT,nF) {
     _d.item_show.show_mark(false)
   _d.item_show=item
   _d.item_show.show_mark(true)
+  nT && nT()
 }
+
+function item_show_next(nT,nF) {
+  var pos=-1
+  if(_d.item_show!=null) {
+    pos=_d.item(_d.item_show)
+  }
+  for(var i=pos+1;i<_d.items.length;i++) {
+    if(!_d.filter_status(_d.items[i])) {
+      item_show(_d.items[i],nT,nF)
+      return
+    }
+  }
+  nF && nF()
+}
+
+function item_show_prev(nT,nF) {
+  var pos=_d.items.length
+  if(_d.item_show!=null) {
+    pos=_d.item(_d.item_show)
+  }
+  for(var i=pos-1;i>=0;i--) {
+    if(!_d.filter_status(_d.items[i])) {
+      item_show(_d.items[i],nT,nF)
+      return
+    }
+  }
+  nF && nF()
+}
+
+

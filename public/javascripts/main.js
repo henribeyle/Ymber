@@ -45,5 +45,6 @@ $(function() {
     }
   })
 
-  $('#dump').click(function() { console.log(_d) })
+  $('#helperA').click(function() { item_show_prev() })
+  $('#helperB').click(function() { item_show_next() })
 })
