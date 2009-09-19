@@ -126,6 +126,8 @@ function tag_update(tag,value,nT,nF) {
       $.each(tag.items,function(i,item) {
         item.update_tag(tag)
       })
+      if(tag==_d.main_tag)
+        go_to(tag.value)
       if(tag.filtering)
         _d.update_filter()
     }),
