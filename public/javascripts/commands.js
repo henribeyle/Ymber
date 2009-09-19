@@ -62,8 +62,8 @@ function item_add_tag(item,tag,nT,nF) {
     type: "PUT",
     url: "/items/"+item.id+'/tag',
     data: 'tag[]='+tag.id,
-    success: suc(nT,nF,function(a) { 
-      item.add_tag(tag) 
+    success: suc(nT,nF,function(a) {
+      item.add_tag(tag)
       tag.add(item)
       item.tag_ui(tag)
     }),
@@ -128,11 +128,11 @@ function tag_update(tag,value,nT,nF) {
     url: "/tags/"+tag.id,
     data: { 'tag[value]' : value },
     success: suc(nT,nF,function(a) {
-      tag.update(a.tag.value) 
+      tag.update(a.tag.value)
       $.each(tag.items,function(i,item) {
         item.update_tag(tag)
       })
-      if(tag.filtering) 
+      if(tag.filtering)
         _d.update_filter()
     }),
     error: te(nF)

@@ -38,10 +38,10 @@ function Item(value,id,data) {
   self.uie.appendTo('#items')
 }
 
-Item.prototype.add_tag = function(tag) { 
+Item.prototype.add_tag = function(tag) {
   if(this.has(tag))
     assert_failed('tag '+tag.value+' is already in item '+this.value)
-  this.tags.push(tag) 
+  this.tags.push(tag)
 }
 Item.prototype.rm = function(tag) { this.tags.splice(this.tag(tag),1) }
 

@@ -41,10 +41,10 @@ function Tag(value,id) {
   self.uie.appendTo('#tags')
 }
 
-Tag.prototype.add = function(item) { 
+Tag.prototype.add = function(item) {
   if(this.has(item))
     assert_failed('item '+item.value+' is already in tag '+this.value)
-  this.items.push(item) 
+  this.items.push(item)
 }
 Tag.prototype.rm = function(item) { this.items.splice(this.item(item),1) }
 
