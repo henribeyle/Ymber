@@ -38,6 +38,23 @@ function Item(value,id,data) {
   self.uie.appendTo('#items')
 }
 
+Item.prototype.add_tag = function(tag) { 
+  if(this.has_tag(tag))
+    assert_failed('tag '+tag.value+' is already in item '+this.value)
+  this.tags.push(tag) 
+}
+Item.prototype.rm_tag = function(tag) { this.tags.splice(this.tag(tag),1) }
+
+Item.prototype.tag = function(tag) {
+  return $.index(this.tags,this_value(tag.value))
+}
+
+Item.prototype.has_tag = function(tag) {
+  return $.exists(this.tags,this_value(tag.value))
+}
+
+// these have to do with ui
+
 Item.prototype.edit_start = function() {
   this.ui.hide()
   this.uie.show()
@@ -54,15 +71,8 @@ Item.prototype.edit_cancel = function() {
   this.ui.show()
 }
 
-Item.prototype.add_tag = function(tag) {
+Item.prototype.tag_ui = function(tag) {
   var self=this
-  if(self.has_tag(tag))
-    assert_failed("adding existing tag twice "+tag.value)
-  if(tag.has_item(self))
-    assert_failed("adding existing item twice "+self.value)
-  self.tags.push(tag)
-  tag.items.push(self)
-
   var t1=span('stag').addClass('tag-id-'+tag.id)
   var t2=span('content',tag.value)
   t1.drag_deleter({
@@ -72,15 +82,14 @@ Item.prototype.add_tag = function(tag) {
   self.ui.append(t1)
 }
 
+Item.prototype.update = function(value) {
+  $('.value',this.ui).html(this.value=value)
+}
+
 Item.prototype.update_tag = function(tag) {
-  //log('update_tag.item:'+this.id+' '+tag.value)
-  $('.tag-id-'+tag.id+' .content',self.ui).html(tag.value)
+  $('.tag-id-'+tag.id+' .content',this.ui).html(tag.value)
 }
 
-Item.prototype.tag = function(tag) {
-  return $.index(this.tags,this_value(tag.value))
-}
-
-Item.prototype.has_tag = function(tag) {
-  return $.exists(this.tags,this_value(tag.value))
+Item.prototype.rm_tag_ui = function(tag) {
+  $('.tag-id-'+tag.id,this.ui).remove()
 }

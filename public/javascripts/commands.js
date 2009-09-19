@@ -15,8 +15,11 @@ function item_new(value,mtag,nT,nF) {
     success: suc(nT,nF,function(a) {
       var item=new Item(a.item.value,a.item.id)
       _d.add_item(item)
-      $.each(a.item.tags,function(i,tag) {
-        item.add_tag(_d.tag_id(tag.id))
+      $.each(a.item.tags,function(i,t) {
+        var tag=_d.tag_id(t.id)
+        item.add_tag(tag)
+        tag.add_item(item)
+        item.tag_ui(tag)
       })
     }),
     error: te(nF)
@@ -29,7 +32,7 @@ function item_delete(item,nT,nF) {
     url: "/items/"+item.id,
     success: suc(nT,nF,function(a) {
       $.each(item.tags.concat(),function(i,tag) {
-        tag.items.splice(tag.item(item),1)
+        tag.rm_item(item)
       })
       _d.rm_item(item)
       item.ui.remove()
@@ -44,9 +47,7 @@ function item_update(item,value,nT,nF) {
     type: "PUT",
     url: "/items/"+item.id,
     data: {'item[value]': value},
-    success: suc(nT,nF,function(a) {
-      $('.value',item.ui).html(item.value=a.item.value)
-    }),
+    success: suc(nT,nF,function(a) { item.update(a.item.value) }),
     error: te(nF)
   })
 }
@@ -58,7 +59,11 @@ function item_add_tag(item,tag,nT,nF) {
     type: "PUT",
     url: "/items/"+item.id+'/tag',
     data: 'tag[]='+tag.id,
-    success: suc(nT,nF,function(a) { item.add_tag(tag) }),
+    success: suc(nT,nF,function(a) { 
+      item.add_tag(tag) 
+      tag.add_item(item)
+      item.tag_ui(tag)
+    }),
     error: te(nF)
   })
 }
@@ -69,9 +74,9 @@ function item_remove_tag(item,tag,nT,nF) {
     url: "/items/"+item.id+'/tag',
     data: 'tag[]='+tag.id,
     success: suc(nT,nF,function(a) {
-      item.tags.splice(item.tag(tag),1)
-      tag.items.splice(tag.item(item),1)
-      $('.tag-id-'+tag.id,item.ui).remove()
+      item.rm_tag(tag)
+      tag.rm_item(item)
+      item.rm_tag_ui(tag)
       if(tag == _d.main_tag) {
         _d.rm_item(item)
         item.ui.remove()
@@ -98,9 +103,9 @@ function tag_delete(tag,nT,nF) {
     url: "/tags/"+tag.id,
     success: suc(nT,nF,function(a) {
       $.each(tag.items.concat(),function(i,item) {
-        item.tags.splice(item.tag(tag),1)
-        tag.items.splice(tag.item(item),1)
-        $('.tag-id-'+tag.id,item.ui).remove()
+        item.rm_tag(tag)
+        tag.rm_item(item)
+        item.rm_tag_ui(tag)
       })
       tag_unfilter(tag)
       _d.rm_tag(tag)
@@ -128,8 +133,7 @@ function tag_filter(tag,nT,nF) {
     return
   }
 
-  tag.filtering=true
-  $('.value',tag.ui).addClass('filter')
+  tag.filter_on()
   _d.add_filter(tag)
   _d.update_filter()
   nT && nT()
@@ -141,8 +145,7 @@ function tag_unfilter(tag,nT,nF) {
     return
   }
 
-  tag.filtering=false
-  $('.value',tag.ui).removeClass('filter')
+  tag.filter_off()
   _d.rm_filter(tag)
   _d.update_filter()
   nT && nT()

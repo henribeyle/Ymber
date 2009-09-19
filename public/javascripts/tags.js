@@ -41,6 +41,23 @@ function Tag(value,id) {
   self.uie.appendTo('#tags')
 }
 
+Tag.prototype.add_item = function(item) { 
+  if(this.has_item(item))
+    assert_failed('item '+item.value+' is already in tag '+this.value)
+  this.items.push(item) 
+}
+Tag.prototype.rm_item = function(item) { this.items.splice(this.item(item),1) }
+
+Tag.prototype.item = function(item) {
+  return $.index(this.items,this_value(item.value))
+}
+
+Tag.prototype.has_item = function(item) {
+  return $.exists(this.items,this_value(item.value))
+}
+
+// these have to do with ui
+
 Tag.prototype.edit_start = function() {
   //log('edit_start.tag:'+this.id)
   this.ui.hide()
@@ -72,10 +89,13 @@ Tag.prototype.update = function(new_value) {
     _d.update_filter()
 }
 
-Tag.prototype.item = function(item) {
-  return $.index(this.items,this_value(item.value))
+Tag.prototype.filter_on = function() {
+  this.filtering=true
+  $('.value',this.ui).addClass('filter')
 }
 
-Tag.prototype.has_item = function(item) {
-  return $.exists(this.items,this_value(item.value))
+Tag.prototype.filter_off = function() {
+  this.filtering=false
+  $('.value',this.ui).removeClass('filter')
 }
+
