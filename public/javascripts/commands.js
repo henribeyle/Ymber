@@ -21,6 +21,10 @@ function item_new(value,mtag,nT,nF) {
         tag.add(item)
         item.tag_ui(tag)
       })
+      if(_d.filter_status(item))
+        item.ui.hide()
+      else
+        item.ui.show()
     }),
     error: te(nF)
   })
@@ -80,6 +84,10 @@ function item_remove_tag(item,tag,nT,nF) {
         _d.rm_item(item)
         item.destroy_ui()
       }
+      if(_d.filter_status(item))
+        item.ui.hide()
+      else
+        item.ui.show()
     }),
     error: te(nF)
   })

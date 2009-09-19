@@ -116,8 +116,16 @@ Data.prototype.update_filter = function() {
   if(len > 1)
     span('sep',')').appendTo(tf)
 
-  $.each(self.items,function(i,x) {
-    var show=(self.filter_type ? $.and : $.or)(self.filters,related_to_item(x))
-    len==0 || show ?  x.ui.show() : x.ui.hide()
+  $.each(self.items,function(i,item) {
+    if(self.filter_status(item))
+      item.ui.hide()
+    else
+      item.ui.show()
   })
+}
+
+Data.prototype.filter_status = function(item) {
+  if(this.filters.length==0)
+    return false
+  return !(this.filter_type ? $.and : $.or)(this.filters,related_to_item(item))
 }
