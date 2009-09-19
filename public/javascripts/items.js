@@ -73,13 +73,11 @@ Item.prototype.edit_cancel = function() {
 
 Item.prototype.tag_ui = function(tag) {
   var self=this
-  var t1=span('stag').addClass('tag-id-'+tag.id)
-  var t2=span('content',tag.value)
-  t1.drag_deleter({
-    on_delete: function() { item_remove_tag(self,tag) }
-  })
-  t1.append(t2)
-  self.ui.append(t1)
+  span('stag').
+    addClass('tag-id-'+tag.id).
+    append(span('content',tag.value)).
+    drag_deleter({ on_delete: function() { item_remove_tag(self,tag) } }).
+    appendTo(self.ui)
 }
 
 Item.prototype.update = function(value) {

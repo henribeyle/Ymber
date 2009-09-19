@@ -79,14 +79,7 @@ Tag.prototype.edit_cancel = function() {
 }
 
 Tag.prototype.update = function(new_value) {
-  var self=this
-  self.value=new_value
-  $('.value',self.ui).html(self.value)
-  $.each(self.items,function(i,x) {
-    x.update_tag(self)
-  })
-  if(self.filtering) 
-    _d.update_filter()
+  $('.value',this.ui).html(this.value=new_value)
 }
 
 Tag.prototype.filter_on = function() {

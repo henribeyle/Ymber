@@ -127,7 +127,14 @@ function tag_update(tag,value,nT,nF) {
     type: "PUT",
     url: "/tags/"+tag.id,
     data: { 'tag[value]' : value },
-    success: suc(nT,nF,function(a) { tag.update(a.tag.value) }),
+    success: suc(nT,nF,function(a) {
+      tag.update(a.tag.value) 
+      $.each(tag.items,function(i,item) {
+        item.update_tag(tag)
+      })
+      if(tag.filtering) 
+        _d.update_filter()
+    }),
     error: te(nF)
   })
 }
