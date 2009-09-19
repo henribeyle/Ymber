@@ -24,15 +24,14 @@ function Item(value,id,data) {
   })
 
   self.uie=$('<div>').attr('id','edit-item-'+self.id).addClass('edititem')
-  self.textarea=$('<textarea>').
+  self.uie.append($('<textarea>').
     attr('name','edit-item-'+self.id).
     quick_editor({
       name: 'item-id-'+self.id,
       ctrlenter: function() { self.edit_accept() },
       esc: function() { self.edit_cancel() },
       ctrldel: function() { item_delete(self) }
-    })
-  self.uie.append(self.textarea)
+    }))
   self.uie.append(accept_button().click(function() { self.edit_accept() }))
   self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
   self.uie.append(delete_button().click(function() { item_delete(self) }))
@@ -60,12 +59,12 @@ Item.prototype.has = function(tag) {
 Item.prototype.edit_start = function() {
   this.ui.hide()
   this.uie.show()
-  this.textarea.val(this.value).focus()
+  $('textarea',this.uie).val(this.value).focus()
 }
 
 Item.prototype.edit_accept = function() {
   var self=this
-  item_update(self,self.textarea.val(),function() { self.edit_cancel() })
+  item_update(self,$('textarea',self.uie).val(),function() { self.edit_cancel() })
 }
 
 Item.prototype.edit_cancel = function() {

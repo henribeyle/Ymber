@@ -116,6 +116,10 @@ function go_to(tag) {
   location.href=tag
 }
 
+function cs(p,v) { $.cookie(p,v,{expires: 1000}) }
+function cr(p) { return $.cookie(p) }
+function cd(p) { $.cookie(p,null) }
+
 function ajax_item_split(id,els,cont) {
   var p=$.map(els,function(x) {
     return encodeURIComponent('value[]='+x) }

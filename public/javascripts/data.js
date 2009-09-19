@@ -139,3 +139,45 @@ Data.prototype.check_filtering = function(item) {
   else
     item.ui.show()
 }
+
+Data.prototype.next = function(item) {
+  var pos=-1
+  if(item!=null)
+    pos=_d.item(item)
+  for(var i=pos+1;i<_d.items.length;i++) {
+    if(!_d.filter_status(_d.items[i])) {
+      return _d.items[i]
+    }
+  }
+  return null
+}
+
+Data.prototype.prev = function(item) {
+  var pos=_d.items.length
+  if(item!=null)
+    pos=_d.item(item)
+  for(var i=pos-1;i>=0;i--) {
+    if(!_d.filter_status(_d.items[i])) {
+      return _d.items[i]
+    }
+  }
+  return null
+}
+
+Data.prototype.put_after = function(item1,item2) {
+  //log('want to put '+item1.value+' after '+item2.value)
+  this.rm_item(item1)
+  this.items.splice(this.item(item2)+1,0,item1)
+
+  item2.uie.after(item1.uie)
+  item2.uie.after(item1.ui)
+}
+
+Data.prototype.put_before = function(item1,item2) {
+  //log('want to put '+item1.value+' before '+item2.value)
+  this.rm_item(item1)
+  this.items.splice(this.item(item2),0,item1)
+
+  item2.ui.before(item1.ui)
+  item2.ui.before(item1.uie)
+}

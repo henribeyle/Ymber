@@ -47,4 +47,6 @@ $(function() {
 
   $('#helperA').click(function() { item_show_prev() })
   $('#helperB').click(function() { item_show_next() })
+  $('#helperC').click(function() { item_move_selection_up() })
+  $('#helperD').click(function() { item_move_selection_down() })
 })

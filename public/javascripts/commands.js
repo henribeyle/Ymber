@@ -181,36 +181,56 @@ function item_show(item,nT,nF) {
   if(_d.item_show)
     _d.item_show.show_mark(false)
   _d.item_show=item
-  _d.item_show.show_mark(true)
-  nT && nT()
+  if(_d.item_show) {
+    _d.item_show.show_mark(true)
+    nT && nT()
+  } else {
+    nF && nF()
+  }
 }
 
 function item_show_next(nT,nF) {
-  var pos=-1
-  if(_d.item_show!=null) {
-    pos=_d.item(_d.item_show)
+  var item=_d.next(_d.item_show)
+  if(item)
+    item_show(item,nT,nF)
+  else {
+    nF && nF()
   }
-  for(var i=pos+1;i<_d.items.length;i++) {
-    if(!_d.filter_status(_d.items[i])) {
-      item_show(_d.items[i],nT,nF)
-      return
-    }
-  }
-  nF && nF()
 }
 
 function item_show_prev(nT,nF) {
-  var pos=_d.items.length
-  if(_d.item_show!=null) {
-    pos=_d.item(_d.item_show)
+  var item=_d.prev(_d.item_show)
+  if(item)
+    item_show(item,nT,nF)
+  else {
+    nF && nF()
   }
-  for(var i=pos-1;i>=0;i--) {
-    if(!_d.filter_status(_d.items[i])) {
-      item_show(_d.items[i],nT,nF)
-      return
-    }
-  }
-  nF && nF()
 }
 
+function item_move_selection_down(nT,nF) {
+  if(_d.item_show==null) {
+    nF && nF()
+    return
+  }
+  var item=_d.next(_d.item_show)
+  if(item) {
+    _d.put_after(_d.item_show,item)
+  }
+  else {
+    nF && nF()
+  }
+}
 
+function item_move_selection_up(nT,nF) {
+  if(_d.item_show==null) {
+    nF && nF()
+    return
+  }
+  var item=_d.prev(_d.item_show)
+  if(item) {
+    _d.put_before(_d.item_show,item)
+  }
+  else {
+    nF && nF()
+  }
+}
