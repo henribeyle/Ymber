@@ -39,6 +39,9 @@ function Data(this_tag, all_tags, all_items) {
       item.tag_ui(tag)
     })
   })
+
+  self.order_from_cookie()
+  self.save_order_cookie()
 }
 
 // adding and removing items, tags and filters
@@ -48,7 +51,9 @@ Data.prototype.add_item = function(item) {
     assert_failed('item '+item.value+' is already in data')
   this.items.push(item)
 }
-Data.prototype.rm_item = function(item) { this.items.splice(this.item(item),1) }
+Data.prototype.rm_item = function(item) {
+  this.items.splice(this.item(item),1)
+}
 
 Data.prototype.add_tag = function(tag) {
   if(this.has_tag(tag))
@@ -68,6 +73,10 @@ Data.prototype.rm_filter = function(flt) { this.filters.splice(this.filter(flt),
 
 Data.prototype.item = function(item) {
   return $.index(this.items,this_value(item.value))
+}
+
+Data.prototype.item_id = function(id) {
+  return this.items[$.index(this.items,this_id(id))]
 }
 
 Data.prototype.has_item = function(item) {
@@ -166,18 +175,41 @@ Data.prototype.prev = function(item) {
 
 Data.prototype.put_after = function(item1,item2) {
   //log('want to put '+item1.value+' after '+item2.value)
+  if(item1==item2) return
   this.rm_item(item1)
   this.items.splice(this.item(item2)+1,0,item1)
 
   item2.uie.after(item1.uie)
   item2.uie.after(item1.ui)
+  this.save_order_cookie()
 }
 
 Data.prototype.put_before = function(item1,item2) {
   //log('want to put '+item1.value+' before '+item2.value)
+  if(item1==item2) return
   this.rm_item(item1)
   this.items.splice(this.item(item2),0,item1)
 
   item2.ui.before(item1.ui)
   item2.ui.before(item1.uie)
+  this.save_order_cookie()
+}
+
+Data.prototype.order_from_cookie = function() {
+  var self=this
+  var o=cr('order')
+  if(o==null) return
+  $.each(o.split(','),function(i,x) {
+    try {
+      var item=self.item_id(x)
+      log('there '+x+' '+i)
+      self.put_after(item,self.items[self.items.length-1])
+    } catch(e) {
+      log('here '+x+' '+i +' '+e)
+    }
+  })
+}
+
+Data.prototype.save_order_cookie = function() {
+  cs('order',$.map(this.items,function(x) { return x.id }).join(','))
 }

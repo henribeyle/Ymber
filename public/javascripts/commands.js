@@ -22,6 +22,7 @@ function item_new(value,mtag,nT,nF) {
         item.tag_ui(tag)
       })
       _d.check_filtering(item)
+      _d.save_order_cookie()
     }),
     error: te(nF)
   })
@@ -36,6 +37,7 @@ function item_delete(item,nT,nF) {
         tag.rm(item)
       })
       _d.rm_item(item)
+      _d.save_order_cookie()
       item.destroy_ui()
     }),
     error: te(nF)
