@@ -41,18 +41,18 @@ function Tag(value,id) {
   self.uie.appendTo('#tags')
 }
 
-Tag.prototype.add_item = function(item) { 
-  if(this.has_item(item))
+Tag.prototype.add = function(item) { 
+  if(this.has(item))
     assert_failed('item '+item.value+' is already in tag '+this.value)
   this.items.push(item) 
 }
-Tag.prototype.rm_item = function(item) { this.items.splice(this.item(item),1) }
+Tag.prototype.rm = function(item) { this.items.splice(this.item(item),1) }
 
 Tag.prototype.item = function(item) {
   return $.index(this.items,this_value(item.value))
 }
 
-Tag.prototype.has_item = function(item) {
+Tag.prototype.has = function(item) {
   return $.exists(this.items,this_value(item.value))
 }
 
@@ -99,3 +99,7 @@ Tag.prototype.filter_off = function() {
   $('.value',this.ui).removeClass('filter')
 }
 
+Tag.prototype.destroy_ui = function() {
+  this.ui.remove()
+  this.uie.remove()
+}

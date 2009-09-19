@@ -18,7 +18,7 @@ function item_new(value,mtag,nT,nF) {
       $.each(a.item.tags,function(i,t) {
         var tag=_d.tag_id(t.id)
         item.add_tag(tag)
-        tag.add_item(item)
+        tag.add(item)
         item.tag_ui(tag)
       })
     }),
@@ -32,11 +32,10 @@ function item_delete(item,nT,nF) {
     url: "/items/"+item.id,
     success: suc(nT,nF,function(a) {
       $.each(item.tags.concat(),function(i,tag) {
-        tag.rm_item(item)
+        tag.rm(item)
       })
       _d.rm_item(item)
-      item.ui.remove()
-      item.uie.remove()
+      item.destroy_ui()
     }),
     error: te(nF)
   })
@@ -53,7 +52,7 @@ function item_update(item,value,nT,nF) {
 }
 
 function item_add_tag(item,tag,nT,nF) {
-  if(item.has_tag(tag)) return
+  if(item.has(tag)) return
 
   $.ajax({
     type: "PUT",
@@ -61,7 +60,7 @@ function item_add_tag(item,tag,nT,nF) {
     data: 'tag[]='+tag.id,
     success: suc(nT,nF,function(a) { 
       item.add_tag(tag) 
-      tag.add_item(item)
+      tag.add(item)
       item.tag_ui(tag)
     }),
     error: te(nF)
@@ -74,13 +73,12 @@ function item_remove_tag(item,tag,nT,nF) {
     url: "/items/"+item.id+'/tag',
     data: 'tag[]='+tag.id,
     success: suc(nT,nF,function(a) {
-      item.rm_tag(tag)
-      tag.rm_item(item)
-      item.rm_tag_ui(tag)
+      item.rm(tag)
+      tag.rm(item)
+      item.rm_ui(tag)
       if(tag == _d.main_tag) {
         _d.rm_item(item)
-        item.ui.remove()
-        item.uie.remove()
+        item.destroy_ui()
       }
     }),
     error: te(nF)
@@ -103,15 +101,14 @@ function tag_delete(tag,nT,nF) {
     url: "/tags/"+tag.id,
     success: suc(nT,nF,function(a) {
       $.each(tag.items.concat(),function(i,item) {
-        item.rm_tag(tag)
-        tag.rm_item(item)
-        item.rm_tag_ui(tag)
+        item.rm(tag)
+        tag.rm(item)
+        item.rm_ui(tag)
       })
       tag_unfilter(tag)
       _d.rm_tag(tag)
+      tag.destroy_ui()
       if(tag == _d.main_tag) go_to('')
-      tag.ui.remove()
-      tag.uie.remove()
     }),
     error: te(nF)
   })

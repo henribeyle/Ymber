@@ -34,7 +34,7 @@ function Data(this_tag, all_tags, all_items) {
     $.each(x.item.tags,function(it,t) {
       var tag=self.tag_id(t.id)
       item.add_tag(tag)
-      tag.add_item(item)
+      tag.add(item)
       item.tag_ui(tag)
     })
   })
@@ -79,6 +79,10 @@ Data.prototype.tag = function(tag) {
 
 Data.prototype.tag_id = function(id) {
   return this.tags[$.index(this.tags,this_id(id))]
+}
+
+Data.prototype.has_tag = function(tag) {
+  return $.exists(this.tags,this_value(tag.value))
 }
 
 Data.prototype.filter = function(tag) {

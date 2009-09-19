@@ -39,17 +39,17 @@ function Item(value,id,data) {
 }
 
 Item.prototype.add_tag = function(tag) { 
-  if(this.has_tag(tag))
+  if(this.has(tag))
     assert_failed('tag '+tag.value+' is already in item '+this.value)
   this.tags.push(tag) 
 }
-Item.prototype.rm_tag = function(tag) { this.tags.splice(this.tag(tag),1) }
+Item.prototype.rm = function(tag) { this.tags.splice(this.tag(tag),1) }
 
 Item.prototype.tag = function(tag) {
   return $.index(this.tags,this_value(tag.value))
 }
 
-Item.prototype.has_tag = function(tag) {
+Item.prototype.has = function(tag) {
   return $.exists(this.tags,this_value(tag.value))
 }
 
@@ -90,6 +90,11 @@ Item.prototype.update_tag = function(tag) {
   $('.tag-id-'+tag.id+' .content',this.ui).html(tag.value)
 }
 
-Item.prototype.rm_tag_ui = function(tag) {
+Item.prototype.rm_ui = function(tag) {
   $('.tag-id-'+tag.id,this.ui).remove()
+}
+
+Item.prototype.destroy_ui = function() {
+  this.ui.remove()
+  this.uie.remove()
 }
