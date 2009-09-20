@@ -216,7 +216,7 @@ function item_move_selection_down(nT,nF) {
   }
   var item=_d.next(_d.item_show)
   if(item) {
-    _d.put_after(_d.item_show,item)
+    item_move_after(_d.item_show,item,nT,nF)
   }
   else {
     nF && nF()
@@ -230,7 +230,7 @@ function item_move_selection_up(nT,nF) {
   }
   var item=_d.prev(_d.item_show)
   if(item) {
-    _d.put_before(_d.item_show,item)
+    item_move_before(_d.item_show,item,nT,nF)
   }
   else {
     nF && nF()
@@ -238,14 +238,30 @@ function item_move_selection_up(nT,nF) {
 }
 
 function item_move_before(item1,item2,nT,nF) {
-  //log(item1.value+' moved before '+item2.value)
-  _d.put_before(item1,item2)
+  //log('want to put '+item1.value+' before '+item2.value)
+  if(item1==item2) {
+    nF && nF()
+    return
+  }
+
+  _d.rm_item(item1)
+  _d.items.splice(_d.item(item2),0,item1)
+
+  item2.mui.before(item1.mui)
+  _d.save_order_cookie()
   nT && nT()
 }
 
 function item_move_after(item1,item2,nT,nF) {
-  //log(item1.value+' moved after '+item2.value)
-  _d.put_after(item1,item2)
+  //log('want to put '+item1.value+' after '+item2.value)
+  if(item1==item2) {
+    nF && nF()
+    return
+  }
+  _d.rm_item(item1)
+  _d.items.splice(_d.item(item2)+1,0,item1)
+
+  item2.mui.after(item1.mui)
+  _d.save_order_cookie()
   nT && nT()
 }
-

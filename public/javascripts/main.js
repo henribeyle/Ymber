@@ -16,6 +16,8 @@ $(function() {
   })
 
   _d=new Data(this_tag,all_tags,all_items)
+  _d.order_from_cookie()
+  _d.save_order_cookie()
 
   function add_tag_from_textarea() {
     var v=$('#add_tag_text')

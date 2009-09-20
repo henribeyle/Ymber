@@ -39,9 +39,6 @@ function Data(this_tag, all_tags, all_items) {
       item.tag_ui(tag)
     })
   })
-
-  self.order_from_cookie()
-  self.save_order_cookie()
 }
 
 // adding and removing items, tags and filters
@@ -173,26 +170,6 @@ Data.prototype.prev = function(item) {
   return null
 }
 
-Data.prototype.put_after = function(item1,item2) {
-  //log('want to put '+item1.value+' after '+item2.value)
-  if(item1==item2) return
-  this.rm_item(item1)
-  this.items.splice(this.item(item2)+1,0,item1)
-
-  item2.mui.after(item1.mui)
-  this.save_order_cookie()
-}
-
-Data.prototype.put_before = function(item1,item2) {
-  //log('want to put '+item1.value+' before '+item2.value)
-  if(item1==item2) return
-  this.rm_item(item1)
-  this.items.splice(this.item(item2),0,item1)
-
-  item2.mui.before(item1.mui)
-  this.save_order_cookie()
-}
-
 Data.prototype.order_from_cookie = function() {
   var self=this
   var o=cr('order')
@@ -201,7 +178,7 @@ Data.prototype.order_from_cookie = function() {
     try {
       var item=self.item_id(x)
       //log('there '+x+' '+i)
-      self.put_after(item,self.items[self.items.length-1])
+      item_move_after(item,self.items[self.items.length-1])
     } catch(e) {
       //log('here '+x+' '+i +' '+e)
     }
