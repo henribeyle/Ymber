@@ -126,6 +126,7 @@ Data.prototype.update_filter = function() {
   $.each(self.items,function(i,item) {
     self.check_filtering(item)
   })
+  self.save_filters_cookie()
 }
 
 Data.prototype.filter_status = function(item) {
@@ -172,19 +173,37 @@ Data.prototype.prev = function(item) {
 
 Data.prototype.order_from_cookie = function() {
   var self=this
-  var o=cr('order')
-  if(o==null) return
-  $.each(o.split(','),function(i,x) {
-    try {
-      var item=self.item_id(x)
-      //log('there '+x+' '+i)
-      item_move_after(item,self.items[self.items.length-1])
-    } catch(e) {
-      //log('here '+x+' '+i +' '+e)
-    }
-  })
+  var o=cr(this_tag+'_order')
+  if(o!=null)
+    $.each(o.split(','),function(i,x) {
+      try {
+        item_move_after(self.item_id(x),self.items[self.items.length-1])
+      } catch(e) {}
+    })
+  self.save_order_cookie()
 }
 
 Data.prototype.save_order_cookie = function() {
-  cs('order',$.map(this.items,function(x) { return x.id }).join(','))
+  cs(this_tag+'_order',$.map(this.items,function(x) { return x.id }).join(','))
+}
+
+Data.prototype.filters_from_cookie = function() {
+  var self=this
+  var t=cr(this_tag+'_ftype')
+  var f=cr(this_tag+'_filters')
+  if(t=='or') or_filtering()
+  if(t=='and') and_filtering()
+
+  if(f==null) return
+  $.each(f.split(','),function(i,x) {
+    try { tag_filter(self.tag_id(x)) } catch(e) {}
+  })
+}
+
+Data.prototype.save_filters_cookie = function() {
+  cs(this_tag+'_ftype',this.filter_type?'and':'or')
+  if(this.filters.length==0)
+    cd(this_tag+'_filters')
+  else
+    cs(this_tag+'_filters',$.map(this.filters,function(x) { return x.id }).join(','))
 }
