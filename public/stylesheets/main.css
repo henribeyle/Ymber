@@ -56,6 +56,15 @@ a:hover { color: #fff; background-color:#000; }
   margin-bottom: 5px;
 }
 
+.items-sortable-placeholder {
+  margin: 5px;
+  padding: 5px;
+  background-color: yellow;
+  height: 1.5em;
+  opacity: 0.5;
+}
+
+
 #items .item .value {
   font-size: 16px;
   padding-left: 5px;

@@ -236,3 +236,16 @@ function item_move_selection_up(nT,nF) {
     nF && nF()
   }
 }
+
+function item_move_before(item1,item2,nT,nF) {
+  //log(item1.value+' moved before '+item2.value)
+  _d.put_before(item1,item2)
+  nT && nT()
+}
+
+function item_move_after(item1,item2,nT,nF) {
+  //log(item1.value+' moved after '+item2.value)
+  _d.put_after(item1,item2)
+  nT && nT()
+}
+

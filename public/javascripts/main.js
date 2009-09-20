@@ -45,6 +45,34 @@ $(function() {
     }
   })
 
+  $("#items")
+    .sortable({
+    cursor: 'move',
+    opacity: 0.5,
+    placeholder: 'items-sortable-placeholder',
+    stop: function(e, ui) {
+      var prev=null
+      var oid=null
+
+      if(ui.item[0].previousElementSibling) {
+        oid=$(ui.item[0].previousElementSibling).oid()
+        prev=true
+      } else if(ui.item[0].nextElementSibling) {
+        oid=$(ui.item[0].nextElementSibling).oid()
+        prev=false
+      }
+      var myoid=$(ui.item[0]).oid()
+      var item1=_d.item_id(myoid)
+      var item2=_d.item_id(oid)
+      $(this).sortable('cancel')
+      if(prev)
+        item_move_after(item1,item2)
+      else
+        item_move_before(item1,item2)
+    }
+  }).disableSelection()
+
+
   $('#helperA').click(function() { item_show_prev() })
   $('#helperB').click(function() { item_show_next() })
   $('#helperC').click(function() { item_move_selection_up() })
