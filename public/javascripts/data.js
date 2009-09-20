@@ -143,10 +143,10 @@ Data.prototype.check_filtering = function(item) {
       item.show_mark(false)
       this.item_show=null
     }
-    item.ui.hide()
+    item.mui.hide()
   }
   else
-    item.ui.show()
+    item.mui.show()
 }
 
 Data.prototype.next = function(item) {
@@ -179,8 +179,7 @@ Data.prototype.put_after = function(item1,item2) {
   this.rm_item(item1)
   this.items.splice(this.item(item2)+1,0,item1)
 
-  item2.uie.after(item1.uie)
-  item2.uie.after(item1.ui)
+  item2.mui.after(item1.mui)
   this.save_order_cookie()
 }
 
@@ -190,8 +189,7 @@ Data.prototype.put_before = function(item1,item2) {
   this.rm_item(item1)
   this.items.splice(this.item(item2),0,item1)
 
-  item2.ui.before(item1.ui)
-  item2.ui.before(item1.uie)
+  item2.mui.before(item1.mui)
   this.save_order_cookie()
 }
 
@@ -202,10 +200,10 @@ Data.prototype.order_from_cookie = function() {
   $.each(o.split(','),function(i,x) {
     try {
       var item=self.item_id(x)
-      log('there '+x+' '+i)
+      //log('there '+x+' '+i)
       self.put_after(item,self.items[self.items.length-1])
     } catch(e) {
-      log('here '+x+' '+i +' '+e)
+      //log('here '+x+' '+i +' '+e)
     }
   })
 }

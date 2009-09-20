@@ -6,10 +6,12 @@ function Tag(value,id) {
   self.items=[]
   self.filtering=false
 
-  self.ui=$('<div>').attr('id','tag-'+self.id).addClass('tag')
+  self.mui=$('<div>').attr('id','tag-'+self.id).appendTo('#tags')
+
+  self.ui=$('<div>').addClass('tag')
   self.ui.append(span('value',self.value))
   self.ui.append(go_button().click(function() { go_to(self.value) }))
-  self.ui.appendTo('#tags')
+  self.ui.appendTo(self.mui)
 
   self.ui.fixClick(function() {
     self.filtering ? tag_unfilter(self) : tag_filter(self)
@@ -38,7 +40,7 @@ function Tag(value,id) {
   self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
   self.uie.append(delete_button().click(function() { tag_delete(self) }))
   self.uie.hide()
-  self.uie.appendTo('#tags')
+  self.uie.appendTo(self.mui)
 }
 
 Tag.prototype.add = function(item) {
@@ -93,6 +95,5 @@ Tag.prototype.filter_off = function() {
 }
 
 Tag.prototype.destroy_ui = function() {
-  this.ui.remove()
-  this.uie.remove()
+  this.mui.remove()
 }
