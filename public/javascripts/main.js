@@ -79,4 +79,8 @@ $(function() {
   $('#helperB').click(function() { item_show_next() })
   $('#helperC').click(function() { item_move_selection_up() })
   $('#helperD').click(function() { item_move_selection_down() })
+
+  $('#helperE').click(function() { $.error('This is an error') })
+  $('#helperF').click(function() { $.warning('This is a warning') })
+  $('#helperG').click(function() { $.message('This is a message') })
 })
