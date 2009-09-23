@@ -36,6 +36,8 @@ function item_delete(item,nT,nF) {
       $.each(item.tags.concat(),function(i,tag) {
         tag.rm(item)
       })
+      if(item==_d.item_show)
+        _d.item_show=null
       _d.rm_item(item)
       _d.save_order_cookie()
       item.destroy_ui()

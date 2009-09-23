@@ -26,7 +26,7 @@ function Data(this_tag, all_tags, all_items) {
   })
 
   try {
-    self.main_tag=self.tags[$.index(self.tags,this_value(this_tag))]
+    self.main_tag=self.tag_value(this_tag)
   } catch(excp) {}
 
   $.each(all_items,function(i,x) {
@@ -86,6 +86,10 @@ Data.prototype.tag = function(tag) {
 
 Data.prototype.tag_id = function(id) {
   return this.tags[$.index(this.tags,this_id(id))]
+}
+
+Data.prototype.tag_value = function(value) {
+  return this.tags[$.index(this.tags,this_value(value))]
 }
 
 Data.prototype.has_tag = function(tag) {

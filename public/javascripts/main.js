@@ -2,7 +2,6 @@ var _d=null
 
 var command=''
 function key_handler(e) {
-
   if(e.ctrlKey || e.altKey || e.metaKey || e.which == 8) {
     command=''
     return true
@@ -10,15 +9,112 @@ function key_handler(e) {
 
   var c=String.fromCharCode(e.which)
   command+=c
-  log("value :'"+c+"' = "+e.which+" command:'"+command+"'")
+  //log("value :'"+c+"' = "+e.which+" command:'"+command+"'")
   switch(command) {
+    case 'J': item_show_next() ; command='' ; break
+    case 'K': item_show_prev() ; command='' ; break
+
+    case 'H': item_move_selection_down() ; command='' ; break
+    case 'L': item_move_selection_up() ; command='' ; break
+
+    case 'NI':
+      $('#add_item_text').focus()
+      command=''
+      break
+
+    case 'NT':
+      $('#add_tag_text').focus()
+      command=''
+      break
+
     case 'E':
+      if(_d.item_show!=null)
+        _d.item_show.edit_start()
+      command=''
+      break
+
+    case 'A':
+      if(_d.item_show!=null) {
+        key_handler_off()
+        var tags=$.map(_d.tags,function(tag) {
+          return _d.item_show.has(tag) ? null : tag.value
+        })
+        $.selector('Select a tag to add',tags,function(tagv) {
+          //log(tagv?'tag:'+tagv:'none')
+          if(tagv)
+            item_add_tag(_d.item_show,_d.tag_value(tagv))
+          key_handler_on()
+        })
+      }
+      command=''
+      break
+
+    case 'R':
+      if(_d.item_show!=null) {
+        key_handler_off()
+        var tags=$.map(_d.item_show.tags,function(tag) {
+          return tag.value
+        })
+        $.selector('Select a tag to remove',tags,function(tagv) {
+          //log(tagv?'tag:'+tagv:'none')
+          if(tagv)
+            item_remove_tag(_d.item_show,_d.tag_value(tagv))
+          key_handler_on()
+        })
+      }
+      command=''
+      break
+
+    case 'TE':
       key_handler_off()
-      $.selector('Select a tag',['aaa','abc','bbb'],function(a) {
-        log(a?'message is:'+a:'escape pressed')
+      var tags=$.map(_d.tags,function(tag) {
+        return tag.value
+      })
+      $.selector('Select a tag to edit',tags,function(tagv) {
+        //log(tagv?'tag:'+tagv:'none')
+        if(tagv)
+          _d.tag_value(tagv).edit_start()
         key_handler_on()
       })
-      break;
+      command=''
+      break
+
+    case 'FT':
+      key_handler_off()
+      var tags=$.map(_d.tags,function(tag) {
+        return _d.has_filter(tag) ? null : tag.value
+      })
+      $.selector('Select a tag to filter by',tags,function(tagv) {
+        //log(tagv?'tag:'+tagv:'none')
+        if(tagv)
+          tag_filter(_d.tag_value(tagv))
+        key_handler_on()
+      })
+      command=''
+      break
+
+    case 'FR':
+      key_handler_off()
+      var tags=$.map(_d.filters,function(tag) {
+        return tag.value
+      })
+      $.selector('Select a tag to unfilter',tags,function(tagv) {
+        //log(tagv?'tag:'+tagv:'none')
+        if(tagv)
+          tag_unfilter(_d.tag_value(tagv))
+        key_handler_on()
+      })
+      command=''
+      break
+
+    case 'FO':
+      or_filtering()
+      command=''
+      break
+    case 'FA':
+      and_filtering()
+      command=''
+      break
   }
 
   setTimeout(function(){ command='' }, 300)
@@ -109,6 +205,15 @@ $(function() {
   }).disableSelection()
 
   key_handler_on()
+
+  $('textarea').focus(function() {
+    //log('a textarea has been focused')
+    key_handler_off()
+  })
+  $('textarea').blur(function() {
+    //log('a textarea has been unfocused')
+    key_handler_on()
+  })
 
   $('#helperA').click(function() { item_show_prev() })
   $('#helperB').click(function() { item_show_next() })
