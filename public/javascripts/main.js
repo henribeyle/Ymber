@@ -18,11 +18,13 @@ function key_handler(e) {
     case 'L': item_move_selection_up() ; command='' ; break
 
     case 'NI':
+      $('#add_item').show()
       $('#add_item_text').focus()
       command=''
       break
 
     case 'NT':
+      $('#add_tag').show()
       $('#add_tag_text').focus()
       command=''
       break
@@ -178,7 +180,10 @@ $(function() {
   $('#add_tag_text').quick_editor({
       name: 'add_tag_text',
       ctrlenter: add_tag_from_textarea,
-      esc: function() { $('#add_tag_text').blur() }
+      esc: function() { 
+        $('#add_tag').hide() 
+        $('#add_tag_text').blur() 
+      }
   })
   $('#add_tag').append(add_button().click(add_tag_from_textarea))
 
@@ -189,7 +194,10 @@ $(function() {
   $('#add_item_text').quick_editor({
       name: 'add_item_text',
       ctrlenter: add_item_from_textarea,
-      esc: function() { $('#add_item_text').blur() }
+      esc: function() { 
+        $('#add_item_text').blur() 
+        $('#add_item').hide()
+      }
   })
   $('#add_item').append(add_button().click(add_item_from_textarea))
 

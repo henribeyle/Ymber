@@ -67,6 +67,7 @@ a:hover { color: #fff; background-color:#000; }
   margin-bottom: 5px;
   border: 2px dotted black;
   -moz-border-radius: 10px;
+  display: none;
 }
 
 #add_item_title, #add_tag_title {
