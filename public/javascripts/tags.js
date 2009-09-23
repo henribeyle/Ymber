@@ -76,6 +76,7 @@ Tag.prototype.edit_accept = function() {
 
 Tag.prototype.edit_cancel = function() {
   //log('edit_cancel.tag:'+this.id)
+  $('textarea',this.uie).blur()
   this.uie.hide()
   this.ui.show()
 }

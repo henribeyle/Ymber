@@ -70,6 +70,7 @@ Item.prototype.edit_accept = function() {
 }
 
 Item.prototype.edit_cancel = function() {
+  $('textarea',this.uie).blur()
   this.uie.hide()
   this.ui.show()
 }
