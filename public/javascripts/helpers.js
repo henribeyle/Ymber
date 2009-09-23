@@ -8,7 +8,7 @@ function log(x)  {
 function terrible_error(request,error) {
   request.abort()
   //log('terrible error happened: '+error)
-  $.error('Error contacting server: '+error) 
+  $.error('Error contacting server: '+error)
 }
 
 function te(nF) {
@@ -31,12 +31,12 @@ function suc(nT,nF,cont) {
 
 function normal_error(error) {
   //log('normal error happened: '+error)
-  $.warning('Warning: '+error) 
+  $.warning('Warning: '+error)
 }
 
 function assert_failed(what) {
   //log('assert_failed: '+what)
-  $.warning('Assert failed: '+what) 
+  $.warning('Assert failed: '+what)
 }
 
 function catch_all(m,f,l) {

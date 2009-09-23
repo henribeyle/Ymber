@@ -1,4 +1,4 @@
-﻿(function($) {
+(function($) {
 
    var main_opts = {
       'position': 'relative',
