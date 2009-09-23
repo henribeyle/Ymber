@@ -1,5 +1,39 @@
 var _d=null
 
+var command=''
+function key_handler(e) {
+
+  if(e.ctrlKey || e.altKey || e.metaKey || e.which == 8) {
+    command=''
+    return true
+  }
+
+  var c=String.fromCharCode(e.which)
+  command+=c
+  log("value :'"+c+"' = "+e.which+" command:'"+command+"'")
+  switch(command) {
+    case 'E':
+      key_handler_off()
+      $.selector('Select a tag',['aaa','abc','bbb'],function(a) {
+        log(a?'message is:'+a:'escape pressed')
+        key_handler_on()
+      })
+      break;
+  }
+
+  setTimeout(function(){ command='' }, 300)
+  return false
+}
+
+function key_handler_on() {
+   $(document).bind('keyup', key_handler)
+}
+
+function key_handler_off() {
+   $(document).unbind('keyup', key_handler)
+}
+
+
 $(function() {
   //window.onerror=catch_all
   $.fn.extend({
@@ -74,6 +108,7 @@ $(function() {
     }
   }).disableSelection()
 
+  key_handler_on()
 
   $('#helperA').click(function() { item_show_prev() })
   $('#helperB').click(function() { item_show_next() })
