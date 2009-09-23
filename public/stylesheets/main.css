@@ -52,6 +52,47 @@ a:hover { color: #fff; background-color:#000; }
   list-style: square;
 }
 
+#items_title, #tags_title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-left: 30px;
+}
+
+#add_item, #add_tag {
+  margin-top: 10px;
+  margin-top: 10px;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 2px dotted black;
+  -moz-border-radius: 10px;
+}
+
+#add_item_title, #add_tag_title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#add_item textarea, #add_tag textarea {
+  width: 95%;
+}
+
+#items, #tags {
+  padding: 10px;
+  border: 2px dotted black;
+  -moz-border-radius: 10px;
+}
+
+#items textarea, #tags textarea {
+  width: 90%;
+}
+
+.accept, .cancel, .delete, .add {
+  float: right
+}
+
 #items .item {
   margin-bottom: 5px;
 }
@@ -127,8 +168,13 @@ a:hover { color: #fff; background-color:#000; }
   opacity: 0.5;
 }
 
+#title { 
+  height: 3em;
+}
+
 #title .main {
-  font-size:   22px;
+  padding-left: 30px;
+  font-size:   26px;
   font-weight: bold;
 }
 

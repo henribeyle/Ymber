@@ -28,15 +28,16 @@ function Item(value,id,data) {
   self.uie=$('<div>').attr('id','edit-item-'+self.id).addClass('edititem')
   self.uie.append($('<textarea>').
     attr('name','edit-item-'+self.id).
+    attr('rows','20').
     quick_editor({
       name: 'item-id-'+self.id,
       ctrlenter: function() { self.edit_accept() },
       esc: function() { self.edit_cancel() },
       ctrldel: function() { item_delete(self) }
     }))
-  self.uie.append(accept_button().click(function() { self.edit_accept() }))
-  self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
   self.uie.append(delete_button().click(function() { item_delete(self) }))
+  self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
+  self.uie.append(accept_button().click(function() { self.edit_accept() }))
   self.uie.hide()
   self.uie.appendTo(self.mui)
 }

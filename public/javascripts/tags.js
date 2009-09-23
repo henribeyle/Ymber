@@ -6,9 +6,9 @@ function Tag(value,id) {
   self.items=[]
   self.filtering=false
 
-  self.mui=$('<div>').attr('id','tag-'+self.id).appendTo('#tags')
+  self.mui=$('<span>').attr('id','tag-'+self.id).appendTo('#tags')
 
-  self.ui=$('<div>').addClass('tag')
+  self.ui=$('<span>').addClass('tag')
   self.ui.append(span('value',self.value))
   self.ui.append(go_button().click(function() { go_to(self.value) }))
   self.ui.appendTo(self.mui)
@@ -29,6 +29,7 @@ function Tag(value,id) {
   self.uie=$('<div>').attr('id','edit-tag-'+self.id).addClass('edittag')
   self.textarea=$('<textarea>').
     attr('name','edit-tag-'+self.id).
+    attr('rows',1).
     quick_editor({
       name: 'tag-id-'+self.id,
       ctrlenter: function() { self.edit_accept() },
@@ -36,9 +37,9 @@ function Tag(value,id) {
       ctrldel: function() { tag_delete(self) }
     })
   self.uie.append(self.textarea)
-  self.uie.append(accept_button().click(function() { self.edit_accept() }))
-  self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
   self.uie.append(delete_button().click(function() { tag_delete(self) }))
+  self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
+  self.uie.append(accept_button().click(function() { self.edit_accept() }))
   self.uie.hide()
   self.uie.appendTo(self.mui)
 }
