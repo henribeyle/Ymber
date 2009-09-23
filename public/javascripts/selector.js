@@ -68,6 +68,14 @@
           fire=false
           $.modal_hide()
           selected && selected(filtered[0].replace(/<\/?[^>]+>/gi, ''))
+        } else {
+          var pos=$.inArray(content, values)
+          if(pos!=-1) {
+            destroy()
+            fire=false
+            $.modal_hide()
+            selected && selected(values[pos])
+          }
         }
         return false
       }
