@@ -107,12 +107,34 @@ function key_handler(e) {
       command=''
       break
 
+    case 'FC':
+      $.each(_d.tags.concat(),function(i,tag) {
+        tag_unfilter(tag)
+      })
+      command=''
+      break
+
     case 'FO':
       or_filtering()
       command=''
       break
     case 'FA':
       and_filtering()
+      command=''
+      break
+
+    case 'GT':
+      key_handler_off()
+      var tags=$.map(_d.tags,function(tag) {
+        return tag != _d.main_tag ? tag.value : null
+      })
+      tags.push('(none)')
+      $.selector('Select a tag to go to',tags,function(tagv) {
+        //log(tagv?'tag:'+tagv:'none')
+        if(tagv)
+          go_to(tagv!='(none)' ? tagv : '/')
+        key_handler_on()
+      })
       command=''
       break
   }
