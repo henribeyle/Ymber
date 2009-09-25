@@ -192,3 +192,12 @@ jQuery.extend({
     return false
   }
 });
+
+function extract_first_line(s) {
+  return 'first: '+s
+}
+
+function html_formatted(s) {
+  return 'formatted: '+s
+}
+

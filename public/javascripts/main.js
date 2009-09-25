@@ -38,7 +38,7 @@ function key_handler(e) {
 
     case 'O':
       if(is!=null)
-        is.expanded ? item_expand(is) : item_collapse(is) 
+        is.expanded ? item_collapse(is) : item_expand(is)
       command=''
       break
 
@@ -197,9 +197,9 @@ $(function() {
   $('#add_tag_text').quick_editor({
       name: 'add_tag_text',
       ctrlenter: add_tag_from_textarea,
-      esc: function() { 
-        $('#add_tag').hide() 
-        $('#add_tag_text').blur() 
+      esc: function() {
+        $('#add_tag').hide()
+        $('#add_tag_text').blur()
       }
   })
   $('#add_tag').append(add_button().click(add_tag_from_textarea))
@@ -215,8 +215,8 @@ $(function() {
   $('#add_item_text').quick_editor({
       name: 'add_item_text',
       ctrlenter: add_item_from_textarea,
-      esc: function() { 
-        $('#add_item_text').blur() 
+      esc: function() {
+        $('#add_item_text').blur()
         $('#add_item').hide()
       }
   })

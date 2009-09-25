@@ -3,6 +3,7 @@ function Item(value,id,data) {
 
   self.expanded=false
   self.value=value
+  self.value_format=html_formatted(extract_first_line(value))
   self.id=id
   self.tags=[]
 
@@ -10,7 +11,7 @@ function Item(value,id,data) {
 
   self.ui=$('<div>').addClass('item')
   self.ui.append(show_mark().css('visibility','hidden'))
-  self.ui.append(span('value',self.value))
+  self.ui.append(span('value',self.value_format))
   self.ui.appendTo(self.mui)
   $('.value',self.ui).fixClick(function() {
     item_show(self)
@@ -86,7 +87,10 @@ Item.prototype.tag_ui = function(tag) {
 }
 
 Item.prototype.update = function(value) {
-  $('.value',this.ui).html(this.value=value)
+  this.value=value
+  var v=this.expanded ? value : extract_first_line(value)
+  this.value_format=html_formatted(v)
+  $('.value',this.ui).html(this.value_format)
 }
 
 Item.prototype.update_tag = function(tag) {
@@ -106,11 +110,11 @@ Item.prototype.show_mark = function(on) {
 }
 
 Item.prototype.collapse = function() {
-  log('item '+this.value+' collapsed')
   this.expanded=false
+  this.update(this.value)
 }
 
 Item.prototype.expand = function() {
-  log('item '+this.value+' expanded')
   this.expanded=true
+  this.update(this.value)
 }
