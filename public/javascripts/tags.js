@@ -26,9 +26,8 @@ function Tag(value,id) {
     revert: 'invalid'
   })
 
-  self.uie=$('<div>').attr('id','edit-tag-'+self.id).addClass('edittag')
+  self.uie=$('<div>')
   self.textarea=$('<textarea>').
-    attr('name','edit-tag-'+self.id).
     attr('rows',1).
     quick_editor({
       name: 'tag-id-'+self.id,

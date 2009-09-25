@@ -25,9 +25,8 @@ function Item(value,id,data) {
     }
   })
 
-  self.uie=$('<div>').attr('id','edit-item-'+self.id).addClass('edititem')
+  self.uie=$('<div>')
   self.uie.append($('<textarea>').
-    attr('name','edit-item-'+self.id).
     attr('rows','20').
     quick_editor({
       name: 'item-id-'+self.id,

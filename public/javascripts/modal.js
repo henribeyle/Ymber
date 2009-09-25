@@ -10,25 +10,9 @@
     onclose=cl
 
     $('<div>').attr('id','modal-ui-overlay').
-      attr('title','Click to close').click($.modal_hide).
-      css({
-        backgroundColor: '#000',
-        opacity: 0.35,
-        zIndex: 999,
-        border: 'none',
-        margin: 0,
-        padding: 0,
-        width: '100%',
-        height: '100%',
-        top: 0,
-        left: 0,
-        position: 'fixed'
-    }).appendTo('body')
+      attr('title','Click to close').click($.modal_hide).appendTo('body')
 
-    $('<div>').attr('id','modal-ui').css({
-      zIndex: 1000,
-      position: 'fixed'
-    }).append(modal_node.
+    $('<div>').attr('id','modal-ui').append(modal_node.
         css('left',($(window).width()-modal_node.width())/2).
         show()).
       appendTo('body')

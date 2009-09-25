@@ -89,37 +89,11 @@
     destroy()
     init()
 
-    selector_div=$('<div>').css({
-      'position': 'fixed',
-      'display': 'none',
-      'border': 'none',
-      'padding': '15px',
-      'background-color': '#000',
-      '-moz-border-radius': '10px',
-      'color': '#fff',
-      'text-align': 'center',
-      'width': '40%',
-      'top': '20%'
-    }).appendTo($('body'))
-    $('<div>').css({
-      'position': 'relative',
-      'font-size': '18px',
-      'text-align': 'right',
-      'font-weight': 'bold',
-      'top': '-10px'
-    }).html(title).appendTo(selector_div)
-    input_div=$('<div>').css({
-      'font-size': '34px',
-      'font-weight': 'bold',
-      'font-style': 'italic',
-      'padding-bottom': '10px'
-    }).appendTo(selector_div)
+    selector_div=$('<div>').attr('id','selector-ui').appendTo($('body'))
+    $('<div>').attr('id','selector-ui-title').html(title).appendTo(selector_div)
+    input_div=$('<div>').attr('id','selector-ui-input').appendTo(selector_div)
     $('<hr>').appendTo(selector_div)
-    values_div=$('<div>').css({
-      'font-size': '18px',
-      'font-weight': 'bold',
-      'padding-top': '20px'
-    }).appendTo(selector_div)
+    values_div=$('<div>').attr('id','selector-ui-values').appendTo(selector_div)
 
     change()
 
