@@ -211,6 +211,24 @@ function item_show_prev(nT,nF) {
   }
 }
 
+function item_expand(item,nT,nF) {
+  item.expand()
+  nT && nT()
+}
+
+function item_collapse(item,nT,nF) {
+  item.collapse()
+  nT && nT()
+}
+
+function item_expand_all(nT,nF) {
+  $.each(_d.items,function(i,item) { item_expand(item,nT,nF) })
+}
+
+function item_collapse_all(nT,nF) {
+  $.each(_d.items,function(i,item) { item_collapse(item,nT,nF) })
+}
+
 function item_move_selection_down(nT,nF) {
   if(_d.item_show==null) {
     nF && nF()

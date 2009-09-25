@@ -1,6 +1,7 @@
 function Item(value,id,data) {
   var self=this
 
+  self.expanded=false
   self.value=value
   self.id=id
   self.tags=[]
@@ -102,4 +103,14 @@ Item.prototype.destroy_ui = function() {
 
 Item.prototype.show_mark = function(on) {
   $('img.show',this.ui).css('visibility',on?'visible':'hidden')
+}
+
+Item.prototype.collapse = function() {
+  log('item '+this.value+' collapsed')
+  this.expanded=false
+}
+
+Item.prototype.expand = function() {
+  log('item '+this.value+' expanded')
+  this.expanded=true
 }

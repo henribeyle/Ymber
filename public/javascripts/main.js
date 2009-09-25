@@ -7,6 +7,7 @@ function key_handler(e) {
     return true
   }
 
+  var is=_d.item_show
   var c=String.fromCharCode(e.which)
   command+=c
   //log("value :'"+c+"' = "+e.which+" command:'"+command+"'")
@@ -30,21 +31,37 @@ function key_handler(e) {
       break
 
     case 'E':
-      if(_d.item_show!=null)
-        _d.item_show.edit_start()
+      if(is!=null)
+        is.edit_start()
+      command=''
+      break
+
+    case 'O':
+      if(is!=null)
+        is.expanded ? item_expand(is) : item_collapse(is) 
+      command=''
+      break
+
+    case '9':
+      item_expand_all()
+      command=''
+      break
+
+    case '0':
+      item_collapse_all()
       command=''
       break
 
     case 'A':
-      if(_d.item_show!=null) {
+      if(is!=null) {
         key_handler_off()
         var tags=$.map(_d.tags,function(tag) {
-          return _d.item_show.has(tag) ? null : tag.value
+          return is.has(tag) ? null : tag.value
         })
         $.selector('Select a tag to add',tags,function(tagv) {
           //log(tagv?'tag:'+tagv:'none')
           if(tagv)
-            item_add_tag(_d.item_show,_d.tag_value(tagv))
+            item_add_tag(is,_d.tag_value(tagv))
           key_handler_on()
         })
       }
@@ -52,15 +69,15 @@ function key_handler(e) {
       break
 
     case 'R':
-      if(_d.item_show!=null) {
+      if(is!=null) {
         key_handler_off()
-        var tags=$.map(_d.item_show.tags,function(tag) {
+        var tags=$.map(is.tags,function(tag) {
           return tag.value
         })
         $.selector('Select a tag to remove',tags,function(tagv) {
           //log(tagv?'tag:'+tagv:'none')
           if(tagv)
-            item_remove_tag(_d.item_show,_d.tag_value(tagv))
+            item_remove_tag(is,_d.tag_value(tagv))
           key_handler_on()
         })
       }
