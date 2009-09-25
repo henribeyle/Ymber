@@ -186,6 +186,10 @@ $(function() {
       }
   })
   $('#add_tag').append(add_button().click(add_tag_from_textarea))
+  $('#add_tag_button').click(function() {
+      $('#add_tag').show()
+      $('#add_tag_text').focus()
+  })
 
   function add_item_from_textarea() {
     var v=$('#add_item_text')
@@ -200,6 +204,10 @@ $(function() {
       }
   })
   $('#add_item').append(add_button().click(add_item_from_textarea))
+  $('#add_item_button').click(function() {
+      $('#add_item').show()
+      $('#add_item_text').focus()
+  })
 
   $('#title').droppable({
     accept: '.tag',
