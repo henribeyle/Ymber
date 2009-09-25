@@ -259,7 +259,7 @@ $(function() {
       else
         item_move_before(item1,item2)
     }
-  }).disableSelection()
+  })
 
   key_handler_on()
 
