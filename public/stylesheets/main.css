@@ -90,6 +90,11 @@ body {
   padding-left: 5px;
 }
 
+#items .item .value li {
+  font-size: 16px;
+  margin-left: 25px;
+}
+
 #items .item .stag { 
   font-size: 12px;
   vertical-align: super;

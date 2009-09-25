@@ -200,7 +200,9 @@ function first_line(s) {
 function formatted(s) {
   var url = /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?|www\.([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?)/g
   return s.
-    replace(/\n/,'<br/>').
-    replace(url,'<a href="$&">$&</a>')
+    replace(url,'<a href="$&">$&</a>').
+    replace(/\n\s\s+- (.*)/g,"\n<li>$1</li>").
+    replace(/\n/g,'<br/>').
+    replace(/<\/li><br\/>/g,'</li>')
 }
 
