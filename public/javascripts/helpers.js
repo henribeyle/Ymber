@@ -193,11 +193,14 @@ jQuery.extend({
   }
 });
 
-function extract_first_line(s) {
-  return 'first: '+s
+function first_line(s) {
+  return s.replace(/\n(.|\n)*/,'')
 }
 
-function html_formatted(s) {
-  return 'formatted: '+s
+function formatted(s) {
+  var url = /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?|www\.([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?)/g
+  return s.
+    replace(/\n/,'<br/>').
+    replace(url,'<a href="$&">$&</a>')
 }
 

@@ -3,7 +3,7 @@ function Item(value,id,data) {
 
   self.expanded=false
   self.value=value
-  self.value_format=html_formatted(extract_first_line(value))
+  self.value_format=formatted(first_line(value))
   self.id=id
   self.tags=[]
 
@@ -88,8 +88,8 @@ Item.prototype.tag_ui = function(tag) {
 
 Item.prototype.update = function(value) {
   this.value=value
-  var v=this.expanded ? value : extract_first_line(value)
-  this.value_format=html_formatted(v)
+  var v=this.expanded ? value : first_line(value)
+  this.value_format=formatted(v)
   $('.value',this.ui).html(this.value_format)
 }
 
