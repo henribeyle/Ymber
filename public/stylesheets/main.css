@@ -250,3 +250,13 @@ body {
   background: black no-repeat 5px 3px;
   -moz-border-radius: 10px;
 }
+
+/* datepicker */
+
+#datepicker { 
+   display: block;
+   visibility: hidden;
+   position: fixed;
+   left: 40%;
+   top: 20%;
+}

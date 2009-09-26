@@ -20,6 +20,7 @@
   <%= javascript_include_tag 'items' %>
   <%= javascript_include_tag 'data' %>
   <%= javascript_include_tag 'main' %>
+  <%= stylesheet_link_tag 'jquery-ui-1.7.1.custom' %>
   <%= stylesheet_link_tag 'main' %>
 </head>
 <body>
@@ -54,6 +55,8 @@ var all_items=<%= @items.to_json %>
 </div>
 
 <div id='log'></div>
+<input type='button' value='A' id='A'/>
+<input type="text" id="datepicker">
 
 </body>
 </html>
