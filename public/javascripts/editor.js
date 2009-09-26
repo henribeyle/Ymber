@@ -36,7 +36,7 @@
       function at_func() {
         var self=this
         if(self.value.indexOf('f@')!=-1) {
-          $.select_date(null,function(x) { 
+          $.select_date(null,function(x) {
             self.value = self.value.replace('f@', x);
             $(self).focus()
           })
@@ -48,7 +48,7 @@
         var prev=this.value.substr(0,this.selectionStart);
         var next=this.value.substr(this.selectionEnd);
         if(/(\d{2})\/(\d{2})\/(\d{4})/.test(sel)) {
-          $.select_date(sel,function(x) { 
+          $.select_date(sel,function(x) {
             self.val(prev+x+next)
             self.focus()
           })
