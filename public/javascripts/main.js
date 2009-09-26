@@ -272,24 +272,8 @@ $(function() {
     key_handler_on()
   })
 
-  $("#datepicker").datepicker({
-    dateFormat: 'dd/mm/yy',
-    firstDay: 1
+  $('#A').click(function() {
+    $.select_date('30/07/2009',function(x) { log(x) })
+    return false
   })
-  function select_date(start_date,func) {
-    var day=null
-    if(start_date) {
-      var m=/(\d{2})\/(\d{2})\/(\d{4})/.exec(start_date) 
-      day=new Date(m[3],m[2]-1,m[1])
-    } else {
-      day=new Date()
-    }
-    $('#datepicker').datepicker('setDate',day)
-    $('#datepicker').datepicker('option','onClose',func)
-    $("#datepicker").focus() 
-  }
-   $('#A').click(function() {
-      select_date('30/07/2009',function(x) { log(x) })
-      return false
-   })
 })
