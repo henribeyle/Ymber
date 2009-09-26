@@ -271,9 +271,4 @@ $(function() {
     //log('a textarea has been unfocused')
     key_handler_on()
   })
-
-  $('#A').click(function() {
-    $.select_date('30/07/2009',function(x) { log(x) })
-    return false
-  })
 })
