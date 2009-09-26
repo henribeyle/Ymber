@@ -19,6 +19,7 @@
         self.bind('keyup', 'ctrl+return',function(){ ctrlenter && ctrlenter() })
         self.bind('keyup', 'esc', function(){ esc && esc() })
         self.bind('keyup', 'ctrl+del', function(){ ctrldel && ctrldel() })
+        self.bind('keyup', '@', at_func)
       })
 
       self.blur(function(){
@@ -26,6 +27,17 @@
         self.unbind('keyup', 'esc')
         self.unbind('keyup', 'ctrl+del')
       })
+
+      function at_func() {
+        var self=this
+        if(self.value.substr('f@')!=-1) {
+          log('found')
+          $.select_date(null,function(x) { 
+            self.value = self.value.replace('f@', x);
+          })
+        }
+      }
+
       return self
     })
   }
