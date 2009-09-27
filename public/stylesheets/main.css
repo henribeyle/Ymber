@@ -260,3 +260,41 @@ body {
    left: 40%;
    top: 20%;
 }
+
+/* map */
+
+#map-parent {
+   position: fixed;
+   display: none;
+   border: 1px solid black;
+   left: 25%;
+   width: 50%;
+   height: 300px;
+   top: 20%;
+}
+
+#map { 
+   position: absolute;
+   top: 0px;
+   left: 0px;
+   bottom: 0px;
+   right: 0px;
+}
+
+.mapinfo { 
+   font-size: 0.8em;
+}
+
+.mapinfo .title {
+   width: 190px;
+}
+
+.mapinfo .coord {
+   padding-bottom: 5px;
+}
+
+.mapinfo button {
+   margin: 5px 0px 0px 10px;
+   font-size: 0.8em;
+   float: right;
+}

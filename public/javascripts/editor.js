@@ -41,17 +41,33 @@
             $(self).focus()
           })
         }
+        if(self.value.indexOf('m@')!=-1) {
+          $.map_show(function(lat,lng) {
+            if(!lat) return
+            self.value = self.value.replace('m@', '{'+lat+','+lng+'}');
+            $(self).focus()
+          })
+        }
       }
 
       function selection(e) {
         var sel=this.value.substring(this.selectionStart,this.selectionEnd)
         var prev=this.value.substr(0,this.selectionStart);
         var next=this.value.substr(this.selectionEnd);
-        if(/(\d{2})\/(\d{2})\/(\d{4})/.test(sel)) {
+        if(/\d{2}\/\d{2}\/\d{4}/.test(sel)) {
           $.select_date(sel,function(x) {
             self.val(prev+x+next)
             self.focus()
           })
+        }
+        var mp=/\{(\d+\.\d+),(\d+\.\d+)\}/
+        if(mp.test(sel)) {
+          var m=mp.exec(sel)
+          $.map_show(function(t,g) {
+            if(!t) return
+            self.val(prev+'{'+t+','+g+'}'+next)
+            self.focus()
+          },m[1],m[2])
         }
       }
 
