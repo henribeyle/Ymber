@@ -41,16 +41,20 @@
   }
 
   $.map_show = function(cl,lat,lng) {
+    try {
+      if(!GBrowserIsCompatible()) {
+        throw 1
+      }
+    } catch(e) {
+      $.error('no support for google maps at the moment')
+      return
+    }
+
     onclose=cl
     $(document).bind('keyup', 'esc', function() {
       onclose && onclose()
       $.map_hide()
     })
-
-    if(!GBrowserIsCompatible()) {
-      alert('This browser does not support google maps')
-      return
-    }
 
     mp=$('#map-parent')
     if(mp.length==0) {
