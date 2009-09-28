@@ -170,6 +170,9 @@ function key_handler_off() {
    $(document).unbind('keyup', key_handler)
 }
 
+function loadMap() {
+  //$.message('maps are loaded')
+}
 
 $(function() {
   //window.onerror=catch_all
