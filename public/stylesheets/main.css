@@ -298,3 +298,8 @@ body {
    font-size: 0.8em;
    float: right;
 }
+
+.map-popup {
+  font-weight: bold;
+  font-size: 0.8em;
+}
