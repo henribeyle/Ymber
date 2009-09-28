@@ -271,4 +271,9 @@ $(function() {
     //log('a textarea has been unfocused')
     key_handler_on()
   })
+
+  $('.map-popup').live('click',function() {
+    var m=/\{(\d+\.\d+),(\d+\.\d+)\}/.exec($(this).text())
+    $.map_show(null,m[1],m[2])
+  })
 })
