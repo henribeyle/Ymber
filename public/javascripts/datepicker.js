@@ -16,8 +16,12 @@
     } else {
       day=new Date()
     }
+    dp.css('visibility','visible')
     dp.datepicker('setDate',day)
-    dp.datepicker('option','onClose',func)
+    dp.datepicker('option','onClose',function(d) {
+      dp.css('visibility','hidden')
+      func(d)
+    })
     dp.focus()
   }
 })(jQuery)
