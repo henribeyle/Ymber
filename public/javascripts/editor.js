@@ -58,15 +58,18 @@
       }
 
       function selection(e) {
-        var sel=this.value.substring(this.selectionStart,this.selectionEnd)
-        var prev=this.value.substr(0,this.selectionStart);
-        var next=this.value.substr(this.selectionEnd);
+        var start=this.selectionStart
+        var end=this.selectionEnd
+        var sel=this.value.substring(start,end)
+        var prev=this.value.substr(0,start);
+        var next=this.value.substr(end);
         if(/\d{2}\/\d{2}\/\d{4}/.test(sel)) {
           unbind_all()
           $.select_date(sel,function(x) {
             bind_all()
             self.val(prev+x+next)
             self.focus()
+            self[0].setSelectionRange(end, end)
           })
         }
         var mp=/\{(\d+\.\d+),(\d+\.\d+)\}/
@@ -78,6 +81,7 @@
             if(!t) return
             self.val(prev+'{'+t+','+g+'}'+next)
             self.focus()
+            self[0].setSelectionRange(end, end)
           },m[1],m[2])
         }
       }
