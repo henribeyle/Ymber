@@ -208,3 +208,12 @@ function formatted(s) {
     replace(/<\/li><br\/>/g,'</li>')
 }
 
+function today() {
+  var t=new Date()
+  var d=t.getDate()
+  var m=t.getMonth()+1
+  var y=t.getFullYear()
+  return (d < 10 ? "0" + d : d ) + '/' +
+    (m < 10 ? "0" + m : m ) + '/' +
+    y
+}

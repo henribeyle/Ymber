@@ -287,3 +287,25 @@ function item_move_after(item1,item2,nT,nF) {
   _d.save_order_cookie()
   nT && nT()
 }
+
+function item_send_to_next(item,nT,nF) {
+  var tag_in=_d.tag_value('in')
+  var tag_next=_d.tag_value('next')
+  item_remove_tag(item,tag_in,function() {
+    item_add_tag(item,tag_next,function() {
+      nT && nT()
+    },nF)
+  },nF)
+}
+
+function item_send_to_waiting(item,nT,nF) {
+  var tag_in=_d.tag_value('in')
+  var tag_waiting=_d.tag_value('waiting')
+  item_update(item,'['+today()+'] '+item.value,function(){
+    item_remove_tag(item,tag_in,function() {
+      item_add_tag(item,tag_waiting,function() {
+        nT && nT()
+      },nF)
+    },nF)
+  },nF)
+}

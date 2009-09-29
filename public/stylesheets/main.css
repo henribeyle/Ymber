@@ -30,7 +30,7 @@ body {
   margin-right: 10px;
 }
 
-#add_item_button, #add_tag_button { 
+#title input {
   float: right;
   margin: 5px; 
   font-size: 12px;

@@ -193,6 +193,21 @@ $(function() {
   _d.order_from_cookie()
   _d.filters_from_cookie()
 
+  if(this_tag == 'in') {
+    $('<input>').
+      attr('type','button').
+      attr('value','to Next').
+      attr('id','send_to_next').
+      appendTo('#title').
+      click(function() { if(_d.item_show) item_send_to_next(_d.item_show) })
+    $('<input>').
+      attr('type','button').
+      attr('value','to Waiting').
+      attr('id','send_to_waiting').
+      appendTo('#title').
+      click(function() { if(_d.item_show) item_send_to_waiting(_d.item_show) })
+  }
+
   function add_tag_from_textarea() {
     var v=$('#add_tag_text')
     tag_new(v.val(),function() { v.val('').focus() })
