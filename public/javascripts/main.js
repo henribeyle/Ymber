@@ -52,6 +52,18 @@ function key_handler(e) {
       command=''
       break
 
+    case 'Y':
+      if(is!=null && _d.main_tag.value=='in')
+        item_send_to_next(is)
+      command=''
+      break
+
+    case 'W':
+      if(is!=null && _d.main_tag.value=='in')
+        item_send_to_waiting(is)
+      command=''
+      break
+
     case 'A':
       if(is!=null) {
         key_handler_off()
