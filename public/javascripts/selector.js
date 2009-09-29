@@ -1,8 +1,5 @@
 (function($) {
   var empty_input='type here ...'
-  var selector_div=null
-  var input_div=null
-  var values_div=null
   var filtered=[]
   var values=[]
   var selected=null
@@ -10,40 +7,27 @@
   var fire=true
 
   var destroy = function() {
-    if(selector_div) {
+    if($('#selector-ui').length != 0) {
       $(document).unbind('keypress', keys)
-      selector_div.remove()
-      selector_div=null
+      $('#selector-ui').remove()
     }
   }
 
-  var colored = function(color,text) {
-    return '<span style="color: '+color+';">'+text+'</span>'
-  }
-
   var change = function() {
+    var colored = function(color,text) {
+      return '<span style="color: '+color+';">'+text+'</span>'
+    }
     filtered=$.map(values,function(x,i) {
       if(content == '') return x
       var nx=x.replace(content,colored('#80F73C',content))
       if(nx!=x) return nx
       return null
     })
-    input_div.html(content=='' ? empty_input : content)
+    $('#selector-ui-input').html(content=='' ? empty_input : content)
     if(filtered.length > 0)
-      values_div.html(filtered.join(' '))
+      $('#selector-ui-values').html(filtered.join(' '))
     else
-      values_div.html(colored('#F7803C','no matches'))
-  }
-
-  var add_key = function(c) {
-    content=content+c
-    change()
-  }
-
-  var backspace = function() {
-    if(content!='')
-      content=content.substr(0,content.length-1)
-    change()
+      $('#selector-ui-values').html(colored('#F7803C','no matches'))
   }
 
   function onclose() {
@@ -52,12 +36,10 @@
   }
 
   $.modal_hide = function() {
-    if(!selector_div) return
-    selector_div.appendTo('body').hide()
+    if($('#selector-ui').length == 0) return
     $(document).unbind('mousedown mouseup keydown keypress', modal_handler)
     $('#selector-ui-overlay,#selector-ui-wrapper').remove()
     onclose()
-    selector_div=null
   }
 
   function modal_handler(e) {
@@ -67,9 +49,6 @@
   }
 
   var init = function() {
-    selector_div=null
-    input_div=null
-    values_div=null
     filtered=[]
     content=''
     fire=true
@@ -81,7 +60,9 @@
 
     if(e.which == 0) return false
     if(e.which == 8 ) {
-      backspace()
+      if(content!='')
+        content=content.substr(0,content.length-1)
+      change()
       return false
     }
     if(e.which == 13) {
@@ -102,34 +83,34 @@
       return false
     }
 
-    var c=String.fromCharCode(e.which)
-    //console.log("value :'"+c+"' = "+e.which)
-    add_key(c)
+    content=content+String.fromCharCode(e.which)
+    change()
+
     return false
   }
 
   $.selector = function(title,values2,selected2) {
     values=values2
     selected=selected2
+
     destroy()
     init()
     $.modal_hide()
 
-    selector_div=$('<div>').attr('id','selector-ui').appendTo($('body'))
+    var selector_div=$('<div>').attr('id','selector-ui')
     $('<div>').attr('id','selector-ui-title').html(title).appendTo(selector_div)
-    input_div=$('<div>').attr('id','selector-ui-input').appendTo(selector_div)
+    $('<div>').attr('id','selector-ui-input').appendTo(selector_div)
     $('<hr>').appendTo(selector_div)
-    values_div=$('<div>').attr('id','selector-ui-values').appendTo(selector_div)
-
-    change()
+    $('<div>').attr('id','selector-ui-values').appendTo(selector_div)
 
     $('<div>').attr('id','selector-ui-overlay').
       attr('title','Click to close').click($.modal_hide).appendTo('body')
 
-    $('<div>').attr('id','selector-ui-wrapper').append(selector_div.
-        css('left',($(window).width()-selector_div.width())/2).
-        show()).
-      appendTo('body')
+    $('<div>').attr('id','selector-ui-wrapper').append(selector_div).appendTo('body')
+
+    selector_div.show().css('left',($(window).width()-selector_div.width())/2)
+
+    change()
 
     $(document).bind('mousedown mouseup keydown keypress', modal_handler).
       bind('keyup', 'esc', $.modal_hide )
