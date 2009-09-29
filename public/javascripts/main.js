@@ -182,10 +182,6 @@ function key_handler_off() {
    $(document).unbind('keyup', key_handler)
 }
 
-function loadMap() {
-  //$.message('maps are loaded')
-}
-
 $(function() {
   //window.onerror=catch_all
   $.fn.extend({
@@ -200,6 +196,8 @@ $(function() {
       return this.id().replace(/^(item|tag)-/,'')
     }
   })
+
+  $.map_autoload()
 
   _d=new Data(this_tag,all_tags,all_items)
   _d.order_from_cookie()

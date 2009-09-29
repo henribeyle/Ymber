@@ -1,8 +1,25 @@
+var maps_loaded=false
+function map_finished_loading() {
+  maps_loaded=true
+}
+
 (function($) {
   var mp=null
   var map=null
   var geocoder=null
   var onclose=null
+
+  $.map_load = function() {
+    if(maps_loaded) return
+    var script = document.createElement("script")
+    script.setAttribute("src","http://maps.google.com/maps?file=api&v=2.x&key=XXX&c&async=2&callback=map_finished_loading")
+    script.setAttribute("type", "text/javascript")
+    document.documentElement.firstChild.appendChild(script)
+  }
+
+  $.map_autoload = function() {
+    setTimeout($.map_load,2000)
+  }
 
   var get_info = function(lat,lng,addr) {
     lat=lat.toFixed(4)
@@ -41,6 +58,10 @@
   }
 
   $.map_show = function(cl,lat,lng) {
+    if(!maps_loaded) {
+      $.error('no support for google maps at the moment')
+      return
+    }
     try {
       if(!GBrowserIsCompatible()) {
         throw 1
