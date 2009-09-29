@@ -25,6 +25,16 @@ function Data(this_tag, all_tags, all_items) {
     self.tags.push(t)
   })
 
+  // reordering tags (in, next and waiting first)
+  $.each(['waiting','next','in'],function(i,x) {
+    var ind=$.index(self.tags,this_value(x))
+    if(ind!=0) {
+      self.tags[0].mui.before(self.tags[ind].mui)
+      var tag=self.tags.splice(ind,1).shift()
+      self.tags.splice(0,0,tag)
+    }
+  })
+
   try {
     self.main_tag=self.tag_value(this_tag)
   } catch(excp) {}
