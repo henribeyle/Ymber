@@ -6,7 +6,7 @@ body {
 
 /* title of the page, first row */
 
-#title { 
+#title {
   height: 3em;
   font-weight: bold;
 }
@@ -32,7 +32,7 @@ body {
 
 #title input {
   float: right;
-  margin: 5px; 
+  margin: 5px;
   font-size: 12px;
 }
 
@@ -95,7 +95,7 @@ body {
   margin-left: 25px;
 }
 
-#items .item .stag { 
+#items .item .stag {
   font-size: 12px;
   vertical-align: super;
   font-weight: bold;
@@ -104,7 +104,7 @@ body {
   padding: 0px 5px 0px 5px;
 }
 
-#items .item .stag .content img { 
+#items .item .stag .content img {
   width: 16px;
 }
 
@@ -136,7 +136,7 @@ body {
   margin-bottom: 5px;
 }
 
-#tags .tag .value { 
+#tags .tag .value {
   font-size: 16px;
   padding-left: 5px;
 }
@@ -145,7 +145,7 @@ body {
   width: 16px;
 }
 
-#tags .filter { 
+#tags .filter {
   background-color: gold;
   opacity: 0.5;
 }
@@ -162,7 +162,7 @@ body {
 
 .ui-draggable-dragging { /* tags when being dragged around */
   border: 1px dashed black;
-  background-color: yellow; 
+  background-color: yellow;
   padding: 5px;
   opacity: 0.5;
 }
@@ -177,13 +177,9 @@ body {
   opacity: 0.5;
 }
 
-/* modal.js */ 
-#modal-ui {
-  z-index: 1000;
-  position: fixed;
-}
 
-#modal-ui-overlay {
+/* selector.js */
+#selector-ui-overlay {
   background-color: #000;
   opacity: 0.35;
   z-index: 999;
@@ -197,7 +193,11 @@ body {
   position: fixed
 }
 
-/* selector.js */ 
+#selector-ui-wrapper {
+  z-index: 1000;
+  position: fixed;
+}
+
 #selector-ui {
   position: fixed;
   display: none;
@@ -257,7 +257,7 @@ body {
 
 /* datepicker */
 
-#datepicker { 
+#datepicker {
    display: block;
    visibility: hidden;
    position: fixed;
@@ -280,7 +280,7 @@ body {
    top: 20%;
 }
 
-#map { 
+#map {
    position: absolute;
    top: 0px;
    left: 0px;
@@ -288,7 +288,7 @@ body {
    right: 0px;
 }
 
-.mapinfo { 
+.mapinfo {
    font-size: 0.8em;
 }
 
