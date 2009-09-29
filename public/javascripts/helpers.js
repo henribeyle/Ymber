@@ -217,3 +217,18 @@ function today() {
     (m < 10 ? "0" + m : m ) + '/' +
     y
 }
+
+var all_events=[]
+
+function save_input_events() {
+  //log('A.all_events.length='+all_events.length)
+  all_events.push($(document).data("events"))
+  //log('B.all_events.length='+all_events.length)
+  $(document).data("events",{})
+}
+
+function restore_input_events() {
+  //log('C.all_events.length='+all_events.length)
+  $(document).data("events",all_events.pop())
+  //log('D.all_events.length='+all_events.length)
+}

@@ -31,6 +31,7 @@
         unbind('mousedown mouseup keydown keypress keyup', disallow_all_others).
         unbind('keyup', 'esc', keys).
         unbind('keypress', keys)
+      restore_input_events()
 
       $('#selector-ui-overlay,#selector-ui-wrapper').remove()
 
@@ -44,18 +45,18 @@
     }
 
     var keys = function(e) {
-      if(e.ctrlKey || e.altKey || e.metaKey || e.which == 0) return false
+      if(e.ctrlKey || e.altKey || e.metaKey || e.which == 0) return
 
       if(e.which == 27) {
         close()
-        return false
+        return
       }
       if(e.which == 8 ) {
         if(content!='') {
           content=content.substr(0,content.length-1)
           change()
         }
-        return false
+        return
       }
       if(e.which == 13) {
         if(filtered.length == 1 ) {
@@ -65,13 +66,13 @@
           if(pos!=-1)
             close(values[pos])
         }
-        return false
+        return
       }
 
       content=content+String.fromCharCode(e.which)
       change()
 
-      return false
+      return
     }
 
     if($('#selector-ui').length != 0) {
@@ -104,6 +105,7 @@
 
     change()
 
+    save_input_events()
     $(document).
       bind('mousedown mouseup keydown keypress keyup', disallow_all_others).
       bind('keyup', 'esc', keys).
