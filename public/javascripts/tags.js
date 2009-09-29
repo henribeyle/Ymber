@@ -86,7 +86,8 @@ Tag.prototype.edit_cancel = function() {
 }
 
 Tag.prototype.update = function(new_value) {
-  $('.value',this.ui).html(this.value=new_value)
+  this.value=new_value
+  $('.value',this.ui).html(this.extra != '' ? this.extra : this.value)
 }
 
 Tag.prototype.filter_on = function() {
