@@ -1,11 +1,14 @@
 in:
   value: in
+  extra: "<img src='/images/in.png' title='in'/>"
 
 next:
   value: next 
+  extra: "<img src='/images/next.png' title='next'/>"
 
 waiting:
   value: waiting
+  extra: "<img src='/images/waiting.png' title='waiting'/>"
 
 # these are for testing (Yes I know this is wrong)
 t1:

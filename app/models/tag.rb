@@ -24,6 +24,6 @@ class Tag < ActiveRecord::Base
   end
 
   def to_json(options = {})
-    super(:only => [:value, :id])
+    super(:only => [:value, :extra, :id])
   end
 end

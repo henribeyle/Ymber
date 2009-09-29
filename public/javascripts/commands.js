@@ -96,7 +96,9 @@ function tag_new(value,nT,nF) {
     type: "POST",
     url: "/tags",
     data: { 'tag[value]': value },
-    success: suc(nT,nF,function(a) { _d.add_tag(new Tag(a.tag.value,a.tag.id)) }),
+    success: suc(nT,nF,function(a) { 
+      _d.add_tag(new Tag(a.tag.value,a.tag.extra,a.tag.id)) 
+    }),
     error: te(nF)
   })
 }

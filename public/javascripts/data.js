@@ -21,7 +21,7 @@ function Data(this_tag, all_tags, all_items) {
   }
 
   $.each(all_tags,function(i,x) {
-    var t=new Tag(x.tag.value,x.tag.id)
+    var t=new Tag(x.tag.value,x.tag.extra,x.tag.id)
     self.tags.push(t)
   })
 

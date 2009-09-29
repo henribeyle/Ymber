@@ -104,6 +104,10 @@ body {
   padding: 0px 5px 0px 5px;
 }
 
+#items .item .stag .content img { 
+  width: 16px;
+}
+
 #items textarea {
   width: 90%;
 }

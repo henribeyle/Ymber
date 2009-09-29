@@ -79,9 +79,10 @@ Item.prototype.edit_cancel = function() {
 
 Item.prototype.tag_ui = function(tag) {
   var self=this
+  var val=tag.extra != '' ? tag.extra: tag.value
   span('stag').
     addClass('tag-id-'+tag.id).
-    append(span('content',tag.value)).
+    append(span('content',val)).
     drag_deleter({ on_delete: function() { item_remove_tag(self,tag) } }).
     appendTo(self.ui)
 }

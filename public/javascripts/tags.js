@@ -1,7 +1,8 @@
-function Tag(value,id) {
+function Tag(value,extra,id) {
   var self=this
 
   self.value=value
+  self.extra=extra ? extra : ''
   self.id=id
   self.items=[]
   self.filtering=false
@@ -9,7 +10,10 @@ function Tag(value,id) {
   self.mui=$('<span>').attr('id','tag-'+self.id).appendTo('#tags')
 
   self.ui=$('<span>').addClass('tag')
-  self.ui.append(span('value',self.value))
+  if(self.extra == '')
+    self.ui.append(span('value',self.value))
+  else
+    self.ui.append(span('value',self.extra))
   self.ui.append(go_button().click(function() { go_to(self.value) }))
   self.ui.appendTo(self.mui)
 
