@@ -9,11 +9,17 @@ body {
 #title {
   height: 3em;
   font-weight: bold;
+  margin-bottom: 24px;
 }
 
 #title .main {
   font-size:   26px;
   padding-left: 30px;
+}
+
+#title .main img {
+  position: relative;
+  top: 16px;
 }
 
 #title #tag_filters {
@@ -28,6 +34,11 @@ body {
 #tag_filters .andor{
   margin-left: 10px;
   margin-right: 10px;
+}
+
+#tag_filters .tag_filter img {
+  position: relative;
+  top: 16px;
 }
 
 #title input {

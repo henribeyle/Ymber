@@ -11,7 +11,7 @@ function Tag(value,extra,id) {
 
   $('<span>').
     addClass('tag').
-    append(span('value',self.extra=='' ? self.value : self.extra)).
+    append(span('value',self.value_or_extra())).
     append(go_button().click(function() { go_to(self.value) })).
     appendTo(self.ui).
     fixClick(function() {
@@ -26,6 +26,10 @@ function Tag(value,extra,id) {
       cursor: 'move',
       revert: 'invalid'
     })
+}
+
+Tag.prototype.value_or_extra = function() {
+  return this.extra != '' ? this.extra : this.value
 }
 
 Tag.prototype.add = function(item) {
@@ -72,7 +76,7 @@ Tag.prototype.edit = function() {
 
 Tag.prototype.update = function(new_value) {
   this.value=new_value
-  $('.value',this.ui).html(this.extra != '' ? this.extra : this.value)
+  $('.value',this.ui).html(this.value_or_extra())
 }
 
 Tag.prototype.filter_on = function() {

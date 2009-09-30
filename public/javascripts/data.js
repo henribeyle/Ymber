@@ -123,7 +123,7 @@ Data.prototype.update_filter = function() {
   if(len > 1) span('sep','(').appendTo(tf)
 
   $.each(self.filters,function(i,x) {
-    span('tag_filter',x.value).drag_deleter({
+    span('tag_filter',x.value_or_extra()).drag_deleter({
       on_delete: function() { tag_unfilter(x) }
     }).appendTo(tf)
     if(i<len-1) {
