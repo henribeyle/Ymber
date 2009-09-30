@@ -29,7 +29,7 @@ function Data(this_tag, all_tags, all_items) {
   $.each(['waiting','next','in'],function(i,x) {
     var ind=$.index(self.tags,this_value(x))
     if(ind!=0) {
-      self.tags[0].mui.before(self.tags[ind].mui)
+      self.tags[0].ui.before(self.tags[ind].ui)
       var tag=self.tags.splice(ind,1).shift()
       self.tags.splice(0,0,tag)
     }
@@ -155,10 +155,10 @@ Data.prototype.check_filtering = function(item) {
       item.show_mark(false)
       this.item_show=null
     }
-    item.mui.hide()
+    item.ui.hide()
   }
   else
-    item.mui.show()
+    item.ui.show()
 }
 
 Data.prototype.next = function(item) {

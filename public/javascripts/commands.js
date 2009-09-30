@@ -269,7 +269,7 @@ function item_move_before(item1,item2,nT,nF) {
   _d.rm_item(item1)
   _d.items.splice(_d.item(item2),0,item1)
 
-  item2.mui.before(item1.mui)
+  item2.ui.before(item1.ui)
   _d.save_order_cookie()
   nT && nT()
 }
@@ -283,7 +283,7 @@ function item_move_after(item1,item2,nT,nF) {
   _d.rm_item(item1)
   _d.items.splice(_d.item(item2)+1,0,item1)
 
-  item2.mui.after(item1.mui)
+  item2.ui.after(item1.ui)
   _d.save_order_cookie()
   nT && nT()
 }

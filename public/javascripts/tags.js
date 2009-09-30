@@ -7,44 +7,25 @@ function Tag(value,extra,id) {
   self.items=[]
   self.filtering=false
 
-  self.mui=$('<span>').attr('id','tag-'+self.id).appendTo('#tags')
+  self.ui=$('<span>').attr('id','tag-'+self.id).appendTo('#tags')
 
-  self.ui=$('<span>').addClass('tag')
-  if(self.extra == '')
-    self.ui.append(span('value',self.value))
-  else
-    self.ui.append(span('value',self.extra))
-  self.ui.append(go_button().click(function() { go_to(self.value) }))
-  self.ui.appendTo(self.mui)
-
-  self.ui.fixClick(function() {
-    self.filtering ? tag_unfilter(self) : tag_filter(self)
-  },function() {
-    clear_selection()
-    self.edit_start()
-  })
-  self.ui.draggable({
-    opacity: 0.5,
-    helper: 'clone',
-    cursor: 'move',
-    revert: 'invalid'
-  })
-
-  self.uie=$('<div>')
-  self.textarea=$('<textarea>').
-    attr('rows',1).
-    quick_editor({
-      name: 'tag-id-'+self.id,
-      ctrlenter: function() { self.edit_accept() },
-      esc: function() { self.edit_cancel() },
-      ctrldel: function() { tag_delete(self) }
+  $('<span>').
+    addClass('tag').
+    append(span('value',self.extra=='' ? self.value : self.extra)).
+    append(go_button().click(function() { go_to(self.value) })).
+    appendTo(self.ui).
+    fixClick(function() {
+        self.filtering ? tag_unfilter(self) : tag_filter(self)
+      },function() {
+      clear_selection()
+      self.edit()
+    }).
+    draggable({
+      opacity: 0.5,
+      helper: 'clone',
+      cursor: 'move',
+      revert: 'invalid'
     })
-  self.uie.append(self.textarea)
-  self.uie.append(delete_button().click(function() { tag_delete(self) }))
-  self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
-  self.uie.append(accept_button().click(function() { self.edit_accept() }))
-  self.uie.hide()
-  self.uie.appendTo(self.mui)
 }
 
 Tag.prototype.add = function(item) {
@@ -64,25 +45,29 @@ Tag.prototype.has = function(item) {
 
 // these have to do with ui
 
-Tag.prototype.edit_start = function() {
-  //log('edit_start.tag:'+this.id)
-  this.ui.hide()
-  this.uie.show()
-  this.textarea.val(this.value).focus()
-}
-
-Tag.prototype.edit_accept = function() {
+Tag.prototype.edit = function() {
   var self=this
-  tag_update(self,self.textarea.val(),function() {
-    self.edit_cancel()
+  $.editor({
+    title: 'Edit tag',
+    text: self.value,
+    rows: 1,
+    buttons: [ {
+        img: './images/Minus_Red_Button.png',
+        title: 'delete',
+        accel: function(e) { return e.which==46 && e.ctrlKey },
+        click: function(x) { tag_delete(self) }
+      }, {
+        img: './images/Stop_Red_Button.png',
+        title: 'cancel',
+        accel: function(e) { return e.which==27 }
+      }, {
+        img: './images/Clear_Green_Button.png',
+        title: 'accept',
+        accel:  function(e) { return e.which==13 && e.ctrlKey },
+        click: function(x) { tag_update(self,x) }
+      }
+    ]
   })
-}
-
-Tag.prototype.edit_cancel = function() {
-  //log('edit_cancel.tag:'+this.id)
-  $('textarea',this.uie).blur()
-  this.uie.hide()
-  this.ui.show()
 }
 
 Tag.prototype.update = function(new_value) {
@@ -101,5 +86,5 @@ Tag.prototype.filter_off = function() {
 }
 
 Tag.prototype.destroy_ui = function() {
-  this.mui.remove()
+  this.ui.remove()
 }

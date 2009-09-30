@@ -102,7 +102,7 @@ function key_handler(e) {
       $.selector('Select a tag to edit',tags,function(tagv) {
         //log(tagv?'tag:'+tagv:'none')
         if(tagv)
-          _d.tag_value(tagv).edit_start()
+          _d.tag_value(tagv).edit()
       })
       command=''
       break

@@ -7,24 +7,26 @@ function Item(value,id,data) {
   self.id=id
   self.tags=[]
 
-  self.mui=$('<div>').attr('id','item-'+self.id).appendTo('#items')
+  self.ui=$('<div>').attr('id','item-'+self.id).appendTo('#items')
 
-  self.ui=$('<div>').addClass('item')
-  self.ui.append(show_mark().css('visibility','hidden'))
-  self.ui.append(span('value',self.value_format))
-  self.ui.appendTo(self.mui)
+  $('<div>').
+    addClass('item').
+    append(show_mark().css('visibility','hidden')).
+    append(span('value',self.value_format)).
+    appendTo(self.ui).
+    droppable({
+      accept: '.tag',
+      hoverClass: 'dropping-into-item',
+      drop: function(event, ui) {
+        item_add_tag(self,_d.tag_id($(ui.draggable).oid()))
+      }
+    })
+
   $('.value',self.ui).fixClick(function() {
     item_show(self)
   },function() {
     clear_selection()
     self.edit()
-  })
-  self.ui.droppable({
-    accept: '.tag',
-    hoverClass: 'dropping-into-item',
-    drop: function(event, ui) {
-      item_add_tag(self,_d.tag_id($(ui.draggable).oid()))
-    }
   })
 }
 
@@ -76,7 +78,7 @@ Item.prototype.tag_ui = function(tag) {
     addClass('tag-id-'+tag.id).
     append(span('content',val)).
     drag_deleter({ on_delete: function() { item_remove_tag(self,tag) } }).
-    appendTo(self.ui)
+    appendTo($('.item',self.ui))
 }
 
 Item.prototype.update = function(value) {
@@ -95,7 +97,7 @@ Item.prototype.rm_ui = function(tag) {
 }
 
 Item.prototype.destroy_ui = function() {
-  this.mui.remove()
+  this.ui.remove()
 }
 
 Item.prototype.show_mark = function(on) {
