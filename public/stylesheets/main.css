@@ -101,8 +101,16 @@ body {
   padding: 0px 5px 0px 5px;
 }
 
-#items .item .stag .content img {
-  width: 16px;
+#items .item .itag {
+  font-size: 12px;
+  vertical-align: super;
+  font-weight: bold;
+  margin-left: 5px;
+  padding: 0px 5px 0px 5px;
+}
+
+#items .item .itag .content img {
+  width: 20px;
 }
 
 #items textarea {

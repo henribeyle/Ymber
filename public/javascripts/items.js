@@ -73,7 +73,7 @@ Item.prototype.edit = function() {
 
 Item.prototype.tag_ui = function(tag) {
   var self=this
-  span('stag').
+  span(tag.extra != '' ? 'itag' : 'stag').
     addClass('tag-id-'+tag.id).
     append(span('content',tag.value_or_extra())).
     drag_deleter({ on_delete: function() { item_remove_tag(self,tag) } }).
