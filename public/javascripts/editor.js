@@ -10,51 +10,62 @@
   $.editor = function(o) {
     var opts = $.extend(defaults, o || {})
 
-    var at_func = function(e) {
-      //if(!my_event(e)) return
+    var input_handler = function(e) {
+      //log('[editor]? '+e.which)
+      if(!my_event(e)) return
+      log('[editor] '+e.which)
 
-      var ta=$('#editor-ui textarea')[0]
-      if(ta.value.indexOf('d@')!=-1) {
-//         $.select_date(null,function(x) {
-//           ta.value = ta.value.replace('d@', x);
-//           $(ta).focus()
-//         })
-      }
-      if(ta.value.indexOf('m@')!=-1) {
-//         $.map_show(function(lat,lng) {
-//           if(!lat) return
-//           ta.value = ta.value.replace('m@', '{'+lat+','+lng+'}');
-//           $(ta).focus()
-//         })
-      }
-    }
-
-    var selection=function(e) {
-      //if(!my_event(e)) return
       var ta=$('#editor-ui textarea')[0]
       var start=ta.selectionStart
       var end=ta.selectionEnd
       var sel=ta.value.substring(start,end)
-      var prev=ta.value.substr(0,start);
-      var next=ta.value.substr(end);
-      if(sel!='') log('start-end: '+start+'-'+end+" sel:'"+sel+"'")
-      if(/\d{2}\/\d{2}\/\d{4}/.test(sel)) {
-        log('date')
-//         $.select_date(sel,function(x) {
-//           $(ta).val(prev+x+next).focus()
-//           ta.setSelectionRange(end, end)
-//         })
+      var prev=ta.value.substr(0,start)
+      var next=ta.value.substr(end)
+      if(sel!='') {
+        log('start-end: '+start+'-'+end+" sel:'"+sel+"'")
+        if(/\d{2}\/\d{2}\/\d{4}/.test(sel)) {
+          log('date')
+//           $.select_date(sel,function(x) {
+//             $(ta).val(prev+x+next).focus()
+//             ta.setSelectionRange(end, end)
+//           })
+        }
+        var mp=/\{(\d+\.\d+),(\d+\.\d+)\}/
+        if(mp.test(sel)) {
+          log('map')
+          var m=mp.exec(sel)
+//           $.map_show(function(t,g) {
+//             if(!t) return
+//             $(ta).val(prev+'{'+t+','+g+'}'+next).focus()
+//             ta.setSelectionRange(end, end)
+//           },m[1],m[2])
+        }
+        return false
       }
-      var mp=/\{(\d+\.\d+),(\d+\.\d+)\}/
-      if(mp.test(sel)) {
-        log('map')
-//         var m=mp.exec(sel)
-//         $.map_show(function(t,g) {
-//           if(!t) return
-//           $(ta).val(prev+'{'+t+','+g+'}'+next).focus()
-//           ta.setSelectionRange(end, end)
-//         },m[1],m[2])
+
+      if(e.which==50 && start>=2 ) {
+        if(ta.value.charAt(start-2)=='d') {
+          log('date')
+  //         $.select_date(null,function(x) {
+  //           ta.value = ta.value.replace('d@', x);
+  //           $(ta).focus()
+  //         })
+        }
+        if(ta.value.charAt(start-2)=='m') {
+          log('map')
+  //         $.map_show(function(lat,lng) {
+  //           if(!lat) return
+  //           ta.value = ta.value.replace('m@', '{'+lat+','+lng+'}');
+  //           $(ta).focus()
+  //         })
+        }
+        return false
       }
+
+      $.each(opts.buttons,function(i,x) {
+        if(typeof x.accel == 'function' && x.accel(e))
+          close(x.click)
+      })
     }
 
     function close(func) {
@@ -63,25 +74,8 @@
         return
       }
 
-//       $(document).
-//         unbind('mouseup',selection).
-//         unbind('keyup',selection).
-//         unbind('keyup', '@', at_func).
-//         unbind('mousedown mouseup keydown keypress keyup', disallow_all_others)
-
-//       $(document).
-//         unbind('mousedown').unbind('mouseup').
-//         unbind('keyup').unbind('keydown').unbind('keypress')
-//       $(document).
-//         unbind('mousedown mouseup keydown keypress keyup', disallow_all_others).
-//         unbind('keyup', '@', at_func).
-//         unbind('keyup',selection).
-//         unbind('mouseup',selection)
-//       $.each(opts.buttons,function(i,x) {
-//         if(x.accel)
-//           $(document).unbind('keyup', x.accel)
-//       })
-      //restore_input_events()
+      $(document).unbind('keyup',input_handler).unbind('mouseup',input_handler)
+      key_handler_on()
 
       var text=$('#editor-ui textarea').val()
       $('#editor-ui-overlay,#editor-ui-wrapper').remove()
@@ -90,12 +84,6 @@
         func(text)
       if(typeof opts.close == 'function')
         opts.close(text)
-    }
-
-    function disallow_all_others(e) {
-      return $(e.target).
-        parents('#editor-ui-overlay,#editor-ui-wrapper').
-        length > 0
     }
 
     if($('#editor-ui').length != 0) {
@@ -135,21 +123,8 @@
 
     editor_div.show().css('left',($(window).width()-editor_div.width())/2)
 
-    //save_input_events()
-    $(editor_div).
-      //bind('mousedown mouseup keydown keypress keyup', disallow_all_others).
-      bind('keyup', '@', at_func).
-      bind('keyup',selection).
-      bind('mouseup',selection)
-    $.each(opts.buttons,function(i,x) {
-      if(x.accel) {
-        $(editor_div).bind('keyup', x.accel, function(e) {
-          //if(!my_event(e)) return
-          close(x.click)
-          return false
-        })
-      }
-    })
+    key_handler_off()
+    $(document).bind('keyup',input_handler).bind('mouseup',input_handler)
 
     $('#editor-ui textarea').focus()
   }

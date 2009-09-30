@@ -1,7 +1,7 @@
 function log(x)  {
   var l=$('#log').show()
   if(l.size()!=0) {
-    l.html(l.html()+"<br/>"+x)
+    l.html(x+"<br/>"+l.html())
   }
 }
 
@@ -221,16 +221,16 @@ function today() {
 var all_events=[]
 
 function save_input_events() {
-  //log('A.all_events.length='+all_events.length)
+  log('A.all_events.length='+all_events.length)
   all_events.push($(document).data("events"))
-  //log('B.all_events.length='+all_events.length)
+  log('B.all_events.length='+all_events.length)
   $(document).data("events",{})
 }
 
 function restore_input_events() {
-  //log('C.all_events.length='+all_events.length)
+  log('C.all_events.length='+all_events.length)
   $(document).data("events",all_events.pop())
-  //log('D.all_events.length='+all_events.length)
+  log('D.all_events.length='+all_events.length)
 }
 
 function my_event(e) {

@@ -2,7 +2,9 @@ var _d=null
 
 var command=''
 function key_handler(e) {
-  //if(!my_event(e)) return
+//log('[main]? '+e.which)
+  if(!my_event(e)) return
+log('[main] '+e.which)
   if(e.ctrlKey || e.altKey || e.metaKey || e.which == 8) {
     command=''
     return true
@@ -67,7 +69,7 @@ function key_handler(e) {
 
     case 'A':
       if(is!=null) {
-        key_handler_off()
+        //key_handler_off()
         var tags=$.map(_d.tags,function(tag) {
           return is.has(tag) ? null : tag.value
         })
@@ -75,7 +77,7 @@ function key_handler(e) {
           //log(tagv?'tag:'+tagv:'none')
           if(tagv)
             item_add_tag(is,_d.tag_value(tagv))
-          key_handler_on()
+          //key_handler_on()
         })
       }
       command=''
@@ -83,7 +85,7 @@ function key_handler(e) {
 
     case 'R':
       if(is!=null) {
-        key_handler_off()
+        //key_handler_off()
         var tags=$.map(is.tags,function(tag) {
           return tag.value
         })
@@ -91,14 +93,14 @@ function key_handler(e) {
           //log(tagv?'tag:'+tagv:'none')
           if(tagv)
             item_remove_tag(is,_d.tag_value(tagv))
-          key_handler_on()
+          //key_handler_on()
         })
       }
       command=''
       break
 
     case 'TE':
-      key_handler_off()
+      //key_handler_off()
       var tags=$.map(_d.tags,function(tag) {
         return tag.value
       })
@@ -106,13 +108,13 @@ function key_handler(e) {
         //log(tagv?'tag:'+tagv:'none')
         if(tagv)
           _d.tag_value(tagv).edit_start()
-        key_handler_on()
+        //key_handler_on()
       })
       command=''
       break
 
     case 'FT':
-      key_handler_off()
+      //key_handler_off()
       var tags=$.map(_d.tags,function(tag) {
         return _d.has_filter(tag) ? null : tag.value
       })
@@ -120,13 +122,13 @@ function key_handler(e) {
         //log(tagv?'tag:'+tagv:'none')
         if(tagv)
           tag_filter(_d.tag_value(tagv))
-        key_handler_on()
+        //key_handler_on()
       })
       command=''
       break
 
     case 'FR':
-      key_handler_off()
+      //key_handler_off()
       var tags=$.map(_d.filters,function(tag) {
         return tag.value
       })
@@ -134,7 +136,7 @@ function key_handler(e) {
         //log(tagv?'tag:'+tagv:'none')
         if(tagv)
           tag_unfilter(_d.tag_value(tagv))
-        key_handler_on()
+        //key_handler_on()
       })
       command=''
       break
@@ -156,7 +158,7 @@ function key_handler(e) {
       break
 
     case 'GT':
-      key_handler_off()
+      //key_handler_off()
       var tags=$.map(_d.tags,function(tag) {
         return tag != _d.main_tag ? tag.value : null
       })
@@ -165,7 +167,7 @@ function key_handler(e) {
         //log(tagv?'tag:'+tagv:'none')
         if(tagv)
           go_to(tagv!='(none)' ? tagv : '/')
-        key_handler_on()
+        //key_handler_on()
       })
       command=''
       break
@@ -292,14 +294,14 @@ $(function() {
 
   key_handler_on()
 
-  $('textarea').focus(function() {
-    //log('a textarea has been focused')
-    key_handler_off()
-  })
-  $('textarea').blur(function() {
-    //log('a textarea has been unfocused')
-    key_handler_on()
-  })
+//   $('textarea').focus(function() {
+//     //log('a textarea has been focused')
+//     key_handler_off()
+//   })
+//   $('textarea').blur(function() {
+//     //log('a textarea has been unfocused')
+//     key_handler_on()
+//   })
 
   $('.map-popup').live('click',function() {
     var m=/\{(\d+\.\d+),(\d+\.\d+)\}/.exec($(this).text())

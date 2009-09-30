@@ -47,24 +47,22 @@ Item.prototype.has = function(tag) {
 
 Item.prototype.edit = function() {
   var self=this
-log('id is '+self.id)
   $.editor({
     title: 'Edit item',
     text: self.value,
     buttons: [ {
         img: './images/Minus_Red_Button.png',
         title: 'delete',
-        accel: 'ctrl+del',
+        accel: function(e) { return e.which==46 && e.ctrlKey },
         click: function(x) { item_delete(self) }
       }, {
         img: './images/Stop_Red_Button.png',
         title: 'cancel',
-        accel: 'esc',
-        click: function(x) { log('id is '+self.id) }
+        accel: function(e) { return e.which==27 }
       }, {
         img: './images/Clear_Green_Button.png',
         title: 'accept',
-        accel: 'ctrl+return',
+        accel:  function(e) { return e.which==13 && e.ctrlKey },
         click: function(x) { item_update(self,x) }
       }
     ]
