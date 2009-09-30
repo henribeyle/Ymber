@@ -232,21 +232,6 @@ function restore_input_handler() {
   all_events[all_events.length-1].onH()
 }
 
-
-
-// function save_input_events() {
-//   log('A.all_events.length='+all_events.length)
-//   all_events.push($(document).data("events"))
-//   log('B.all_events.length='+all_events.length)
-//   $(document).data("events",{})
-// }
-//
-// function restore_input_events() {
-//   log('C.all_events.length='+all_events.length)
-//   $(document).data("events",all_events.pop())
-//   log('D.all_events.length='+all_events.length)
-// }
-
 function my_event(e) {
   var h=e.originalEvent["handled"]
   e.originalEvent["handled"]=true

@@ -13,7 +13,7 @@
     var input_handler = function(e) {
       //log('[editor]? '+e.which)
       if(!my_event(e)) return
-      log('[editor] '+e.which)
+      //log('[editor] '+e.which)
 
       var ta=$('#editor-ui textarea')[0]
       var start=ta.selectionStart
@@ -22,15 +22,15 @@
       var prev=ta.value.substr(0,start)
       var next=ta.value.substr(end)
       if(sel!='') {
-        log('start-end: '+start+'-'+end+" sel:'"+sel+"'")
-        if(/\d{2}\/\d{2}\/\d{4}/.test(sel)) {
+        //log('start-end: '+start+'-'+end+" sel:'"+sel+"'")
+        if(/^\d{2}\/\d{2}\/\d{4}$/.test(sel)) {
           log('date')
 //           $.select_date(sel,function(x) {
 //             $(ta).val(prev+x+next).focus()
 //             ta.setSelectionRange(end, end)
 //           })
         }
-        var mp=/\{(\d+\.\d+),(\d+\.\d+)\}/
+        var mp=/^\{(\d+\.\d+),(\d+\.\d+)\}$/
         if(mp.test(sel)) {
           log('map')
           var m=mp.exec(sel)
@@ -75,8 +75,6 @@
       }
 
       restore_input_handler()
-//       $(document).unbind('keyup',input_handler).unbind('mouseup',input_handler)
-//       key_handler_on()
 
       var text=$('#editor-ui textarea').val()
       $('#editor-ui-overlay,#editor-ui-wrapper').remove()
@@ -124,8 +122,6 @@
 
     editor_div.show().css('left',($(window).width()-editor_div.width())/2)
 
-    //key_handler_off()
-    //$(document).bind('keyup',input_handler).bind('mouseup',input_handler)
     save_input_handler(
       function() {
         $(document).
