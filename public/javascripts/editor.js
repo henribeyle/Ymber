@@ -74,8 +74,9 @@
         return
       }
 
-      $(document).unbind('keyup',input_handler).unbind('mouseup',input_handler)
-      key_handler_on()
+      restore_input_handler()
+//       $(document).unbind('keyup',input_handler).unbind('mouseup',input_handler)
+//       key_handler_on()
 
       var text=$('#editor-ui textarea').val()
       $('#editor-ui-overlay,#editor-ui-wrapper').remove()
@@ -123,8 +124,19 @@
 
     editor_div.show().css('left',($(window).width()-editor_div.width())/2)
 
-    key_handler_off()
-    $(document).bind('keyup',input_handler).bind('mouseup',input_handler)
+    //key_handler_off()
+    //$(document).bind('keyup',input_handler).bind('mouseup',input_handler)
+    save_input_handler(
+      function() {
+        $(document).
+          bind('keyup',input_handler).
+          bind('mouseup',input_handler) },
+      function() {
+        $(document).
+          unbind('keyup',input_handler).
+          unbind('mouseup',input_handler)
+      })
+
 
     $('#editor-ui textarea').focus()
   }

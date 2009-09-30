@@ -177,14 +177,6 @@ log('[main] '+e.which)
   return false
 }
 
-function key_handler_on() {
-   $(document).bind('keyup', key_handler)
-}
-
-function key_handler_off() {
-   $(document).unbind('keyup', key_handler)
-}
-
 $(function() {
   //window.onerror=catch_all
   $.fn.extend({
@@ -292,7 +284,12 @@ $(function() {
     }
   })
 
-  key_handler_on()
+//   key_handler_on()
+    save_input_handler(
+      function() { $(document).bind('keyup', key_handler) },
+      function() { $(document).unbind('keyup', key_handler) }
+    )
+
 
 //   $('textarea').focus(function() {
 //     //log('a textarea has been focused')
