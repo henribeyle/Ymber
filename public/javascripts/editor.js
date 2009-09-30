@@ -10,6 +10,8 @@
   $.editor = function(o) {
     var opts = $.extend(defaults, o || {})
 
+    var last_selection=''
+
     var input_handler = function(e) {
       //log('[editor]? '+e.which)
       if(!my_event(e)) return
@@ -21,8 +23,7 @@
       var sel=ta.value.substring(start,end)
       var prev=ta.value.substr(0,start)
       var next=ta.value.substr(end)
-      if(sel!='') {
-        //log('start-end: '+start+'-'+end+" sel:'"+sel+"'")
+      if(sel!='' && sel!=last_selection) {
         if($.is_date(sel)) {
           $.select_date(sel,function(x) {
             $(ta).val(prev+x+next).focus()
@@ -36,6 +37,7 @@
             ta.setSelectionRange(end, end)
           })
         }
+        last_selection=sel
         return false
       }
 
