@@ -4,10 +4,15 @@ function map_finished_loading() {
 }
 
 (function($) {
+  var map_regex=/^\{(\d+\.\d+),(\d+\.\d+)\}$/
   var mp=null
   var map=null
   var geocoder=null
   var onclose=null
+
+  $.is_map = function(m) {
+    return map_regex.test(m)
+  }
 
   $.map_load = function() {
     if(maps_loaded) return
@@ -57,7 +62,22 @@ function map_finished_loading() {
     return marker
   }
 
-  $.map_show = function(cl,lat,lng) {
+  var only_escape = function(e) {
+   if(e.which==27) {
+      onclose && onclose()
+      $.map_hide()
+    }
+  }
+
+  $.map_show = function(map_id,cl) {
+    var lat=null
+    var lng=null
+    if(map_id) {
+      var m=map_regex.exec(map_id)
+      lat=m[1]
+      lng=m[2]
+    }
+
     if(!maps_loaded) {
       $.error('no support for google maps at the moment')
       return
@@ -72,10 +92,10 @@ function map_finished_loading() {
     }
 
     onclose=cl
-    $(document).bind('keyup', 'esc', function() {
-      onclose && onclose()
-      $.map_hide()
-    })
+    save_input_handler(
+      function() { $(document).bind('keyup',only_escape) },
+      function() { $(document).unbind('keyup',only_escape) }
+    )
 
     mp=$('#map-parent')
     if(mp.length==0) {
@@ -108,6 +128,6 @@ function map_finished_loading() {
     if(mp == null) return
     mp.hide()
     mp=null
-    $(document).unbind('keyup', 'esc')
+    restore_input_handler()
   }
 })(jQuery)

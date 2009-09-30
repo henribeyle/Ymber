@@ -29,15 +29,12 @@
             ta.setSelectionRange(end, end)
           })
         }
-        var mp=/^\{(\d+\.\d+),(\d+\.\d+)\}$/
-        if(mp.test(sel)) {
-          log('map')
-          var m=mp.exec(sel)
-//           $.map_show(function(t,g) {
-//             if(!t) return
-//             $(ta).val(prev+'{'+t+','+g+'}'+next).focus()
-//             ta.setSelectionRange(end, end)
-//           },m[1],m[2])
+        if($.is_map(sel)) {
+          $.map_show(sel,function(t,g) {
+            if(!t) return
+            $(ta).val(prev+'{'+t+','+g+'}'+next).focus()
+            ta.setSelectionRange(end, end)
+          })
         }
         return false
       }
@@ -47,16 +44,14 @@
           $.select_date(null,function(x) {
             ta.value = ta.value.replace('d@', x)
             $(ta).focus()
-            ta.setSelectionRange(end+8, end+8)
           })
         }
         if(ta.value.charAt(start-2)=='m') {
-          log('map')
-  //         $.map_show(function(lat,lng) {
-  //           if(!lat) return
-  //           ta.value = ta.value.replace('m@', '{'+lat+','+lng+'}');
-  //           $(ta).focus()
-  //         })
+          $.map_show(null,function(lat,lng) {
+            if(!lat) return
+            ta.value = ta.value.replace('m@', '{'+lat+','+lng+'}');
+            $(ta).focus()
+          })
         }
         return false
       }

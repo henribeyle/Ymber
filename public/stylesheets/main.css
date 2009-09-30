@@ -286,13 +286,14 @@ body {
 /* map */
 
 #map-parent {
-   position: fixed;
-   display: none;
-   border: 1px solid black;
-   left: 25%;
-   width: 50%;
-   height: 300px;
-   top: 20%;
+  position: fixed;
+  display: none;
+  border: 1px solid black;
+  left: 25%;
+  width: 50%;
+  height: 300px;
+  top: 20%;
+  z-index: 1005;
 }
 
 #map {
