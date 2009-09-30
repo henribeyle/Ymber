@@ -55,20 +55,6 @@ body {
   display: none;
 }
 
-.add_editor .sub-sub-title {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.add_editor textarea {
-  width: 95%;
-}
-
-.add_editor .add {
-  float: right
-}
-
 /* items */
 
 #items {

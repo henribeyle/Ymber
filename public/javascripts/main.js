@@ -22,14 +22,12 @@ function key_handler(e) {
     case 'L': item_move_selection_up() ; command='' ; break
 
     case 'NI':
-      $('#add_item').show()
-      $('#add_item_text').focus()
+      add_item_helper()
       command=''
       break
 
     case 'NT':
-      $('#add_tag').show()
-      $('#add_tag_text').focus()
+      add_tag_helper()
       command=''
       break
 
@@ -165,6 +163,43 @@ function key_handler(e) {
   return false
 }
 
+function add_item_helper() {
+  $.editor({
+    title: 'Add item',
+    text: '',
+    buttons: [ {
+        img: './images/Stop_Red_Button.png',
+        title: 'cancel',
+        accel: function(e) { return e.which==27 }
+      }, {
+        img: './images/Add.png',
+        title: 'add',
+        accel:  function(e) { return e.which==13 && e.ctrlKey },
+        click: function(x) { item_new(x,_d.main_tag) }
+      }
+    ]
+  })
+}
+
+function add_tag_helper() {
+  $.editor({
+    title: 'Add tag',
+    text: '',
+    rows: 1,
+    buttons: [ {
+        img: './images/Stop_Red_Button.png',
+        title: 'cancel',
+        accel: function(e) { return e.which==27 }
+      }, {
+        img: './images/Add.png',
+        title: 'add',
+        accel:  function(e) { return e.which==13 && e.ctrlKey },
+        click: function(x) { tag_new(x) }
+      }
+    ]
+  })
+}
+
 $(function() {
   //window.onerror=catch_all
   $.fn.extend({
@@ -201,41 +236,8 @@ $(function() {
       click(function() { if(_d.item_show) item_send_to_waiting(_d.item_show) })
   }
 
-  function add_tag_from_textarea() {
-    var v=$('#add_tag_text')
-    tag_new(v.val(),function() { v.val('').focus() })
-  }
-  $('#add_tag_text').quick_editor({
-      name: 'add_tag_text',
-      ctrlenter: add_tag_from_textarea,
-      esc: function() {
-        $('#add_tag').hide()
-        $('#add_tag_text').blur()
-      }
-  })
-  $('#add_tag').append(add_button().click(add_tag_from_textarea))
-  $('#add_tag_button').click(function() {
-      $('#add_tag').show()
-      $('#add_tag_text').focus()
-  })
-
-  function add_item_from_textarea() {
-    var v=$('#add_item_text')
-    item_new(v.val(),_d.main_tag,function() { v.val('').focus() })
-  }
-  $('#add_item_text').quick_editor({
-      name: 'add_item_text',
-      ctrlenter: add_item_from_textarea,
-      esc: function() {
-        $('#add_item_text').blur()
-        $('#add_item').hide()
-      }
-  })
-  $('#add_item').append(add_button().click(add_item_from_textarea))
-  $('#add_item_button').click(function() {
-      $('#add_item').show()
-      $('#add_item_text').focus()
-  })
+  $('#add_item_button').click(add_item_helper)
+  $('#add_tag_button').click(add_tag_helper)
 
   $('#title').droppable({
     accept: '.tag',
@@ -272,13 +274,13 @@ $(function() {
     }
   })
 
-  save_input_handler(
-    function() { $(document).bind('keyup', key_handler) },
-    function() { $(document).unbind('keyup', key_handler) }
-  )
-
   $('.map-popup').live('click',function() {
     var m=/\{(\d+\.\d+),(\d+\.\d+)\}/.exec($(this).text())
     $.map_show(null,m[1],m[2])
   })
+
+  save_input_handler(
+    function() { $(document).bind('keyup', key_handler) },
+    function() { $(document).unbind('keyup', key_handler) }
+  )
 })
