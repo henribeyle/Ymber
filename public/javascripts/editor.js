@@ -1,92 +1,144 @@
 (function($) {
-  var defaults = {
-    name: 'none',
-    ctrlenter: null,
-    esc: null,
-    ctrldel: null
+  var defaults={
+    rows: 20,
+    text: '',
+    title: 'none',
+    close: null,
+    buttons: []
   }
 
-  $.fn.quick_editor = function(o) {
-    o = $.extend(defaults, o || {});
-    return this.each(function() {
-      var self=$(this)
-      var name=o.name
-      var ctrlenter=o.ctrlenter
-      var esc=o.esc
-      var ctrldel=o.ctrldel
+  $.editor = function(o) {
+    var opts = $.extend(defaults, o || {})
 
-      self.focus(function(){ bind_all() })
-      self.blur(function(){ unbind_all() })
+    var esc = function(e) {
+      if(!my_event(e)) return
+      // log("[editor] handling type: "+e.type+" key: "+e.which)
 
-      function bind_all() {
-        self.bind('keyup', 'ctrl+return',function(){ ctrlenter && ctrlenter() })
-        self.bind('keyup', 'esc', function(){ esc && esc() })
-        self.bind('keyup', 'ctrl+del', function(){ ctrldel && ctrldel() })
-        self.bind('keyup', '@', at_func)
-        self.keyup(selection)
-        self.mouseup(selection)
+      if(e.which == 27)
+        close()
+    }
+
+    var at_func = function(e) {
+      if(!my_event(e)) return
+
+      var ta=$('#editor-ui textarea')[0]
+      if(ta.value.indexOf('d@')!=-1) {
+//         $.select_date(null,function(x) {
+//           ta.value = ta.value.replace('d@', x);
+//           $(ta).focus()
+//         })
+      }
+      if(ta.value.indexOf('m@')!=-1) {
+//         $.map_show(function(lat,lng) {
+//           if(!lat) return
+//           ta.value = ta.value.replace('m@', '{'+lat+','+lng+'}');
+//           $(ta).focus()
+//         })
+      }
+    }
+
+    var selection=function(e) {
+      if(!my_event(e)) return
+      var ta=$('#editor-ui textarea')[0]
+      var start=ta.selectionStart
+      var end=ta.selectionEnd
+      var sel=ta.value.substring(start,end)
+      var prev=ta.value.substr(0,start);
+      var next=ta.value.substr(end);
+      if(sel!='') log('start-end: '+start+'-'+end+" sel:'"+sel+"'")
+      if(/\d{2}\/\d{2}\/\d{4}/.test(sel)) {
+        log('date')
+//         $.select_date(sel,function(x) {
+//           $(ta).val(prev+x+next).focus()
+//           ta.setSelectionRange(end, end)
+//         })
+      }
+      var mp=/\{(\d+\.\d+),(\d+\.\d+)\}/
+      if(mp.test(sel)) {
+        log('map')
+//         var m=mp.exec(sel)
+//         $.map_show(function(t,g) {
+//           if(!t) return
+//           $(ta).val(prev+'{'+t+','+g+'}'+next).focus()
+//           ta.setSelectionRange(end, end)
+//         },m[1],m[2])
+      }
+    }
+
+    function close(func) {
+      if($('#editor-ui').length == 0) {
+        $.error('editor is not opened')
+        return
       }
 
-      function unbind_all() {
-        self.unbind('keyup', 'ctrl+return')
-        self.unbind('keyup', 'esc')
-        self.unbind('keyup', 'ctrl+del')
-        self.unbind('keyup', '@')
-        self.unbind('keyup', selection)
-        self.unbind('mouseup', selection)
-      }
+      restore_input_events()
+      $(document).
+        unbind('mousedown mouseup keydown keypress keyup', disallow_all_others).
+        unbind('keyup', 'esc', esc).
+        unbind('keyup', '@', at_func).
+        unbind('keyup',selection).
+        unbind('mouseup',selection)
 
-      function at_func() {
-        var self=this
-        if(self.value.indexOf('f@')!=-1) {
-          unbind_all()
-          $.select_date(null,function(x) {
-            bind_all()
-            self.value = self.value.replace('f@', x);
-            $(self).focus()
-          })
-        }
-        if(self.value.indexOf('m@')!=-1) {
-          unbind_all()
-          $.map_show(function(lat,lng) {
-            bind_all()
-            if(!lat) return
-            self.value = self.value.replace('m@', '{'+lat+','+lng+'}');
-            $(self).focus()
-          })
-        }
-      }
+      var text=$('#editor-ui textarea').val()
+      $('#editor-ui-overlay,#editor-ui-wrapper').remove()
 
-      function selection(e) {
-        var start=this.selectionStart
-        var end=this.selectionEnd
-        var sel=this.value.substring(start,end)
-        var prev=this.value.substr(0,start);
-        var next=this.value.substr(end);
-        if(/\d{2}\/\d{2}\/\d{4}/.test(sel)) {
-          unbind_all()
-          $.select_date(sel,function(x) {
-            bind_all()
-            self.val(prev+x+next)
-            self.focus()
-            self[0].setSelectionRange(end, end)
-          })
-        }
-        var mp=/\{(\d+\.\d+),(\d+\.\d+)\}/
-        if(mp.test(sel)) {
-          var m=mp.exec(sel)
-          unbind_all()
-          $.map_show(function(t,g) {
-            bind_all()
-            if(!t) return
-            self.val(prev+'{'+t+','+g+'}'+next)
-            self.focus()
-            self[0].setSelectionRange(end, end)
-          },m[1],m[2])
-        }
-      }
+      if(typeof func == 'function')
+        func(text)
+      if(typeof opts.close == 'function')
+        opts.close(text)
+    }
 
-      return self
+    function disallow_all_others(e) {
+      return $(e.target).
+        parents('#editor-ui-overlay,#editor-ui-wrapper').
+        length > 0
+    }
+
+    if($('#editor-ui').length != 0) {
+      $.error('cant have more than one editor')
+      return
+    }
+
+    $('<div>').
+      attr('id','editor-ui-overlay').
+      attr('title','Click to close').
+      click(close).
+      appendTo('body')
+
+    var editor_div=$('<div>').
+      attr('id','editor-ui').
+      append($('<div>').attr('id','editor-ui-title').html(opts.title)).
+      append($('<textarea spellcheck="false">').
+        attr('rows',opts.rows).
+        val(opts.text))
+
+    var button_row=$('<div>').addClass('button-row').appendTo(editor_div)
+
+    $.each(opts.buttons,function(i,x) {
+      button_row.append($('<img>').
+          attr('src',x.img).
+          attr('title',x.title).
+          addClass('button').
+          click(function() {
+            close(x.click)
+          }))
     })
+
+    $('<div>').
+      attr('id','editor-ui-wrapper').
+      append(editor_div).
+      appendTo('body')
+
+    editor_div.show().css('left',($(window).width()-editor_div.width())/2)
+
+    save_input_events()
+    $(document).
+      bind('mousedown mouseup keydown keypress keyup', disallow_all_others).
+      bind('keyup', 'esc', esc).
+      bind('keyup', '@', at_func).
+      bind('keyup',selection).
+      bind('mouseup',selection)
+
+    $('#editor-ui textarea').focus()
   }
-})(jQuery);
+})(jQuery)
