@@ -1,13 +1,10 @@
 (function($) {
   $.select_date = function(start_date,func) {
-    var dp=$("#datepicker")
-    if(dp.length==0) {
-      dp=$('<input>').attr('type','text').attr('id','datepicker').appendTo('body')
-      dp.datepicker({
-        dateFormat: 'dd/mm/yy',
-        firstDay: 1
-      })
-    }
+    var dp=$('<input>').attr('type','text').attr('id','datepicker').appendTo($('body'))
+    dp.datepicker({
+      dateFormat: 'dd/mm/yy',
+      firstDay: 1
+    })
 
     var day=null
     if(start_date) {
@@ -19,7 +16,7 @@
     dp.css('visibility','visible')
     dp.datepicker('setDate',day)
     dp.datepicker('option','onClose',function(d) {
-      dp.css('visibility','hidden')
+      dp.remove()
       func(d)
     })
     dp.focus()

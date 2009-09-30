@@ -24,11 +24,10 @@
       if(sel!='') {
         //log('start-end: '+start+'-'+end+" sel:'"+sel+"'")
         if(/^\d{2}\/\d{2}\/\d{4}$/.test(sel)) {
-          log('date')
-//           $.select_date(sel,function(x) {
-//             $(ta).val(prev+x+next).focus()
-//             ta.setSelectionRange(end, end)
-//           })
+          $.select_date(sel,function(x) {
+            $(ta).val(prev+x+next).focus()
+            ta.setSelectionRange(end, end)
+          })
         }
         var mp=/^\{(\d+\.\d+),(\d+\.\d+)\}$/
         if(mp.test(sel)) {
@@ -45,11 +44,11 @@
 
       if(e.which==50 && start>=2 ) {
         if(ta.value.charAt(start-2)=='d') {
-          log('date')
-  //         $.select_date(null,function(x) {
-  //           ta.value = ta.value.replace('d@', x);
-  //           $(ta).focus()
-  //         })
+          $.select_date(null,function(x) {
+            ta.value = ta.value.replace('d@', x)
+            $(ta).focus()
+            ta.setSelectionRange(end+8, end+8)
+          })
         }
         if(ta.value.charAt(start-2)=='m') {
           log('map')
