@@ -123,16 +123,9 @@
     editor_div.show().css('left',($(window).width()-editor_div.width())/2)
 
     save_input_handler(
-      function() {
-        $(document).
-          bind('keyup',input_handler).
-          bind('mouseup',input_handler) },
-      function() {
-        $(document).
-          unbind('keyup',input_handler).
-          unbind('mouseup',input_handler)
-      })
-
+      function() { $(document).bind('keyup mouseup',input_handler) },
+      function() { $(document).unbind('keyup mouseup',input_handler) }
+    )
 
     $('#editor-ui textarea').focus()
   }
