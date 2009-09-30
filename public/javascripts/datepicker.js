@@ -1,4 +1,10 @@
 (function($) {
+  var date_regex=/^(\d{2})\/(\d{2})\/(\d{4})$/
+
+  $.is_date = function(d) {
+    return date_regex.test(d)
+  }
+
   $.select_date = function(start_date,func) {
     var dp=$('<input>').attr('type','text').attr('id','datepicker').appendTo($('body'))
     dp.datepicker({
@@ -6,12 +12,10 @@
       firstDay: 1
     })
 
-    var day=null
+    var day=new Date()
     if(start_date) {
-      var m=/(\d{2})\/(\d{2})\/(\d{4})/.exec(start_date)
+      var m=date_regex.exec(start_date)
       day=new Date(m[3],m[2]-1,m[1])
-    } else {
-      day=new Date()
     }
     dp.css('visibility','visible')
     dp.datepicker('setDate',day)

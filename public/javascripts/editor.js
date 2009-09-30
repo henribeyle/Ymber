@@ -23,7 +23,7 @@
       var next=ta.value.substr(end)
       if(sel!='') {
         //log('start-end: '+start+'-'+end+" sel:'"+sel+"'")
-        if(/^\d{2}\/\d{2}\/\d{4}$/.test(sel)) {
+        if($.is_date(sel)) {
           $.select_date(sel,function(x) {
             $(ta).val(prev+x+next).focus()
             ta.setSelectionRange(end, end)
