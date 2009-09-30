@@ -80,34 +80,6 @@ function show_mark() {
     addClass('show')
 }
 
-function add_button() {
-  return $('<img>').
-    attr('src','/images/Add.png').
-    attr('title','add').
-    addClass('add')
-}
-
-function delete_button() {
-  return $('<img>').
-    attr('src','/images/Minus_Red_Button.png').
-    attr('title','delete').
-    addClass('delete')
-}
-
-function accept_button() {
-  return $('<img>').
-    attr('src','/images/Clear_Green_Button.png').
-    attr('title','add').
-    addClass('accept')
-}
-
-function cancel_button() {
-  return $('<img>').
-    attr('src','/images/Stop_Red_Button.png').
-    attr('title','cancel').
-    addClass('cancel')
-}
-
 function go_button() {
   return $('<img>').
     attr('src','/images/Transfer.png').
