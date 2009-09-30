@@ -232,3 +232,9 @@ function restore_input_events() {
   $(document).data("events",all_events.pop())
   //log('D.all_events.length='+all_events.length)
 }
+
+function my_event(e) {
+  var h=e.originalEvent["handled"]
+  e.originalEvent["handled"]=true
+  return h!==true
+}

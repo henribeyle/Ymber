@@ -17,7 +17,7 @@ function Item(value,id,data) {
     item_show(self)
   },function() {
     clear_selection()
-    self.edit_start()
+    self.edit()
   })
   self.ui.droppable({
     accept: '.tag',
@@ -26,21 +26,6 @@ function Item(value,id,data) {
       item_add_tag(self,_d.tag_id($(ui.draggable).oid()))
     }
   })
-
-  self.uie=$('<div>')
-  self.uie.append($('<textarea>').
-    attr('rows','20').
-    quick_editor({
-      name: 'item-id-'+self.id,
-      ctrlenter: function() { self.edit_accept() },
-      esc: function() { self.edit_cancel() },
-      ctrldel: function() { item_delete(self) }
-    }))
-  self.uie.append(delete_button().click(function() { item_delete(self) }))
-  self.uie.append(cancel_button().click(function() { self.edit_cancel() }))
-  self.uie.append(accept_button().click(function() { self.edit_accept() }))
-  self.uie.hide()
-  self.uie.appendTo(self.mui)
 }
 
 Item.prototype.add_tag = function(tag) {
@@ -60,21 +45,25 @@ Item.prototype.has = function(tag) {
 
 // these have to do with ui
 
-Item.prototype.edit_start = function() {
-  this.ui.hide()
-  this.uie.show()
-  $('textarea',this.uie).val(this.value).focus()
-}
-
-Item.prototype.edit_accept = function() {
+Item.prototype.edit = function() {
   var self=this
-  item_update(self,$('textarea',self.uie).val(),function() { self.edit_cancel() })
-}
-
-Item.prototype.edit_cancel = function() {
-  $('textarea',this.uie).blur()
-  this.uie.hide()
-  this.ui.show()
+  $.editor({
+    title: 'Edit item',
+    text: self.value,
+    buttons: [ {
+        img: './images/Minus_Red_Button.png',
+        title: 'delete',
+        click: function(x) { item_delete(self) }
+      }, {
+        img: './images/Stop_Red_Button.png',
+        title: 'cancel'
+      }, {
+        img: './images/Clear_Green_Button.png',
+        title: 'accept',
+        click: function(x) { item_update(self,x) }
+      }
+    ]
+  })
 }
 
 Item.prototype.tag_ui = function(tag) {

@@ -32,7 +32,7 @@ function key_handler(e) {
 
     case 'E':
       if(is!=null)
-        is.edit_start()
+        is.edit()
       command=''
       break
 
