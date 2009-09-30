@@ -27,12 +27,7 @@
         return
       }
 
-      $(document).
-        unbind('mousedown mouseup keydown keypress keyup', disallow_all_others).
-        unbind('keyup', 'esc', keys).
-        unbind('keypress', keys)
-      restore_input_events()
-
+      restore_input_handler()
       $('#selector-ui-overlay,#selector-ui-wrapper').remove()
 
       selected && selected(val)
@@ -47,10 +42,11 @@
     var keys = function(e) {
       if(e.ctrlKey || e.altKey || e.metaKey || e.which == 0) return
 
-      if(e.which == 27) {
+      if(e.which == 27)
         close()
+      if(e.type == 'keyup')
         return
-      }
+
       if(e.which == 8 ) {
         if(content!='') {
           content=content.substr(0,content.length-1)
@@ -103,10 +99,9 @@
 
     change()
 
-    save_input_events()
-    $(document).
-      bind('mousedown mouseup keydown keypress keyup', disallow_all_others).
-      bind('keyup', 'esc', keys).
-      bind('keypress', keys)
+    save_input_handler(
+      function() { $(document).bind('keyup keypress',keys) },
+      function() { $(document).unbind('keyup keypress',keys) }
+    )
   }
 })(jQuery)
