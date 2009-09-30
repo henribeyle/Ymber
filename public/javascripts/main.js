@@ -2,7 +2,7 @@ var _d=null
 
 var command=''
 function key_handler(e) {
-  if(!my_event(e)) return
+  //if(!my_event(e)) return
   if(e.ctrlKey || e.altKey || e.metaKey || e.which == 8) {
     command=''
     return true

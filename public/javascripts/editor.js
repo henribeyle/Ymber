@@ -10,16 +10,8 @@
   $.editor = function(o) {
     var opts = $.extend(defaults, o || {})
 
-    var esc = function(e) {
-      if(!my_event(e)) return
-      // log("[editor] handling type: "+e.type+" key: "+e.which)
-
-      if(e.which == 27)
-        close()
-    }
-
     var at_func = function(e) {
-      if(!my_event(e)) return
+      //if(!my_event(e)) return
 
       var ta=$('#editor-ui textarea')[0]
       if(ta.value.indexOf('d@')!=-1) {
@@ -38,7 +30,7 @@
     }
 
     var selection=function(e) {
-      if(!my_event(e)) return
+      //if(!my_event(e)) return
       var ta=$('#editor-ui textarea')[0]
       var start=ta.selectionStart
       var end=ta.selectionEnd
@@ -71,13 +63,25 @@
         return
       }
 
-      restore_input_events()
-      $(document).
-        unbind('mousedown mouseup keydown keypress keyup', disallow_all_others).
-        unbind('keyup', 'esc', esc).
-        unbind('keyup', '@', at_func).
-        unbind('keyup',selection).
-        unbind('mouseup',selection)
+//       $(document).
+//         unbind('mouseup',selection).
+//         unbind('keyup',selection).
+//         unbind('keyup', '@', at_func).
+//         unbind('mousedown mouseup keydown keypress keyup', disallow_all_others)
+
+//       $(document).
+//         unbind('mousedown').unbind('mouseup').
+//         unbind('keyup').unbind('keydown').unbind('keypress')
+//       $(document).
+//         unbind('mousedown mouseup keydown keypress keyup', disallow_all_others).
+//         unbind('keyup', '@', at_func).
+//         unbind('keyup',selection).
+//         unbind('mouseup',selection)
+//       $.each(opts.buttons,function(i,x) {
+//         if(x.accel)
+//           $(document).unbind('keyup', x.accel)
+//       })
+      //restore_input_events()
 
       var text=$('#editor-ui textarea').val()
       $('#editor-ui-overlay,#editor-ui-wrapper').remove()
@@ -131,13 +135,21 @@
 
     editor_div.show().css('left',($(window).width()-editor_div.width())/2)
 
-    save_input_events()
-    $(document).
-      bind('mousedown mouseup keydown keypress keyup', disallow_all_others).
-      bind('keyup', 'esc', esc).
+    //save_input_events()
+    $(editor_div).
+      //bind('mousedown mouseup keydown keypress keyup', disallow_all_others).
       bind('keyup', '@', at_func).
       bind('keyup',selection).
       bind('mouseup',selection)
+    $.each(opts.buttons,function(i,x) {
+      if(x.accel) {
+        $(editor_div).bind('keyup', x.accel, function(e) {
+          //if(!my_event(e)) return
+          close(x.click)
+          return false
+        })
+      }
+    })
 
     $('#editor-ui textarea').focus()
   }
