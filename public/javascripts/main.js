@@ -215,8 +215,6 @@ $(function() {
     }
   })
 
-  $.map_autoload()
-
   _d=new Data(this_tag,all_tags,all_items)
   _d.order_from_cookie()
   _d.filters_from_cookie()

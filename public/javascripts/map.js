@@ -1,6 +1,8 @@
 var maps_loaded=false
+var what=null
 function map_finished_loading() {
   maps_loaded=true
+  what && what()
 }
 
 (function($) {
@@ -32,7 +34,7 @@ function map_finished_loading() {
     var info = $("<div>").addClass('mapinfo')
     $('<div>').addClass('title').html(addr).appendTo(info)
     $('<div>').addClass('coord').
-      html('['+lat+', '+lng+']').appendTo(info)
+      html('{'+lat+', '+lng+'}').appendTo(info)
     $('<button>').html('use this').click(function() {
       map.closeInfoWindow()
       $.map_hide()
@@ -70,6 +72,16 @@ function map_finished_loading() {
   }
 
   $.map_show = function(map_id,cl) {
+    var mid=map_id
+    var clo=cl
+    what=function() { $.map_real_show(mid,clo) }
+    if(maps_loaded)
+      what()
+    else
+      $.map_load()
+  }
+
+  $.map_real_show = function(map_id,cl) {
     var lat=null
     var lng=null
     if(map_id) {
