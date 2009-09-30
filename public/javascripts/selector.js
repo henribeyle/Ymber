@@ -23,7 +23,7 @@
 
     function close(val) {
       if($('#selector-ui').length == 0) {
-        $.error('modal hide on no elements')
+        $.error('no selector found')
         return
       }
 
@@ -71,8 +71,6 @@
 
       content=content+String.fromCharCode(e.which)
       change()
-
-      return
     }
 
     if($('#selector-ui').length != 0) {
