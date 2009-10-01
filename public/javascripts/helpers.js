@@ -153,7 +153,7 @@ jQuery.extend({
 });
 
 function first_line(s) {
-  return s.replace(/\n(.|\n)*/,'')
+  return s.replace(/\n(.|\n)*/,' ...')
 }
 
 function formatted(s) {
