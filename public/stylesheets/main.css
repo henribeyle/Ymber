@@ -80,6 +80,9 @@ body {
 
 #items .item .show {
   width: 16px;
+  position: relative;
+  left: -5px;
+  top: 5px;
 }
 
 #items .item .value {
@@ -94,19 +97,18 @@ body {
 
 #items .item .stag {
   font-size: 12px;
-  vertical-align: super;
+  /*vertical-align: super;*/
   font-weight: bold;
   border: 1px dashed black;
-  margin-left: 5px;
-  padding: 0px 5px 0px 5px;
+  padding: 0px 10px 0px 10px;
 }
 
 #items .item .itag {
   font-size: 12px;
-  vertical-align: super;
+  /*vertical-align: super;*/
   font-weight: bold;
-  margin-left: 5px;
-  padding: 0px 5px 0px 5px;
+  /*margin-left: 5px;*/
+  padding: 0px 10px 0px 10px;
 }
 
 #items .item .itag .content img {

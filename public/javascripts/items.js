@@ -77,7 +77,7 @@ Item.prototype.tag_ui = function(tag) {
     addClass('tag-id-'+tag.id).
     append(span('content',tag.value_or_extra())).
     drag_deleter({ on_delete: function() { item_remove_tag(self,tag) } }).
-    appendTo($('.item',self.ui))
+    insertBefore($('.value',self.ui))
 }
 
 Item.prototype.update = function(value) {
