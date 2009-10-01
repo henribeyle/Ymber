@@ -107,28 +107,4 @@ public
       render :json => { :status => 'error', :error => @item.errors.full_messages[0] }
     end
   end
-
-  def split
-    begin
-      @item = Item.find(params[:id])
-    rescue ActiveRecord::RecordNotFound => e
-      render :json => { :status => 'error', :error => e.to_s }
-      return
-    end
-
-    items=[]
-    (params[:value]||[]).each do |x|
-      ei = @item.clone
-      ei.value=x
-      ei.tags=@item.tags
-      if !ei.save then
-        render :json => { :status => 'error', :error => ei.errors.full_messages[0] }
-        return 
-      end
-      items << ei 
-    end
-
-    @item.destroy
-    render :json => items
-  end
 end
