@@ -70,19 +70,22 @@ body {
 
 #items {
   padding: 10px;
-  border: 2px dotted black;
-  -moz-border-radius: 10px;
+  /* border: 2px dotted black;
+  -moz-border-radius: 10px; */
 }
 
 #items .item {
+  -moz-border-radius: 10px;
+  background-color: gold;
+  padding: 5px;
   margin-bottom: 5px;
 }
 
 #items .item .show {
   width: 16px;
   position: relative;
-  left: -5px;
-  top: 5px;
+  left: -3px;
+  top: 1px;
 }
 
 #items .item .value {
@@ -97,7 +100,7 @@ body {
 
 #items .item .stag {
   font-size: 12px;
-  /*vertical-align: super;*/
+  vertical-align: 20%;
   font-weight: bold;
   border: 1px dashed black;
   padding: 0px 10px 0px 10px;
@@ -105,9 +108,7 @@ body {
 
 #items .item .itag {
   font-size: 12px;
-  /*vertical-align: super;*/
   font-weight: bold;
-  /*margin-left: 5px;*/
   padding: 0px 10px 0px 10px;
 }
 
