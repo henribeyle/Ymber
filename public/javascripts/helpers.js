@@ -162,7 +162,7 @@ function formatted(s) {
     replace(url,'<a href="$&">$&</a>').
     replace(/href="www/,'href="http://www').
     replace(/\{\d+\.\d+,\d+\.\d+\}/,'<span class="map-popup">$&</span>').
-    replace(/\n\s\s+- (.*)/g,"\n<li>$1</li>").
+    replace(/\n\s-\s(.*)/g,"\n<li>$1</li>").
     replace(/\n/g,'<br/>').
     replace(/<\/li><br\/>/g,'</li>')
 }
