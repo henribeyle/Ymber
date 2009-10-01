@@ -21,6 +21,7 @@
     if(calp.length==0) {
       calp=$('<div>').attr('id','calendar-parent').appendTo('body')
       var src="http://www.google.com/calendar/XXX"
+
       $('<iframe>').
         attr('id','calendar').
         attr('src',src).
