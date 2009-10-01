@@ -157,6 +157,11 @@ function key_handler(e) {
       })
       command=''
       break
+
+    case 'C':
+      $.calendar_show()
+      command=''
+      break
   }
 
   setTimeout(function(){ command='' }, 300)

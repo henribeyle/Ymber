@@ -384,3 +384,22 @@ body {
   float: right;
   width: 32px;
 }
+
+/* calendar */
+
+#calendar-parent {
+  position: fixed;
+  display: none;
+  border: 1px solid black;
+  left: 25%;
+  width: 50%;
+  height: 300px;
+  top: 20%;
+  z-index: 1005;
+}
+
+#calendar {
+   width: 100%;
+   height: 100%;
+   border: 0px;
+}
