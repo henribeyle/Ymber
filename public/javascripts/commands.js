@@ -4,14 +4,21 @@
 // which will be called on success or on failure
 
 function item_new(value,mtag,nT,nF) {
-  var post_data={'item[value]': value}
-  if(mtag)
-    post_data['tag[]']=mtag.id
+  if($.isArray(mtag)) {
+    var dp=encodeURIComponent('item[value]='+value)
+    dp+='&'+$.map(mtag,function(x) {
+      return encodeURIComponent('tag[]='+x.id)
+    }).join('&')
+  } else if(typeof mtag == 'object') {
+    var dp=$.param({'item[value]': value, 'tag[]': mtag.id })
+  } else {
+    var dp=$.param({'item[value]': value})
+  }
 
   $.ajax({
     type: "POST",
     url: "/items",
-    data: post_data,
+    data: dp,
     success: suc(nT,nF,function(a) {
       var item=new Item(a.item.value,a.item.id)
       _d.add_item(item)
