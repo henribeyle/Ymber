@@ -317,21 +317,29 @@ function item_send_to_waiting(item,nT,nF) {
   },nF)
 }
 
-var ssss=null
-function item_split(item,s,nT,nF) {
-log("value is '"+item.value+"'")
-log("selection is '"+s+"'")
-ssss=s
-}
+function item_split(item,selection,nT,nF) {
+  if(selection=='') {
+    $.warning('selection cant be void in division')
+    nF && nF()
+    return
+  }
 
-// function ajax_item_split(id,els,cont) {
-//   var p=$.map(els,function(x) {
-//     return encodeURIComponent('value[]='+x) }
-//   ).join('&')
-//   $.ajax({
-//     type: "POST",
-//     url: "/items/"+id+'/split',
-//     data: p,
-//     success: function(a) { if(a=parse(a)) cont(a) },
-//     error: terrible_error
-//   })
+  var data=divide(item.value,selection," - ")
+  if(data==null) {
+    $.warning('division produced errors')
+    nF && nF()
+    return
+  }
+
+//   for(var i=0;i<data.length;i++)
+//      log("data ["+i+"]= '"+data[i]+"'")
+
+  item_update(item,data[0],function(){
+    for(var i=data.length-1;i>0;i--) {
+      item_new(data[i],item.tags,function() {
+        item_move_after(_d.items[_d.items.length-1],item)
+      })
+    }
+  },nF)
+  nT && nT()
+}

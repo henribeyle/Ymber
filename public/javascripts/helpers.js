@@ -167,6 +167,58 @@ function formatted(s) {
     replace(/<\/li><br\/>/g,'</li>')
 }
 
+function divide(value,selection,item_prefix) {
+   var start=value.indexOf(selection)
+   if(start==-1)
+      return null
+
+   // we have to put start just after \n
+   while(value.charAt(start) == '\n') start++
+   while(start>0 && value.charAt(start-1) != '\n')
+       start--
+   // now start points at \n-1 or start of value
+
+   var end=start+selection.length
+   // we have to put end just on top of \n
+   while(end<value.length && value.charAt(end)!='\n') end++
+   while(value.charAt(end-1)=='\n') end--
+   // now end points at \n or end of value
+
+   // we grab the augmented selection
+   var new_selection=value.substring(start,end)
+   //log("interval is ("+start+", "+end+") "+value.length)
+   //log("selection is '"+s+"'")
+   //log("value is '"+value+"'")
+   //log("selection is all? "+(s==value))
+   if(new_selection==value)
+      return null
+
+   var prev=value.substring(0,start)
+   var next=value.substring(end,value.length)
+   // log("division correct ? "+(prev+s+next==value))
+
+   var new_value=prev+next
+   var lines=new_selection.split(/\n/)
+
+   var many_elements=true
+   for(var i=0;i<lines.length;i++) {
+      if(lines[i].substr(0,item_prefix.length) != item_prefix) {
+         //log('many elements false on '+lines[i])
+         many_elements=false
+         break
+      }
+   }
+
+   if(!many_elements)
+      return [new_value].concat([new_selection])
+   else {
+      var data=[new_value]
+      for(var i=0;i<lines.length;i++)
+         data.push(lines[i].substr(item_prefix.length))
+      return data
+   }
+}
+
 function today() {
   var t=new Date()
   var d=t.getDate()
