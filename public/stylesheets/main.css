@@ -145,7 +145,7 @@ body {
 
 #tags .tag .value {
   font-size: 16px;
-  padding-left: 5px;
+  padding-left: 10px;
   height: 48px;
   display: inline-block;
   display: -moz-inline-stack;
@@ -154,8 +154,6 @@ body {
 
 #tags .tag .go {
   width: 16px;
-  position: relative;
-  left: -4px;
 }
 
 #tags .filter {
