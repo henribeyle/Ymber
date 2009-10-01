@@ -67,7 +67,7 @@ Tag.prototype.edit = function() {
       }, {
         img: './images/Clear_Green_Button.png',
         title: 'accept',
-        accel:  function(e) { return e.which==13 && e.ctrlKey },
+        accel:  function(e) { return e.which==13 },
         click: function(x) { tag_update(self,x) }
       }
     ]

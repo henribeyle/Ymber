@@ -95,7 +95,7 @@ function tag_new(value,nT,nF) {
   $.ajax({
     type: "POST",
     url: "/tags",
-    data: { 'tag[value]': value },
+    data: { 'tag[value]': value.replace(/\n/,'') },
     success: suc(nT,nF,function(a) {
       _d.add_tag(new Tag(a.tag.value,a.tag.extra,a.tag.id))
     }),
@@ -126,7 +126,7 @@ function tag_update(tag,value,nT,nF) {
   $.ajax({
     type: "PUT",
     url: "/tags/"+tag.id,
-    data: { 'tag[value]' : value },
+    data: { 'tag[value]' : value.replace(/\n/,'') },
     success: suc(nT,nF,function(a) {
       tag.update(a.tag.value)
       $.each(tag.items,function(i,item) {

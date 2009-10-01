@@ -193,7 +193,7 @@ function add_tag_helper() {
       }, {
         img: './images/Add.png',
         title: 'add',
-        accel:  function(e) { return e.which==13 && e.ctrlKey },
+        accel:  function(e) { return e.which==13 },
         click: function(x) { tag_new(x) }
       }
     ]
