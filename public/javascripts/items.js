@@ -53,6 +53,13 @@ Item.prototype.edit = function() {
     title: 'Edit item',
     text: self.value,
     buttons: [ {
+        img: './images/divide.png',
+        title: 'divide',
+        click: function(x,s) {
+log("value is '"+x+"'")
+log("selection is '"+s+"'")
+}
+      }, {
         img: './images/Minus_Red_Button.png',
         title: 'delete',
         accel: function(e) { return e.which==46 && e.ctrlKey },

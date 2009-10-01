@@ -380,5 +380,6 @@ body {
 }
 
 #editor-ui .button {
-   float: right;
+  float: right;
+  width: 32px;
 }

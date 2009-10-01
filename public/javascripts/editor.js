@@ -72,13 +72,16 @@
 
       restore_input_handler()
 
-      var text=$('#editor-ui textarea').val()
+      var ta=$('#editor-ui textarea')
+      var text=ta.val()
+      var sel=ta[0].value.substring(ta[0].selectionStart,ta[0].selectionEnd)
+
       $('#editor-ui-overlay,#editor-ui-wrapper').remove()
 
       if(typeof func == 'function')
-        func(text)
+        func(text,sel)
       if(typeof opts.close == 'function')
-        opts.close(text)
+        opts.close(text,sel)
     }
 
 
