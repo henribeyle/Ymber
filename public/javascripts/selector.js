@@ -33,12 +33,6 @@
       selected && selected(val)
     }
 
-    function disallow_all_others(e) {
-      return $(e.target).
-        parents('#selector-ui-overlay,#selector-ui-wrapper').
-        length > 0
-    }
-
     var keys = function(e) {
       //log('[selector]? '+e.which+' type '+e.type)
       if(!my_event(e)) return
