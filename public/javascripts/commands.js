@@ -309,3 +309,22 @@ function item_send_to_waiting(item,nT,nF) {
     },nF)
   },nF)
 }
+
+var ssss=null
+function item_split(item,s,nT,nF) {
+log("value is '"+item.value+"'")
+log("selection is '"+s+"'")
+ssss=s
+}
+
+// function ajax_item_split(id,els,cont) {
+//   var p=$.map(els,function(x) {
+//     return encodeURIComponent('value[]='+x) }
+//   ).join('&')
+//   $.ajax({
+//     type: "POST",
+//     url: "/items/"+id+'/split',
+//     data: p,
+//     success: function(a) { if(a=parse(a)) cont(a) },
+//     error: terrible_error
+//   })

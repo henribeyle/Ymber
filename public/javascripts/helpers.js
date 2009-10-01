@@ -95,19 +95,6 @@ function cs(p,v) { $.cookie(p,v,{expires: 1000}) }
 function cr(p) { return $.cookie(p) }
 function cd(p) { $.cookie(p,null) }
 
-function ajax_item_split(id,els,cont) {
-  var p=$.map(els,function(x) {
-    return encodeURIComponent('value[]='+x) }
-  ).join('&')
-  $.ajax({
-    type: "POST",
-    url: "/items/"+id+'/split',
-    data: p,
-    success: function(a) { if(a=parse(a)) cont(a) },
-    error: terrible_error
-  })
-}
-
 function clear_selection() {
   if(document.selection && document.selection.empty) {
     document.selection.empty()

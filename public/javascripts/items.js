@@ -55,10 +55,7 @@ Item.prototype.edit = function() {
     buttons: [ {
         img: './images/divide.png',
         title: 'divide',
-        click: function(x,s) {
-log("value is '"+x+"'")
-log("selection is '"+s+"'")
-}
+        click: function(x,s) { item_split(self,s) }
       }, {
         img: './images/Minus_Red_Button.png',
         title: 'delete',
