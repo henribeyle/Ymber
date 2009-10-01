@@ -13,9 +13,9 @@
     var last_selection=''
 
     var input_handler = function(e) {
-      //log('[editor]? '+e.which)
+      //log('[editor]? '+e.which+' type '+e.type)
       if(!my_event(e)) return
-      //log('[editor] '+e.which)
+      //log('[editor] '+e.which+' type '+e.type)
 
       var ta=$('#editor-ui textarea')[0]
       var start=ta.selectionStart
@@ -80,6 +80,7 @@
       if(typeof opts.close == 'function')
         opts.close(text)
     }
+
 
     if($('#editor-ui').length != 0) {
       $.error('cant have more than one editor')

@@ -40,6 +40,10 @@
     }
 
     var keys = function(e) {
+      //log('[selector]? '+e.which+' type '+e.type)
+      if(!my_event(e)) return
+      //log('[selector] '+e.which+' type '+e.type)
+
       if(e.ctrlKey || e.altKey || e.metaKey || e.which == 0) return
 
       if(e.which == 27)
@@ -62,6 +66,7 @@
           if(pos!=-1)
             close(values[pos])
         }
+        cancel_next(13,'keyup')
         return
       }
 

@@ -204,8 +204,25 @@ function restore_input_handler() {
   all_events[all_events.length-1].onH()
 }
 
+var cancel_which=null
+var cancel_type=null
+
 function my_event(e) {
   var h=e.originalEvent["handled"]
   e.originalEvent["handled"]=true
+  if(cancel_this(e))
+    return false
   return h!==true
+}
+
+function cancel_this(e) {
+  var c=cancel_which==e.which && cancel_type==e.type
+  cancel_which=null
+  cancel_type=null
+  return c
+}
+
+function cancel_next(which,type) {
+  cancel_which=which
+  cancel_type=type
 }
