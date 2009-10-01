@@ -65,6 +65,7 @@ function map_finished_loading() {
   }
 
   var only_escape = function(e) {
+   if(!my_event(e)) return
    if(e.which==27) {
       onclose && onclose()
       $.map_hide()
