@@ -166,6 +166,7 @@ function key_handler(e) {
 function add_item_helper() {
   $.editor({
     title: 'Add item',
+    rows: 20,
     text: '',
     buttons: [ {
         img: './images/Stop_Red_Button.png',

@@ -51,6 +51,7 @@ Item.prototype.edit = function() {
   var self=this
   $.editor({
     title: 'Edit item',
+    rows: 20,
     text: self.value,
     buttons: [ {
         img: './images/divide.png',
