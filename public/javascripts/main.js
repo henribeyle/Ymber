@@ -224,15 +224,17 @@ $(function() {
 
   if(this_tag == 'in') {
     $('<input>').
-      attr('type','button').
-      attr('value','to Next').
-      attr('id','send_to_next').
+      attr('type','image').
+      attr('src',"/images/next.png").
+      attr('width','24px').
+      attr('title','send to Next').
       appendTo('#title').
       click(function() { if(_d.item_show) item_send_to_next(_d.item_show) })
     $('<input>').
-      attr('type','button').
-      attr('value','to Waiting').
-      attr('id','send_to_waiting').
+      attr('type','image').
+      attr('src',"/images/waiting.png").
+      attr('width','24px').
+      attr('title','send to Waiting').
       appendTo('#title').
       click(function() { if(_d.item_show) item_send_to_waiting(_d.item_show) })
   }
