@@ -6,7 +6,7 @@ class Tag < ActiveRecord::Base
 
   def value=(new_value)
     if self[:value] == 'in' || self[:value] == 'next' || self[:value] == 'waiting' 
-      raise "Tag #{self[:value]} is inmutable"
+      raise "Tag #{self[:value]} is immutable"
       return
     end
     if new_value == '(none)' 
@@ -17,7 +17,7 @@ class Tag < ActiveRecord::Base
 
   def destroy
     if self[:value] == 'in' || self[:value] == 'next' || self[:value] == 'waiting' 
-      raise "Tag #{self[:value]} is inmutable"
+      raise "Tag #{self[:value]} is immutable"
     else
       super
     end
