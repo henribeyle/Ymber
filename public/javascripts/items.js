@@ -11,7 +11,9 @@ function Item(value,id,data) {
 
   $('<div>').
     addClass('item').
-    append(show_mark().css('visibility','hidden')).
+    append(show_mark().
+      css('visibility','hidden').
+      click(function() { self.toggle_expand() })).
     append(span('value',self.value_format)).
     appendTo(self.ui).
     droppable({
@@ -108,12 +110,18 @@ Item.prototype.show_mark = function(on) {
   $('img.show',this.ui).css('visibility',on?'visible':'hidden')
 }
 
+Item.prototype.toggle_expand = function() {
+  this.expanded ? this.collapse() : this.expand()
+}
+
 Item.prototype.collapse = function() {
   this.expanded=false
   this.update(this.value)
+  $('img.show',this.ui).attr('src','/images/Play.png')
 }
 
 Item.prototype.expand = function() {
   this.expanded=true
   this.update(this.value)
+  $('img.show',this.ui).attr('src','/images/Play_down.png')
 }

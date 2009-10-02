@@ -39,7 +39,7 @@ function key_handler(e) {
 
     case 'O':
       if(is!=null)
-        is.expanded ? item_collapse(is) : item_expand(is)
+        item_toggle_expand(is)
       command=''
       break
 

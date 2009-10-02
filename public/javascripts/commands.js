@@ -230,6 +230,11 @@ function item_collapse(item,nT,nF) {
   nT && nT()
 }
 
+function item_toggle_expand(item,nT,nF) {
+  item.toggle_expand()
+  nT && nT()
+}
+
 function item_expand_all(nT,nF) {
   $.each(_d.items,function(i,item) { item_expand(item,nT,nF) })
 }
