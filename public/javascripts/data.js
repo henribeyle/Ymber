@@ -162,24 +162,26 @@ Data.prototype.check_filtering = function(item) {
 }
 
 Data.prototype.next = function(item) {
+  var self=this
   var pos=-1
   if(item!=null)
-    pos=_d.item(item)
-  for(var i=pos+1;i<_d.items.length;i++) {
-    if(!_d.filter_status(_d.items[i])) {
-      return _d.items[i]
+    pos=self.item(item)
+  for(var i=pos+1;i<self.items.length;i++) {
+    if(!self.filter_status(self.items[i])) {
+      return self.items[i]
     }
   }
   return null
 }
 
 Data.prototype.prev = function(item) {
-  var pos=_d.items.length
+  var self=this
+  var pos=self.items.length
   if(item!=null)
-    pos=_d.item(item)
+    pos=self.item(item)
   for(var i=pos-1;i>=0;i--) {
-    if(!_d.filter_status(_d.items[i])) {
-      return _d.items[i]
+    if(!self.filter_status(self.items[i])) {
+      return self.items[i]
     }
   }
   return null
