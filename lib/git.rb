@@ -33,23 +33,12 @@ module DB
   end
 
 
-#   def Utils.next_tag_id
-#     return [next_id('tag_value'),next_id('tag_extra')].max
-#   end
-#
-#
 #
 #   def Utils.remove(file)
 #     git('rm',file)
 #   end
 #
 #
-#   def Utils.tag_new(value,extra=nil)
-#     id=next_tag_id
-#     write_to("tag_value_#{id}",value)
-#     write_to("tag_extra_#{id}",extra) if !extra.nil? and extra != ''
-#     return id
-#   end
 #
 #   def Utils.item_tag_new(item_id,tag_id)
 #     write_to("#{item_id}@#{tag_id}")
@@ -95,14 +84,9 @@ class Item
 
   def save
     #validations here!!
-    if(@id == nil ) then
-      @id=DB.next_id('item')
-      DB.write_to("item_#{@id}",@value)
-      DB.commit
-    else
-      DB.write_to("item_#{@id}",@value)
-      DB.commit
-    end
+    @id=DB.next_id('item') if @id.nil?
+    DB.write_to("item_#{@id}",@value)
+    DB.commit
   end
 
   def Item.find(id)
@@ -112,12 +96,40 @@ class Item
   end
 end
 
-item=Item.new('hola')
-item.save
-p item
+class Tag
+  attr_writer :value
+  attr_writer :extra
 
-item=Item.find(1)
-p item
-item.value='adios'
-item.save
-p item
+  def initialize(value,extra=nil,id=nil)
+    @id=id
+    @extra=extra
+    @value=value
+  end
+
+  def save
+    #validations here!!
+    @id=[DB.next_id('tag_value'),DB.next_id('tag_extra')].max if @id.nil?
+    DB.write_to("tag_value_#{@id}",@value)
+    DB.write_to("tag_extra_#{@id}",@extra) if !@extra.nil? and @extra != ''
+    DB.commit
+  end
+
+  def Tag.find(id)
+    a=DB.list("tag_value_#{id}")
+    raise "Tag id='#{id}' not found" if a.length != 1
+    return Tag.new(
+      DB.read_from("tag_value_#{id}"),
+      DB.read_from("tag_extra_#{id}"),
+      id)
+  end
+end
+
+# item=Item.new('hola')
+# item.save
+# p item
+#
+# item=Item.find(1)
+# p item
+# item.value='adios'
+# item.save
+# p item
