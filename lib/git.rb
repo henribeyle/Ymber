@@ -41,7 +41,14 @@ end
 
 def item_new(value)
   id=next_item_id
-  write_to("item_#{id}")
+  write_to("item_#{id}",value)
+  return id
+end
+
+def tag_new(value,extra=nil)
+  id=next_tag_id
+  write_to("tag_value_#{id}",value)
+  write_to("tag_extra_#{id}",extra) if !extra.nil? and extra != ''
   return id
 end
 
@@ -58,4 +65,6 @@ end
 # write_to('5@10')
 # remove('5@10')
 
-# p item_new('hola')
+p item_new('item')
+p tag_new('tag1')
+p tag_new('tag2','extra2')
