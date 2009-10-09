@@ -11,7 +11,7 @@ def list(glob)
 end
 
 def next_id(name)
-  a=list(name+'_*').map { |x| x.gsub(/^item_/,'').to_i }.sort
+  a=list(name+'_*').map { |x| x.gsub(/^#{name}/,'').to_i }.sort
   return a.length==0 ? 1 : a.last+1
 end
 
@@ -20,7 +20,7 @@ def next_item_id
 end
 
 def next_tag_id
-  return next_id('tag')
+  return [next_id('tag_value'),next_id('tag_extra')].max
 end
 
 def write_to(file,*value)
@@ -58,4 +58,4 @@ end
 # write_to('5@10')
 # remove('5@10')
 
-p item_new('hola')
+# p item_new('hola')
