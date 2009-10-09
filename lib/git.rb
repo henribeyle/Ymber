@@ -23,7 +23,21 @@ def next_tag_id
   return next_id('tag')
 end
 
+def write_to(value,file)
+  File.open(File.join(DBDIR,file), "w") do |file|
+    file.print value
+  end
+end
+
+def read_from(file)
+  return IO.read(File.join(DBDIR,file))
+end
 
 # puts git('status')
 # p 'item next',next_item_id
 # p 'tag next',next_tag_id
+
+v='hola'
+write_to(v,'item_5')
+w=read_from('item_5')
+p v==w
