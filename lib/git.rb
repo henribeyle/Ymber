@@ -78,7 +78,9 @@ end
 
 class Tag
   attr_reader :id
+  attr_reader :value
   attr_writer :value
+  attr_reader :extra
   attr_writer :extra
 
   def initialize(value,extra='',id=nil)
