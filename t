@@ -107,6 +107,15 @@ case ARGV[0]
     tag=Tag.new('next')
     tag.save
     tag.destroy
+  when 'just_one_tag'
+    tnext=Tag.new('next')
+    tnext.save
+    tin=Tag.new('in')
+    tin.save
+    item=Item.new('hola')
+    item.tags << tin
+    item.tags << tnext
+    item.save
   else
     puts "what?"
 end

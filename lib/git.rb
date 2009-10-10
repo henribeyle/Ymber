@@ -80,6 +80,9 @@ class Item
 
   def save
     raise "item value can not be empty" if(@value == '')
+    if(@tags.map {|t| t.value } & ['in','next','waiting']).size > 1 then
+      raise "tags in, next, and waiting are mutually exclusively"
+    end
     @id=DB.next_id('item') if @id.nil?
     DB.write_to("item_#{@id}",@value)
     DB.list("#{id}@*").each { |t| DB.rm(t) }
