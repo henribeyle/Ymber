@@ -25,6 +25,9 @@ case ARGV[0]
     item.value='item.mod'
     item.save
     p item
+  when 'item_destroy'
+    item=Item.find('1')
+    item.destroy
   when 'tag_create'
     tag=Tag.new('tag1')
     tag.save
@@ -51,32 +54,6 @@ case ARGV[0]
     puts "what?"
 end
 
-#   def update
-#     begin
-#       @item = Item.find(params[:id])
-#     rescue ActiveRecord::RecordNotFound => e
-#       render :json => { :status => 'error', :error => e.to_s }
-#       return
-#     end
-#
-#     if @item.update_attributes(params[:item])
-#       render :json => @item
-#     else
-#       render :json => { :status => 'error', :error => @item.errors.full_messages[0] }
-#     end
-#   end
-#
-#   def destroy
-#     begin
-#       @item = Item.find(params[:id])
-#     rescue ActiveRecord::RecordNotFound => e
-#       render :json => { :status => 'error', :error => e.to_s }
-#       return
-#     end
-#
-#     @item.destroy
-#     render :json => { :status => 'ok' }
-#   end
 #
 #   def add_tag
 #     begin
