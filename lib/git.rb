@@ -25,6 +25,20 @@ module DB
     git('commit','-m','x')
   end
 
+  def DB.rollback
+    #git('reset','HEAD')
+    #gd="--git-dir #{DBDIR}/.git"
+    #wt="--work-tree #{DBDIR}"
+    puts "HERE"
+    puts DBDIR
+    Dir.chdir(DBDIR) {
+      %x{git reset HEAD}
+    }
+    puts "THERE"
+    #return %x{git #{gd} #{wt} reset HEAD}
+    #git('clean','-f')
+  end
+
   def DB.write_to(file,*value)
     File.open(File.join(DBDIR,file), "w") do |f|
       f.print value.join('')
@@ -38,6 +52,12 @@ module DB
 
   def DB.rm(file)
     git('rm',file)
+  end
+
+  def DB.hash(*objects)
+    return objects.map do |o|
+      git('hash-object',File.join(DBDIR,o)).chomp
+    end
   end
 
   def DB.id(file)
@@ -72,12 +92,17 @@ class Item
   end
 
   def save
-    #validations here!!
     raise "item value can not be empty" if(@value == '')
     @id=DB.next_id('item') if @id.nil?
     DB.write_to("item_#{@id}",@value)
     DB.list("#{id}@*").each { |t| DB.rm(t) }
     @tags.each { |x| DB.write_to("#{@id}@#{x.id}") }
+
+    hash=DB.hash(*DB.list("item_*"))
+    if(hash.length != hash.uniq.length) then
+      #DB.rollback
+      raise "duplicate item '@value'"
+    end
     DB.commit
   end
 

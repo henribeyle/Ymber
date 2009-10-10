@@ -82,6 +82,12 @@ case ARGV[0]
   when 'item_value_empty'
     item=Item.new('')
     item.save
+  when 'item_value_unique'
+    item=Item.new('hola')
+    item.save
+    item=Item.new('hola')
+    item.save
   else
     puts "what?"
+    DB.rollback
 end
