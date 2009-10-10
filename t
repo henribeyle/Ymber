@@ -89,5 +89,4 @@ case ARGV[0]
     item.save
   else
     puts "what?"
-    DB.rollback
 end

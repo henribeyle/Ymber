@@ -16,9 +16,7 @@ module DB
   end
 
   def DB.git(*command)
-    gd="--git-dir #{DBDIR}/.git"
-    wt="--work-tree #{DBDIR}"
-    return %x{git #{gd} #{wt} #{command.join(' ')}}
+    Dir.chdir(DBDIR) { %x{git #{command.join(' ')}} }
   end
 
   def DB.commit
@@ -26,17 +24,8 @@ module DB
   end
 
   def DB.rollback
-    #git('reset','HEAD')
-    #gd="--git-dir #{DBDIR}/.git"
-    #wt="--work-tree #{DBDIR}"
-    puts "HERE"
-    puts DBDIR
-    Dir.chdir(DBDIR) {
-      %x{git reset HEAD}
-    }
-    puts "THERE"
-    #return %x{git #{gd} #{wt} reset HEAD}
-    #git('clean','-f')
+    git('reset','HEAD')
+    git('clean','-f')
   end
 
   def DB.write_to(file,*value)
@@ -55,9 +44,7 @@ module DB
   end
 
   def DB.hash(*objects)
-    return objects.map do |o|
-      git('hash-object',File.join(DBDIR,o)).chomp
-    end
+    return objects.map { |o| git('hash-object',o).chomp }
   end
 
   def DB.id(file)
@@ -100,7 +87,7 @@ class Item
 
     hash=DB.hash(*DB.list("item_*"))
     if(hash.length != hash.uniq.length) then
-      #DB.rollback
+      DB.rollback
       raise "duplicate item '@value'"
     end
     DB.commit
