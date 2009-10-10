@@ -95,6 +95,14 @@ case ARGV[0]
     tag.save
     tag=Tag.new('hola')
     tag.save
+  when 'tag_immutable'
+    tag=Tag.new('next')
+    tag.save
+    tag.value='next-modified'
+    tag.save
+  when 'tag_none'
+    tag=Tag.new('(none)')
+    tag.save
   else
     puts "what?"
 end

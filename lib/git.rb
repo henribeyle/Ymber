@@ -109,7 +109,6 @@ end
 class Tag
   attr_reader :id
   attr_reader :value
-  attr_writer :value
   attr_reader :extra
   attr_writer :extra
 
@@ -117,6 +116,19 @@ class Tag
     @id=id
     @extra=extra
     @value=value
+    if value == '(none)'
+      raise "tag (none) can't be used"
+    end
+  end
+
+  def value=(new_value)
+    if @value == 'in' || @value == 'next' || @value == 'waiting'
+      raise "tag #{@value} is immutable"
+    end
+    if new_value == '(none)'
+      raise "tag (none) can't be used"
+    end
+    @value=new_value
   end
 
   def save
