@@ -39,21 +39,44 @@ module DB
   def DB.rm(file)
     git('rm',file)
   end
+
+  def DB.id(file)
+    case file
+      when /.*@.*/
+        return /^(\d+)@(\d+)$/.match(file).to_a.drop(1)
+      when /item_.*/
+        return /^item_(\d+)$/.match(file).to_a[1]
+      when /tag_.*/
+        return /^tag_(value|extra)_(\d+)$/.match(file).to_a[2]
+      else
+        raise 'unknown id for file '+file
+    end
+  end
 end
 
 class Item
   attr_reader :id
   attr_writer :value
+  attr_reader :tags
+  attr_writer :tags
 
   def initialize(value,id=nil)
     @id=id
     @value=value
+    @tags=[]
+    if(!id.nil?) then
+      DB.list("#{id}@*").each do |t|
+        @tags.push(Tag.find(DB.id(t)[1]))
+      end
+    end
   end
 
   def save
     #validations here!!
     @id=DB.next_id('item') if @id.nil?
     DB.write_to("item_#{@id}",@value)
+    DB.list("#{id}@*").each { |t| DB.rm(t) }
+    @tags.each { |x| DB.write_to("#{@id}@#{x.id}") }
     DB.commit
   end
 
@@ -61,12 +84,6 @@ class Item
     DB.rm("item_#{id}")
     DB.list("#{id}@*").each { |t| DB.rm(t) }
     DB.commit
-  end
-
-  def add_tag_by_id(t)
-    @id=DB.next_id('item') if @id.nil?
-    tag=Tag.find(t)
-    DB.write_to("#{@id}@#{tag.id}")
   end
 
   def Item.find(id)
