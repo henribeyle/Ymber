@@ -1,6 +1,4 @@
-#!/usr/bin/ruby -w
-
-require 'lib/git'
+#!./script/runner
 
 case ARGV[0]
   when 'item_create'
@@ -116,6 +114,17 @@ case ARGV[0]
     item.tags << tin
     item.tags << tnext
     item.save
+  when 'tag_json'
+    tag=Tag.new('next')
+    tag.save
+    puts tag.to_json
+  when 'item_json'
+    tag=Tag.new('next')
+    tag.save
+    item=Item.new('hola')
+    item.tags << tag
+    item.save
+    puts item.to_json
   else
     puts "what?"
 end

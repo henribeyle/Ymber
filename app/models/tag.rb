@@ -1,29 +1,60 @@
-class Tag < ActiveRecord::Base
-  has_and_belongs_to_many :items
+require "#{RAILS_ROOT}/lib/git"
 
-  validates_presence_of :value
-  validates_uniqueness_of :value, :case_sensitive => false
+class Tag
+  attr_reader :id
+  attr_reader :value
+  attr_reader :extra
+  attr_writer :extra
+
+  def initialize(value,extra='',id=nil)
+    @id=id
+    @extra=extra
+    @value=value
+    if value == '(none)'
+      raise "tag (none) can't be used"
+    end
+  end
 
   def value=(new_value)
-    if self[:value] == 'in' || self[:value] == 'next' || self[:value] == 'waiting' 
-      raise "Tag #{self[:value]} is immutable"
-      return
+    if @value == 'in' || @value == 'next' || @value == 'waiting'
+      raise "tag #{@value} is immutable"
     end
-    if new_value == '(none)' 
-      raise "Tag (none) can't be used"
+    if new_value == '(none)'
+      raise "tag (none) can't be used"
     end
-    self[:value]=new_value
+    @value=new_value
+  end
+
+  def save
+    raise "tag value can not be empty" if(@value == '')
+    @id=DB.next_id('tag_value') if @id.nil?
+    DB.write_to("tag_value_#{@id}",@value)
+    DB.write_to("tag_extra_#{@id}",@extra)
+
+    hash=DB.hash(*DB.list("tag_value_*"))
+    if(hash.length != hash.uniq.length) then
+      DB.rollback
+      raise "duplicate tag '#{@value}'"
+    end
+    DB.commit
   end
 
   def destroy
-    if self[:value] == 'in' || self[:value] == 'next' || self[:value] == 'waiting' 
-      raise "Tag #{self[:value]} is immutable"
-    else
-      super
+    if @value == 'in' || @value == 'next' || @value == 'waiting'
+      raise "tag #{@value} is immutable"
     end
+
+    DB.rm("tag_value_#{id}")
+    DB.rm("tag_extra_#{id}")
+    DB.list("*@#{id}").each { |t| DB.rm(t) }
+    DB.commit
   end
 
-  def to_json(options = {})
-    super(:only => [:value, :extra, :id])
+  def Tag.find(id)
+    a=DB.list("tag_value_#{id}")
+    raise "Tag id='#{id}' not found" if a.length != 1
+    val=DB.read_from("tag_value_#{id}")
+    ext=DB.read_from("tag_extra_#{id}")
+    return Tag.new(val,ext,id)
   end
 end
