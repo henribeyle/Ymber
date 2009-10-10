@@ -103,6 +103,10 @@ case ARGV[0]
   when 'tag_none'
     tag=Tag.new('(none)')
     tag.save
+  when 'tag_destroy_immutable'
+    tag=Tag.new('next')
+    tag.save
+    tag.destroy
   else
     puts "what?"
 end

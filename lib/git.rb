@@ -146,6 +146,10 @@ class Tag
   end
 
   def destroy
+    if @value == 'in' || @value == 'next' || @value == 'waiting'
+      raise "tag #{@value} is immutable"
+    end
+
     DB.rm("tag_value_#{id}")
     DB.rm("tag_extra_#{id}")
     DB.list("*@#{id}").each { |t| DB.rm(t) }
