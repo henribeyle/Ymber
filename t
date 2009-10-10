@@ -81,13 +81,4 @@ case ARGV[0]
     tag.destroy
   else
     puts "what?"
-    tag=Tag.new("tagtest")
-    tag.save
-    item=Item.new("itemtest")
-    item.add_tag_by_id(tag.id)
-    item.save
-    p tag,item
-    puts ""
-    item=Item.find(item.id)
-    p item
 end
