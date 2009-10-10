@@ -87,6 +87,14 @@ case ARGV[0]
     item.save
     item=Item.new('hola')
     item.save
+  when 'tag_value_empty'
+    tag=Tag.new('')
+    tag.save
+  when 'tag_value_unique'
+    tag=Tag.new('hola')
+    tag.save
+    tag=Tag.new('hola')
+    tag.save
   else
     puts "what?"
 end

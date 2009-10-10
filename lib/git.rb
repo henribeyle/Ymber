@@ -88,7 +88,7 @@ class Item
     hash=DB.hash(*DB.list("item_*"))
     if(hash.length != hash.uniq.length) then
       DB.rollback
-      raise "duplicate item '@value'"
+      raise "duplicate item '#{@value}'"
     end
     DB.commit
   end
@@ -120,10 +120,16 @@ class Tag
   end
 
   def save
-    #validations here!!
+    raise "tag value can not be empty" if(@value == '')
     @id=DB.next_id('tag_value') if @id.nil?
     DB.write_to("tag_value_#{@id}",@value)
     DB.write_to("tag_extra_#{@id}",@extra)
+
+    hash=DB.hash(*DB.list("tag_value_*"))
+    if(hash.length != hash.uniq.length) then
+      DB.rollback
+      raise "duplicate tag '#{@value}'"
+    end
     DB.commit
   end
 
