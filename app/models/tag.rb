@@ -57,4 +57,13 @@ class Tag
     ext=DB.read_from("tag_extra_#{id}")
     return Tag.new(val,ext,id)
   end
+
+  def Tag.all
+    DB.list("tag_value_*").map do |i|
+      id=DB.id(i)
+      val=DB.read_from("tag_value_#{id}")
+      ext=DB.read_from("tag_extra_#{id}")
+      Tag.new(val,ext,id)
+    end
+  end
 end

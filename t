@@ -17,12 +17,12 @@ case ARGV[0]
       puts "error: #{e.to_s}"
       exit
     end
-    p item
+    puts item.to_json
   when 'item_update'
     item=Item.find(ARGV[1])
     item.value='item.mod'
     item.save
-    p item
+    puts item.to_json
   when 'item_destroy'
     item=Item.find(ARGV[1])
     item.destroy
@@ -42,7 +42,7 @@ case ARGV[0]
       puts "error: #{e.to_s}"
       exit
     end
-    p item
+    puts item.to_json
   when 'item_delete_tag'
     item = Item.find(ARGV[1])
     ARGV.drop(2).each do |tid|
@@ -59,21 +59,21 @@ case ARGV[0]
       puts "error: #{e.to_s}"
       exit
     end
-    p item
+    puts item.to_json
   when 'tag_create'
     tag=Tag.new("tag#{ARGV[1]}")
     tag.save
-    p tag
+    puts tag.to_json
   when 'tag_update_value'
     tag=Tag.find(ARGV[1])
     tag.value+='.mod'
     tag.save
-    p tag
+    puts tag.to_json
   when 'tag_update_extra'
     tag=Tag.find(ARGV[1])
     tag.extra+='.mod'
     tag.save
-    p tag
+    puts tag.to_json
   when 'tag_destroy'
     tag=Tag.find(ARGV[1])
     tag.destroy
@@ -125,6 +125,10 @@ case ARGV[0]
     item.tags << tag
     item.save
     puts item.to_json
+  when 'tag_all'
+    puts Tag.all.to_json
+  when 'items_with_no_tags'
+    puts Item.untagged.to_json
   else
     puts "what?"
 end

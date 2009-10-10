@@ -46,4 +46,11 @@ class Item
     raise "Item id='#{id}' not found" if a.length != 1
     return Item.new(DB.read_from("item_#{id}"),id)
   end
+
+  def Item.untagged
+    return (DB.list("item_*").map { |i| DB.id(i) } -
+      DB.list("*@*").map { |i| DB.id(i)[0] }).map do |i|
+        Item.find(i)
+      end
+  end
 end
