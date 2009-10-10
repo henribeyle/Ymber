@@ -4,8 +4,8 @@ require 'lib/git'
 
 case ARGV[0]
   when 'item_create'
-    item=Item.new('item1')
-    [1].each do |x|
+    item=Item.new("item#{ARGV[1]}")
+    ARGV.drop(2).each do |x|
       begin
         item.add_tag_by_id(x)
       rescue Exception => e
@@ -29,26 +29,21 @@ case ARGV[0]
     item=Item.find('1')
     item.destroy
   when 'tag_create'
-    tag=Tag.new('tag1')
+    tag=Tag.new("tag#{ARGV[1]}")
     tag.save
     p tag
-  when 'tag_update1'
-    tag=Tag.find('1')
-    tag.value='tag1.mod'
+  when 'tag_update_value'
+    tag=Tag.find(ARGV[1])
+    tag.value+='.mod'
     tag.save
     p tag
-  when 'tag_update2'
-    tag=Tag.find('1')
-    tag.extra='tag1.extra'
-    tag.save
-    p tag
-  when 'tag_update3'
-    tag=Tag.find('1')
-    tag.extra=''
+  when 'tag_update_extra'
+    tag=Tag.find(ARGV[1])
+    tag.extra+='.mod'
     tag.save
     p tag
   when 'tag_destroy'
-    tag=Tag.find('1')
+    tag=Tag.find(ARGV[1])
     tag.destroy
   else
     puts "what?"
