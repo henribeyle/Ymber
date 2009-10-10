@@ -79,6 +79,9 @@ case ARGV[0]
   when 'tag_destroy'
     tag=Tag.find(ARGV[1])
     tag.destroy
+  when 'item_value_empty'
+    item=Item.new('')
+    item.save
   else
     puts "what?"
 end

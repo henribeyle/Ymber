@@ -73,6 +73,7 @@ class Item
 
   def save
     #validations here!!
+    raise "item value can not be empty" if(@value == '')
     @id=DB.next_id('item') if @id.nil?
     DB.write_to("item_#{@id}",@value)
     DB.list("#{id}@*").each { |t| DB.rm(t) }
