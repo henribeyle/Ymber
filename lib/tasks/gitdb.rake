@@ -22,10 +22,8 @@ namespace :db do
 
     desc "Load seed data (for initial testing)"
     task :seed => :environment do
-      t1=Tag.new("tag-one")
-      t1.save
-      t2=Tag.new("tag-two")
-      t2.save
+      t1=Tag.new("tag-one").save
+      t2=Tag.new("tag-two").save
       tin=Tag.find(1)
       tnext=Tag.find(2)
       twaiting=Tag.find(3)

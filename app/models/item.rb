@@ -33,6 +33,7 @@ class Item
       raise "duplicate item '#{@value}'"
     end
     DB.commit
+    return self
   end
 
   def destroy
