@@ -1,40 +1,6 @@
 #!./script/runner
 
 case ARGV[0]
-  when 'item_add_tag'
-    item = Item.find(ARGV[1])
-    ARGV.drop(2).each do |x|
-      begin
-        item.tags << Tag.find(x)
-      rescue Exception => e
-        puts "error: #{e.to_s}"
-        exit
-      end
-    end
-    begin
-      item.save
-    rescue Exception => e
-      puts "error: #{e.to_s}"
-      exit
-    end
-    puts item.to_json
-  when 'item_delete_tag'
-    item = Item.find(ARGV[1])
-    ARGV.drop(2).each do |tid|
-      begin
-        item.tags.delete_if { |x| x.id==tid }
-      rescue Exception => e
-        puts "error: #{e.to_s}"
-        exit
-      end
-    end
-    begin
-      item.save
-    rescue Exception => e
-      puts "error: #{e.to_s}"
-      exit
-    end
-    puts item.to_json
   when 'item_value_empty'
     item=Item.new('')
     item.save

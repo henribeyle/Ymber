@@ -45,25 +45,11 @@ public
   end
 
   def delete_tag
-    begin
-      @item = Item.find(params[:id])
-    rescue ActiveRecord::RecordNotFound => e
-      render :json => { :status => 'error', :error => e.to_s }
-      return
-    end
-
-    (params[:tag]||[]).each do |x|
-      begin
-        @item.tags.delete(Tag.find(x))
-      rescue ActiveRecord::RecordNotFound => e
-        render :json => { :status => 'error', :error => e.to_s }
-        return
-      end
-    end
-    if @item.save then
-      render :json => @item
-    else
-      render :json => { :status => 'error', :error => @item.errors.full_messages[0] }
-    end
+    @item = Item.find(params[:id])
+    (params[:tag]||[]).each { |tid| @item.tags.delete_if { |x| x.id==tid } }
+    @item.save
+    render :json => @item
+  rescue => e
+    render :json => { :status => 'error', :error => e.to_s }
   end
 end
