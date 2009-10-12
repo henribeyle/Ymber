@@ -1,6 +1,19 @@
 require "#{RAILS_ROOT}/lib/git"
 
 class Tag
+private
+  def new_value(value)
+    if value == '(none)'
+      raise "tag (none) can't be used"
+    end
+    value.strip!
+    if value =~ /\n/
+      raise "tags cant have multiple lines"
+    end
+    return value
+  end
+
+public
   attr_reader :id
   attr_reader :value
   attr_reader :extra
@@ -9,20 +22,14 @@ class Tag
   def initialize(value,extra='',id=nil)
     @id=id
     @extra=extra
-    @value=value
-    if value == '(none)'
-      raise "tag (none) can't be used"
-    end
+    @value=new_value(value)
   end
 
-  def value=(new_value)
+  def value=(value)
     if @value == 'in' || @value == 'next' || @value == 'waiting'
       raise "tag #{@value} is immutable"
     end
-    if new_value == '(none)'
-      raise "tag (none) can't be used"
-    end
-    @value=new_value
+    @value=new_value(value)
   end
 
   def save
