@@ -14,15 +14,10 @@ class TagsController < ApplicationController
   end
 
   def destroy
-    begin
-      @tag = Tag.find(params[:id])
-      @tag.destroy
-    rescue Exception => e
-      render :json => { :status => 'error', :error => e.to_s }
-      return
-    end
-
+    Tag.find(params[:id]).destroy
     render :json => { :status => 'ok' }
+  rescue Exception => e
+    render :json => { :status => 'error', :error => e.to_s }
   end
 
   def editor
