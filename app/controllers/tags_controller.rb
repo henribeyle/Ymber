@@ -1,8 +1,6 @@
 class TagsController < ApplicationController
   def create
-    @tag = Tag.new(params[:tag][:value])
-    @tag.save
-    render :json => @tag
+    render :json => Tag.new(params[:tag][:value]).save
   rescue => e
     render :json => { :status => 'error', :error => e.to_s }
   end

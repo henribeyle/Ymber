@@ -37,6 +37,7 @@ class Tag
       raise "duplicate tag '#{@value}'"
     end
     DB.commit
+    return self
   end
 
   def destroy
