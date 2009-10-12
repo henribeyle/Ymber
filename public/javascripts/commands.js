@@ -20,9 +20,9 @@ function item_new(value,mtag,nT,nF) {
     url: "/items",
     data: dp,
     success: suc(nT,nF,function(a) {
-      var item=new Item(a.item.value,a.item.id)
+      var item=new Item(a.value,a.id)
       _d.add_item(item)
-      $.each(a.item.tags,function(i,t) {
+      $.each(a.tags,function(i,t) {
         var tag=_d.tag_id(t.id)
         item.add_tag(tag)
         tag.add(item)
@@ -58,7 +58,7 @@ function item_update(item,value,nT,nF) {
     type: "PUT",
     url: "/items/"+item.id,
     data: {'item[value]': value},
-    success: suc(nT,nF,function(a) { item.update(a.item.value) }),
+    success: suc(nT,nF,function(a) { item.update(a.value) }),
     error: te(nF)
   })
 }
@@ -104,7 +104,7 @@ function tag_new(value,nT,nF) {
     url: "/tags",
     data: { 'tag[value]': value.replace(/\n/,'') },
     success: suc(nT,nF,function(a) {
-      _d.add_tag(new Tag(a.tag.value,a.tag.extra,a.tag.id))
+      _d.add_tag(new Tag(a.value,a.extra,a.id))
     }),
     error: te(nF)
   })
@@ -135,7 +135,7 @@ function tag_update(tag,value,nT,nF) {
     url: "/tags/"+tag.id,
     data: { 'tag[value]' : value.replace(/\n/,'') },
     success: suc(nT,nF,function(a) {
-      tag.update(a.tag.value)
+      tag.update(a.value)
       $.each(tag.items,function(i,item) {
         item.update_tag(tag)
       })

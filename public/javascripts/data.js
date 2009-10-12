@@ -21,7 +21,7 @@ function Data(this_tag, all_tags, all_items) {
   }
 
   $.each(all_tags,function(i,x) {
-    var t=new Tag(x.tag.value,x.tag.extra,x.tag.id)
+    var t=new Tag(x.value,x.extra,x.id)
     self.tags.push(t)
   })
 
@@ -40,9 +40,9 @@ function Data(this_tag, all_tags, all_items) {
   } catch(excp) {}
 
   $.each(all_items,function(i,x) {
-    var item=new Item(x.item.value,x.item.id)
+    var item=new Item(x.value,x.id)
     self.add_item(item)
-    $.each(x.item.tags,function(it,t) {
+    $.each(x.tags,function(it,t) {
       var tag=self.tag_id(t.id)
       item.add_tag(tag)
       tag.add(item)

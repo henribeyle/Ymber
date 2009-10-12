@@ -51,6 +51,14 @@ class Tag
     DB.commit
   end
 
+  def items
+    it=[]
+    DB.list("*@#{id}").each do |t|
+      it.push(Item.find(DB.id(t)[0]))
+    end
+    it
+  end
+
   def Tag.find(id)
     a=DB.list("tag_value_#{id}")
     raise "Tag id='#{id}' not found" if a.length != 1
