@@ -11,25 +11,11 @@ protected
 
 public
   def create
-    @item = Item.new(params[:item])
-
-    (params[:tag]||[]).each do |x|
-      begin
-        add_tag_to_item(@item,x)
-      rescue ActiveRecord::RecordNotFound => e
-        render :json => { :status => 'error', :error => e.to_s }
-        return
-      rescue Exception => e
-        render :json => { :status => 'error', :error => e.to_s }
-        return
-      end
-    end
-
-    if @item.save then
-      render :json => @item
-    else
-      render :json => { :status => 'error', :error => @item.errors.full_messages[0] }
-    end
+    @item = Item.new(params[:item][:value])
+    (params[:tag]||[]).each { |x| @item.tags << Tag.find(x) }
+    render :json => @item
+  rescue => e
+    render :json => { :status => 'error', :error => e.to_s }
   end
 
   def update

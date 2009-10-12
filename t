@@ -1,23 +1,6 @@
 #!./script/runner
 
 case ARGV[0]
-  when 'item_create'
-    item=Item.new("item#{ARGV[1]}")
-    ARGV.drop(2).each do |x|
-      begin
-        item.tags << Tag.find(x)
-      rescue Exception => e
-        puts "error: #{e.to_s}"
-        exit
-      end
-    end
-    begin
-      item.save
-    rescue Exception => e
-      puts "error: #{e.to_s}"
-      exit
-    end
-    puts item.to_json
   when 'item_update'
     item=Item.find(ARGV[1])
     item.value='item.mod'
@@ -115,3 +98,5 @@ case ARGV[0]
   else
     puts "what?"
 end
+
+tag.editor
