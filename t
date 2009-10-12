@@ -60,23 +60,6 @@ case ARGV[0]
       exit
     end
     puts item.to_json
-  when 'tag_create'
-    tag=Tag.new("tag#{ARGV[1]}")
-    tag.save
-    puts tag.to_json
-  when 'tag_update_value'
-    tag=Tag.find(ARGV[1])
-    tag.value+='.mod'
-    tag.save
-    puts tag.to_json
-  when 'tag_update_extra'
-    tag=Tag.find(ARGV[1])
-    tag.extra+='.mod'
-    tag.save
-    puts tag.to_json
-  when 'tag_destroy'
-    tag=Tag.find(ARGV[1])
-    tag.destroy
   when 'item_value_empty'
     item=Item.new('')
     item.save
