@@ -3,7 +3,7 @@ namespace :db do
 
     desc "Create gitdb infrastructure"
     task :create => :environment do
-      dir=File.join(RAILS_ROOT,'db','gitdb')
+      dir=File.join(RAILS_ROOT,'db')
       raise "gitdb directory exists" if File.exists?(dir)
       FileUtils.mkdir(dir)
       Dir.chdir(dir) do
@@ -16,7 +16,7 @@ namespace :db do
 
     desc "Delete gitdb infrastructure"
     task :drop => :environment do
-      dir=File.join(RAILS_ROOT,'db','gitdb')
+      dir=File.join(RAILS_ROOT,'db')
       FileUtils.rm_rf(dir)
     end
 

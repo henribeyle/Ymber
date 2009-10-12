@@ -1,6 +1,6 @@
 module DB
 
-  DBDIR=File.dirname(__FILE__) + "/../db/gitdb"
+  DBDIR=File.dirname(__FILE__) + "/../db"
 
   def DB.list(glob)
     Dir.chdir(DBDIR) { return Dir.glob(glob) }

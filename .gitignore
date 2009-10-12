@@ -2,5 +2,4 @@ log/*.log
 tmp/**/*
 doc/api
 doc/app
-db/*.sqlite3
-db/gitdb
+db
