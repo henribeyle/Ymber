@@ -29,15 +29,10 @@ public
   end
 
   def destroy
-    begin
-      @item = Item.find(params[:id])
-    rescue ActiveRecord::RecordNotFound => e
-      render :json => { :status => 'error', :error => e.to_s }
-      return
-    end
-
-    @item.destroy
+    Item.find(params[:id]).destroy
     render :json => { :status => 'ok' }
+  rescue => e
+    render :json => { :status => 'error', :error => e.to_s }
   end
 
   def add_tag

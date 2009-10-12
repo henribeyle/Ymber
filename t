@@ -1,9 +1,6 @@
 #!./script/runner
 
 case ARGV[0]
-  when 'item_destroy'
-    item=Item.find(ARGV[1])
-    item.destroy
   when 'item_add_tag'
     item = Item.find(ARGV[1])
     ARGV.drop(2).each do |x|
