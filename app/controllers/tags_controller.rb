@@ -1,12 +1,10 @@
 class TagsController < ApplicationController
   def create
-    @tag = Tag.new(params[:tag])
-
-    if @tag.save then
-      render :json => @tag
-    else
-      render :json => { :status => 'error', :error => @tag.errors.full_messages[0] }
-    end
+    @tag = Tag.new(params[:tag][:value])
+    @tag.save
+    render :json => @tag
+  rescue => e
+    render :json => { :status => 'error', :error => e.to_s }
   end
 
   def update
