@@ -13,24 +13,19 @@ public
   def create
     @item = Item.new(params[:item][:value])
     (params[:tag]||[]).each { |x| @item.tags << Tag.find(x) }
+    @item.save
     render :json => @item
   rescue => e
     render :json => { :status => 'error', :error => e.to_s }
   end
 
   def update
-    begin
-      @item = Item.find(params[:id])
-    rescue ActiveRecord::RecordNotFound => e
-      render :json => { :status => 'error', :error => e.to_s }
-      return
-    end
-
-    if @item.update_attributes(params[:item])
-      render :json => @item
-    else
-      render :json => { :status => 'error', :error => @item.errors.full_messages[0] }
-    end
+    @item = Item.find(params[:id])
+    @item.value=params[:item][:value]
+    @item.save
+    render :json => @item
+  rescue => e
+    render :json => { :status => 'error', :error => e.to_s }
   end
 
   def destroy

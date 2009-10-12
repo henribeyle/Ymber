@@ -1,11 +1,6 @@
 #!./script/runner
 
 case ARGV[0]
-  when 'item_update'
-    item=Item.find(ARGV[1])
-    item.value='item.mod'
-    item.save
-    puts item.to_json
   when 'item_destroy'
     item=Item.find(ARGV[1])
     item.destroy
@@ -98,5 +93,3 @@ case ARGV[0]
   else
     puts "what?"
 end
-
-tag.editor
