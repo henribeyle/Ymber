@@ -304,6 +304,8 @@ function item_send_to_next(item,nT,nF) {
   var tag_in=_d.tag_value('in')
   var tag_next=_d.tag_value('next')
   item_remove_tag(item,tag_in,function() {
+    if(item==_d.item_show)
+      _d.item_show=null
     item_add_tag(item,tag_next,function() {
       nT && nT()
     },nF)
@@ -315,6 +317,8 @@ function item_send_to_waiting(item,nT,nF) {
   var tag_waiting=_d.tag_value('waiting')
   item_update(item,'['+today()+'] '+item.value,function(){
     item_remove_tag(item,tag_in,function() {
+      if(item==_d.item_show)
+        _d.item_show=null
       item_add_tag(item,tag_waiting,function() {
         nT && nT()
       },nF)
