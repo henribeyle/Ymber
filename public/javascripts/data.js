@@ -20,13 +20,13 @@ function Data(this_tag, all_tags, all_items) {
     return
   }
 
-  $.each(all_tags,function(i,x) {
+  $A(all_tags).each(function(x) {
     var t=new Tag(x.value,x.extra,x.id)
     self.tags.push(t)
-  })
+  });
 
   // reordering tags (in, next and waiting first)
-  $.each(['waiting','next','in'],function(i,x) {
+  ['waiting','next','in'].each(function(x) {
     var ind=$.index(self.tags,this_value(x))
     if(ind!=0) {
       self.tags[0].ui.before(self.tags[ind].ui)
@@ -39,10 +39,10 @@ function Data(this_tag, all_tags, all_items) {
     self.main_tag=self.tag_value(this_tag)
   } catch(excp) {}
 
-  $.each(all_items,function(i,x) {
+  all_items.each(function(x) {
     var item=new Item(x.value,x.id)
     self.add_item(item)
-    $.each(x.tags,function(it,t) {
+    x.tags.each(function(t) {
       var tag=self.tag_id(t.id)
       item.add_tag(tag)
       tag.add(item)
@@ -122,7 +122,7 @@ Data.prototype.update_filter = function() {
   if(len > 0) span('sep','&&').appendTo(tf)
   if(len > 1) span('sep','(').appendTo(tf)
 
-  $.each(self.filters,function(i,x) {
+  self.filters.each(function(x,i) {
     span('tag_filter',x.value_or_extra()).drag_deleter({
       on_delete: function() { tag_unfilter(x) }
     }).appendTo(tf)
@@ -137,7 +137,7 @@ Data.prototype.update_filter = function() {
   if(len > 1)
     span('sep',')').appendTo(tf)
 
-  $.each(self.items,function(i,item) {
+  self.items.each(function(item) {
     self.check_filtering(item)
   })
   self.save_filters_cookie()
@@ -191,7 +191,7 @@ Data.prototype.order_from_cookie = function() {
   var self=this
   var o=cr(this_tag+'_order')
   if(o!=null)
-    $.each(o.split(','),function(i,x) {
+    o.split(',').each(function(x) {
       try {
         item_move_after(self.item_id(x),self.items[self.items.length-1])
       } catch(e) {}
@@ -211,7 +211,7 @@ Data.prototype.filters_from_cookie = function() {
   if(t=='and') and_filtering()
 
   if(f==null) return
-  $.each(f.split(','),function(i,x) {
+  f.split(',').each(function(x) {
     try { tag_filter(self.tag_id(x)) } catch(e) {}
   })
 }

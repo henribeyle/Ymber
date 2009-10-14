@@ -22,7 +22,7 @@ function item_new(value,mtag,nT,nF) {
     success: suc(nT,nF,function(a) {
       var item=new Item(a.value,a.id)
       _d.add_item(item)
-      $.each(a.tags,function(i,t) {
+      a.tags.each(function(t) {
         var tag=_d.tag_id(t.id)
         item.add_tag(tag)
         tag.add(item)
@@ -40,7 +40,7 @@ function item_delete(item,nT,nF) {
     type: "DELETE",
     url: "/items/"+item.id,
     success: suc(nT,nF,function(a) {
-      $.each(item.tags.concat(),function(i,tag) {
+      item.tags.concat().each(function(tag) {
         tag.rm(item)
       })
       if(item==_d.item_show)
@@ -115,7 +115,7 @@ function tag_delete(tag,nT,nF) {
     type: "DELETE",
     url: "/tags/"+tag.id,
     success: suc(nT,nF,function(a) {
-      $.each(tag.items.concat(),function(i,item) {
+      tag.items.concat().each(function(item) {
         item.rm(tag)
         tag.rm(item)
         item.rm_ui(tag)
@@ -136,7 +136,7 @@ function tag_update(tag,value,nT,nF) {
     data: { 'tag[value]' : value.replace(/\n/,'') },
     success: suc(nT,nF,function(a) {
       tag.update(a.value)
-      $.each(tag.items,function(i,item) {
+      tag.items.each(function(item) {
         item.update_tag(tag)
       })
       if(tag==_d.main_tag)
@@ -236,11 +236,11 @@ function item_toggle_expand(item,nT,nF) {
 }
 
 function item_expand_all(nT,nF) {
-  $.each(_d.items,function(i,item) { item_expand(item,nT,nF) })
+  _d.items.each(function(item) { item_expand(item,nT,nF) })
 }
 
 function item_collapse_all(nT,nF) {
-  $.each(_d.items,function(i,item) { item_collapse(item,nT,nF) })
+  _d.items.each(function(item) { item_collapse(item,nT,nF) })
 }
 
 function item_move_selection_down(nT,nF) {

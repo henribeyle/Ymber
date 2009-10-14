@@ -196,3 +196,12 @@ String.prototype.trim = function() {
 String.prototype.clean = function() {
   return this.trim().replace(/\s+/g,' ')
 }
+
+function $A(o) {
+  var copy=[]
+  for(var i=0;;i++) {
+    if(o[i] === undefined) break
+    copy[i]=o[i]
+  }
+  return copy
+}

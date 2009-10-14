@@ -130,9 +130,7 @@ function key_handler(e) {
       break
 
     case 'FC':
-      $.each(_d.tags.concat(),function(i,tag) {
-        tag_unfilter(tag)
-      })
+      _d.tags.concat().each(function(tag) { tag_unfilter(tag) })
       command=''
       break
 

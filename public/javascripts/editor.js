@@ -58,7 +58,7 @@
         return false
       }
 
-      $.each(opts.buttons,function(i,x) {
+      opts.buttons.each(function(x) {
         if(typeof x.accel == 'function' && x.accel(e))
           close(x.click)
       })
@@ -105,7 +105,7 @@
 
     var button_row=$('<div>').addClass('button-row').appendTo(editor_div)
 
-    $.each(opts.buttons,function(i,x) {
+    opts.buttons.each(function(x) {
       button_row.append($('<img>').
           attr('src',x.img).
           attr('title',x.title).
