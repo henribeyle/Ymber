@@ -30,6 +30,7 @@ function item_new(value,mtag,nT,nF) {
       })
       _d.check_filtering(item)
       _d.save_order_cookie()
+      $.message('new item')
     }),
     error: te(nF)
   })
@@ -48,6 +49,7 @@ function item_delete(item,nT,nF) {
       _d.rm_item(item)
       _d.save_order_cookie()
       item.destroy_ui()
+      $.message('item deleted')
     }),
     error: te(nF)
   })
@@ -58,7 +60,10 @@ function item_update(item,value,nT,nF) {
     type: "PUT",
     url: "/items/"+item.id,
     data: {'item[value]': value},
-    success: suc(nT,nF,function(a) { item.update(a.value) }),
+    success: suc(nT,nF,function(a) {
+      item.update(a.value)
+      $.message('item updated')
+    }),
     error: te(nF)
   })
 }
@@ -74,6 +79,7 @@ function item_add_tag(item,tag,nT,nF) {
       item.add_tag(tag)
       tag.add(item)
       item.tag_ui(tag)
+      $.message('tag added to item')
     }),
     error: te(nF)
   })
@@ -93,6 +99,7 @@ function item_remove_tag(item,tag,nT,nF) {
         item.destroy_ui()
       }
       _d.check_filtering(item)
+      $.message('tag removed from item')
     }),
     error: te(nF)
   })
@@ -105,6 +112,7 @@ function tag_new(value,nT,nF) {
     data: { 'tag[value]': value.replace(/\n/,'') },
     success: suc(nT,nF,function(a) {
       _d.add_tag(new Tag(a.value,a.extra,a.id))
+      $.message('new tag')
     }),
     error: te(nF)
   })
@@ -124,6 +132,7 @@ function tag_delete(tag,nT,nF) {
       _d.rm_tag(tag)
       tag.destroy_ui()
       if(tag == _d.main_tag) go_to('')
+      $.message('tag deleted')
     }),
     error: te(nF)
   })
@@ -143,6 +152,7 @@ function tag_update(tag,value,nT,nF) {
         go_to(tag.value)
       if(tag.filtering)
         _d.update_filter()
+      $.message('tag updated')
     }),
     error: te(nF)
   })
@@ -349,6 +359,7 @@ function item_split(item,selection,nT,nF) {
         item_move_after(_d.items[_d.items.length-1],item)
       })
     }
+    $.message('item split')
   },nF)
   is_fun(nT) && nT()
 }
