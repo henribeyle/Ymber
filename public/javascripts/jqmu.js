@@ -62,8 +62,11 @@ Array.prototype.each = function(fn,obj) {
 
 Array.prototype.map = function(fn,obj) {
   var na=[]
-  for(var i = 0; i<this.length; i++)
-    na.push(fn.bind(obj)(this[i],i,this))
+  for(var i = 0; i<this.length; i++) {
+    var r=fn.bind(obj)(this[i],i,this)
+    if(r!=null)
+    na.push(r)
+  }
   return na
 }
 
