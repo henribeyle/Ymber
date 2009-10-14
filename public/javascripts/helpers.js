@@ -231,3 +231,12 @@ function cancel_next(which,type) {
   cancel_which=which
   cancel_type=type
 }
+
+function mess_and_undo(mess,lev) {
+  var m=mess
+  var l=lev || 1
+  return function() {
+    $.message(m)
+    log('undo-level +='+l)
+  }
+}

@@ -20,7 +20,8 @@ function Item(value,id,data) {
       accept: '.tag',
       hoverClass: 'dropping-into-item',
       drop: function(event, ui) {
-        item_add_tag(self,_d.tag_id($(ui.draggable).oid()))
+        item_add_tag(self,_d.tag_id($(ui.draggable).oid()),
+          mess_and_undo('tag added to item'))
       }
     })
 
@@ -63,7 +64,7 @@ Item.prototype.edit = function() {
         img: './images/Minus_Red_Button.png',
         title: 'delete',
         accel: function(e) { return e.which==46 && e.ctrlKey },
-        click: function(x) { item_delete(self) }
+        click: function(x) { item_delete(self,mess_and_undo('item deleted')) }
       }, {
         img: './images/Stop_Red_Button.png',
         title: 'cancel',
@@ -72,7 +73,7 @@ Item.prototype.edit = function() {
         img: './images/Clear_Green_Button.png',
         title: 'accept',
         accel:  function(e) { return e.which==13 && e.ctrlKey },
-        click: function(x) { item_update(self,x) }
+        click: function(x) { item_update(self,x,mess_and_undo('item updated')) }
       }
     ]
   })
@@ -83,8 +84,9 @@ Item.prototype.tag_ui = function(tag) {
   span(tag.extra != '' ? 'itag' : 'stag').
     addClass('tag-id-'+tag.id).
     append(span('content',tag.value_or_extra())).
-    drag_deleter({ on_delete: function() { item_remove_tag(self,tag) } }).
-    insertBefore($('.value',self.ui))
+    drag_deleter({ on_delete: function() {
+        item_remove_tag(self,tag,mess_and_undo('tag removed from item')) } }).
+      insertBefore($('.value',self.ui))
 }
 
 Item.prototype.update = function(value) {

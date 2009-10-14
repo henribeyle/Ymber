@@ -71,7 +71,8 @@ function key_handler(e) {
         $.selector('Select a tag to add',tags,function(tagv) {
           //log(tagv?'tag:'+tagv:'none')
           if(tagv)
-            item_add_tag(is,_d.tag_value(tagv))
+            item_add_tag(is,_d.tag_value(tagv),
+              mess_and_undo('tag added to item'))
         })
       }
       command=''
@@ -83,7 +84,8 @@ function key_handler(e) {
         $.selector('Select a tag to remove',tags,function(tagv) {
           //log(tagv?'tag:'+tagv:'none')
           if(tagv)
-            item_remove_tag(is,_d.tag_value(tagv))
+            item_remove_tag(is,_d.tag_value(tagv),
+              mess_and_undo('tag removed from item'))
         })
       }
       command=''
@@ -167,7 +169,9 @@ function add_item_helper() {
         img: './images/Add.png',
         title: 'add',
         accel:  function(e) { return e.which==13 && e.ctrlKey },
-        click: function(x) { item_new(x,[_d.main_tag]) }
+        click: function(x) {
+          item_new(x,[_d.main_tag],mess_and_undo('new item'))
+        }
       }
     ]
   })
@@ -186,7 +190,7 @@ function add_tag_helper() {
         img: './images/Add.png',
         title: 'add',
         accel:  function(e) { return e.which==13 },
-        click: function(x) { tag_new(x) }
+        click: function(x) { tag_new(x,mess_and_undo('new tag')) }
       }
     ]
   })
