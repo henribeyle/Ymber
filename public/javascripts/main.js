@@ -67,9 +67,7 @@ function key_handler(e) {
 
     case 'A':
       if(is!=null) {
-        var tags=_d.tags.map(function(tag) {
-          return is.has(tag) ? null : tag.value
-        })
+        var tags=_d.tags.grep(not_has_tag(is)).map(get_value)
         $.selector('Select a tag to add',tags,function(tagv) {
           //log(tagv?'tag:'+tagv:'none')
           if(tagv)
@@ -102,9 +100,7 @@ function key_handler(e) {
       break
 
     case 'FT':
-      var tags=_d.tags.map(function(tag) {
-        return _d.has_filter(tag) ? null : tag.value
-      })
+      var tags=_d.tags.grep(not_a_filter).map(get_value)
       $.selector('Select a tag to filter by',tags,function(tagv) {
         //log(tagv?'tag:'+tagv:'none')
         if(tagv)
@@ -124,7 +120,7 @@ function key_handler(e) {
       break
 
     case 'FC':
-      _d.tags.concat().each(function(tag) { tag_unfilter(tag) })
+      _d.tags.concat().each(tag_unfilter)
       command=''
       break
 
@@ -138,9 +134,7 @@ function key_handler(e) {
       break
 
     case 'GT':
-      var tags=_d.tags.map(function(tag) {
-        return tag != _d.main_tag ? tag.value : null
-      })
+      var tags=_d.tags.grep(not_main_tag).map(get_value)
       tags.push('(none)')
       $.selector('Select a tag to go to',tags,function(tagv) {
         //log(tagv?'tag:'+tagv:'none')

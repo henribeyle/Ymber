@@ -108,21 +108,15 @@ function clear_selection() {
 function get_id(x) { return x.id }
 function get_value(x) { return x.value }
 
-function this_id(id) {
-  return function(x) { return x.id == id }
-}
+function this_id(id) { return function(x) { return x.id == id } }
+function this_value(value) { return function(x) { return x.value == value } }
 
-function this_value(value) {
-  return function(x) { return x.value == value }
-}
+function related_to_item(item) { return function(tag) { return item.has(tag) } }
+function related_to_tag(tag) { return function(item) { return tag.has(item) } }
 
-function related_to_item(item) {
-  return function(tag) { return item.has(tag) }
-}
-
-function related_to_tag(tag) {
-  return function(item) { return tag.has(item) }
-}
+function not_main_tag(x) { return x != _d.main_tag }
+function not_a_filter(tag) { return !_d.has_filter(tag) }
+function not_has_tag(item) { return function(tag) { return !item.has(tag) } }
 
 function first_line(s) {
   return s.replace(/\n(.|\n)*/,' ...')
