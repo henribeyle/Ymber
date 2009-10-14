@@ -124,37 +124,6 @@ function related_to_tag(tag) {
   return function(item) { return tag.has(item) }
 }
 
-jQuery.extend({
-  pos: function(elems,callback) {
-    for(var i=0;i<elems.length;i++) {
-      if(callback(elems[i]))
-        return i
-    }
-    return -1
-  },
-  exists: function(elems,callback) {
-    return this.pos(elems,callback)!=-1
-  },
-  index: function(elems,callback) {
-    var p=this.pos(elems,callback)
-    if(p==-1)
-      throw "unfound object"
-    return p
-  },
-  and: function(elems,callback) {
-    for(var i=0;i<elems.length;i++)
-      if(!callback(elems[i]))
-        return false
-    return true
-  },
-  or: function(elems,callback) {
-    for(var i=0;i<elems.length;i++)
-      if(callback(elems[i]))
-        return true
-    return false
-  }
-});
-
 function first_line(s) {
   return s.replace(/\n(.|\n)*/,' ...')
 }

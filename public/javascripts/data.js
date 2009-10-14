@@ -27,7 +27,7 @@ function Data(this_tag, all_tags, all_items) {
 
   // reordering tags (in, next and waiting first)
   ['waiting','next','in'].each(function(x) {
-    var ind=$.index(self.tags,this_value(x))
+    var ind=self.tags.index(this_value(x))
     if(ind!=0) {
       self.tags[0].ui.before(self.tags[ind].ui)
       var tag=self.tags.splice(ind,1).shift()
@@ -79,39 +79,39 @@ Data.prototype.rm_filter = function(flt) { this.filters.splice(this.filter(flt),
 // searching and indexing items, tags and filters
 
 Data.prototype.item = function(item) {
-  return $.index(this.items,this_value(item.value))
+  return this.items.index(this_value(item.value))
 }
 
 Data.prototype.item_id = function(id) {
-  return this.items[$.index(this.items,this_id(id))]
+  return this.items[this.items.index(this_id(id))]
 }
 
 Data.prototype.has_item = function(item) {
-  return $.exists(this.items,this_value(item.value))
+  return this.items.contains(this_value(item.value))
 }
 
 Data.prototype.tag = function(tag) {
-  return $.index(this.tags,this_value(tag.value))
+  return this.tags.index(this_value(tag.value))
 }
 
 Data.prototype.tag_id = function(id) {
-  return this.tags[$.index(this.tags,this_id(id))]
+  return this.tags[this.tags.index(this_id(id))]
 }
 
 Data.prototype.tag_value = function(value) {
-  return this.tags[$.index(this.tags,this_value(value))]
+  return this.tags[this.tags.index(this_value(value))]
 }
 
 Data.prototype.has_tag = function(tag) {
-  return $.exists(this.tags,this_value(tag.value))
+  return this.tags.contains(this_value(tag.value))
 }
 
 Data.prototype.filter = function(tag) {
-  return $.index(this.filters,this_value(tag.value))
+  return this.filters.index(this_value(tag.value))
 }
 
 Data.prototype.has_filter = function(tag) {
-  return $.exists(this.filters,this_value(tag.value))
+  return this.filters.contains(this_value(tag.value))
 }
 
 Data.prototype.update_filter = function() {
@@ -146,7 +146,9 @@ Data.prototype.update_filter = function() {
 Data.prototype.filter_status = function(item) {
   if(this.filters.length==0)
     return false
-  return !(this.filter_type ? $.and : $.or)(this.filters,related_to_item(item))
+  return !this.filter_type ?
+    this.filters.all(related_to_item(item)) :
+    this.filters.any(related_to_item(item))
 }
 
 Data.prototype.check_filtering = function(item) {

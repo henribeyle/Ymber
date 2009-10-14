@@ -40,11 +40,11 @@ Tag.prototype.add = function(item) {
 Tag.prototype.rm = function(item) { this.items.splice(this.item(item),1) }
 
 Tag.prototype.item = function(item) {
-  return $.index(this.items,this_value(item.value))
+  return this.items.index(this_value(item.value))
 }
 
 Tag.prototype.has = function(item) {
-  return $.exists(this.items,this_value(item.value))
+  return this.items.contains(this_value(item.value))
 }
 
 // these have to do with ui
