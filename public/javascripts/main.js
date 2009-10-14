@@ -167,7 +167,7 @@ function add_item_helper() {
         img: './images/Add.png',
         title: 'add',
         accel:  function(e) { return e.which==13 && e.ctrlKey },
-        click: function(x) { item_new(x,_d.main_tag) }
+        click: function(x) { item_new(x,[_d.main_tag]) }
       }
     ]
   })

@@ -4,15 +4,11 @@
 // which will be called on success or on failure
 
 function item_new(value,mtag,nT,nF) {
-  if(is_a(mtag)) {
-    var dp=encodeURIComponent('item[value]='+value)
+  var dp=encodeURIComponent('item[value]='+value)
+  if(mtag) {
     dp+='&'+mtag.map(function(x) {
       return encodeURIComponent('tag[]='+x.id)
     }).join('&')
-  } else if(typeof mtag == 'object') {
-    var dp=$.param({'item[value]': value, 'tag[]': mtag.id })
-  } else {
-    var dp=$.param({'item[value]': value})
   }
 
   $.ajax({
@@ -356,7 +352,7 @@ function item_split(item,selection,nT,nF) {
   item_update(item,data[0],function(){
     for(var i=data.length-1;i>0;i--) {
       item_new(data[i],item.tags,function() {
-        item_move_after(_d.items[_d.items.length-1],item)
+        item_move_after(_d.items.last(),item)
       })
     }
     $.message('item split')

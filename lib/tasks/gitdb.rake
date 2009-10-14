@@ -35,7 +35,7 @@ namespace :db do
       i2.save
       i3=Item.new('item-three')
       i3.save
-      i4=Item.new('item-four')
+      i4=Item.new("item-four\n - hola\n - adios")
       i4.tags << t1 << t2
       i4.save
       i5=Item.new('item-five')
