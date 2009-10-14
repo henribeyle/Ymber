@@ -150,44 +150,44 @@ function tag_update(tag,value,nT,nF) {
 
 function tag_filter(tag,nT,nF) {
   if(tag == _d.main_tag || _d.has_filter(tag)) {
-    nF && nF()
+    is_fun(nF) && nF()
     return
   }
 
   tag.filter_on()
   _d.add_filter(tag)
   _d.update_filter()
-  nT && nT()
+  is_fun(nT) && nT()
 }
 
 function tag_unfilter(tag,nT,nF) {
   if(tag == _d.main_tag || !_d.has_filter(tag)) {
-    nF && nF()
+    is_fun(nF) && nF()
     return
   }
 
   tag.filter_off()
   _d.rm_filter(tag)
   _d.update_filter()
-  nT && nT()
+  is_fun(nT) && nT()
 }
 
 function and_filtering(nT,nF) {
   if(_d.filter_type) {
-    nF && nF()
+    is_fun(nF) && nF()
   }
   _d.filter_type=true
   _d.update_filter()
-  nT && nT()
+  is_fun(nT) && nT()
 }
 
 function or_filtering(nT,nF) {
   if(!_d.filter_type) {
-    nF && nF()
+    is_fun(nF) && nF()
   }
   _d.filter_type=false
   _d.update_filter()
-  nT && nT()
+  is_fun(nT) && nT()
 }
 
 function item_show(item,nT,nF) {
@@ -196,9 +196,9 @@ function item_show(item,nT,nF) {
   _d.item_show=item
   if(_d.item_show) {
     _d.item_show.show_mark(true)
-    nT && nT()
+    is_fun(nT) && nT()
   } else {
-    nF && nF()
+    is_fun(nF) && nF()
   }
 }
 
@@ -207,7 +207,7 @@ function item_show_next(nT,nF) {
   if(item)
     item_show(item,nT,nF)
   else {
-    nF && nF()
+    is_fun(nF) && nF()
   }
 }
 
@@ -216,23 +216,23 @@ function item_show_prev(nT,nF) {
   if(item)
     item_show(item,nT,nF)
   else {
-    nF && nF()
+    is_fun(nF) && nF()
   }
 }
 
 function item_expand(item,nT,nF) {
   item.expand()
-  nT && nT()
+  is_fun(nT) && nT()
 }
 
 function item_collapse(item,nT,nF) {
   item.collapse()
-  nT && nT()
+  is_fun(nT) && nT()
 }
 
 function item_toggle_expand(item,nT,nF) {
   item.toggle_expand()
-  nT && nT()
+  is_fun(nT) && nT()
 }
 
 function item_expand_all(nT,nF) {
@@ -245,7 +245,7 @@ function item_collapse_all(nT,nF) {
 
 function item_move_selection_down(nT,nF) {
   if(_d.item_show==null) {
-    nF && nF()
+    is_fun(nF) && nF()
     return
   }
   var item=_d.next(_d.item_show)
@@ -253,13 +253,13 @@ function item_move_selection_down(nT,nF) {
     item_move_after(_d.item_show,item,nT,nF)
   }
   else {
-    nF && nF()
+    is_fun(nF) && nF()
   }
 }
 
 function item_move_selection_up(nT,nF) {
   if(_d.item_show==null) {
-    nF && nF()
+    is_fun(nF) && nF()
     return
   }
   var item=_d.prev(_d.item_show)
@@ -267,14 +267,14 @@ function item_move_selection_up(nT,nF) {
     item_move_before(_d.item_show,item,nT,nF)
   }
   else {
-    nF && nF()
+    is_fun(nF) && nF()
   }
 }
 
 function item_move_before(item1,item2,nT,nF) {
   //log('want to put '+item1.value+' before '+item2.value)
   if(item1==item2) {
-    nF && nF()
+    is_fun(nF) && nF()
     return
   }
 
@@ -283,13 +283,13 @@ function item_move_before(item1,item2,nT,nF) {
 
   item2.ui.before(item1.ui)
   _d.save_order_cookie()
-  nT && nT()
+  is_fun(nT) && nT()
 }
 
 function item_move_after(item1,item2,nT,nF) {
   //log('want to put '+item1.value+' after '+item2.value)
   if(item1==item2) {
-    nF && nF()
+    is_fun(nF) && nF()
     return
   }
   _d.rm_item(item1)
@@ -297,7 +297,7 @@ function item_move_after(item1,item2,nT,nF) {
 
   item2.ui.after(item1.ui)
   _d.save_order_cookie()
-  nT && nT()
+  is_fun(nT) && nT()
 }
 
 function item_send_to_next(item,nT,nF) {
@@ -307,7 +307,7 @@ function item_send_to_next(item,nT,nF) {
     if(item==_d.item_show)
       _d.item_show=null
     item_add_tag(item,tag_next,function() {
-      nT && nT()
+      is_fun(nT) && nT()
     },nF)
   },nF)
 }
@@ -320,7 +320,7 @@ function item_send_to_waiting(item,nT,nF) {
       if(item==_d.item_show)
         _d.item_show=null
       item_add_tag(item,tag_waiting,function() {
-        nT && nT()
+        is_fun(nT) && nT()
       },nF)
     },nF)
   },nF)
@@ -329,14 +329,14 @@ function item_send_to_waiting(item,nT,nF) {
 function item_split(item,selection,nT,nF) {
   if(selection=='') {
     $.warning('selection cant be void in division')
-    nF && nF()
+    is_fun(nF) && nF()
     return
   }
 
   var data=divide(item.value,selection," - ")
   if(data==null) {
     $.warning('division produced errors')
-    nF && nF()
+    is_fun(nF) && nF()
     return
   }
 
@@ -350,5 +350,5 @@ function item_split(item,selection,nT,nF) {
       })
     }
   },nF)
-  nT && nT()
+  is_fun(nT) && nT()
 }

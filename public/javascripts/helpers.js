@@ -14,7 +14,7 @@ function terrible_error(request,error) {
 function te(nF) {
   return function(r,e) {
     terrible_error(r,e)
-    nF && nF()
+    is_fun(nF) && nF()
   }
 }
 
@@ -22,9 +22,9 @@ function suc(nT,nF,cont) {
   return function(a) {
     if(a=parse(a)) {
       cont(a)
-      nT && nT()
+      is_fun(nT) && nT()
     } else {
-      nF && nF()
+      is_fun(nF) && nF()
     }
   }
 }

@@ -22,6 +22,11 @@ function is_a(o) {
   return toString.call(o) === "[object Array]"
 }
 
+// is this a function
+function is_fun(o) {
+  return typeof o === 'function'
+}
+
 // I use repeat instead of periodical
 // I use args instead of arguments
 // I use obj instead of bind
