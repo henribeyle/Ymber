@@ -105,6 +105,9 @@ function clear_selection() {
   }
 }
 
+function get_id(x) { return x.id }
+function get_value(x) { return x.value }
+
 function this_id(id) {
   return function(x) { return x.id == id }
 }

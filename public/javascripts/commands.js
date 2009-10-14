@@ -6,7 +6,7 @@
 function item_new(value,mtag,nT,nF) {
   if(is_a(mtag)) {
     var dp=encodeURIComponent('item[value]='+value)
-    dp+='&'+$.map(mtag,function(x) {
+    dp+='&'+mtag.map(function(x) {
       return encodeURIComponent('tag[]='+x.id)
     }).join('&')
   } else if(typeof mtag == 'object') {

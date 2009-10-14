@@ -67,7 +67,7 @@ function key_handler(e) {
 
     case 'A':
       if(is!=null) {
-        var tags=$.map(_d.tags,function(tag) {
+        var tags=_d.tags.map(function(tag) {
           return is.has(tag) ? null : tag.value
         })
         $.selector('Select a tag to add',tags,function(tagv) {
@@ -81,9 +81,7 @@ function key_handler(e) {
 
     case 'R':
       if(is!=null) {
-        var tags=$.map(is.tags,function(tag) {
-          return tag.value
-        })
+        var tags=is.tags.map(get_value)
         $.selector('Select a tag to remove',tags,function(tagv) {
           //log(tagv?'tag:'+tagv:'none')
           if(tagv)
@@ -94,9 +92,7 @@ function key_handler(e) {
       break
 
     case 'TE':
-      var tags=$.map(_d.tags,function(tag) {
-        return tag.value
-      })
+      var tags=_d.tags.map(get_value)
       $.selector('Select a tag to edit',tags,function(tagv) {
         //log(tagv?'tag:'+tagv:'none')
         if(tagv)
@@ -106,7 +102,7 @@ function key_handler(e) {
       break
 
     case 'FT':
-      var tags=$.map(_d.tags,function(tag) {
+      var tags=_d.tags.map(function(tag) {
         return _d.has_filter(tag) ? null : tag.value
       })
       $.selector('Select a tag to filter by',tags,function(tagv) {
@@ -118,9 +114,7 @@ function key_handler(e) {
       break
 
     case 'FR':
-      var tags=$.map(_d.filters,function(tag) {
-        return tag.value
-      })
+      var tags=_d.filters.map(get_value)
       $.selector('Select a tag to unfilter',tags,function(tagv) {
         //log(tagv?'tag:'+tagv:'none')
         if(tagv)
@@ -144,7 +138,7 @@ function key_handler(e) {
       break
 
     case 'GT':
-      var tags=$.map(_d.tags,function(tag) {
+      var tags=_d.tags.map(function(tag) {
         return tag != _d.main_tag ? tag.value : null
       })
       tags.push('(none)')

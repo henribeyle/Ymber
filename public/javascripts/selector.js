@@ -8,7 +8,7 @@
       var colored = function(color,text) {
         return '<span style="color: '+color+';">'+text+'</span>'
       }
-      filtered=$.map(values,function(x,i) {
+      filtered=values.map(function(x) {
         if(content == '') return x
         var nx=x.replace(content,colored('#80F73C',content))
         if(nx!=x) return nx
@@ -56,7 +56,7 @@
         if(filtered.length == 1 ) {
           close(filtered[0].replace(/<\/?[^>]+>/gi, ''))
         } else {
-          var pos=$.inArray(content, values)
+          var pos=values.index(content)
           if(pos!=-1)
             close(values[pos])
         }

@@ -200,7 +200,7 @@ Data.prototype.order_from_cookie = function() {
 }
 
 Data.prototype.save_order_cookie = function() {
-  cs(this_tag+'_order',$.map(this.items,function(x) { return x.id }).join(','))
+  cs(this_tag+'_order',this.items.map(get_id).join(','))
 }
 
 Data.prototype.filters_from_cookie = function() {
@@ -221,5 +221,5 @@ Data.prototype.save_filters_cookie = function() {
   if(this.filters.length==0)
     cd(this_tag+'_filters')
   else
-    cs(this_tag+'_filters',$.map(this.filters,function(x) { return x.id }).join(','))
+    cs(this_tag+'_filters',this.filters.map(get_id).join(','))
 }
