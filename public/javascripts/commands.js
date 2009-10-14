@@ -4,7 +4,7 @@
 // which will be called on success or on failure
 
 function item_new(value,mtag,nT,nF) {
-  if($.isArray(mtag)) {
+  if(is_a(mtag)) {
     var dp=encodeURIComponent('item[value]='+value)
     dp+='&'+$.map(mtag,function(x) {
       return encodeURIComponent('tag[]='+x.id)
