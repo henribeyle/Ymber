@@ -232,7 +232,7 @@ function cancel_next(which,type) {
   cancel_type=type
 }
 
-function mess_and_undo(mess,lev) {
+function p_message(mess,lev) {
   var m=mess
   var l=lev || 1
   return function() {

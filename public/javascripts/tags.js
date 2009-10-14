@@ -59,7 +59,7 @@ Tag.prototype.edit = function() {
         img: './images/Minus_Red_Button.png',
         title: 'delete',
         accel: function(e) { return e.which==46 && e.ctrlKey },
-        click: function(x) { tag_delete(self,mess_and_undo('tag deleted')) }
+        click: function(x) { tag_delete(self,p_mess('tag deleted')) }
       }, {
         img: './images/Stop_Red_Button.png',
         title: 'cancel',
@@ -68,7 +68,7 @@ Tag.prototype.edit = function() {
         img: './images/Clear_Green_Button.png',
         title: 'accept',
         accel:  function(e) { return e.which==13 },
-        click: function(x) { tag_update(self,x,mess_and_undo('tag updated')) }
+        click: function(x) { tag_update(self,x,p_mess('tag updated')) }
       }
     ]
   })
