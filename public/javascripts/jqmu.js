@@ -7,6 +7,21 @@
 //
 // see test_jqmu.js for examples of use
 
+// get an array out of an object (very simple version)
+function to_a(o) {
+  var copy=[]
+  for(var i=0;;i++) {
+    if(o[i] === undefined) break
+    copy[i]=o[i]
+  }
+  return copy
+}
+
+// is this an array
+function is_a(o) {
+  return toString.call(o) === "[object Array]"
+}
+
 // I use repeat instead of periodical
 // I use args instead of arguments
 // I use obj instead of bind
@@ -16,7 +31,7 @@ Function.prototype.create = function(o) {
   var fun = function() {
     return self.apply(o.obj || null,
       arguments.length!=0 ? arguments : (
-        toString.call(o.args) === "[object Array]" ? o.args : [o.args]
+        is_a(o.args) ? o.args : [o.args]
       ))
   }
   if(o.repeat && o.delay) return setInterval(fun, o.delay)
@@ -195,13 +210,4 @@ String.prototype.trim = function() {
 
 String.prototype.clean = function() {
   return this.trim().replace(/\s+/g,' ')
-}
-
-function $A(o) {
-  var copy=[]
-  for(var i=0;;i++) {
-    if(o[i] === undefined) break
-    copy[i]=o[i]
-  }
-  return copy
 }

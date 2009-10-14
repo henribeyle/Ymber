@@ -20,7 +20,7 @@ function Data(this_tag, all_tags, all_items) {
     return
   }
 
-  $A(all_tags).each(function(x) {
+  to_a(all_tags).each(function(x) {
     var t=new Tag(x.value,x.extra,x.id)
     self.tags.push(t)
   });
