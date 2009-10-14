@@ -59,7 +59,7 @@
       }
 
       opts.buttons.each(function(x) {
-        if(typeof x.accel == 'function' && x.accel(e))
+        if(is_fun(x.accel) && x.accel(e))
           close(x.click)
       })
     }
@@ -78,9 +78,9 @@
 
       $('#editor-ui-overlay,#editor-ui-wrapper').remove()
 
-      if(typeof func == 'function')
+      if(is_fun(func))
         func(text,sel)
-      if(typeof opts.close == 'function')
+      if(is_fun(opts.close))
         opts.close(text,sel)
     }
 
