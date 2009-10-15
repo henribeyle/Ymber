@@ -357,7 +357,7 @@ function item_split(item,selection,nT,nF) {
 
   var data=divide(item.value,selection," - ")
   if(data==null) {
-    $.warning('division produced errors')
+    //$.warning('division produced errors')
     is_fun(nF) && nF()
     return
   }
