@@ -232,7 +232,7 @@ function cancel_next(which,type) {
   cancel_type=type
 }
 
-function p_message(mess) {
+function p_mess(mess) {
   var m=mess
   return function() {
     $.message(m)
