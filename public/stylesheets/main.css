@@ -81,6 +81,10 @@ body {
   margin-bottom: 5px;
 }
 
+#items .item .item-handler {
+  cursor: move;
+}
+
 #items .item .show {
   width: 16px;
   position: relative;

@@ -263,8 +263,8 @@ $(function() {
     }
   })
 
-  $("#items")
-    .sortable({
+  $("#items").sortable({
+    handle: '.item-handler',
     cursor: 'move',
     opacity: 0.5,
     placeholder: 'items-sortable-placeholder',

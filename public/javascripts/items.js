@@ -11,9 +11,13 @@ function Item(value,id,data) {
 
   $('<div>').
     addClass('item').
-    append(show_mark().
-      css('visibility','hidden').
-      click(function() { self.toggle_expand() })).
+    append($('<span>').
+      addClass('item-handler').
+      append($('<img>').
+        attr('src','/images/Play.png').
+        addClass('show').
+        css('visibility','hidden').
+        click(function() { self.toggle_expand() }))).
     append(span('value',self.value_format)).
     appendTo(self.ui).
     droppable({
