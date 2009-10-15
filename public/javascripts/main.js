@@ -150,6 +150,16 @@ function key_handler(e) {
       $.calendar_show()
       command=''
       break
+
+    case 'UU':
+      undo()
+      command=''
+      break
+
+    case 'UR':
+      redo()
+      command=''
+      break
   }
 
   setTimeout(function(){ command='' }, 300)

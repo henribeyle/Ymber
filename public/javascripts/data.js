@@ -6,6 +6,7 @@ function Data(this_tag, all_tags, all_items) {
   self.filter_type=true
   self.main_tag=null
   self.item_show=null
+  self.undo_levels=[]
 
   if(this_tag == undefined) {
     assert_failed('this_tag is not defined')
@@ -224,4 +225,18 @@ Data.prototype.save_filters_cookie = function() {
     cd(this_tag+'_filters')
   else
     cs(this_tag+'_filters',this.filters.map(get_id).join(','))
+}
+
+Data.prototype.add_undo = function(lev) {
+  this.undo_levels.push(lev || 1)
+  log('undo level='+undo_levels.join(', '))
+}
+
+Data.prototype.join_undos = function(lev) {
+  log('join undo levels (last '+lev+')')
+  var sum=0
+  for(var i=0;i<lev;i++) {
+    sum+=this.undo_levels.pop()
+  }
+  this.add_undo(sum)
 }

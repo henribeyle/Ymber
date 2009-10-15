@@ -26,7 +26,7 @@ function item_new(value,mtag,nT,nF) {
       })
       _d.check_filtering(item)
       _d.save_order_cookie()
-      add_undo()
+      _d.add_undo()
     }),
     error: te(nF)
   })
@@ -45,7 +45,7 @@ function item_delete(item,nT,nF) {
       _d.rm_item(item)
       _d.save_order_cookie()
       item.destroy_ui()
-      add_undo()
+      _d.add_undo()
     }),
     error: te(nF)
   })
@@ -58,7 +58,7 @@ function item_update(item,value,nT,nF) {
     data: {'item[value]': value},
     success: suc(nT,nF,function(a) {
       item.update(a.value)
-      add_undo()
+      _d.add_undo()
     }),
     error: te(nF)
   })
@@ -75,7 +75,7 @@ function item_add_tag(item,tag,nT,nF) {
       item.add_tag(tag)
       tag.add(item)
       item.tag_ui(tag)
-      add_undo()
+      _d.add_undo()
     }),
     error: te(nF)
   })
@@ -95,7 +95,7 @@ function item_remove_tag(item,tag,nT,nF) {
         item.destroy_ui()
       }
       _d.check_filtering(item)
-      add_undo()
+      _d.add_undo()
     }),
     error: te(nF)
   })
@@ -108,7 +108,7 @@ function tag_new(value,nT,nF) {
     data: { 'tag[value]': value.replace(/\n/,'') },
     success: suc(nT,nF,function(a) {
       _d.add_tag(new Tag(a.value,a.extra,a.id))
-      add_undo()
+      _d.add_undo()
     }),
     error: te(nF)
   })
@@ -128,7 +128,7 @@ function tag_delete(tag,nT,nF) {
       _d.rm_tag(tag)
       tag.destroy_ui()
       if(tag == _d.main_tag) go_to('')
-      add_undo()
+      _d.add_undo()
     }),
     error: te(nF)
   })
@@ -148,7 +148,7 @@ function tag_update(tag,value,nT,nF) {
         go_to(tag.value)
       if(tag.filtering)
         _d.update_filter()
-      add_undo()
+      _d.add_undo()
     }),
     error: te(nF)
   })
@@ -314,7 +314,7 @@ function item_send_to_next(item,nT,nF) {
       _d.item_show=null
     item_add_tag(item,tag_next,function() {
       is_fun(nT) && nT()
-      join_undos(2)
+      _d.join_undos(2)
     },nF)
   },nF)
 }
@@ -328,7 +328,7 @@ function item_send_to_waiting(item,nT,nF) {
         _d.item_show=null
       item_add_tag(item,tag_waiting,function() {
         is_fun(nT) && nT()
-        join_undos(3)
+        _d.join_undos(3)
       },nF)
     },nF)
   },nF)
@@ -358,7 +358,7 @@ function item_split(item,selection,nT,nF) {
           if(element>1)
             process_one_data_item(element-1)
           else {
-            join_undos(data.length)
+            _d.join_undos(data.length)
             is_fun(nT) && nT()
           }
         })
@@ -367,4 +367,17 @@ function item_split(item,selection,nT,nF) {
     process_one_data_item(data.length-1)
   }
   item_update(item,data[0],process_new_data_items,nF)
+}
+
+function undo() {
+  if(undo_levels.length == 0) {
+    $.warning('nothing to undo')
+    return
+  }
+  var howmany=undo_levels.pop()
+  log('undo: '+howmany)
+}
+
+function redo() {
+  log('redo')
 }
