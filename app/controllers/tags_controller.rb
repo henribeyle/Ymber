@@ -43,12 +43,12 @@ class TagsController < ApplicationController
       end
     end
 
-    a.shift(howmany*2)
-
-    m=a[1].match(/.* (HEAD@\{\d+\}):.*/)
-    if(check && a[0] =~ /updating HEAD/ && m.size == 2) then
-      DB.git('reset','--hard',m[1])
-      render :json => { :status => 'ok' }
+    a.shift(howmany*2) if(howmany)
+    m=a[0].match(/.* HEAD~(\d+): updating HEAD/)
+    n=a[1].match(/.* (HEAD@\{\d+\}): .*/)
+    if(check && m && m.size == 2 && n && n.size == 2) then
+      DB.git('reset','--hard',n[1])
+      render :json => { :status => 'ok', :level => m[1] }
     else
       render :json => { :status => 'error', :error => 'redo not possible' }
     end
