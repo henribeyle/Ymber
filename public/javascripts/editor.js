@@ -106,13 +106,15 @@
     var button_row=$('<div>').addClass('button-row').appendTo(editor_div)
 
     opts.buttons.each(function(x) {
-      button_row.append($('<img>').
-          attr('src',x.img).
-          attr('title',x.title).
-          addClass('button').
-          click(function() {
-            close(x.click)
-          }))
+      if(x.img) {
+        button_row.append($('<img>').
+            attr('src',x.img).
+            attr('title',x.title).
+            addClass('button').
+            click(function() {
+              close(x.click)
+            }))
+      }
     })
 
     $('<div>').
