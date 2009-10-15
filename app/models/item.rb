@@ -3,11 +3,12 @@ require "#{RAILS_ROOT}/lib/git"
 class Item
 private
   def new_value(value)
-    return value.
+    value=value.
       split(/\n/).
       map { |x| x.rstrip }.
-      join("\n").
-      sub(/\n+$/,'')
+      join("\n")
+    true while value.chomp!
+    return value
   end
 public
   attr_reader :id
