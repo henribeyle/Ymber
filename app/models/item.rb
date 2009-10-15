@@ -1,20 +1,32 @@
 require "#{RAILS_ROOT}/lib/git"
 
 class Item
+private
+  def new_value(value)
+    return value.
+      split(/\n/).
+      map { |x| x.rstrip }.
+      join("\n").
+      sub(/\n+$/,'')
+  end
+public
   attr_reader :id
-  attr_writer :value
   attr_reader :tags
   attr_writer :tags
 
   def initialize(value,id=nil)
     @id=id
-    @value=value
+    @value=new_value(value)
     @tags=[]
     if(!id.nil?) then
       DB.list("#{id}@*").each do |t|
         @tags.push(Tag.find(DB.id(t)[1]))
       end
     end
+  end
+
+  def value=(value)
+    @value=new_value(value)
   end
 
   def save
