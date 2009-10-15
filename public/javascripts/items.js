@@ -63,8 +63,14 @@ Item.prototype.edit = function() {
     buttons: [ {
         img: './images/divide.png',
         title: 'divide',
-        accel: function(e) { return e.which==17 && e.ctrlKey },
-        click: function(x,s) { item_split(self,s) }
+        accel: function(e) { return e.which==190 && e.ctrlKey },
+        click: function(x,s) {
+          var split=function() { item_split(self,s) }
+          if(x!=self.value)
+            item_update(self,x,split)
+          else
+            split()
+        }
       }, {
         img: './images/Minus_Red_Button.png',
         title: 'delete',
