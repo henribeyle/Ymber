@@ -239,11 +239,18 @@ function p_message(mess) {
   }
 }
 
+var undo_levels=[]
+
 function add_undo(lev) {
-  var l=lev || 1
-  log('undo level+='+l)
+  undo_levels.push(lev || 1)
+  log('undo level='+undo_levels.join(', '))
 }
 
 function join_undos(lev) {
   log('join undo levels (last '+lev+')')
+  var sum=0
+  for(var i=0;i<lev;i++) {
+    sum+=undo_levels.pop()
+  }
+  add_undo(sum)
 }

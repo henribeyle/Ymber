@@ -351,14 +351,20 @@ function item_split(item,selection,nT,nF) {
 //   for(var i=0;i<data.length;i++)
 //      log("data ["+i+"]= '"+data[i]+"'")
 
-  item_update(item,data[0],function(){
-    for(var i=data.length-1;i>0;i--) {
-      item_new(data[i],item.tags,function() {
-        item_move_after(_d.items.last(),item)
+  function process_new_data_items() {
+    function process_one_data_item(element) {
+      item_new(data[element],item.tags,function() {
+        item_move_after(_d.items.last(),item, function() {
+          if(element>1)
+            process_one_data_item(element-1)
+          else {
+            join_undos(data.length)
+            is_fun(nT) && nT()
+          }
+        })
       })
     }
-    add_undo(data.length-1)
-    join_undos(2)
-    is_fun(nT) && nT()
-  },nF)
+    process_one_data_item(data.length-1)
+  }
+  item_update(item,data[0],process_new_data_items,nF)
 }
