@@ -26,6 +26,7 @@ function item_new(value,mtag,nT,nF) {
       })
       _d.check_filtering(item)
       _d.save_order_cookie()
+      add_undo()
     }),
     error: te(nF)
   })
@@ -44,6 +45,7 @@ function item_delete(item,nT,nF) {
       _d.rm_item(item)
       _d.save_order_cookie()
       item.destroy_ui()
+      add_undo()
     }),
     error: te(nF)
   })
@@ -54,7 +56,10 @@ function item_update(item,value,nT,nF) {
     type: "PUT",
     url: "/items/"+item.id,
     data: {'item[value]': value},
-    success: suc(nT,nF,function(a) { item.update(a.value) }),
+    success: suc(nT,nF,function(a) {
+      item.update(a.value)
+      add_undo()
+    }),
     error: te(nF)
   })
 }
@@ -70,6 +75,7 @@ function item_add_tag(item,tag,nT,nF) {
       item.add_tag(tag)
       tag.add(item)
       item.tag_ui(tag)
+      add_undo()
     }),
     error: te(nF)
   })
@@ -89,6 +95,7 @@ function item_remove_tag(item,tag,nT,nF) {
         item.destroy_ui()
       }
       _d.check_filtering(item)
+      add_undo()
     }),
     error: te(nF)
   })
@@ -101,6 +108,7 @@ function tag_new(value,nT,nF) {
     data: { 'tag[value]': value.replace(/\n/,'') },
     success: suc(nT,nF,function(a) {
       _d.add_tag(new Tag(a.value,a.extra,a.id))
+      add_undo()
     }),
     error: te(nF)
   })
@@ -120,6 +128,7 @@ function tag_delete(tag,nT,nF) {
       _d.rm_tag(tag)
       tag.destroy_ui()
       if(tag == _d.main_tag) go_to('')
+      add_undo()
     }),
     error: te(nF)
   })
@@ -139,6 +148,7 @@ function tag_update(tag,value,nT,nF) {
         go_to(tag.value)
       if(tag.filtering)
         _d.update_filter()
+      add_undo()
     }),
     error: te(nF)
   })
@@ -304,6 +314,7 @@ function item_send_to_next(item,nT,nF) {
       _d.item_show=null
     item_add_tag(item,tag_next,function() {
       is_fun(nT) && nT()
+      join_undos(2)
     },nF)
   },nF)
 }
@@ -317,6 +328,7 @@ function item_send_to_waiting(item,nT,nF) {
         _d.item_show=null
       item_add_tag(item,tag_waiting,function() {
         is_fun(nT) && nT()
+        join_undos(3)
       },nF)
     },nF)
   },nF)
@@ -345,6 +357,8 @@ function item_split(item,selection,nT,nF) {
         item_move_after(_d.items.last(),item)
       })
     }
+    add_undo(data.length-1)
+    join_undos(2)
+    is_fun(nT) && nT()
   },nF)
-  is_fun(nT) && nT()
 }

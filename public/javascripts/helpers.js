@@ -232,11 +232,18 @@ function cancel_next(which,type) {
   cancel_type=type
 }
 
-function p_message(mess,lev) {
+function p_message(mess) {
   var m=mess
-  var l=lev || 1
   return function() {
     $.message(m)
-    log('undo-level +='+l)
   }
+}
+
+function add_undo(lev) {
+  var l=lev || 1
+  log('undo level+='+l)
+}
+
+function join_undos(lev) {
+  log('join undo levels (last '+lev+')')
 }
