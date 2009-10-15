@@ -41,7 +41,7 @@ function item_delete(item,nT,nF) {
         tag.rm(item)
       })
       if(item==_d.item_show)
-        _d.item_show=null
+        item_show_next()
       _d.rm_item(item)
       _d.save_order_cookie()
       item.destroy_ui()
@@ -311,7 +311,7 @@ function item_send_to_next(item,nT,nF) {
   var tag_next=_d.tag_value('next')
   item_remove_tag(item,tag_in,function() {
     if(item==_d.item_show)
-      _d.item_show=null
+      item_show_next()
     item_add_tag(item,tag_next,function() {
       is_fun(nT) && nT()
       _d.join_undos(2)
@@ -325,7 +325,7 @@ function item_send_to_waiting(item,nT,nF) {
   item_update(item,'['+today()+'] '+item.value,function(){
     item_remove_tag(item,tag_in,function() {
       if(item==_d.item_show)
-        _d.item_show=null
+        item_show_next()
       item_add_tag(item,tag_waiting,function() {
         is_fun(nT) && nT()
         _d.join_undos(3)
