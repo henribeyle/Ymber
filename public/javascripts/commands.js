@@ -52,6 +52,11 @@ function item_delete(item,nT,nF) {
 }
 
 function item_update(item,value,nT,nF) {
+  if(item.value == value) {
+    $.warning('value has not changed')
+    return
+  }
+
   $.ajax({
     type: "PUT",
     url: "/items/"+item.id,
@@ -65,7 +70,10 @@ function item_update(item,value,nT,nF) {
 }
 
 function item_add_tag(item,tag,nT,nF) {
-  if(item.has(tag)) return
+  if(item.has(tag)) {
+    $.warning('item already has tag')
+    return
+  }
 
   $.ajax({
     type: "PUT",
@@ -135,10 +143,16 @@ function tag_delete(tag,nT,nF) {
 }
 
 function tag_update(tag,value,nT,nF) {
+  value=value.replace(/\n/,'')
+  if(tag.value == value) {
+    $.warning('value has not changed')
+    return
+  }
+
   $.ajax({
     type: "PUT",
     url: "/tags/"+tag.id,
-    data: { 'tag[value]' : value.replace(/\n/,'') },
+    data: { 'tag[value]' : value },
     success: suc(nT,nF,function(a) {
       tag.update(a.value)
       tag.items.each(function(item) {
