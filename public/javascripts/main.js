@@ -55,13 +55,13 @@ function key_handler(e) {
 
     case 'Y':
       if(is!=null && _d.main_tag.value=='in')
-        item_send_to_next(is)
+        item_send_to_next(is,p_mess('item sent to next'))
       command=''
       break
 
     case 'W':
       if(is!=null && _d.main_tag.value=='in')
-        item_send_to_waiting(is)
+        item_send_to_waiting(is,p_mess('item sent to waiting'))
       command=''
       break
 
@@ -236,14 +236,20 @@ $(function() {
       attr('width','24px').
       attr('title','send to Next').
       appendTo('#title').
-      click(function() { if(_d.item_show) item_send_to_next(_d.item_show) })
+      click(function() {
+        if(_d.item_show)
+          item_send_to_next(_d.item_show,p_mess('item sent to next'))
+      })
     $('<input>').
       attr('type','image').
       attr('src',"/images/waiting.png").
       attr('width','24px').
       attr('title','send to Waiting').
       appendTo('#title').
-      click(function() { if(_d.item_show) item_send_to_waiting(_d.item_show) })
+      click(function() {
+        if(_d.item_show)
+          item_send_to_waiting(_d.item_show,p_mess('item sent to waiting'))
+      })
   }
 
   $('#add_item_button').click(add_item_helper)
