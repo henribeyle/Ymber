@@ -294,6 +294,10 @@ $(function() {
     $.map_show($(this).text())
   })
 
+  $('.more-stuff').live('click',function() {
+    item_expand(_d.item_id($(this).oid()))
+  })
+
   save_input_handler(
     function() { $(document).bind('keyup', key_handler) },
     function() { $(document).unbind('keyup', key_handler) }

@@ -119,7 +119,7 @@ function not_a_filter(tag) { return !_d.has_filter(tag) }
 function not_has_tag(item) { return function(tag) { return !item.has(tag) } }
 
 function first_line(s) {
-  return s.replace(/\n(.|\n)*/,' ...')
+  return s.replace(/\n(.|\n)*/,' <span class="more-stuff">...</span>')
 }
 
 function formatted(s) {
