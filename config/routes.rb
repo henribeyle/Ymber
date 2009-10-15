@@ -6,6 +6,8 @@ ActionController::Routing::Routes.draw do |map|
     :conditions => {:method => :delete }
 
   map.resources :tags, :only => [:create, :update, :destroy]
+  map.connect '/undo/:value', :controller => 'tags', :action => 'undo'
+  map.connect '/redo', :controller => 'tags', :action => 'redo'
   map.connect ':value', :controller => 'tags', :action => 'editor'
   map.root :controller => "tags", :action => 'editor'
 end
