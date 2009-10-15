@@ -160,6 +160,16 @@ function key_handler(e) {
       redo()
       command=''
       break
+
+    case 'S':
+      var sel=window.getSelection().
+        toString().
+        replace(/\n#/g,"\n -").
+        replace(/^# /,'')
+      if(is!=null && is.value.test(sel.escapeRegExp()))
+        item_split(is,sel)
+      command=''
+      break;
   }
 
   setTimeout(function(){ command='' }, 300)

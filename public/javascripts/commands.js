@@ -350,7 +350,7 @@ function item_send_to_waiting(item,nT,nF) {
 
 function item_split(item,selection,nT,nF) {
   if(selection=='') {
-    $.warning('selection cant be void in division')
+    //$.warning('selection cant be void in division')
     is_fun(nF) && nF()
     return
   }
