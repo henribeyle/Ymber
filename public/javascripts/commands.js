@@ -369,15 +369,34 @@ function item_split(item,selection,nT,nF) {
   item_update(item,data[0],process_new_data_items,nF)
 }
 
-function undo() {
-  if(undo_levels.length == 0) {
+function undo(nT,nF) {
+  var howmany=_d.last_undo()
+  if(howmany == 0) {
     $.warning('nothing to undo')
     return
   }
-  var howmany=undo_levels.pop()
-  log('undo: '+howmany)
+
+  $.ajax({
+    type: "GET",
+    url: "/undo/"+howmany,
+    success: suc(nT,nF,function(a) {
+      console.dir(a)
+      $.warning('undo produced. forcing reload')
+      go_to(location.href)
+    }),
+    error: te(nF)
+  })
 }
 
-function redo() {
-  log('redo')
+function redo(nT,nF) {
+  $.ajax({
+    type: "GET",
+    url: "/redo",
+    success: suc(nT,nF,function(a) {
+      $.warning('redo produced. forcing reload')
+      _d.add_undo(a.level)
+      go_to(location.href)
+    }),
+    error: te(nF)
+  })
 }

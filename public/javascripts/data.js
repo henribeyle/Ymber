@@ -229,14 +229,39 @@ Data.prototype.save_filters_cookie = function() {
 
 Data.prototype.add_undo = function(lev) {
   this.undo_levels.push(lev || 1)
-  log('undo level='+undo_levels.join(', '))
+  //log('undo level='+this.undo_levels.join(', '))
+  this.save_undo_cookie()
 }
 
 Data.prototype.join_undos = function(lev) {
-  log('join undo levels (last '+lev+')')
+  //log('join undo levels (last '+lev+')')
   var sum=0
   for(var i=0;i<lev;i++) {
     sum+=this.undo_levels.pop()
   }
   this.add_undo(sum)
+}
+
+Data.prototype.last_undo = function() {
+  if(this.undo_levels.length==0)
+    return 0
+  var l=this.undo_levels.pop()
+  this.save_undo_cookie()
+  return l
+}
+
+Data.prototype.undo_from_cookie = function() {
+  var self=this
+  var o=cr('undo')
+  self.undo_levels=[]
+  if(o!=null)
+    o.split(',').each(function(x) { self.undo_levels.push(x) })
+  self.save_undo_cookie()
+}
+
+Data.prototype.save_undo_cookie = function() {
+  if(this.undo_levels.length==0)
+    cd('undo')
+  else
+    cs('undo',this.undo_levels.join(','))
 }

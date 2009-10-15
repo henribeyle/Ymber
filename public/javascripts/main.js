@@ -224,6 +224,7 @@ $(function() {
   _d=new Data(this_tag,all_tags,all_items)
   _d.order_from_cookie()
   _d.filters_from_cookie()
+  _d.undo_from_cookie()
 
   if(_d.main_tag)
     $('#title .main').html(_d.main_tag.value_or_extra())
