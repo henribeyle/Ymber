@@ -4,7 +4,7 @@
     text: '',
     title: 'none',
     close: null,
-    buttons: []
+    commands: []
   }
 
   $.editor = function(o) {
@@ -58,7 +58,7 @@
         return false
       }
 
-      opts.buttons.each(function(x) {
+      opts.commands.each(function(x) {
         if(is_fun(x.accel) && x.accel(e))
           close(x.click)
       })
@@ -105,7 +105,7 @@
 
     var button_row=$('<div>').addClass('button-row').appendTo(editor_div)
 
-    opts.buttons.each(function(x) {
+    opts.commands.each(function(x) {
       if(x.img) {
         button_row.append($('<img>').
             attr('src',x.img).

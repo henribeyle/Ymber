@@ -181,7 +181,7 @@ function add_item_helper() {
     title: 'Add item',
     rows: 20,
     text: '',
-    buttons: [ {
+    commands: [ {
         img: './images/Stop_Red_Button.png',
         title: 'cancel',
         accel: function(e) { return e.which==27 }
@@ -202,7 +202,7 @@ function add_tag_helper() {
     title: 'Add tag',
     text: '',
     rows: 1,
-    buttons: [ {
+    commands: [ {
         img: './images/Stop_Red_Button.png',
         title: 'cancel',
         accel: function(e) { return e.which==27 }

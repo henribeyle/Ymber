@@ -60,7 +60,7 @@ Item.prototype.edit = function() {
     title: 'Edit item',
     rows: 20,
     text: self.value,
-    buttons: [ {
+    commands: [ {
         img: './images/divide.png',
         title: 'divide',
         accel: function(e) { return e.which==190 && e.ctrlKey },

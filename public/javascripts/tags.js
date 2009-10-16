@@ -55,7 +55,7 @@ Tag.prototype.edit = function() {
     title: 'Edit tag',
     text: self.value,
     rows: 1,
-    buttons: [ {
+    commands: [ {
         img: './images/Minus_Red_Button.png',
         title: 'delete',
         accel: function(e) { return e.which==46 && e.ctrlKey },
