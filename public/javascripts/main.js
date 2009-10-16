@@ -264,6 +264,8 @@ $(function() {
 
   $('#add_item_button').click(add_item_helper)
   $('#add_tag_button').click(add_tag_helper)
+  $('#undo_button').click(undo)
+  $('#redo_button').click(redo)
 
   $('#title').droppable({
     accept: '.tag',
