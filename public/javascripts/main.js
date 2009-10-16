@@ -314,4 +314,11 @@ $(function() {
     function() { $(document).bind('keyup', key_handler) },
     function() { $(document).unbind('keyup', key_handler) }
   )
+
+  function resize_handler() {
+    $('#left').width($('body').width()-$('#right').width())
+  }
+
+  $(window).bind('resize', resize_handler)
+  resize_handler()
 })

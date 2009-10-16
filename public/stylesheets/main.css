@@ -2,15 +2,33 @@
 
 body {
   font-family: verdana, arial, helvetica, sans-serif;
+  margin:0;
+  padding:0;
 }
 
-/* title of the page, first row */
+/* main structure of page */
 
 #title {
   height: 3em;
   font-weight: bold;
   margin-bottom: 24px;
+  padding-top: 10px;
+  /*background:blue;*/
 }
+
+#left {
+  float:left;
+  width:800px;
+  /*background:green;*/
+}
+
+#right{
+  float:right;
+  width:200px;
+  /*background: red;*/
+}
+
+/* stuff inside title */
 
 #title .main {
   font-size:   26px;
