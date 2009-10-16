@@ -148,11 +148,12 @@ body {
 }
 
 .items-sortable-placeholder {
-  margin: 5px;
+  margin-bottom: 5px;
   padding: 5px;
   background-color: yellow;
   height: 1.5em;
-  opacity: 0.5;
+  -moz-border-radius: 10px;
+  opacity: 0.75;
 }
 
 /* tags */
