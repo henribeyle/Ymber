@@ -1,0 +1,427 @@
+/* general stuff */
+
+body {
+  font-family: verdana, arial, helvetica, sans-serif;
+  margin:0;
+  padding:0;
+}
+
+/* main structure of page */
+
+#title {
+  height: 3em;
+  font-weight: bold;
+  margin-bottom: 24px;
+  padding-top: 10px;
+  /*background:blue;*/
+}
+
+#left {
+  float:left;
+  width:800px;
+  /*background:green;*/
+}
+
+#right{
+  float:right;
+  width:200px;
+  /*background: red;*/
+}
+
+/* stuff inside title */
+
+#title .main {
+  font-size:   26px;
+  padding-left: 30px;
+}
+
+#title .main img {
+  position: relative;
+  top: 16px;
+}
+
+#title #tag_filters {
+  font-size:   18px;
+}
+
+#title .sep {
+  margin-left: 3px;
+  margin-right: 5px;
+}
+
+#tag_filters .andor{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#tag_filters .tag_filter img {
+  position: relative;
+  top: 16px;
+}
+
+#title input {
+  float: right;
+  margin: 5px;
+  font-size: 12px;
+}
+
+/* constant stuff in the page */
+
+.sub-title { /* titles above items and tags lists */
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-left: 30px;
+}
+
+.add_editor { /* add new item || tag */
+  margin-top: 10px;
+  margin-bottom: 5px;
+  padding: 10px;
+  border: 2px dotted black;
+  -moz-border-radius: 10px;
+  display: none;
+}
+
+/* items */
+
+#items {
+  padding: 10px;
+  /* border: 2px dotted black;
+  -moz-border-radius: 10px; */
+}
+
+#items .item {
+  -moz-border-radius: 10px;
+  background-color: #color1#;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+#items .item .item-handler {
+  cursor: move;
+}
+
+#items .item .show {
+  width: 16px;
+  position: relative;
+  left: -3px;
+  top: 1px;
+}
+
+#items .item .value {
+  font-size: 16px;
+  padding-left: 5px;
+}
+
+#items .item .value li {
+  font-size: 16px;
+  margin-left: 25px;
+}
+
+#items .item .stag {
+  font-size: 12px;
+  vertical-align: 20%;
+  font-weight: bold;
+  border: 1px dashed black;
+  padding: 0px 10px;
+  margin: 0px 3px;
+}
+
+#items .item .itag {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 0px 10px 0px 10px;
+}
+
+#items .item .itag .content img {
+  width: 20px;
+}
+
+#items textarea {
+  width: 90%;
+}
+
+#items .accept, #items .cancel, #items .delete {
+  float: right
+}
+
+.items-sortable-placeholder {
+  margin: 5px;
+  padding: 5px;
+  background-color: #color2#;
+  height: 1.5em;
+  opacity: 0.5;
+}
+
+/* tags */
+
+#tags {
+  padding: 10px;
+  border: 2px dotted black;
+  -moz-border-radius: 10px;
+}
+
+#tags .tag {
+  margin-bottom: 5px;
+}
+
+#tags .tag .value {
+  font-size: 16px;
+  padding-left: 10px;
+  height: 48px;
+  display: inline-block;
+  display: -moz-inline-stack;
+  vertical-align: text-top;
+}
+
+#tags .tag .go {
+  width: 16px;
+}
+
+#tags .filter {
+  background-color: #color3#;
+  opacity: 0.5;
+}
+
+#tags textarea {
+  width: 90%;
+}
+
+#tags .accept, #tags .cancel, #tags .delete {
+  float: right
+}
+
+/* TODO: analyse */
+
+.ui-draggable-dragging { /* tags when being dragged around */
+  border: 1px dashed black;
+  background-color: #color4#;
+  padding: 5px;
+  opacity: 0.5;
+}
+
+.dropping-into-item { /* class added to item or title when hovering a tag */
+  background-color: #color5#;
+  opacity: 0.5;
+}
+
+.tobedeleted {  /* class added to deleter when element gets too far away */
+  background-color: #color6#;
+  opacity: 0.5;
+}
+
+/* selector.js */
+#selector-ui-overlay {
+  background-color: #color7#;
+  opacity: 0.35;
+  z-index: 999;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: fixed
+}
+
+#selector-ui-wrapper {
+  z-index: 1000;
+  position: fixed;
+}
+
+#selector-ui {
+  position: fixed;
+  display: none;
+  border: none;
+  padding: 15px;
+  background-color: #color8#;
+  -moz-border-radius: 10px;
+  color: #color9#;
+  text-align: center;
+  width: 40%;
+  top: 20%;
+}
+
+#selector-ui-title {
+  position: relative;
+  font-size: 18px;
+  text-align: right;
+  font-weight: bold;
+  top: -10px;
+}
+
+#selector-ui-input {
+  font-size: 34px;
+  font-weight: bold;
+  font-style: italic;
+  padding-bottom: 10px;
+}
+
+#selector-ui-values {
+  font-size: 18px;
+  font-weight: bold;
+  padding-top: 20px;
+}
+
+/* notice.js */
+
+#notice-ui {
+  z-index: 500;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+.notice-main {
+  position: relative;
+  float: right;
+  display: block;
+  border: none;
+  padding: 10px 10px 10px 45px;
+  margin-bottom: 10px;
+  opacity: 0.8;
+  font-weight: bold;
+  color: #color10#;
+  background: black no-repeat 5px 3px;
+  -moz-border-radius: 10px;
+}
+
+/* datepicker */
+
+#datepicker {
+  display: block;
+  visibility: hidden;
+  position: fixed;
+  left: 40%;
+  top: 30%;
+  width: 0px;
+  height: 0px;
+  border: 0px;
+  z-index: 1003;
+}
+
+#ui-datepicker-div {
+  z-index: 1003;
+}
+
+/* map */
+
+#map-parent {
+  position: fixed;
+  display: none;
+  border: 1px solid black;
+  left: 25%;
+  width: 50%;
+  height: 300px;
+  top: 20%;
+  z-index: 1005;
+}
+
+#map {
+   position: absolute;
+   top: 0px;
+   left: 0px;
+   bottom: 0px;
+   right: 0px;
+}
+
+.mapinfo {
+   font-size: 0.8em;
+}
+
+.mapinfo .title {
+   width: 190px;
+}
+
+.mapinfo .coord {
+   padding-bottom: 5px;
+}
+
+.mapinfo button {
+   margin: 5px 0px 0px 10px;
+   font-size: 0.8em;
+   float: right;
+}
+
+.map-popup {
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+/* editor.js */
+
+#editor-ui-overlay {
+  background-color: #color11#;
+  opacity: 0.35;
+  z-index: 999;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: fixed
+}
+
+#editor-ui-wrapper {
+  z-index: 1000;
+  position: fixed;
+}
+
+#editor-ui {
+  position: fixed;
+  display: none;
+  border: none;
+  padding: 15px;
+  background-color: #color12#;
+  -moz-border-radius: 10px;
+  color: #color13#;
+  text-align: center;
+  width: 80%;
+  top: 20%;
+}
+
+#editor-ui-title {
+  position: relative;
+  font-size: 18px;
+  text-align: right;
+  font-weight: bold;
+  top: -10px;
+}
+
+#editor-ui textarea {
+  width: 100%;
+}
+
+#editor-ui .button-row {
+   margin-top: 10px;
+   display: block;
+}
+
+#editor-ui .button {
+  float: right;
+  width: 32px;
+}
+
+/* calendar */
+
+#calendar-parent {
+  position: fixed;
+  display: none;
+  border: 1px solid black;
+  left: 25%;
+  width: 50%;
+  height: 500px;
+  top: 10%;
+  z-index: 1005;
+}
+
+#calendar {
+   width: 100%;
+   height: 100%;
+   border: 0px;
+}

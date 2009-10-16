@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require File.dirname(__FILE__) + '/../config/boot'
+
+color_hash = {
+  '#color1#' => 'gold',
+  '#color2#' => 'yellow',
+  '#color3#' => 'gold',
+  '#color4#' => 'yellow',
+  '#color5#' => 'orange',
+  '#color6#' => 'orange',
+  '#color7#' => '#000',
+  '#color8#' => '#000',
+  '#color9#' => '#fff',
+  '#color10#' => '#fff',
+  '#color11#' => '#000',
+  '#color12#' => '#000',
+  '#color13#' => '#fff',
+}
+
+SRC_FILE = File.join(RAILS_ROOT,'config','main.css')
+DST_FILE = File.join(RAILS_ROOT,'public','stylesheets','main.css')
+
+if !File.exists?(SRC_FILE) then
+  puts "src file: '#{SRC_FILE}' does not exist"
+  exit
+end
+
+lines = IO.readlines(SRC_FILE)
+lines.map! do |x|
+  if x =~ /#color\d+#/
+    color_hash.each do |c,t|
+      x.gsub!(c,t)
+    end
+  end
+  x
+end
+
+File.open(DST_FILE, "w") { |f| f.puts lines.join() }
