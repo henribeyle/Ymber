@@ -7,7 +7,7 @@ function Tag(value,extra,id) {
   self.items=[]
   self.filtering=false
 
-  self.ui=$('<span>').attr('id','tag-'+self.id).appendTo('#tags')
+  self.ui=$('<div>').attr('id','tag-'+self.id).appendTo('#tags')
 
   $('<span>').
     addClass('tag').

@@ -158,9 +158,6 @@ body {
 /* tags */
 
 #tags {
-  padding: 10px;
-  border: 2px dotted black;
-  -moz-border-radius: 10px;
 }
 
 #tags .tag {
@@ -174,6 +171,9 @@ body {
   display: inline-block;
   display: -moz-inline-stack;
   vertical-align: text-top;
+  -moz-border-radius: 10px;
+  padding: 3px;
+  margin: 2px;
 }
 
 #tags .tag .go {
@@ -182,7 +182,6 @@ body {
 
 #tags .filter {
   background-color: #color3#;
-  opacity: 0.5;
 }
 
 #tags textarea {
