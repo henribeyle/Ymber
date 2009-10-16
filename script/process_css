@@ -18,6 +18,8 @@ color_hash = {
   '#color13#' => '#fff',
 }
 
+ARGV.each_index { |i| color_hash["#color#{i+1}#"]=ARGV[i] }
+
 SRC_FILE = File.join(RAILS_ROOT,'config','main.css')
 DST_FILE = File.join(RAILS_ROOT,'public','stylesheets','main.css')
 
