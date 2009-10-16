@@ -63,7 +63,7 @@ Item.prototype.edit = function() {
     commands: [ {
         img: './images/divide.png',
         title: 'divide',
-        accel: function(e) { return e.which==190 && e.ctrlKey },
+        accel: ctrl_dot,
         click: function(x,s) {
           var split=function() { item_split(self,s) }
           if(x!=self.value)
@@ -74,16 +74,16 @@ Item.prototype.edit = function() {
       }, {
         img: './images/Minus_Red_Button.png',
         title: 'delete',
-        accel: function(e) { return e.which==46 && e.ctrlKey },
+        accel: ctrl_del,
         click: function(x) { item_delete(self,p_mess('item deleted')) }
       }, {
         img: './images/Stop_Red_Button.png',
         title: 'cancel',
-        accel: function(e) { return e.which==27 }
+        accel: esc
       }, {
         img: './images/Clear_Green_Button.png',
         title: 'accept',
-        accel:  function(e) { return e.which==13 && e.ctrlKey },
+        accel:  ctrl_enter,
         click: function(x) { item_update(self,x,p_mess('item updated')) }
       }
     ]

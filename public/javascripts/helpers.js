@@ -234,3 +234,9 @@ function p_mess(mess) {
     $.message(m)
   }
 }
+
+function ctrl_dot(e) { return e.which==190 && e.ctrlKey }
+function ctrl_del(e) { return e.which==46 && e.ctrlKey }
+function esc(e) { return e.which==27 }
+function ctrl_enter(e) { return e.which==13 && e.ctrlKey }
+function enter(e) { return e.which==13 }

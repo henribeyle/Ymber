@@ -184,11 +184,11 @@ function add_item_helper() {
     commands: [ {
         img: './images/Stop_Red_Button.png',
         title: 'cancel',
-        accel: function(e) { return e.which==27 }
+        accel: esc
       }, {
         img: './images/Add.png',
         title: 'add',
-        accel:  function(e) { return e.which==13 && e.ctrlKey },
+        accel:  ctrl_enter,
         click: function(x) {
           item_new(x,[_d.main_tag],p_mess('new item'))
         }
@@ -205,11 +205,11 @@ function add_tag_helper() {
     commands: [ {
         img: './images/Stop_Red_Button.png',
         title: 'cancel',
-        accel: function(e) { return e.which==27 }
+        accel: esc
       }, {
         img: './images/Add.png',
         title: 'add',
-        accel:  function(e) { return e.which==13 },
+        accel:  enter,
         click: function(x) { tag_new(x,p_mess('new tag')) }
       }
     ]
