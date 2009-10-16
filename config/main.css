@@ -158,6 +158,8 @@ body {
 /* tags */
 
 #tags {
+  background-color: #color3#;
+  -moz-border-radius: 10px;
 }
 
 #tags .tag {
@@ -181,7 +183,7 @@ body {
 }
 
 #tags .filter {
-  background-color: #color3#;
+  background-color: #color4#;
 }
 
 #tags textarea {
@@ -196,24 +198,24 @@ body {
 
 .ui-draggable-dragging { /* tags when being dragged around */
   border: 1px dashed black;
-  background-color: #color4#;
+  background-color: #color5#;
   padding: 5px;
   opacity: 0.5;
 }
 
 .dropping-into-item { /* class added to item or title when hovering a tag */
-  background-color: #color5#;
+  background-color: #color6#;
   opacity: 0.5;
 }
 
 .tobedeleted {  /* class added to deleter when element gets too far away */
-  background-color: #color6#;
+  background-color: #color7#;
   opacity: 0.5;
 }
 
 /* selector.js */
 #selector-ui-overlay {
-  background-color: #color7#;
+  background-color: #color8#;
   opacity: 0.35;
   z-index: 999;
   border: none;
@@ -236,9 +238,9 @@ body {
   display: none;
   border: none;
   padding: 15px;
-  background-color: #color8#;
+  background-color: #color9#;
   -moz-border-radius: 10px;
-  color: #color9#;
+  color: #color10#;
   text-align: center;
   width: 40%;
   top: 20%;
@@ -283,7 +285,7 @@ body {
   margin-bottom: 10px;
   opacity: 0.8;
   font-weight: bold;
-  color: #color10#;
+  color: #color11#;
   background: black no-repeat 5px 3px;
   -moz-border-radius: 10px;
 }
@@ -353,7 +355,7 @@ body {
 /* editor.js */
 
 #editor-ui-overlay {
-  background-color: #color11#;
+  background-color: #color12#;
   opacity: 0.35;
   z-index: 999;
   border: none;
@@ -376,9 +378,9 @@ body {
   display: none;
   border: none;
   padding: 15px;
-  background-color: #color12#;
+  background-color: #color13#;
   -moz-border-radius: 10px;
-  color: #color13#;
+  color: #color14#;
   text-align: center;
   width: 80%;
   top: 20%;
