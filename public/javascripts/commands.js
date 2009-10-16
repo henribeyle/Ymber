@@ -395,7 +395,7 @@ function undo(nT,nF) {
     url: "/undo/"+howmany,
     success: suc(nT,nF,function(a) {
       console.dir(a)
-      $.notice('undo produced [forcing reload]')
+      $.message('undo produced [forcing reload]')
       go_to(location.href)
     }),
     error: te(nF)
@@ -407,7 +407,7 @@ function redo(nT,nF) {
     type: "GET",
     url: "/redo",
     success: suc(nT,nF,function(a) {
-      $.notice('redo produced [forcing reload]')
+      $.message('redo produced [forcing reload]')
       _d.add_undo(a.level)
       go_to(location.href)
     }),
