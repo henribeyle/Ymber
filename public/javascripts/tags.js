@@ -26,6 +26,7 @@ function Tag(value,extra,id) {
       cursor: 'move',
       revert: 'invalid'
     })
+  self.ui.width($('.tag',self.ui).width())
 }
 
 Tag.prototype.value_or_extra = function() {
@@ -77,6 +78,7 @@ Tag.prototype.edit = function() {
 Tag.prototype.update = function(new_value) {
   this.value=new_value
   $('.value',this.ui).html(this.value_or_extra())
+  self.ui.width($('.tag',self.ui).width())
 }
 
 Tag.prototype.filter_on = function() {

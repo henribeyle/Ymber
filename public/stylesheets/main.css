@@ -160,6 +160,11 @@ body {
   -moz-border-radius: 10px;
 }
 
+#tags > div {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #tags .tag {
   margin-bottom: 5px;
 }
