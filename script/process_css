@@ -2,20 +2,6 @@
 
 require File.dirname(__FILE__) + '/../config/boot'
 
-color_hash = {
-  '#title#' => 'white',
-  '#item#' => 'gold',
-  '#item-placeholder#' => 'yellow',
-  '#tags#' => 'white',
-  '#tags-filter#' => 'gold',
-  '#tags-dragged#' => 'yellow',
-  '#dropping-into#' => 'orange',
-  '#selector-back#' => '#000',
-  '#selector-front#' => '#fff',
-  '#editor-back#' => '#000',
-  '#editor-front#' => '#fff',
-}
-
 # (◕ ” ◕)
 # #490A3D  lila
 # #BD1550  rosa
@@ -110,7 +96,7 @@ warp = {
   '#editor-front#' => 'white',
 }
 
-color_hash=warp # default
+color_hash=eyes # default
 color_hash=eyes           if ARGV[0] == 'eyes'
 color_hash=same_old_thing if ARGV[0] == 'same_old_thing'
 color_hash=summer_of_love if ARGV[0] == 'summer_of_love'

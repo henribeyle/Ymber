@@ -114,7 +114,7 @@ function not_has_tag(item) { return function(tag) { return !item.has(tag) } }
 
 function first_line(s) {
   var fl=s.replace(/\n(.|\n)*/,'').
-    replace(/^(.{120}).*/,'$1')
+    replace(/^(.{90}).*/,'$1')
   return fl != s ? fl+'<span class="more-stuff">...</span>' : s
 }
 
