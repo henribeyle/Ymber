@@ -66,12 +66,12 @@ same_old_thing = {
 # #6F755B grey green
 # #B59F5C grey brown
 # #E89856 orange
-# http://www.colourlovers.com/palette//summer%20of%20love
+# http://www.colourlovers.com/palette/summer%20of%20love
 
 summer_of_love = {
   '#title#' => '#4E5756',
   '#item#' => '#6F755B',
-  '#item-placeholder#' => '#B59F5C',
+  '#item-placeholder#' => '#E89856',
   '#tags#' => '#B59F5C',
   '#tags-filter#' => '#6F755B',
   '#tags-dragged#' => '#B59F5C',
@@ -82,10 +82,39 @@ summer_of_love = {
   '#editor-front#' => 'white',
 }
 
-color_hash=summer_of_love # default
-color_hash=eyes if ARGV[0] == 'eyes'
+# #423B36 grey
+# #4E5756 grey blue
+# #6F755B grey green
+# #B59F5C grey brown
+# #E89856 orange
+
+# warp!
+# #3B0C2C purple
+# #FF6A00 orange
+# #FFC300 yellow
+# #D2FF1F green
+# #FAF4E0 white
+# http://www.colourlovers.com/palette/w.a.r.p.!
+
+warp = {
+  '#title#' => '#FF6A00',
+  '#item#' => '#FFC300',
+  '#item-placeholder#' => '#FAF4E0',
+  '#tags#' => '#D2FF1F',
+  '#tags-filter#' => '#FFC300',
+  '#tags-dragged#' => '#D2FF1F',
+  '#dropping-into#' => '#3B0C2C',
+  '#selector-back#' => 'black',
+  '#selector-front#' => 'white',
+  '#editor-back#' => 'black',
+  '#editor-front#' => 'white',
+}
+
+color_hash=warp # default
+color_hash=eyes           if ARGV[0] == 'eyes'
 color_hash=same_old_thing if ARGV[0] == 'same_old_thing'
 color_hash=summer_of_love if ARGV[0] == 'summer_of_love'
+color_hash=warp           if ARGV[0] == 'warp'
 
 SRC_FILE = File.join(RAILS_ROOT,'config','main.css')
 DST_FILE = File.join(RAILS_ROOT,'public','stylesheets','main.css')
