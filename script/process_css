@@ -22,15 +22,15 @@ color_hash = {
 # #E97F02  naranja
 # #F8CA00  amarillo
 # #8A9B0F  verde
-# http://www.colourlovers.com/palette//(%E2%97%95%20%E2%80%9D%20%E2%97%95)
+# http://www.colourlovers.com/palette/(%E2%97%95%20%E2%80%9D%20%E2%97%95)
 
 eyes = {
   '#title#' => '#BD1550',
-  '#item#' => '#E97F02',
+  '#item#' => '#8A9B0F',
   '#item-placeholder#' => '#F8CA00',
-  '#tags#' => '#8A9B0F',
-  '#tags-filter#' => '#F8CA00',
-  '#tags-dragged#' => '#8A9B0F',
+  '#tags#' => '#E97F02',
+  '#tags-filter#' => '#8A9B0F',
+  '#tags-dragged#' => '#E97F02',
   '#dropping-into#' => '#490A3D',
   '#selector-back#' => 'black',
   '#selector-front#' => 'white',
@@ -38,8 +38,31 @@ eyes = {
   '#editor-front#' => 'white',
 }
 
+# same old thing
+# #293652 azul fuerte
+# #356770 azul medio
+# #49927F azul flojo (turquesa)
+# #78B058 verde fuerte
+# #ACC255 verde medio
+# http://www.colourlovers.com/palette/Same%20Old%20Thing
+
+same_old_thing = {
+  '#title#' => '#356770',
+  '#item#' => '#49927F',
+  '#item-placeholder#' => '#78B058',
+  '#tags#' => '#78B058',
+  '#tags-filter#' => '#49927F',
+  '#tags-dragged#' => '#78B058',
+  '#dropping-into#' => '#293652',
+  '#selector-back#' => 'black',
+  '#selector-front#' => 'white',
+  '#editor-back#' => 'black',
+  '#editor-front#' => 'white',
+}
+
+color_hash=same_old_thing # default
 color_hash=eyes if ARGV[0] == 'eyes'
-# ARGV.each_index { |i| color_hash["#color#{i+1}#"]=ARGV[i] }
+color_hash=same_old_thing if ARGV[0] == 'same_old_thing'
 
 SRC_FILE = File.join(RAILS_ROOT,'config','main.css')
 DST_FILE = File.join(RAILS_ROOT,'public','stylesheets','main.css')
