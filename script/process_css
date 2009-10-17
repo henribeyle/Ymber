@@ -3,17 +3,17 @@
 require File.dirname(__FILE__) + '/../config/boot'
 
 color_hash = {
-  '#color1#' => 'gold',
-  '#color2#' => 'yellow',
-  '#color3#' => 'white',
-  '#color4#' => 'gold',
-  '#color5#' => 'yellow',
-  '#color6#' => 'orange',
-  '#color7#' => 'white',
-  '#color9#' => '#000',
-  '#color10#' => '#fff',
-  '#color12#' => '#000',
-  '#color13#' => '#fff',
+  '#title#' => 'white',
+  '#item#' => 'gold',
+  '#item-placeholder#' => 'yellow',
+  '#tags#' => 'white',
+  '#tags-filter#' => 'gold',
+  '#tags-dragged#' => 'yellow',
+  '#dropping-into#' => 'orange',
+  '#selector-back#' => '#000',
+  '#selector-front#' => '#fff',
+  '#editor-back#' => '#000',
+  '#editor-front#' => '#fff',
 }
 
 # (◕ ” ◕)
@@ -25,17 +25,17 @@ color_hash = {
 # http://www.colourlovers.com/palette//(%E2%97%95%20%E2%80%9D%20%E2%97%95)
 
 eyes = {
-  '#color1#' => '#E97F02',
-  '#color2#' => '#F8CA00',
-  '#color3#' => '#8A9B0F',
-  '#color4#' => '#F8CA00',
-  '#color5#' => '#8A9B0F',
-  '#color6#' => '#490A3D',
-  '#color7#' => '#BD1550',
-  '#color9#' => 'black',
-  '#color10#' => 'white',
-  '#color12#' => 'black',
-  '#color13#' => 'white',
+  '#title#' => '#BD1550',
+  '#item#' => '#E97F02',
+  '#item-placeholder#' => '#F8CA00',
+  '#tags#' => '#8A9B0F',
+  '#tags-filter#' => '#F8CA00',
+  '#tags-dragged#' => '#8A9B0F',
+  '#dropping-into#' => '#490A3D',
+  '#selector-back#' => 'black',
+  '#selector-front#' => 'white',
+  '#editor-back#' => 'black',
+  '#editor-front#' => 'white',
 }
 
 color_hash=eyes if ARGV[0] == 'eyes'
@@ -51,7 +51,7 @@ end
 
 lines = IO.readlines(SRC_FILE)
 lines.map! do |x|
-  if x =~ /#color\d+#/
+  if x =~ /#.+#/
     color_hash.each do |c,t|
       x.gsub!(c,t)
     end
