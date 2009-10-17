@@ -211,7 +211,7 @@ body {
 
 /* selector.js */
 #selector-ui-overlay {
-  background-color: #color8#;
+  background-color: black;
   opacity: 0.35;
   z-index: 999;
   border: none;
@@ -351,7 +351,7 @@ body {
 /* editor.js */
 
 #editor-ui-overlay {
-  background-color: #color11#;
+  background-color: black;
   opacity: 0.35;
   z-index: 999;
   border: none;

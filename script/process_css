@@ -10,15 +10,36 @@ color_hash = {
   '#color5#' => 'yellow',
   '#color6#' => 'orange',
   '#color7#' => 'white',
-  '#color8#' => '#000',
   '#color9#' => '#000',
   '#color10#' => '#fff',
-  '#color11#' => '#000',
   '#color12#' => '#000',
   '#color13#' => '#fff',
 }
 
-ARGV.each_index { |i| color_hash["#color#{i+1}#"]=ARGV[i] }
+# (◕ ” ◕)
+# #490A3D  lila
+# #BD1550  rosa
+# #E97F02  naranja
+# #F8CA00  amarillo
+# #8A9B0F  verde
+# http://www.colourlovers.com/palette//(%E2%97%95%20%E2%80%9D%20%E2%97%95)
+
+eyes = {
+  '#color1#' => '#E97F02',
+  '#color2#' => '#F8CA00',
+  '#color3#' => '#8A9B0F',
+  '#color4#' => '#F8CA00',
+  '#color5#' => '#8A9B0F',
+  '#color6#' => '#490A3D',
+  '#color7#' => '#BD1550',
+  '#color9#' => 'black',
+  '#color10#' => 'white',
+  '#color12#' => 'black',
+  '#color13#' => 'white',
+}
+
+color_hash=eyes if ARGV[0] == 'eyes'
+# ARGV.each_index { |i| color_hash["#color#{i+1}#"]=ARGV[i] }
 
 SRC_FILE = File.join(RAILS_ROOT,'config','main.css')
 DST_FILE = File.join(RAILS_ROOT,'public','stylesheets','main.css')
