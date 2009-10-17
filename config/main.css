@@ -9,9 +9,9 @@ body {
 /* main structure of page */
 
 #title {
-  height: 5em;
+  height: 4em;
   font-weight: bold;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
   padding-top: 40px;
   -moz-border-radius: 0px 0px 10px 10px;
   /*background:blue;*/
@@ -66,14 +66,6 @@ body {
 }
 
 /* constant stuff in the page */
-
-.sub-title { /* titles above items and tags lists */
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  margin-left: 30px;
-}
 
 .add_editor { /* add new item || tag */
   margin-top: 10px;
@@ -158,6 +150,8 @@ body {
 #tags {
   background-color: #color3#;
   -moz-border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
 }
 
 #tags > div {
