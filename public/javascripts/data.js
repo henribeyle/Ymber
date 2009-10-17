@@ -147,9 +147,9 @@ Data.prototype.update_filter = function() {
 Data.prototype.filter_status = function(item) {
   if(this.filters.length==0)
     return false
-  return !this.filter_type ?
+  return !(this.filter_type ?
     this.filters.all(related_to_item(item)) :
-    this.filters.any(related_to_item(item))
+    this.filters.any(related_to_item(item)))
 }
 
 Data.prototype.check_filtering = function(item) {
