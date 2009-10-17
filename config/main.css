@@ -11,9 +11,11 @@ body {
 #title {
   height: 5em;
   font-weight: bold;
-  margin-bottom: 24px;
-  padding-top: 10px;
-  background:blue;
+  margin-bottom: 0px;
+  padding-top: 40px;
+  -moz-border-radius: 0px 0px 10px 10px;
+  /*background:blue;*/
+  background: #color7#;
 }
 
 #left {
@@ -36,12 +38,11 @@ body {
 }
 
 #title .main img {
-  position: relative;
-  top: 16px;
+  vertical-align: -12px;
 }
 
 #title #tag_filters {
-  font-size:   18px;
+  font-size: 18px;
 }
 
 #title .sep {
@@ -55,8 +56,7 @@ body {
 }
 
 #tag_filters .tag_filter img {
-  position: relative;
-  top: 16px;
+  vertical-align: -12px;
 }
 
 #title input {
@@ -212,13 +212,13 @@ body {
 }
 
 .tobedeleted {  /* class added to deleter when element gets too far away */
-  background-color: #color7#;
+  background-color: #color8#;
   opacity: 0.5;
 }
 
 /* selector.js */
 #selector-ui-overlay {
-  background-color: #color8#;
+  background-color: #color9#;
   opacity: 0.35;
   z-index: 999;
   border: none;
@@ -241,9 +241,9 @@ body {
   display: none;
   border: none;
   padding: 15px;
-  background-color: #color9#;
+  background-color: #color10#;
   -moz-border-radius: 10px;
-  color: #color10#;
+  color: #color11#;
   text-align: center;
   width: 40%;
   top: 20%;
@@ -288,7 +288,7 @@ body {
   margin-bottom: 10px;
   opacity: 0.8;
   font-weight: bold;
-  color: #color11#;
+  color: #color12#;
   background: black no-repeat 5px 3px;
   -moz-border-radius: 10px;
 }
@@ -358,7 +358,7 @@ body {
 /* editor.js */
 
 #editor-ui-overlay {
-  background-color: #color12#;
+  background-color: #color13#;
   opacity: 0.35;
   z-index: 999;
   border: none;
@@ -381,9 +381,9 @@ body {
   display: none;
   border: none;
   padding: 15px;
-  background-color: #color13#;
+  background-color: #color14#;
   -moz-border-radius: 10px;
-  color: #color14#;
+  color: #color15#;
   text-align: center;
   width: 80%;
   top: 20%;

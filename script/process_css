@@ -9,14 +9,15 @@ color_hash = {
   '#color4#' => 'gold',
   '#color5#' => 'yellow',
   '#color6#' => 'orange',
-  '#color7#' => 'orange',
-  '#color8#' => '#000',
+  '#color7#' => 'white',
+  '#color8#' => 'orange',
   '#color9#' => '#000',
-  '#color10#' => '#fff',
+  '#color10#' => '#000',
   '#color11#' => '#fff',
-  '#color12#' => '#000',
+  '#color12#' => '#fff',
   '#color13#' => '#000',
-  '#color14#' => '#fff',
+  '#color14#' => '#000',
+  '#color15#' => '#fff',
 }
 
 ARGV.each_index { |i| color_hash["#color#{i+1}#"]=ARGV[i] }
