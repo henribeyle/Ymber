@@ -49,7 +49,7 @@ eyes = {
 same_old_thing = {
   '#title#' => '#356770',
   '#item#' => '#49927F',
-  '#item-placeholder#' => '#78B058',
+  '#item-placeholder#' => '#ACC255',
   '#tags#' => '#78B058',
   '#tags-filter#' => '#49927F',
   '#tags-dragged#' => '#78B058',
@@ -60,9 +60,32 @@ same_old_thing = {
   '#editor-front#' => 'white',
 }
 
-color_hash=same_old_thing # default
+# summer of love
+# #423B36 grey
+# #4E5756 grey blue
+# #6F755B grey green
+# #B59F5C grey brown
+# #E89856 orange
+# http://www.colourlovers.com/palette//summer%20of%20love
+
+summer_of_love = {
+  '#title#' => '#4E5756',
+  '#item#' => '#6F755B',
+  '#item-placeholder#' => '#B59F5C',
+  '#tags#' => '#B59F5C',
+  '#tags-filter#' => '#6F755B',
+  '#tags-dragged#' => '#B59F5C',
+  '#dropping-into#' => '#423B36',
+  '#selector-back#' => 'black',
+  '#selector-front#' => 'white',
+  '#editor-back#' => 'black',
+  '#editor-front#' => 'white',
+}
+
+color_hash=summer_of_love # default
 color_hash=eyes if ARGV[0] == 'eyes'
 color_hash=same_old_thing if ARGV[0] == 'same_old_thing'
+color_hash=summer_of_love if ARGV[0] == 'summer_of_love'
 
 SRC_FILE = File.join(RAILS_ROOT,'config','main.css')
 DST_FILE = File.join(RAILS_ROOT,'public','stylesheets','main.css')
