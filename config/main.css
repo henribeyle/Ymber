@@ -206,13 +206,12 @@ body {
 }
 
 .tobedeleted {  /* class added to deleter when element gets too far away */
-  background-color: #color8#;
-  opacity: 0.5;
+  background-color: red !important;
 }
 
 /* selector.js */
 #selector-ui-overlay {
-  background-color: #color9#;
+  background-color: #color8#;
   opacity: 0.35;
   z-index: 999;
   border: none;
@@ -235,9 +234,9 @@ body {
   display: none;
   border: none;
   padding: 15px;
-  background-color: #color10#;
+  background-color: #color9#;
   -moz-border-radius: 10px;
-  color: #color11#;
+  color: #color10#;
   text-align: center;
   width: 40%;
   top: 20%;
@@ -282,7 +281,7 @@ body {
   margin-bottom: 10px;
   opacity: 0.8;
   font-weight: bold;
-  color: #color12#;
+  color: white;
   background: black no-repeat 5px 3px;
   -moz-border-radius: 10px;
 }
@@ -352,7 +351,7 @@ body {
 /* editor.js */
 
 #editor-ui-overlay {
-  background-color: #color13#;
+  background-color: #color11#;
   opacity: 0.35;
   z-index: 999;
   border: none;
@@ -375,9 +374,9 @@ body {
   display: none;
   border: none;
   padding: 15px;
-  background-color: #color14#;
+  background-color: #color12#;
   -moz-border-radius: 10px;
-  color: #color15#;
+  color: #color13#;
   text-align: center;
   width: 80%;
   top: 20%;
