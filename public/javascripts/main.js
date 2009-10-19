@@ -182,11 +182,11 @@ function add_item_helper() {
     rows: 20,
     text: '',
     commands: [ {
-        img: './images/Stop_Red_Button.png',
+        img: '/images/cancel.png',
         title: 'cancel',
         accel: esc
       }, {
-        img: './images/Add.png',
+        img: '/images/add.png',
         title: 'add',
         accel:  ctrl_enter,
         click: function(x) {
@@ -203,11 +203,11 @@ function add_tag_helper() {
     text: '',
     rows: 1,
     commands: [ {
-        img: './images/Stop_Red_Button.png',
+        img: '/images/cancel.png',
         title: 'cancel',
         accel: esc
       }, {
-        img: './images/Add.png',
+        img: '/images/add.png',
         title: 'add',
         accel:  enter,
         click: function(x) { tag_new(x,p_mess('new tag')) }

@@ -25,21 +25,21 @@
       if(!msg) return
       $.notice($('<div>').
         addClass('notice-main').
-        css('background-image', 'url("/images/Red_Ball.png")').
+        css('background-image', 'url("/images/error.png")').
         html(msg),timeout)
    }
    $.warning = function(msg,timeout) {
       if(!msg) return
       $.notice($('<div>').
         addClass('notice-main').
-        css('background-image', 'url("/images/Orange_Ball.png")').
+        css('background-image', 'url("/images/warning.png")').
         html(msg),timeout)
    }
    $.message = function(msg,timeout) {
       if(!msg) return
       $.notice($('<div>').
         addClass('notice-main').
-        css('background-image', 'url("/images/Green_Ball.png")').
+        css('background-image', 'url("/images/message.png")').
         html(msg),timeout)
    }
 })(jQuery)

@@ -1,0 +1,57 @@
+################################################################################
+
+commands:
+
+add.png    -> onebit_31.png            (onebit)
+ok.png     -> onebit_34.png            (onebit)
+cancel.png -> onebit_33.png            (onebit)
+split.png  -> arrow_divide.png         (onebit) (rotated 180)
+delete.png -> RecycleBin_Empty.png     (GiNUX_by_Asher)
+
+################################################################################
+
+message: +mogrify -resize 32x32
+
+message.png  -> onebit_48.png          (onebit)
+warning.png -> onebit_47.png           (onebit)
+error.png   -> onebit_49.png           (onebit)
+
+################################################################################
+
+ui:
+
+find.png            -> find.png                        (fatcow-hosting-icons)
+help.png            -> help.png                        (fatcow-hosting-icons)
+redo.png            -> arrow_rotate_clockwise.png      (fatcow-hosting-icons)
+undo.png            -> arrow_rotate_anticlockwise.png  (fatcow-hosting-icons)
+state_collapsed.png -> bullet_toggle_plus.png          (fatcow-hosting-icons)
+state_expanded.png  -> bullet_toggle_minus.png         (fatcow-hosting-icons)
+go.png              -> bullet_go.png                   (fatcow-hosting-icons)
+
++ overlay
+
+add_to.png          -> add.png                         (fatcow-hosting-icons)
+
+mogrify -crop 16x16+8+8 state_collapsed.png state_expanded.png
+
+################################################################################
+
+tags:  +mogrify -resize 32x32
+
+item.png     -> star.png               (icon finder)
+tag.png      -> tag_blue.png           (fatcow-hosting-icons)
+in.png       -> basket.png             (fatcow-hosting-icons)
+next.png     -> cog.png                (fatcow-hosting-icons)
+waiting.png  -> hourglass.png          (fatcow-hosting-icons)
+internet.png -> onebit2_19.png         (onebit2)
+computer.png -> onebit2_22.png         (onebit2)
+email.png    -> E-Mail.png             (GiNUX_by_Asher)
+phone.png    -> phone.png              (fatcow-hosting-icons)
+home.png     -> Home.png               (GiNUX_by_Asher)
+errand.png   -> text_list_bullets.png  (fatcow-hosting-icons)
+cafe.png     -> cup.png                (fatcow-hosting-icons)
+calendar.png -> date.png               (fatcow-hosting-icons)
+talk.png     -> comment.png            (fatcow-hosting-icons)
+wine.png     -> drink.png              (fatcow-hosting-icons)
+
+################################################################################

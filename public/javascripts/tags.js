@@ -57,16 +57,16 @@ Tag.prototype.edit = function() {
     text: self.value,
     rows: 1,
     commands: [ {
-        img: './images/Minus_Red_Button.png',
+        img: './images/delete.png',
         title: 'delete',
         accel: ctrl_del,
         click: function(x) { tag_delete(self,p_mess('tag deleted')) }
       }, {
-        img: './images/Stop_Red_Button.png',
+        img: './images/cancel.png',
         title: 'cancel',
         accel: esc
       }, {
-        img: './images/Clear_Green_Button.png',
+        img: './images/ok.png',
         title: 'accept',
         accel:  enter,
         click: function(x) { tag_update(self,x,p_mess('tag updated')) }

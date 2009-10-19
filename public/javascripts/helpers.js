@@ -76,7 +76,7 @@ function span(className,html) {
 
 function go_button() {
   return $('<img>').
-    attr('src','/images/Transfer.png').
+    attr('src','/images/go.png').
     attr('title','go').
     addClass('go')
 }

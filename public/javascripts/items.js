@@ -14,7 +14,7 @@ function Item(value,id,data) {
     append($('<span>').
       addClass('item-handler').
       append($('<img>').
-        attr('src','/images/Play.png').
+        attr('src','/images/state_collapsed.png').
         addClass('show').
         css('visibility','hidden').
         click(function() { self.toggle_expand() }))).
@@ -61,8 +61,8 @@ Item.prototype.edit = function() {
     rows: 20,
     text: self.value,
     commands: [ {
-        img: './images/divide.png',
-        title: 'divide',
+        img: '/images/split.png',
+        title: 'split',
         accel: ctrl_dot,
         click: function(x,s) {
           var split=function() { item_split(self,s) }
@@ -72,16 +72,16 @@ Item.prototype.edit = function() {
             split()
         }
       }, {
-        img: './images/Minus_Red_Button.png',
+        img: '/images/delete.png',
         title: 'delete',
         accel: ctrl_del,
         click: function(x) { item_delete(self,p_mess('item deleted')) }
       }, {
-        img: './images/Stop_Red_Button.png',
+        img: '/images/cancel.png',
         title: 'cancel',
         accel: esc
       }, {
-        img: './images/Clear_Green_Button.png',
+        img: '/images/ok.png',
         title: 'accept',
         accel:  ctrl_enter,
         click: function(x) { item_update(self,x,p_mess('item updated')) }
@@ -130,11 +130,11 @@ Item.prototype.toggle_expand = function() {
 Item.prototype.collapse = function() {
   this.expanded=false
   this.update(this.value)
-  $('img.show',this.ui).attr('src','/images/Play.png')
+  $('img.show',this.ui).attr('src','/images/state_collapsed.png')
 }
 
 Item.prototype.expand = function() {
   this.expanded=true
   this.update(this.value)
-  $('img.show',this.ui).attr('src','/images/Play_down.png')
+  $('img.show',this.ui).attr('src','/images/state_expanded.png')
 }
