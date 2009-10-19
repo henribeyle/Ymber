@@ -14,20 +14,20 @@ body {
   margin-bottom: 10px;
   padding-top: 40px;
   -moz-border-radius: 0px 0px 10px 10px;
-  /*background:blue;*/
-  background: #title#;
+  /*background-color:blue;*/
+  background-color: #title#;
 }
 
 #left {
   float:left;
   width:800px;
-  /*background:green;*/
+  /*background-color:green;*/
 }
 
 #right{
   float:right;
   width:200px;
-  /*background:red;*/
+  /*background-color:red;*/
 }
 
 /* stuff inside title */
@@ -59,10 +59,9 @@ body {
   vertical-align: -12px;
 }
 
-#title input {
+#title .button {
   float: right;
-  margin: 5px;
-  font-size: 12px;
+  margin: 0px 10px 0px 0px;
 }
 
 /* constant stuff in the page */
@@ -91,13 +90,6 @@ body {
 
 #items .item .item-handler {
   cursor: move;
-}
-
-#items .item .show {
-  width: 16px;
-  position: relative;
-  left: -3px;
-  top: 1px;
 }
 
 #items .item .value {
@@ -166,7 +158,7 @@ body {
 #tags .tag .value {
   font-size: 16px;
   padding-left: 10px;
-  height: 48px;
+  height: 32px;
   display: inline-block;
   display: -moz-inline-stack;
   vertical-align: text-top;
@@ -176,7 +168,7 @@ body {
 }
 
 #tags .tag .go {
-  width: 16px;
+  /*width: 16px; */
 }
 
 #tags .filter {
@@ -268,13 +260,13 @@ body {
 #notice-ui {
   z-index: 500;
   position: fixed;
-  top: 20px;
-  right: 20px;
+  bottom: 20px;
+  left: 20px;
 }
 
 .notice-main {
   position: relative;
-  float: right;
+  float: left;
   display: block;
   border: none;
   padding: 10px 10px 10px 45px;
