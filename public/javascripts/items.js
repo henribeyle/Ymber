@@ -65,11 +65,14 @@ Item.prototype.edit = function() {
         title: 'split',
         accel: ctrl_dot,
         click: function(x,s) {
-          var split=function() { item_split(self,s) }
           if(x!=self.value)
-            item_update(self,x,split)
+            item_update(self,x,function() {
+              item_split(self,s,function() {
+                _d.join_undos(2)
+              })
+            })
           else
-            split()
+            item_split(self,s)
         }
       }, {
         img: '/images/delete.png',
