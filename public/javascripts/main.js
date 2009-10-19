@@ -106,7 +106,7 @@ $(function() {
     function do_resize() {
       $('#left').width($('body').width()-$('#right').width())
     }
-    do_resize.delay(1000)
+    do_resize.delay(500)
   }
 
   $(window).bind('resize', resize_handler)
