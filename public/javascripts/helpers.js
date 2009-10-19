@@ -191,43 +191,6 @@ function today() {
     y
 }
 
-var all_events=[]
-
-function save_input_handler(on,off) {
-  if(all_events.length > 0)
-    all_events[all_events.length-1].offH()
-  on()
-  all_events.push({ onH: on, offH: off })
-}
-
-function restore_input_handler() {
-  all_events.pop().offH()
-  all_events[all_events.length-1].onH()
-}
-
-var cancel_which=null
-var cancel_type=null
-
-function my_event(e) {
-  var h=e.originalEvent["handled"]
-  e.originalEvent["handled"]=true
-  if(cancel_this(e))
-    return false
-  return h!==true
-}
-
-function cancel_this(e) {
-  var c=cancel_which==e.which && cancel_type==e.type
-  cancel_which=null
-  cancel_type=null
-  return c
-}
-
-function cancel_next(which,type) {
-  cancel_which=which
-  cancel_type=type
-}
-
 function p_mess(mess) {
   var m=mess
   return function() {
@@ -235,8 +198,42 @@ function p_mess(mess) {
   }
 }
 
-function ctrl_dot(e) { return e.which==190 && e.ctrlKey }
-function ctrl_del(e) { return e.which==46 && e.ctrlKey }
-function esc(e) { return e.which==27 }
-function ctrl_enter(e) { return e.which==13 && e.ctrlKey }
-function enter(e) { return e.which==13 }
+function add_item_helper() {
+  $.editor({
+    title: 'New item',
+    rows: 20,
+    text: '',
+    commands: [ {
+        img: '/images/cancel.png',
+        title: 'cancel',
+        accel: esc
+      }, {
+        img: '/images/add.png',
+        title: 'add',
+        accel:  ctrl_enter,
+        click: function(x) {
+          item_new(x,[_d.main_tag],p_mess('new item'))
+        }
+      }
+    ]
+  })
+}
+
+function add_tag_helper() {
+  $.editor({
+    title: 'New tag',
+    text: '',
+    rows: 1,
+    commands: [ {
+        img: '/images/cancel.png',
+        title: 'cancel',
+        accel: esc
+      }, {
+        img: '/images/add.png',
+        title: 'add',
+        accel:  enter,
+        click: function(x) { tag_new(x,p_mess('new tag')) }
+      }
+    ]
+  })
+}
