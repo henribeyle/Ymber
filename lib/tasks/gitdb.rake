@@ -14,6 +14,19 @@ namespace :db do
       Tag.new("waiting","<img src='/images/waiting.png' title='waiting'/>",3).save
     end
 
+    desc "Put in some common stuff"
+    task :common => :environment do
+      Tag.new("computer","<img src='/images/computer.png' title='computer'/>",4).save
+      Tag.new("email","<img src='/images/email.png' title='email'/>",5).save
+      Tag.new("home","<img src='/images/home.png' title='home'/>",6).save
+      Tag.new("internet","<img src='/images/internet.png' title='internet'/>",7).save
+      Tag.new("phone","<img src='/images/phone.png' title='phone'/>",8).save
+      Tag.new("errands","<img src='/images/errand.png' title='errands'/>",9).save
+      Tag.new("talk","<img src='/images/talk.png' title='talk'/>",10).save
+      Tag.new("friends","<img src='/images/wine.png' title='friends'/>",11).save
+      Tag.new("small things","<img src='/images/cafe.png' title='small things'/>",12).save
+    end
+
     desc "Delete gitdb infrastructure"
     task :drop => :environment do
       dir=File.join(RAILS_ROOT,'db')
