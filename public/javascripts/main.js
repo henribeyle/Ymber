@@ -323,5 +323,5 @@ $(function() {
   }
 
   $(window).bind('resize', resize_handler)
-  resize_handler()
+  resize_handler.delay(1000)
 })
