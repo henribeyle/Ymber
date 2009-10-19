@@ -103,9 +103,12 @@ $(function() {
   )
 
   function resize_handler() {
-    $('#left').width($('body').width()-$('#right').width())
+    function do_resize() {
+      $('#left').width($('body').width()-$('#right').width())
+    }
+    do_resize.delay(1000)
   }
 
   $(window).bind('resize', resize_handler)
-  resize_handler.delay(1000)
+  resize_handler()
 })
