@@ -7,11 +7,12 @@ function Tag(value,extra,id) {
   self.items=[]
   self.filtering=false
 
-  self.ui=$('<div>').attr('id','tag-'+self.id).appendTo('#tags')
+  self.ui=$('<span>').attr('id','tag-'+self.id).appendTo('#tags')
 
   $('<span>').
     addClass('tag').
     append(span('value',self.value_or_extra())).
+    append(span('nobreak','&nbsp')).
     append($('<img>').
       attr('src','/images/go.png').
       attr('title','go').
@@ -30,7 +31,7 @@ function Tag(value,extra,id) {
       cursor: 'move',
       revert: 'invalid'
     })
-  self.ui.width($('.tag',self.ui).width())
+  //self.ui.width($('.tag',self.ui).width())
 }
 
 Tag.prototype.value_or_extra = function() {
