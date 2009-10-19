@@ -36,10 +36,12 @@ var all_items=<%= @items.to_json %>
 <div id='title'>
 <span class="main"><%= @tagname %></span>
 <span id='tag_filters'></span>
-<input type='button' value='New Item' id='add_item_button'/>
-<input type='button' value='New Tag' id='add_tag_button'/>
-<input type='button' value='Redo' id='redo_button'/>
-<input type='button' value='Undo' id='undo_button'/>
+
+<img src="/images/help.png" title='Help' class='button' id='help_button'/>
+<img src="/images/redo.png" title='Redo' class='button' id='redo_button'/>
+<img src="/images/undo.png" title='Undo' class='button' id='undo_button'/>
+<img src="/images/new_tag.png" title='New Item' class='button' id='add_item_button'/>
+<img src="/images/new_item.png" title='New Item' class='button' id='add_item_button'/>
 </div>
 
 <div id='left'>

@@ -178,7 +178,7 @@ function key_handler(e) {
 
 function add_item_helper() {
   $.editor({
-    title: 'Add item',
+    title: 'New item',
     rows: 20,
     text: '',
     commands: [ {
@@ -199,7 +199,7 @@ function add_item_helper() {
 
 function add_tag_helper() {
   $.editor({
-    title: 'Add tag',
+    title: 'New tag',
     text: '',
     rows: 1,
     commands: [ {
@@ -240,25 +240,27 @@ $(function() {
     $('#title .main').html(_d.main_tag.value_or_extra())
 
   if(this_tag == 'in') {
-    $('<input>').
-      attr('type','image').
-      attr('src',"/images/next.png").
-      attr('width','24px').
-      attr('title','send to Next').
-      appendTo('#title').
-      click(function() {
-        if(_d.item_show)
-          item_send_to_next(_d.item_show,p_mess('item sent to next'))
-      })
-    $('<input>').
-      attr('type','image').
-      attr('src',"/images/waiting.png").
-      attr('width','24px').
+    $('<img>').
+      attr('src',"/images/empty.png").
+      addClass('button').
+      appendTo('#title')
+    $('<img>').
+      attr('src',"/images/add_to_waiting.png").
       attr('title','send to Waiting').
+      addClass('button').
       appendTo('#title').
       click(function() {
         if(_d.item_show)
           item_send_to_waiting(_d.item_show,p_mess('item sent to waiting'))
+      })
+    $('<img>').
+      attr('src',"/images/add_to_next.png").
+      attr('title','send to Next').
+      addClass('button').
+      appendTo('#title').
+      click(function() {
+        if(_d.item_show)
+          item_send_to_next(_d.item_show,p_mess('item sent to next'))
       })
   }
 
@@ -266,6 +268,7 @@ $(function() {
   $('#add_tag_button').click(add_tag_helper)
   $('#undo_button').click(undo)
   $('#redo_button').click(redo)
+  $('#help_button').click(function() { alert('coming') })
 
   $('#title').droppable({
     accept: '.tag',

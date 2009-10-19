@@ -55,3 +55,13 @@ talk.png     -> comment.png            (fatcow-hosting-icons)
 wine.png     -> drink.png              (fatcow-hosting-icons)
 
 ################################################################################
+
+Compositions:
+
+foreach s (next waiting)
+composite -geometry +16+16 add_to.png $s.png add_to_$s.png
+end
+
+foreach s (item tag)
+composite -geometry +16+16 add_to.png $s.png new_$s.png
+end
