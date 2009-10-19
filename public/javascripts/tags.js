@@ -12,7 +12,11 @@ function Tag(value,extra,id) {
   $('<span>').
     addClass('tag').
     append(span('value',self.value_or_extra())).
-    append(go_button().click(function() { go_to(self.value) })).
+    append($('<img>').
+      attr('src','/images/go.png').
+      attr('title','go').
+      addClass('go').
+      click(function() { go_to(self.value) })).
     appendTo(self.ui).
     fixClick(function() {
         self.filtering ? tag_unfilter(self) : tag_filter(self)

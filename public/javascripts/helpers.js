@@ -74,13 +74,6 @@ function span(className,html) {
   return s
 }
 
-function go_button() {
-  return $('<img>').
-    attr('src','/images/go.png').
-    attr('title','go').
-    addClass('go')
-}
-
 function go_to(tag) {
   location.href=tag
 }
