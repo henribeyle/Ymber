@@ -48,7 +48,7 @@ namespace :db do
       i2.save
       i3=Item.new('item-three')
       i3.save
-      i4=Item.new("item-four\n - hola\n - adios")
+      i4=Item.new("item-four is a location in a map: {41.3896,2.1725} at a 21/10/2009\n - hola\n - adios")
       i4.tags << t1 << t2
       i4.save
       i5=Item.new('item-five')
