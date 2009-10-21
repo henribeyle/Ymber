@@ -161,8 +161,23 @@ function main_key_handler(e) {
       break;
 
     case 'y':
-      is &&
-      item_send_to_next(is,p_mess('item sent to next'))
+      if(is) {
+        // higuest precedence, tag 'in' will always
+        // send the whole thing to 'next'
+        if(this_tag=='in') {
+          item_send_to_next(is,p_mess('item sent to next'))
+        } else {
+          var sel=window.getSelection().
+            toString().
+            replace(/\n#/g,"\n -").
+            replace(/^# /,'')
+          if(sel!='' && is.value.test(sel.escapeRegExp())) {
+            item_split(is,sel,[_d.tag_value('next')])
+          } else {
+            item_send_to_next(is,p_mess('item sent to next'))
+          }
+        }
+      }
       break
 
     case 'w':

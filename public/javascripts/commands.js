@@ -353,7 +353,7 @@ function item_send_to_waiting(item,nT,nF) {
   },nF)
 }
 
-function item_split(item,selection,nT,nF) {
+function item_split(item,selection,extra_tags,nT,nF) {
   if(selection=='') {
     //$.warning('selection cant be void in division')
     is_fun(nF) && nF()
@@ -369,10 +369,11 @@ function item_split(item,selection,nT,nF) {
 
 //   for(var i=0;i<data.length;i++)
 //      log("data ["+i+"]= '"+data[i]+"'")
+  var tags=item.tags.concat(extra_tags)
 
   function process_new_data_items() {
     function process_one_data_item(element) {
-      item_new(data[element],item.tags,function() {
+      item_new(data[element],tags,function() {
         item_move_after(_d.items.last(),item, function() {
           if(element>1)
             process_one_data_item(element-1)
