@@ -323,14 +323,19 @@ function item_move_after(item1,item2,nT,nF) {
 function item_send_to_next(item,nT,nF) {
   var tag_in=_d.tag_value('in')
   var tag_next=_d.tag_value('next')
-  item_remove_tag(item,tag_in,function() {
-    if(item==_d.item_show)
-      item_show_next()
-    item_add_tag(item,tag_next,function() {
-      is_fun(nT) && nT()
-      _d.join_undos(2)
+
+  if(item.has(tag_in)) {
+    item_remove_tag(item,tag_in,function() {
+      if(item==_d.item_show && this_tag=='in')
+        item_show_next()
+      item_add_tag(item,tag_next,function() {
+        is_fun(nT) && nT()
+        _d.join_undos(2)
+      },nF)
     },nF)
-  },nF)
+  } else {
+    item_add_tag(item,tag_next,nT,nF)
+  }
 }
 
 function item_send_to_waiting(item,nT,nF) {

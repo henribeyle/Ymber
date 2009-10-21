@@ -162,7 +162,6 @@ function main_key_handler(e) {
 
     case 'y':
       is &&
-      this_tag=='in' &&
       item_send_to_next(is,p_mess('item sent to next'))
       break
 
