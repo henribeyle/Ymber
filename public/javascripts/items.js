@@ -76,6 +76,20 @@ Item.prototype.edit = function() {
             item_split(self,s,[],p_mess('item has been split'))
         }
       }, {
+        accel: ctrl_y,
+        click: function(x,s) {
+          var mes=p_mess('item has been split (and sent to next)')
+          if(x!=self.value)
+            item_update(self,x,function() {
+              item_split(self,s,[_d.tag_value('next')],function() {
+                _d.join_undos(2)
+                mes()
+              })
+            })
+          else
+            item_split(self,s,[_d.tag_value('next')],mes)
+        }
+      }, {
         img: '/images/delete.png',
         title: 'delete',
         accel: ctrl_del,
