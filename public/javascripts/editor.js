@@ -70,6 +70,7 @@
         return
       }
 
+      $.map_hide()
       restore_input_handler()
 
       var ta=$('#editor-ui textarea')
