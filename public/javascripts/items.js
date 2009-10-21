@@ -67,12 +67,13 @@ Item.prototype.edit = function() {
         click: function(x,s) {
           if(x!=self.value)
             item_update(self,x,function() {
-              item_split(self,s,function() {
+              item_split(self,s,[],function() {
                 _d.join_undos(2)
+                p_mess('item has been split')()
               })
             })
           else
-            item_split(self,s)
+            item_split(self,s,[],p_mess('item has been split'))
         }
       }, {
         img: '/images/delete.png',

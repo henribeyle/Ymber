@@ -369,7 +369,9 @@ function item_split(item,selection,extra_tags,nT,nF) {
 
 //   for(var i=0;i<data.length;i++)
 //      log("data ["+i+"]= '"+data[i]+"'")
-  var tags=item.tags.concat(extra_tags)
+  var tags=item.tags.concat()
+  if(extra_tags && extra_tags.length!=0)
+    tags=tags.concat(extra_tags)
 
   function process_new_data_items() {
     function process_one_data_item(element) {

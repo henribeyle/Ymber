@@ -157,7 +157,7 @@ function main_key_handler(e) {
         replace(/\n#/g,"\n -").
         replace(/^# /,'')
       if(is!=null && is.value.test(sel.escapeRegExp()))
-        item_split(is,sel)
+        item_split(is,sel,[],p_mess('item has been split'))
       break;
 
     case 'y':
@@ -172,7 +172,8 @@ function main_key_handler(e) {
             replace(/\n#/g,"\n -").
             replace(/^# /,'')
           if(sel!='' && is.value.test(sel.escapeRegExp())) {
-            item_split(is,sel,[_d.tag_value('next')])
+            item_split(is,sel,[_d.tag_value('next')],
+              p_mess('item has been split (and sent to next)'))
           } else {
             item_send_to_next(is,p_mess('item sent to next'))
           }
