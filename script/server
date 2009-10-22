@@ -1,3 +1,49 @@
 #!/usr/bin/env ruby
 require File.dirname(__FILE__) + '/../config/boot'
-require 'commands/server'
+require 'active_support'
+require 'action_controller'
+require 'fileutils'
+require 'optparse'
+require RAILS_ROOT + "/config/environment"
+
+# TODO: Push Thin adapter upstream so we don't need worry about requiring it
+begin
+  require_library_or_gem 'thin'
+rescue Exception
+  # Thin not available
+end
+
+options = {
+  :Port        => 3000,
+  :Host        => "127.0.0.1",
+  :BindAddress => "127.0.0.1",
+  :environment => "development"
+}
+
+server = Rack::Handler::WEBrick
+
+puts "=> Rails #{Rails.version} on http://#{options[:Host]}:#{options[:Port]}"
+%w(cache pids sessions sockets).each do |dir_to_make|
+  FileUtils.mkdir_p(File.join(RAILS_ROOT, 'tmp', dir_to_make))
+end
+
+ENV["RAILS_ENV"] = options[:environment]
+RAILS_ENV.replace(options[:environment]) if defined?(RAILS_ENV)
+
+inner_app = ActionController::Dispatcher.new
+
+app = Rack::Builder.new {
+  use Rails::Rack::LogTailer
+  map "/" do
+    use Rails::Rack::Static
+    run inner_app
+  end
+}.to_app
+
+trap(:INT) { exit }
+
+begin
+  server.run(app, options.merge(:AccessLog => []))
+ensure
+  puts 'Exiting'
+end
