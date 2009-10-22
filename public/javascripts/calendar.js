@@ -11,6 +11,11 @@
   }
 
   $.calendar_show = function(cl) {
+    if(!calendar_url) {
+      $.error('no calendar url found')
+      return
+    }
+
     onclose=cl
     save_input_handler(
       function() { $(document).bind('keyup',only_escape) },
@@ -20,11 +25,9 @@
     calp=$('#calendar-parent')
     if(calp.length==0) {
       calp=$('<div>').attr('id','calendar-parent').appendTo('body')
-      var src="http://www.google.com/calendar/XXX"
-
       $('<iframe>').
         attr('id','calendar').
-        attr('src',src).
+        attr('src',calendar_url).
         appendTo(calp)
     }
 

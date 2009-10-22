@@ -55,6 +55,8 @@ class TagsController < ApplicationController
   end
 
   def editor
+    @google_key=config_value('google_key')
+    @calendar_url=config_value('calendar_url')
     value=params[:value]
     @tags=Tag.all
     if(value) then

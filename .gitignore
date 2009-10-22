@@ -4,3 +4,4 @@ doc/api
 doc/app
 db
 public/stylesheets/main.css
+config/config.yml

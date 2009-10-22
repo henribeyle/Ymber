@@ -18,8 +18,13 @@ function map_finished_loading() {
 
   $.map_load = function() {
     if(maps_loaded) return
+    if(!google_key) {
+      $.error('no google key found')
+      return
+    }
     var script = document.createElement("script")
-    script.setAttribute("src","http://maps.google.com/maps?file=api&v=2.x&key=XXX&c&async=2&callback=map_finished_loading")
+    script.setAttribute("src","http://maps.google.com/maps?file=api&v=2.x&key="+
+      google_key+"&c&async=2&callback=map_finished_loading")
     script.setAttribute("type", "text/javascript")
     document.documentElement.firstChild.appendChild(script)
   }
