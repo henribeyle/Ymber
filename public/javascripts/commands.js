@@ -7,6 +7,7 @@ function load_data(nT,nF) {
   $.message('loading data ...')
   $.ajax({
     type: "GET",
+    cache: false,
     url: location.pathname+".js",
     success: suc(nT,nF,function(a) {
       $.message('loaded')
@@ -17,8 +18,8 @@ function load_data(nT,nF) {
       calendar_url=a.calendar_url
       extra_undo=a.extra_undo
 
-      if(_d)
-        _d.destroy()
+      $('#items').children().remove()
+      $('#tags').children().remove()
 
       _d=new Data(this_tag,all_tags,all_items)
       _d.order_from_cookie()
@@ -115,6 +116,7 @@ function item_new(value,mtag,nT,nF) {
 
   $.ajax({
     type: "POST",
+    cache: false,
     url: "/items",
     data: dp,
     success: suc(nT,nF,function(a) {
@@ -137,6 +139,7 @@ function item_new(value,mtag,nT,nF) {
 function item_delete(item,nT,nF) {
   $.ajax({
     type: "DELETE",
+    cache: false,
     url: "/items/"+item.id,
     success: suc(nT,nF,function(a) {
       item.tags.concat().each(function(tag) {
@@ -161,6 +164,7 @@ function item_update(item,value,nT,nF) {
 
   $.ajax({
     type: "PUT",
+    cache: false,
     url: "/items/"+item.id,
     data: {'item[value]': value},
     success: suc(nT,nF,function(a) {
@@ -179,6 +183,7 @@ function item_add_tag(item,tag,nT,nF) {
 
   $.ajax({
     type: "PUT",
+    cache: false,
     url: "/items/"+item.id+'/tag',
     data: 'tag[]='+tag.id,
     success: suc(nT,nF,function(a) {
@@ -194,6 +199,7 @@ function item_add_tag(item,tag,nT,nF) {
 function item_remove_tag(item,tag,nT,nF) {
   $.ajax({
     type: "DELETE",
+    cache: false,
     url: "/items/"+item.id+'/tag',
     data: 'tag[]='+tag.id,
     success: suc(nT,nF,function(a) {
@@ -214,6 +220,7 @@ function item_remove_tag(item,tag,nT,nF) {
 function tag_new(value,nT,nF) {
   $.ajax({
     type: "POST",
+    cache: false,
     url: "/tags",
     data: { 'tag[value]': value.replace(/\n/,'') },
     success: suc(nT,nF,function(a) {
@@ -227,6 +234,7 @@ function tag_new(value,nT,nF) {
 function tag_delete(tag,nT,nF) {
   $.ajax({
     type: "DELETE",
+    cache: false,
     url: "/tags/"+tag.id,
     success: suc(nT,nF,function(a) {
       tag.items.concat().each(function(item) {
@@ -253,6 +261,7 @@ function tag_update(tag,value,nT,nF) {
 
   $.ajax({
     type: "PUT",
+    cache: false,
     url: "/tags/"+tag.id,
     data: { 'tag[value]' : value },
     success: suc(nT,nF,function(a) {
@@ -527,6 +536,7 @@ function undo(nT,nF) {
 
   $.ajax({
     type: "GET",
+    cache: false,
     url: "/undo/"+howmany,
     success: suc(nT,nF,function(a) {
       console.dir(a)
@@ -540,6 +550,7 @@ function undo(nT,nF) {
 function redo(nT,nF) {
   $.ajax({
     type: "GET",
+    cache: false,
     url: "/redo",
     success: suc(nT,nF,function(a) {
       $.message('redo produced')
