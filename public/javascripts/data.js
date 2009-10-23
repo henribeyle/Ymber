@@ -52,6 +52,11 @@ function Data(this_tag, all_tags, all_items) {
   })
 }
 
+Data.prototype.destroy = function() {
+  $('#items').children().remove()
+  $('#tags').children().remove()
+}
+
 // adding and removing items, tags and filters
 
 Data.prototype.add_item = function(item) {

@@ -1,6 +1,9 @@
 var _d=null
 
 function process_data() {
+  if(_d)
+    _d.destroy()
+
   _d=new Data(this_tag,all_tags,all_items)
   _d.order_from_cookie()
   _d.filters_from_cookie()

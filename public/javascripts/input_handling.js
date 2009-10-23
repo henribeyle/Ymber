@@ -211,6 +211,10 @@ function main_key_handler(e) {
       show_help()
       break
 
+    case 'R':
+      load_data()
+      break
+
     default:
       clear_command=false
       break
