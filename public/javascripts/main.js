@@ -19,6 +19,7 @@ $(function() {
   _d.order_from_cookie()
   _d.filters_from_cookie()
   _d.undo_from_cookie()
+  if(extra_undo) _d.add_undo(extra_undo)
 
   if(_d.main_tag)
     $('#title .main').html(_d.main_tag.value_or_extra())

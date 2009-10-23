@@ -12,6 +12,7 @@ private
   end
 public
   attr_reader :id
+  attr_reader :value
   attr_reader :tags
   attr_writer :tags
 

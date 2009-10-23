@@ -1,6 +1,28 @@
 require "#{RAILS_ROOT}/lib/git"
 
 class TagsController < ApplicationController
+private
+  def schedule_into_in()
+    tin=Tag.find(1)
+    tsomeday=Tag.find(4)
+    date_regex=/^@\[(\d{2})\/(\d{2})\/(\d{4})\] */
+    today=Date.today
+    i=0
+    tsomeday.items.each do |item|
+      m=item.value.match(date_regex)
+      next if m==nil
+      if(Date.civil(m[3].to_i,m[2].to_i,m[1].to_i) <= today) then
+        item.value.gsub!(date_regex,'')
+        item.tags.delete_if { |x| x.id.to_i==tsomeday.id.to_i }
+        item.tags << tin
+        item.save
+        i+=1
+      end
+    end
+    return i
+  end
+
+public
   def create
     render :json => Tag.new(params[:tag][:value]).save
   rescue => e
@@ -58,6 +80,7 @@ class TagsController < ApplicationController
     @google_key=config_value('google_key')
     @calendar_url=config_value('calendar_url')
     value=params[:value]
+    @extra_undo=0
     @tags=Tag.all
     if(value) then
       tag = @tags.find { |x| x.value == value }
@@ -65,6 +88,7 @@ class TagsController < ApplicationController
         redirect_to('/')
         return
       end
+      @extra_undo=schedule_into_in() if(value == 'in')
       @tagname=tag.value
       @items=tag.items
     else
