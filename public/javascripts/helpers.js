@@ -193,7 +193,8 @@ function divide(value,selection,item_prefix) {
       }
     }
     next=lines.join("\n")
-    return [prev+"\n"+next].concat([new_selection])
+    var total=(prev != '' && next != '') ? prev+"\n"+next : prev+next
+    return [total].concat([new_selection])
   }
   else {
     var data=[prev+next]
