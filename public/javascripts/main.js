@@ -1,110 +1,5 @@
 var _d=null
 
-function process_data() {
-  if(_d)
-    _d.destroy()
-
-  _d=new Data(this_tag,all_tags,all_items)
-  _d.order_from_cookie()
-  _d.filters_from_cookie()
-  _d.undo_from_cookie()
-  if(extra_undo) _d.add_undo(extra_undo)
-
-  if(_d.main_tag)
-    $('#title .main').html(_d.main_tag.value_or_extra())
-
-  if(this_tag == 'in') {
-    $('<img>').
-      attr('src',"/images/empty.png").
-      addClass('button').
-      appendTo('#title')
-    $('<img>').
-      attr('src',"/images/add_to_someday.png").
-      attr('title','send to Someday').
-      addClass('button').
-      appendTo('#title').
-      click(function() {
-        if(_d.item_show) {
-          $.select_date(null,function(x) {
-            item_send_to_someday(_d.item_show,x,p_mess('item sent to someday'))
-          })
-        }
-      })
-     $('<img>').
-      attr('src',"/images/add_to_waiting.png").
-      attr('title','send to Waiting').
-      addClass('button').
-      appendTo('#title').
-      click(function() {
-        if(_d.item_show)
-          item_send_to_waiting(_d.item_show,p_mess('item sent to waiting'))
-      })
-    $('<img>').
-      attr('src',"/images/add_to_next.png").
-      attr('title','send to Next').
-      addClass('button').
-      appendTo('#title').
-      click(function() {
-        if(_d.item_show)
-          item_send_to_next(_d.item_show,p_mess('item sent to next'))
-      })
-  }
-
-  $('#title').droppable({
-    accept: '.tag',
-    hoverClass: 'dropping-into-item',
-    drop: function(event, ui) {
-      tag_filter(_d.tag_id($(ui.draggable).oid()))
-    }
-  })
-
-  $("#items").sortable({
-    handle: '.item-handler',
-    cursor: 'move',
-    opacity: 0.5,
-    placeholder: 'items-sortable-placeholder',
-    stop: function(e, ui) {
-      var prev=null
-      var oid=null
-
-      if(ui.item[0].previousElementSibling) {
-        oid=$(ui.item[0].previousElementSibling).oid()
-        prev=true
-      } else if(ui.item[0].nextElementSibling) {
-        oid=$(ui.item[0].nextElementSibling).oid()
-        prev=false
-      }
-      var myoid=$(ui.item[0]).oid()
-      var item1=_d.item_id(myoid)
-      var item2=_d.item_id(oid)
-      $(this).sortable('cancel')
-      if(prev)
-        item_move_after(item1,item2)
-      else
-        item_move_before(item1,item2)
-    }
-  })
-}
-
-function load_data(nT,nF) {
-  $.message('loading data ...')
-  $.ajax({
-    type: "GET",
-    url: location.pathname+".js",
-    success: suc(nT,nF,function(a) {
-      $.message('loaded')
-      this_tag=a.this_tag
-      all_tags=a.all_tags
-      all_items=a.all_items
-      google_key=a.google_key
-      calendar_url=a.calendar_url
-      extra_undo=a.extra_undo
-      process_data()
-    }),
-    error: te(nF)
-  })
-}
-
 $(function() {
   //window.onerror=catch_all
   $.fn.extend({
@@ -149,5 +44,5 @@ $(function() {
   $('#redo_button').click(redo)
   $('#help_button').click(show_help)
 
-  load_data(null,null)
+  load_data()
 })
