@@ -266,27 +266,35 @@ function show_help() {
 '<table style="border-spacing: 3px; text-align: left;"><tr>'+
 '<td>gi</td><td>go to in</td>'+
 '<td>tn</td><td>new tag</td>'+
+'<td colspan="2"><div style="font-size: 18px;font-weight: bold;">inside editor</div></td>'+
 '</tr><tr>'+
 '<td>gn</td><td>go to next</td>'+
 '<td>te</td><td>edit tag</td>'+
+'<td>ctrl+enter</td><td>save</td>'+
 '</tr><tr>'+
 '<td>gw</td><td>go to waiting</td>'+
 '<td>ft</td><td>filter</td>'+
+'<td>escape</td><td>cancel</td>'+
 '</tr><tr>'+
 '<td>gs</td><td>go to someday</td>'+
 '<td>fr</td><td>remove filter</td>'+
+'<td>ctrl+del</td><td>delete</td>'+
 '</tr><tr>'+
 '<td>gt</td><td>go to tag (select one)</td>'+
 '<td>fc</td><td>clear all filters</td>'+
+'<td>ctrl+.</td><td>split</td>'+
 '</tr><tr>'+
 '<td>j</td><td>go down one item</td>'+
 '<td>fo</td><td>set filtering method to or</td>'+
+'<td>ctrl+y</td><td>split and send to next</td>'+
 '</tr><tr>'+
 '<td>k</td><td>go up one item</td>'+
 '<td>fa</td><td>set filtering method to and</td>'+
+'<td>m@</td><td>insert map coordinates</td>'+
 '</tr><tr>'+
 '<td>J</td><td>move item down</td>'+
 '<td>c</td><td>open your calendar</td>'+
+'<td>d@</td><td>insert date</td>'+
 '</tr><tr>'+
 '<td>K</td><td>move item up</td>'+
 '<td>uu</td><td>undo</td>'+
@@ -310,22 +318,6 @@ function show_help() {
 '<td>@s</td><td>move item to someday with date</td>'+
 '</tr><tr>'+
 '<td>r</td><td>remove a tag from this item</td>'+
-'</tr></table>'+
-'<div style="font-size: 20px;font-weight: bold;">When editing</div>'+
-'<table style="border-spacing: 20px 0px; text-align: left;"><tr>'+
-'<td>ctrl+enter</td><td>save</td>'+
-'</tr><tr>'+
-'<td>escape</td><td>cancel</td>'+
-'</tr><tr>'+
-'<td>ctrl+del</td><td>delete</td>'+
-'</tr><tr>'+
-'<td>ctrl+.</td><td>split</td>'+
-'</tr><tr>'+
-'<td>ctrl+y</td><td>split and send to next</td>'+
-'</tr><tr>'+
-'<td>m@</td><td>insert map coordinates</td>'+
-'</tr><tr>'+
-'<td>d@</td><td>insert date</td>'+
 '</tr></table>'
 )
 }
