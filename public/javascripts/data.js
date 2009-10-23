@@ -26,8 +26,8 @@ function Data(this_tag, all_tags, all_items) {
     self.tags.push(t)
   });
 
-  // reordering tags (in, next and waiting first)
-  ['waiting','next','in'].each(function(x) {
+  // reordering tags (in, next, waiting, someday first)
+  ['someday','waiting','next','in'].each(function(x) {
     var ind=self.tags.index(this_value(x))
     if(ind!=0) {
       self.tags[0].ui.before(self.tags[ind].ui)

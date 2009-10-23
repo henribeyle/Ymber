@@ -26,7 +26,7 @@ public
   end
 
   def value=(value)
-    if @value == 'in' || @value == 'next' || @value == 'waiting'
+    if @value == 'in' || @value == 'next' || @value == 'waiting' || @value == 'someday'
       raise "tag #{@value} is immutable"
     end
     @value=new_value(value)
@@ -48,7 +48,7 @@ public
   end
 
   def destroy
-    if @value == 'in' || @value == 'next' || @value == 'waiting'
+    if @value == 'in' || @value == 'next' || @value == 'waiting' || @value == 'someday'
       raise "tag #{@value} is immutable"
     end
 

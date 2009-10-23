@@ -32,8 +32,8 @@ public
 
   def save
     raise "item value can not be empty" if(@value == '')
-    if(@tags.map {|t| t.value } & ['in','next','waiting']).size > 1 then
-      raise "tags in, next, and waiting are mutually exclusively"
+    if(@tags.map {|t| t.value } & ['in','next','waiting', 'someday']).size > 1 then
+      raise "tags in, next, waiting and someday are mutually exclusively"
     end
     @id=DB.next_id('item') if @id.nil?
     DB.write_to("item_#{@id}",@value)
