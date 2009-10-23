@@ -353,6 +353,31 @@ function item_send_to_waiting(item,nT,nF) {
   },nF)
 }
 
+function item_send_to_someday(item,dt,nT,nF) {
+  var tag_in=_d.tag_value('in')
+  var tag_someday=_d.tag_value('someday')
+
+  function what() {
+    if(item.has(tag_in)) {
+      item_remove_tag(item,tag_in,function() {
+        if(item==_d.item_show && this_tag=='in')
+          item_show_next()
+        item_add_tag(item,tag_someday,function() {
+          is_fun(nT) && nT()
+          _d.join_undos(dt ? 3 : 2)
+        },nF)
+      },nF)
+    } else {
+      item_add_tag(item,tag_someday,nT,nF)
+    }
+  }
+
+  if(dt)
+    item_update(item,'@['+dt+'] '+item.value,what,nF)
+  else
+    what()
+}
+
 function item_split(item,selection,extra_tags,nT,nF) {
   if(selection=='') {
     //$.warning('selection cant be void in division')

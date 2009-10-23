@@ -34,8 +34,11 @@ $(function() {
       addClass('button').
       appendTo('#title').
       click(function() {
-        if(_d.item_show)
-          $.error('send to someday not yet done')
+        if(_d.item_show) {
+          $.select_date(null,function(x) {
+            item_send_to_someday(_d.item_show,x,p_mess('item sent to someday'))
+          })
+        }
       })
      $('<img>').
       attr('src',"/images/add_to_waiting.png").
