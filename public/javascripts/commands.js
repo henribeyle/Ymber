@@ -4,13 +4,13 @@
 // which will be called on success or on failure
 
 function load_data(nT,nF) {
-  $.message('loading data ...')
+  $('#loading').show()
   $.ajax({
     type: "GET",
     cache: false,
     url: location.pathname+".js",
     success: suc(nT,nF,function(a) {
-      $.message('loaded')
+      $('#loading').hide()
       this_tag=a.this_tag
       all_tags=a.all_tags
       all_items=a.all_items
