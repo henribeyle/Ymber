@@ -1,9 +1,5 @@
 var _d=null
 
-function show_help() {
-  $.modal($('<div>').html('yes I am'))
-}
-
 $(function() {
   //window.onerror=catch_all
   $.fn.extend({

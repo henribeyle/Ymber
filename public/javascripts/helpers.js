@@ -260,3 +260,72 @@ function add_tag_helper() {
     ]
   })
 }
+
+function show_help() {
+  $.modal('<div style="font-size: 20px;font-weight: bold;">Keyboard shortcuts</div>'+
+'<table style="border-spacing: 3px; text-align: left;"><tr>'+
+'<td>gi</td><td>go to in</td>'+
+'<td>tn</td><td>new tag</td>'+
+'</tr><tr>'+
+'<td>gn</td><td>go to next</td>'+
+'<td>te</td><td>edit tag</td>'+
+'</tr><tr>'+
+'<td>gw</td><td>go to waiting</td>'+
+'<td>ft</td><td>filter</td>'+
+'</tr><tr>'+
+'<td>gs</td><td>go to someday</td>'+
+'<td>fr</td><td>remove filter</td>'+
+'</tr><tr>'+
+'<td>gt</td><td>go to tag (select one)</td>'+
+'<td>fc</td><td>clear all filters</td>'+
+'</tr><tr>'+
+'<td>j</td><td>go down one item</td>'+
+'<td>fo</td><td>set filtering method to or</td>'+
+'</tr><tr>'+
+'<td>k</td><td>go up one item</td>'+
+'<td>fa</td><td>set filtering method to and</td>'+
+'</tr><tr>'+
+'<td>J</td><td>move item down</td>'+
+'<td>c</td><td>open your calendar</td>'+
+'</tr><tr>'+
+'<td>K</td><td>move item up</td>'+
+'<td>uu</td><td>undo</td>'+
+'</tr><tr>'+
+'<td>9</td><td>collapse all items</td>'+
+'<td>ur</td><td>redo</td>'+
+'</tr><tr>'+
+'<td>0</td><td>expand all items</td>'+
+'<td>ctrl+.</td><td>split selection</td>'+
+'</tr><tr>'+
+'<td>n</td><td>new item</td>'+
+'<td>y</td><td>(yank) move item (or selection) to next</td>'+
+'</tr><tr>'+
+'<td>e</td><td>edit this item</td>'+
+'<td>w</td><td>move item to waiting (only if in inbox)</td>'+
+'</tr><tr>'+
+'<td>o</td><td>open this item</td>'+
+'<td>s</td><td>move item to someday</td>'+
+'</tr><tr>'+
+'<td>a</td><td>add a tag to this item</td>'+
+'<td>@s</td><td>move item to someday with date</td>'+
+'</tr><tr>'+
+'<td>r</td><td>remove a tag from this item</td>'+
+'</tr></table>'+
+'<div style="font-size: 20px;font-weight: bold;">When editing</div>'+
+'<table style="border-spacing: 20px 0px; text-align: left;"><tr>'+
+'<td>ctrl+enter</td><td>save</td>'+
+'</tr><tr>'+
+'<td>escape</td><td>cancel</td>'+
+'</tr><tr>'+
+'<td>ctrl+del</td><td>delete</td>'+
+'</tr><tr>'+
+'<td>ctrl+.</td><td>split</td>'+
+'</tr><tr>'+
+'<td>ctrl+y</td><td>split and send to next</td>'+
+'</tr><tr>'+
+'<td>m@</td><td>insert map coordinates</td>'+
+'</tr><tr>'+
+'<td>d@</td><td>insert date</td>'+
+'</tr></table>'
+)
+}
