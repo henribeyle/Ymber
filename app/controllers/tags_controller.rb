@@ -77,6 +77,21 @@ public
   end
 
   def editor
+    value=params[:value]
+    tags=Tag.all
+    if(value) then
+      tag = Tag.all.find { |x| x.value == value }
+      if !tag
+        redirect_to('/')
+        return
+      end
+      @tagname=tag.value
+    else
+      @tagname='(none)'
+    end
+  end
+
+  def editor_js
     @google_key=config_value('google_key')
     @calendar_url=config_value('calendar_url')
     value=params[:value]
@@ -95,16 +110,13 @@ public
       @tagname='(none)'
       @items=Item.untagged
     end
-    respond_to do |format|
-      format.html
-      format.js { render :json => {
-        :this_tag => @tagname,
-        :all_tags => @tags,
-        :all_items => @items,
-        :google_key => @google_key,
-        :calendar_url => @calendar_url,
-        :extra_undo => @extra_undo
-      }}
-    end
+    render :json => {
+      :this_tag => @tagname,
+      :all_tags => @tags,
+      :all_items => @items,
+      :google_key => @google_key,
+      :calendar_url => @calendar_url,
+      :extra_undo => @extra_undo
+    }
   end
 end
