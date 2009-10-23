@@ -12,7 +12,7 @@ private
       m=item.value.match(date_regex)
       next if m==nil
       if(Date.civil(m[3].to_i,m[2].to_i,m[1].to_i) <= today) then
-        item.value.gsub!(date_regex,'')
+        item.value.gsub!(date_regex,'[from someday] ')
         item.tags.delete_if { |x| x.id.to_i==tsomeday.id.to_i }
         item.tags << tin
         item.save
