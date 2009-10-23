@@ -84,6 +84,7 @@ function process_data() {
 }
 
 function load_data(nT,nF) {
+  $.message('loading data ...')
   $.ajax({
     type: "GET",
     url: location.pathname+".js",
