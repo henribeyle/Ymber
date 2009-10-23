@@ -228,6 +228,7 @@ Data.prototype.save_filters_cookie = function() {
 }
 
 Data.prototype.add_undo = function(lev) {
+  if(lev == 0) return
   this.undo_levels.push(lev || 1)
   //log('undo level='+this.undo_levels.join(', '))
   this.save_undo_cookie()
