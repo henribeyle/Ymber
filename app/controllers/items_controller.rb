@@ -3,8 +3,8 @@ protected
   def add_tag_to_item(item,x)
     tag=Tag.find(x)
     tg=item.tags.map {|t| t.value } << tag.value
-    if (tg & ['in','next','waiting']).size > 1 then
-      raise "Tags in, next, and waiting are mutually exclusively"
+    if (tg & ['in','next','waiting','someday']).size > 1 then
+      raise "Tags in, next, waiting and someday are mutually exclusively"
     end
     @item.tags << tag
   end
