@@ -20,6 +20,12 @@ options = {
   :environment => "development"
 }
 
+begin
+a=YAML::load(File.open(File.join(RAILS_ROOT,'config','config.yml')))
+options[:Port]=a['port'] if(a['port'])
+rescue
+end
+
 server = Rack::Handler::WEBrick
 
 puts "=> Rails #{Rails.version} on http://#{options[:Host]}:#{options[:Port]}"
