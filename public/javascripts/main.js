@@ -1,5 +1,9 @@
 var _d=null
 
+function show_help() {
+  $.modal($('<div>').html('yes I am'))
+}
+
 $(function() {
   //window.onerror=catch_all
   $.fn.extend({
@@ -65,7 +69,7 @@ $(function() {
   $('#add_tag_button').click(add_tag_helper)
   $('#undo_button').click(undo)
   $('#redo_button').click(redo)
-  $('#help_button').click(function() { alert('coming') })
+  $('#help_button').click(show_help)
 
   $('#title').droppable({
     accept: '.tag',

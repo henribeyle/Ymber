@@ -207,6 +207,10 @@ function main_key_handler(e) {
       })
       break
 
+    case 'h':
+      show_help()
+      break
+
     default:
       clear_command=false
       break
