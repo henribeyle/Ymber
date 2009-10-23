@@ -29,15 +29,6 @@
 </head>
 <body>
 
-<script type="text/javascript">
-var this_tag='<%= @tagname %>'
-var all_tags=<%= @tags.to_json %>
-var all_items=<%= @items.to_json %>
-var google_key='<%= @google_key ? @google_key : '' %>'
-var calendar_url='<%= @calendar_url ? @calendar_url : '' %>'
-var extra_undo='<%= @extra_undo %>'
-</script>
-
 <div id='title'>
 <span class="main"><%= @tagname %></span>
 <span id='tag_filters'></span>

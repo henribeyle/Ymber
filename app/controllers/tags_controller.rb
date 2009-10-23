@@ -95,5 +95,16 @@ public
       @tagname='(none)'
       @items=Item.untagged
     end
+    respond_to do |format|
+      format.html
+      format.js { render :json => {
+        :this_tag => @tagname,
+        :all_tags => @tags,
+        :all_items => @items,
+        :google_key => @google_key,
+        :calendar_url => @calendar_url,
+        :extra_undo => @extra_undo
+      }}
+    end
   end
 end

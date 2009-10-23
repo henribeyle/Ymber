@@ -1,20 +1,6 @@
 var _d=null
 
-$(function() {
-  //window.onerror=catch_all
-  $.fn.extend({
-    id: function() {
-      var i=this.attr('id')
-      if(i) return i
-      var p=this.parents('[id]').eq(0)
-      if(p) return p.attr('id')
-      return null
-    },
-    oid: function() {
-      return this.id().replace(/^(item|tag)-/,'')
-    }
-  })
-
+function process_data() {
   _d=new Data(this_tag,all_tags,all_items)
   _d.order_from_cookie()
   _d.filters_from_cookie()
@@ -61,12 +47,6 @@ $(function() {
       })
   }
 
-  $('#add_item_button').click(add_item_helper)
-  $('#add_tag_button').click(add_tag_helper)
-  $('#undo_button').click(undo)
-  $('#redo_button').click(redo)
-  $('#help_button').click(show_help)
-
   $('#title').droppable({
     accept: '.tag',
     hoverClass: 'dropping-into-item',
@@ -101,6 +81,55 @@ $(function() {
         item_move_before(item1,item2)
     }
   })
+}
+
+function load_data(nT,nF) {
+  $.ajax({
+    type: "GET",
+    url: location.pathname+".js",
+    success: suc(nT,nF,function(a) {
+      $.message('loaded')
+      this_tag=a.this_tag
+      all_tags=a.all_tags
+      all_items=a.all_items
+      google_key=a.google_key
+      calendar_url=a.calendar_url
+      extra_undo=a.extra_undo
+      process_data()
+    }),
+    error: te(nF)
+  })
+}
+
+$(function() {
+  //window.onerror=catch_all
+  $.fn.extend({
+    id: function() {
+      var i=this.attr('id')
+      if(i) return i
+      var p=this.parents('[id]').eq(0)
+      if(p) return p.attr('id')
+      return null
+    },
+    oid: function() {
+      return this.id().replace(/^(item|tag)-/,'')
+    }
+  })
+
+  function resize_handler() {
+    function do_resize() {
+      $('#left').width($('body').width()-$('#right').width())
+    }
+    do_resize.delay(500)
+  }
+
+  save_input_handler(
+    function() { $(document).bind('keyup', main_key_handler) },
+    function() { $(document).unbind('keyup', main_key_handler) }
+  )
+
+  $(window).bind('resize', resize_handler)
+  resize_handler()
 
   $('.map-popup').live('click',function() {
     $.map_show($(this).text())
@@ -110,18 +139,11 @@ $(function() {
     item_expand(_d.item_id($(this).oid()))
   })
 
-  save_input_handler(
-    function() { $(document).bind('keyup', main_key_handler) },
-    function() { $(document).unbind('keyup', main_key_handler) }
-  )
+  $('#add_item_button').click(add_item_helper)
+  $('#add_tag_button').click(add_tag_helper)
+  $('#undo_button').click(undo)
+  $('#redo_button').click(redo)
+  $('#help_button').click(show_help)
 
-  function resize_handler() {
-    function do_resize() {
-      $('#left').width($('body').width()-$('#right').width())
-    }
-    do_resize.delay(500)
-  }
-
-  $(window).bind('resize', resize_handler)
-  resize_handler()
+  load_data(null,null)
 })
