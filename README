@@ -8,22 +8,29 @@ port: number
 detach: true|false
 google_key: string
 calendar_url: string
+debug: true|false
 
 For example:
 
 port: 3000
 detach: true
+debug: true
 google_key: "XXX"
 calendar_url: "http://www.google.com/calendar/XXX"
 
 The port determines the port in which the server will listen, while detach
-determines if the server detaches as a daemon or not. The other two
-increase/decrease functionality. The google_key will allow you to use google
-maps to put data points in the notes. To get a key you must sign in at [1] You
-have to use your google identity and subscribe the key for a particular server.
-I have selected one for myself for the server at 127.0.0.1 which is good enough
-for this application. The calendar url can be found in [2] and follow the
-procedure. Dont get the frame, just the url loaded in the frame.
+determines if the server detaches as a daemon or not. The debug boolean
+variable (if set to false) just allows the hooking of a particular function to
+the window.error function, so that errors are shown with our notice library. If
+you set it to true, the error will not be captured by ourselves, but rather by
+Firebug or your debugger, therefore allowing a better debugging experience.
+
+The other two increase/decrease functionality. The google_key will allow you to
+use google maps to put data points in the notes. To get a key you must sign in
+at [1]. You have to use your google identity and subscribe the key for a
+particular server. I have selected one for myself for the server at 127.0.0.1
+which is good enough for this application. The calendar url can be found in [2]
+and follow the procedure. Dont get the frame, just the url loaded in the frame.
 
 Finally, to run
 

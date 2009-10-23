@@ -78,6 +78,7 @@ public
 
   def editor
     value=params[:value]
+    @debug=config_value('debug') || false
     tags=Tag.all
     if(value) then
       tag = Tag.all.find { |x| x.value == value }

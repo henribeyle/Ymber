@@ -30,6 +30,12 @@
 </head>
 <body>
 
+<% if @debug == true %>
+<script type="text/javascript">
+debug=true
+</script>
+<% end %>
+
 <div id='title'>
 <span class="main"><%= @tagname %></span>
 <span id='tag_filters'></span>

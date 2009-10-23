@@ -1,7 +1,10 @@
 var _d=null
+var debug=false
 
 $(function() {
-  //window.onerror=catch_all
+  if(debug!==true)
+    window.onerror=catch_all
+
   $.fn.extend({
     id: function() {
       var i=this.attr('id')
