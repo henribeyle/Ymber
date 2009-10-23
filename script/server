@@ -13,6 +13,13 @@ rescue Exception
   # Thin not available
 end
 
+DST_FILE = File.join(RAILS_ROOT,'public','stylesheets','main.css')
+
+if !File.exists?(DST_FILE) then
+  puts "no css file exists, please run script/process_css with your theme"
+  exit
+end
+
 options = {
   :Port        => 3000,
   :Host        => "127.0.0.1",
