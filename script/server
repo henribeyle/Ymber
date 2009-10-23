@@ -17,12 +17,14 @@ options = {
   :Port        => 3000,
   :Host        => "127.0.0.1",
   :BindAddress => "127.0.0.1",
-  :environment => "development"
+  :environment => "development",
+  :detach      => false,
 }
 
 begin
 a=YAML::load(File.open(File.join(RAILS_ROOT,'config','config.yml')))
 options[:Port]=a['port'] if(a['port'])
+options[:detach]=a['detach'] if(a['detach'])
 rescue
 end
 
@@ -33,13 +35,20 @@ puts "=> Rails #{Rails.version} on http://#{options[:Host]}:#{options[:Port]}"
   FileUtils.mkdir_p(File.join(RAILS_ROOT, 'tmp', dir_to_make))
 end
 
+if options[:detach]
+  Process.daemon
+  pid = "#{RAILS_ROOT}/tmp/pids/server.pid"
+  File.open(pid, 'w'){ |f| f.write(Process.pid) }
+  at_exit { File.delete(pid) if File.exist?(pid) }
+end
+
 ENV["RAILS_ENV"] = options[:environment]
 RAILS_ENV.replace(options[:environment]) if defined?(RAILS_ENV)
 
 inner_app = ActionController::Dispatcher.new
 
 app = Rack::Builder.new {
-  use Rails::Rack::LogTailer
+  use Rails::Rack::LogTailer unless options[:detach]
   map "/" do
     use Rails::Rack::Static
     run inner_app
