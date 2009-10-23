@@ -152,7 +152,6 @@ function divide(value,selection,item_prefix) {
   var next=value.substring(end,value.length)
   // log("division correct ? "+(prev+s+next==value))
 
-  var new_value=prev+next
   var lines=new_selection.split(/\n/)
 
   var many_elements=true
@@ -164,10 +163,40 @@ function divide(value,selection,item_prefix) {
     }
   }
 
-  if(!many_elements)
-    return [new_value].concat([new_selection])
+  if(!many_elements) {
+    // we search prev for more lines in this paragraph
+    var lines=prev.split(/\n/)
+    var lastline=lines.pop()
+    if(lastline != '') lines.push(lastline)
+    while(lines.length!=0) {
+      lastline=lines.pop()
+      if(lastline == '') {
+        lines.push(lastline)
+        break
+      } else {
+        new_selection=lastline+"\n"+new_selection
+      }
+    }
+    prev=lines.join("\n")
+
+    // we search next for more lines in this paragraph
+    var lines=next.split(/\n/)
+    var firstline=lines.shift()
+    if(firstline != '') lines.push(firstline)
+    while(lines.length!=0) {
+      firstline=lines.shift()
+      if(firstline == '') {
+        lines.slice(0,0,lastline)
+        break
+      } else {
+        new_selection=new_selection+"\n"+firstline
+      }
+    }
+    next=lines.join("\n")
+    return [prev+"\n"+next].concat([new_selection])
+  }
   else {
-    var data=[new_value]
+    var data=[prev+next]
     for(var i=0;i<lines.length;i++)
       data.push(lines[i].substr(item_prefix.length))
     return data
