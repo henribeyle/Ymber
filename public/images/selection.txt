@@ -43,6 +43,7 @@ tag.png      -> tag_blue.png           (fatcow-hosting-icons)
 in.png       -> basket.png             (fatcow-hosting-icons)
 next.png     -> cog.png                (fatcow-hosting-icons)
 waiting.png  -> hourglass.png          (fatcow-hosting-icons)
+someday.png  -> date.png               (fatcow-hosting-icons)
 internet.png -> onebit2_19.png         (onebit2)
 computer.png -> onebit2_22.png         (onebit2)
 email.png    -> E-Mail.png             (GiNUX_by_Asher)
@@ -50,7 +51,6 @@ phone.png    -> phone.png              (fatcow-hosting-icons)
 home.png     -> Home.png               (GiNUX_by_Asher)
 errand.png   -> text_list_bullets.png  (fatcow-hosting-icons)
 cafe.png     -> cup.png                (fatcow-hosting-icons)
-calendar.png -> date.png               (fatcow-hosting-icons)
 talk.png     -> comment.png            (fatcow-hosting-icons)
 wine.png     -> drink.png              (fatcow-hosting-icons)
 
@@ -58,7 +58,7 @@ wine.png     -> drink.png              (fatcow-hosting-icons)
 
 Compositions:
 
-foreach s (next waiting)
+foreach s (next waiting someday)
 composite -geometry +16+16 add_to.png $s.png add_to_$s.png
 end
 

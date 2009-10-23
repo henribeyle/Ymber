@@ -29,6 +29,15 @@ $(function() {
       addClass('button').
       appendTo('#title')
     $('<img>').
+      attr('src',"/images/add_to_someday.png").
+      attr('title','send to Someday').
+      addClass('button').
+      appendTo('#title').
+      click(function() {
+        if(_d.item_show)
+          $.error('send to someday not yet done')
+      })
+     $('<img>').
       attr('src',"/images/add_to_waiting.png").
       attr('title','send to Waiting').
       addClass('button').

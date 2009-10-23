@@ -12,7 +12,7 @@ namespace :db do
       Tag.new("in","<img src='/images/in.png' title='in'/>",1).save
       Tag.new("next","<img src='/images/next.png' title='next'/>",2).save
       Tag.new("waiting","<img src='/images/waiting.png' title='waiting'/>",3).save
-      Tag.new("someday","<img src='/images/calendar.png' title='someday'/>",4).save
+      Tag.new("someday","<img src='/images/someday.png' title='someday'/>",4).save
     end
 
     desc "Put in some common stuff"
