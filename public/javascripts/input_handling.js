@@ -56,16 +56,21 @@ function main_key_handler(e) {
   var is=_d.item_show
   var c=String.fromCharCode(e.which)
   c = e.shiftKey ? c.toUpperCase(c) : c.toLowerCase(c)
+  if(e.shiftKey && e.which >= 48 && e.which <= 57 ) { // a number pressed
+    c=[')','!','@','#','$','%','^','&','*','('][e.which-48]
+  }
+
   c = e.ctrlKey ? 'ctrl+'+c : c
   c = e.altKey ? 'alt+'+c : c
   command+=c
-// log("value :'"+c+"' = "+e.which+" command:'"+command+"'")
+  //log("value :'"+c+"' = "+e.which+" command:'"+command+"'")
 
   clear_command=true
   switch(command) {
     case 'gi': go_to('in') ; break
     case 'gn': go_to('next') ; break
     case 'gw': go_to('waiting') ; break
+    case 'gs': go_to('someday') ; break
     case 'gt':
       var tags=_d.tags.grep(not_main_tag).map(get_value)
       tags.push('(none)')
@@ -186,6 +191,20 @@ function main_key_handler(e) {
       is &&
       this_tag=='in' &&
       item_send_to_waiting(is,p_mess('item sent to waiting'))
+      break
+
+    case 's':
+      is &&
+      this_tag=='in' &&
+      item_send_to_someday(is,null,p_mess('item sent to someday'))
+      break
+
+    case '@s':
+      is &&
+      this_tag=='in' &&
+      $.select_date(null,function(x) {
+        item_send_to_someday(is,x,p_mess('item sent to someday'))
+      })
       break
 
     default:
