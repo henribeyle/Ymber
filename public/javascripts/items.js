@@ -98,6 +98,14 @@ Item.prototype.edit = function() {
             item_split(self,s,[_d.tag_value('next')],mes)
         }
       }, {
+        accel: ctrl_comma,
+        func: function(x,s) {
+          if(s != '')
+            return x+' selection was:'+s
+          else
+            return null
+        }
+      }, {
         img: '/images/delete.png',
         title: 'delete',
         accel: ctrl_del,
@@ -105,7 +113,8 @@ Item.prototype.edit = function() {
       }, {
         img: '/images/cancel.png',
         title: 'cancel',
-        accel: esc
+        accel: esc,
+        close: function() {}
       }, {
         img: '/images/ok.png',
         title: 'accept',

@@ -230,7 +230,8 @@ function add_item_helper() {
     commands: [ {
         img: '/images/cancel.png',
         title: 'cancel',
-        accel: esc
+        accel: esc,
+        close: function() {}
       }, {
         img: '/images/add.png',
         title: 'add',

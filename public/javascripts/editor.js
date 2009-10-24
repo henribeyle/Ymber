@@ -59,8 +59,11 @@
       }
 
       opts.commands.each(function(x) {
-        if(is_fun(x.accel) && x.accel(e))
-          close(x.close)
+        if(is_fun(x.accel) && x.accel(e)) {
+          if(is_fun(x.close))
+            close(x.close)
+          process(x.func)
+        }
       })
     }
 
@@ -83,6 +86,18 @@
         func(text,sel)
       if(is_fun(opts.close))
         opts.close(text,sel)
+    }
+
+    function process(func) {
+      if(!is_fun(func)) return
+
+      var ta=$('#editor-ui textarea')
+      var text=ta.val()
+      var sel=ta[0].value.substring(ta[0].selectionStart,ta[0].selectionEnd)
+
+      var a=func(text,sel)
+      if(a!=null)
+        ta.val(a)
     }
 
 
@@ -113,7 +128,8 @@
             attr('title',x.title).
             addClass('button').
             click(function() {
-              close(x.close)
+              if(is_fun(x.close)) close(x.close)
+              process(x.func)
             }))
       }
     })

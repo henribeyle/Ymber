@@ -35,6 +35,7 @@ function cancel_next(which,type) {
   cancel_type=type
 }
 
+function ctrl_comma(e) { return e.which==188 && e.ctrlKey }
 function ctrl_y(e) { return e.which==89 && e.ctrlKey }
 function ctrl_dot(e) { return e.which==190 && e.ctrlKey }
 function ctrl_del(e) { return e.which==46 && e.ctrlKey }

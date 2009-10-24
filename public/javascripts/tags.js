@@ -69,7 +69,8 @@ Tag.prototype.edit = function() {
       }, {
         img: './images/cancel.png',
         title: 'cancel',
-        accel: esc
+        accel: esc,
+        close: function() {}
       }, {
         img: './images/ok.png',
         title: 'accept',
