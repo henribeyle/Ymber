@@ -60,7 +60,7 @@
 
       opts.commands.each(function(x) {
         if(is_fun(x.accel) && x.accel(e))
-          close(x.click)
+          close(x.close)
       })
     }
 
@@ -113,7 +113,7 @@
             attr('title',x.title).
             addClass('button').
             click(function() {
-              close(x.click)
+              close(x.close)
             }))
       }
     })

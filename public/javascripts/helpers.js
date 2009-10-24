@@ -235,7 +235,7 @@ function add_item_helper() {
         img: '/images/add.png',
         title: 'add',
         accel:  ctrl_enter,
-        click: function(x) {
+        close: function(x) {
           item_new(x,[_d.main_tag],p_mess('new item'))
         }
       }
@@ -256,7 +256,7 @@ function add_tag_helper() {
         img: '/images/add.png',
         title: 'add',
         accel:  enter,
-        click: function(x) { tag_new(x,p_mess('new tag')) }
+        close: function(x) { tag_new(x,p_mess('new tag')) }
       }
     ]
   })

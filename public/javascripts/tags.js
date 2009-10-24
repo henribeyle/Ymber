@@ -65,7 +65,7 @@ Tag.prototype.edit = function() {
         img: './images/delete.png',
         title: 'delete',
         accel: ctrl_del,
-        click: function(x) { tag_delete(self,p_mess('tag deleted')) }
+        close: function(x) { tag_delete(self,p_mess('tag deleted')) }
       }, {
         img: './images/cancel.png',
         title: 'cancel',
@@ -74,7 +74,7 @@ Tag.prototype.edit = function() {
         img: './images/ok.png',
         title: 'accept',
         accel:  enter,
-        click: function(x) { tag_update(self,x,p_mess('tag updated')) }
+        close: function(x) { tag_update(self,x,p_mess('tag updated')) }
       }
     ]
   })

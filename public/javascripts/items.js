@@ -72,7 +72,7 @@ Item.prototype.edit = function() {
         img: '/images/split.png',
         title: 'split',
         accel: ctrl_dot,
-        click: function(x,s) {
+        close: function(x,s) {
           if(x!=self.value)
             item_update(self,x,function() {
               item_split(self,s,[],function() {
@@ -85,7 +85,7 @@ Item.prototype.edit = function() {
         }
       }, {
         accel: ctrl_y,
-        click: function(x,s) {
+        close: function(x,s) {
           var mes=p_mess('item has been split (and sent to next)')
           if(x!=self.value)
             item_update(self,x,function() {
@@ -101,7 +101,7 @@ Item.prototype.edit = function() {
         img: '/images/delete.png',
         title: 'delete',
         accel: ctrl_del,
-        click: function(x) { item_delete(self,p_mess('item deleted')) }
+        close: function(x) { item_delete(self,p_mess('item deleted')) }
       }, {
         img: '/images/cancel.png',
         title: 'cancel',
@@ -110,7 +110,7 @@ Item.prototype.edit = function() {
         img: '/images/ok.png',
         title: 'accept',
         accel:  ctrl_enter,
-        click: function(x) { item_update(self,x,p_mess('item updated')) }
+        close: function(x) { item_update(self,x,p_mess('item updated')) }
       }
     ]
   })
