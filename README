@@ -1,4 +1,10 @@
-TL;DR: './script/server' and go to http://127.0.0.1:3000
+TL;DR
+
+rake db:gitdb:drop db:gitdb:create db:gitdb:common
+./script/server
+go to http://127.0.0.1:3000
+
+################################################################################
 
 If you want to configure the app, keep on reading. Configure parameters are in
 config/config.yml. This file is in yaml. No parameters are mandatory. The
