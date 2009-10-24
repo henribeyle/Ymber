@@ -132,14 +132,6 @@ html{
   width: 20px;
 }
 
-#items textarea {
-  width: 90%;
-}
-
-#items .accept, #items .cancel, #items .delete {
-  float: right
-}
-
 .items-sortable-placeholder {
   margin-bottom: 5px;
   padding: 5px;
@@ -176,14 +168,6 @@ html{
 
 #tags .filter {
   background-color: #tags-filter#;
-}
-
-#tags textarea {
-  width: 90%;
-}
-
-#tags .accept, #tags .cancel, #tags .delete {
-  float: right
 }
 
 /* TODO: analyse */
