@@ -1,6 +1,10 @@
 module DB
-
   DBDIR=File.dirname(__FILE__) + "/../db"
+  begin
+    a=YAML::load(File.open(File.join(RAILS_ROOT,'config','config.yml')))
+    DBDIR=a['gitdb'] if(a['gitdb'])
+  rescue
+  end
 
   def DB.list(glob)
     Dir.chdir(DBDIR) { return Dir.glob(glob) }

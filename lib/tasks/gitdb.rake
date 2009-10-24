@@ -1,12 +1,13 @@
+require "#{RAILS_ROOT}/lib/git"
+
 namespace :db do
   namespace :gitdb do
 
     desc "Create gitdb infrastructure"
     task :create => :environment do
-      dir=File.join(RAILS_ROOT,'db')
-      raise "gitdb directory exists" if File.exists?(dir)
-      FileUtils.mkdir(dir)
-      Dir.chdir(dir) do
+      raise "gitdb directory exists" if File.exists?(DB::DBDIR)
+      FileUtils.mkdir(DB::DBDIR)
+      Dir.chdir(DB::DBDIR) do
         %x{git init}
       end
       Tag.new("in","<img src='/images/in.png' title='in'/>",1).save
@@ -30,8 +31,7 @@ namespace :db do
 
     desc "Delete gitdb infrastructure"
     task :drop => :environment do
-      dir=File.join(RAILS_ROOT,'db')
-      FileUtils.rm_rf(dir)
+      FileUtils.rm_rf(DB::DBDIR)
     end
 
     desc "Load seed data (for initial testing)"
