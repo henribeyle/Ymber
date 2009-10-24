@@ -79,6 +79,7 @@ function go_to(tag) {
 }
 
 function cs(p,v) { $.cookie(p,v,{expires: 1000}) }
+function css(p,v) { $.cookie(p,v,{expires: null }) }
 function cr(p) { return $.cookie(p) }
 function cd(p) { $.cookie(p,null) }
 

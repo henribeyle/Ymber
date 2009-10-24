@@ -264,5 +264,5 @@ Data.prototype.save_undo_cookie = function() {
   if(this.undo_levels.length==0)
     cd('undo')
   else
-    cs('undo',this.undo_levels.join(','))
+    css('undo',this.undo_levels.join(','))
 }
