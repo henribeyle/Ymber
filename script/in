@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + '/../config/boot'
+require 'net/http'
+require 'uri'
+
+port=3000
+begin
+  a=YAML::load(File.open(File.join(RAILS_ROOT,'config','config.yml')))
+  port=a['port'] if(a['port'])
+rescue
+end
+
+value=ARGV.join(' ')
+if(value == '') then
+  puts "no value given on command line"
+  exit(-1)
+end
+
+begin
+  req = Net::HTTP::Post.new('/items')
+  req.set_form_data({'item[value]' => value, 'tag[]' => '1'}, ';')
+  res = Net::HTTP.new('127.0.0.1', port).start {|http| http.request(req) }
+
+  if(!res.kind_of? Net::HTTPSuccess)
+    puts "failure in connection"
+    exit(-1)
+  end
+
+  if(res.body =~ /"status" *: *"error"/)
+    res.body.gsub!(/\{"status" *: *"error" *, *"error" *: *"/,'')
+    res.body.gsub!(/"\}/,'')
+    puts "ERROR: #{res.body}"
+  else
+    puts 'OK'
+  end
+rescue => e
+  begin
+    require File.dirname(__FILE__) + '/../app/models/item'
+    require File.dirname(__FILE__) + '/../app/models/tag'
+    item=Item.new(value)
+    item.tags << Tag.find(1)
+    item.save
+  rescue => e2
+    puts "ERROR: #{e2.to_s}"
+  end
+end
