@@ -40,17 +40,15 @@ function Item(value,id,data) {
 Item.prototype.add_tag = function(tag) {
   if(this.has(tag))
     assert_failed('tag '+tag.value+' is already in item '+this.value)
-  // now inserting by order
-//   for(var i=0;i<this.tags.length;i++) {
-//     if(this.tags.value > tag.value)
-//       break
-//   }
-//
-//   log('@@@ '+this.value.substring(0,10)+' '+tag.value+' should be '+i+' of '+this.tags.length)
-  if(tag.value == 'tag-two') {
-    this.tags.splice(0,0,tag)
-  } else
+  // search for position (order by tag value)
+  for(var i=0;i<this.tags.length;i++) {
+    if(this.tags[i].value > tag.value)
+      break
+  }
+  if(i==this.tags.length)
     this.tags.push(tag)
+  else
+    this.tags.splice(i,i,tag)
 }
 Item.prototype.rm = function(tag) { this.tags.splice(this.tag(tag),1) }
 
@@ -119,7 +117,6 @@ Item.prototype.edit = function() {
 }
 
 Item.prototype.tag_ui = function(tag) {
-
   var self=this
   var el=span(tag.extra != '' ? 'itag' : 'stag').
     addClass('tag4item').
@@ -128,22 +125,11 @@ Item.prototype.tag_ui = function(tag) {
     drag_deleter({ on_delete: function() {
         item_remove_tag(self,tag,p_mess('tag removed from item')) } })
 
-  if(tag.value == 'tag-two') {
-    var position=this.tags.index(this_value(tag.value))
-    //log('position is: '+position+' for '+tag.value)
-    var hm=this.tags.length
-    log('putting tag-two into '+position+' value= '+this.value.substring(0,10))
-    if(position == hm-1) {
-      log('into last position')
-      el.insertBefore($('.value',self.ui))
-    } else {
-      log('not into last position')
-      var tels=$('.tag4item',self.ui)
-      log('not into last position (total ui) '+tels.length+' '+hm)
-      el.insertBefore(tels[position])
-    }
-  } else
+  var position=this.tags.index(this_value(tag.value))
+  if(position == this.tags.length-1)
     el.insertBefore($('.value',self.ui))
+  else
+    el.insertBefore($('.tag4item',self.ui)[position])
 }
 
 Item.prototype.update = function(value) {
