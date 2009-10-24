@@ -489,14 +489,13 @@ function item_send_to_someday(item,dt,nT,nF) {
     what()
 }
 
-function item_split(item,selection,extra_tags,nT,nF) {
-  if(selection=='') {
-    //$.warning('selection cant be void in division')
+function item_split(item,start,end,extra_tags,nT,nF) {
+  if(start==end) {
     is_fun(nF) && nF()
     return
   }
 
-  var data=divide(item.value,selection," - ")
+  var data=divide(item.value,item.value.substring(start,end)," - ")
   if(data==null) {
     //$.warning('division produced errors')
     is_fun(nF) && nF()

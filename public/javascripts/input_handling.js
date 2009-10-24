@@ -163,8 +163,11 @@ function main_key_handler(e) {
         toString().
         replace(/\n#/g,"\n -").
         replace(/^# /,'')
-      if(is!=null && is.value.test(sel.escapeRegExp()))
-        item_split(is,sel,[],p_mess('item has been split'))
+      if(is!=null && is.value.test(sel.escapeRegExp())) {
+        var start=is.value.indexOf(sel)
+        var end=start+sel.length
+        item_split(is,start,end,[],p_mess('item has been split'))
+      }
       break;
 
     case 'y':
@@ -179,7 +182,9 @@ function main_key_handler(e) {
             replace(/\n#/g,"\n -").
             replace(/^# /,'')
           if(sel!='' && is.value.test(sel.escapeRegExp())) {
-            item_split(is,sel,[_d.tag_value('next')],
+            var start=is.value.indexOf(sel)
+            var end=start+sel.length
+            item_split(is,start,end,[_d.tag_value('next')],
               p_mess('item has been split (and sent to next)'))
           } else {
             item_send_to_next(is,p_mess('item sent to next'))

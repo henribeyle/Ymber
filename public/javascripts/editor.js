@@ -78,28 +78,25 @@
 
       var ta=$('#editor-ui textarea')
       var text=ta.val()
-      var sel=ta[0].value.substring(ta[0].selectionStart,ta[0].selectionEnd)
+      var s=ta[0].selectionStart
+      var e=ta[0].selectionEnd
 
       $('#editor-ui-overlay,#editor-ui-wrapper').remove()
 
       if(is_fun(func))
-        func(text,sel)
+        func(text,s,e)
       if(is_fun(opts.close))
-        opts.close(text,sel)
+        opts.close(text,s,e)
     }
 
     function process(func) {
       if(!is_fun(func)) return
 
       var ta=$('#editor-ui textarea')
-      var text=ta.val()
-      var sel=ta[0].value.substring(ta[0].selectionStart,ta[0].selectionEnd)
-
-      var a=func(text,sel)
+      var a=func(ta.val(),ta[0].selectionStart,ta[0].selectionEnd)
       if(a!=null)
         ta.val(a)
     }
-
 
     if($('#editor-ui').length != 0) {
       $.error('cant have more than one editor')

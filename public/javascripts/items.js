@@ -72,36 +72,36 @@ Item.prototype.edit = function() {
         img: '/images/split.png',
         title: 'split',
         accel: ctrl_dot,
-        close: function(x,s) {
+        close: function(x,s,e) {
           if(x!=self.value)
             item_update(self,x,function() {
-              item_split(self,s,[],function() {
+              item_split(self,s,e,[],function() {
                 _d.join_undos(2)
                 p_mess('item has been split')()
               })
             })
           else
-            item_split(self,s,[],p_mess('item has been split'))
+            item_split(self,s,e,[],p_mess('item has been split'))
         }
       }, {
         accel: ctrl_y,
-        close: function(x,s) {
+        close: function(x,s,e) {
           var mes=p_mess('item has been split (and sent to next)')
           if(x!=self.value)
             item_update(self,x,function() {
-              item_split(self,s,[_d.tag_value('next')],function() {
+              item_split(self,s,e,[_d.tag_value('next')],function() {
                 _d.join_undos(2)
                 mes()
               })
             })
           else
-            item_split(self,s,[_d.tag_value('next')],mes)
+            item_split(self,s,e,[_d.tag_value('next')],mes)
         }
       }, {
         accel: ctrl_comma,
-        func: function(x,s) {
-          if(s != '')
-            return x+' selection was:'+s
+        func: function(x,s,e) {
+          if(s != e)
+            return x+' selection was:'+x.substring(s,e)
           else
             return null
         }
