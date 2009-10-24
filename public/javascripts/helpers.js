@@ -123,8 +123,8 @@ function formatted(s) {
     replace(/<\/li><br\/>/g,'</li>')
 }
 
-function divide(value,selection,item_prefix) {
-  var start=value.indexOf(selection)
+function divide(value,s,e,item_prefix) {
+  var start=s
   if(start==-1)
     return null
 
@@ -134,7 +134,7 @@ function divide(value,selection,item_prefix) {
     start--
   // now start points at \n-1 or start of value
 
-  var end=start+selection.length
+  var end=e
   // we have to put end just on top of \n
   while(end<value.length && value.charAt(end)!='\n') end++
   while(value.charAt(end-1)=='\n') end--

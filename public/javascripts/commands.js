@@ -495,7 +495,7 @@ function item_split(item,start,end,extra_tags,nT,nF) {
     return
   }
 
-  var data=divide(item.value,item.value.substring(start,end)," - ")
+  var data=divide(item.value,start,end," - ")
   if(data==null) {
     //$.warning('division produced errors')
     is_fun(nF) && nF()
