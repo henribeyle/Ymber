@@ -123,87 +123,73 @@ function formatted(s) {
     replace(/<\/li><br\/>/g,'</li>')
 }
 
-function divide(value,s,e,item_prefix) {
-  var start=s
-  if(start==-1)
-    return null
+// text && selection helpers
 
-  // we have to put start just after \n
-  while(value.charAt(start) == '\n') start++
-  while(start>0 && value.charAt(start-1) != '\n')
-    start--
-  // now start points at \n-1 or start of value
+function translate_position(text,pos,divider) {
+  var sep=new RegExp(divider)
+  var lines=text.split(sep)
+  var sepl=divider.length
+  var sum=0
+  for(var i=1;i<lines.length;i++) {
+    sum+=lines[i-1].length + sepl
+    if(pos < sum) return i-1
+  }
+  return i-1
+}
 
-  var end=e
-  // we have to put end just on top of \n
-  while(end<value.length && value.charAt(end)!='\n') end++
-  while(value.charAt(end-1)=='\n') end--
-  // now end points at \n or end of value
+function lines_interval(lines,ls,le) {
+  var ext=[]
+  if(ls==-1) ls=0
+  if(le==-2) le=lines.length-1
+  for(var i=ls;i<=le;i++)
+    ext.push(lines[i])
+  return ext
+}
 
-  // we grab the augmented selection
-  var new_selection=value.substring(start,end)
-  //log("interval is ("+start+", "+end+") "+value.length)
-  //log("selection is '"+s+"'")
-  //log("value is '"+value+"'")
-  //log("selection is all? "+(s==value))
-  if(new_selection==value)
-    return null
+function selection_lines(text,start,end,divider) {
+  var ls=translate_position(text,start,divider)
+  var le=translate_position(text,end,divider)
+  return lines_interval(text.split(divider),ls,le)
+}
 
-  var prev=value.substring(0,start)
-  var next=value.substring(end,value.length)
-  // log("division correct ? "+(prev+s+next==value))
+function prev_lines(text,start,divider) {
+  var ls=translate_position(text,start,divider)
+  return lines_interval(text.split(divider),0,ls-1)
+}
 
-  var lines=new_selection.split(/\n/)
+function next_lines(text,end,divider) {
+  var le=translate_position(text,end,divider)
+  return lines_interval(text.split(divider),le+1,-2)
+}
+
+function divide(text,s,e,item_prefix) {
+  var lines=selection_lines(text,s,e,"\n")
 
   var many_elements=true
   for(var i=0;i<lines.length;i++) {
     if(lines[i].substr(0,item_prefix.length) != item_prefix) {
-      //log('many elements false on '+lines[i])
       many_elements=false
       break
     }
   }
 
-  if(!many_elements) {
-    // we search prev for more lines in this paragraph
-    var lines=prev.split(/\n/)
-    var lastline=lines.pop()
-    if(lastline != '') lines.push(lastline)
-    while(lines.length!=0) {
-      lastline=lines.pop()
-      if(lastline == '') {
-        lines.push(lastline)
-        break
-      } else {
-        new_selection=lastline+"\n"+new_selection
-      }
-    }
-    prev=lines.join("\n")
-
-    // we search next for more lines in this paragraph
-    var lines=next.split(/\n/)
-    var firstline=lines.shift()
-    if(firstline != '') lines.push(firstline)
-    while(lines.length!=0) {
-      firstline=lines.shift()
-      if(firstline == '') {
-        lines.slice(0,0,lastline)
-        break
-      } else {
-        new_selection=new_selection+"\n"+firstline
-      }
-    }
-    next=lines.join("\n")
-    var total=(prev != '' && next != '') ? prev+"\n"+next : prev+next
-    return [total].concat([new_selection])
-  }
-  else {
-    var data=[prev+next]
+  if(many_elements) {
+    var n=prev_lines(text,s,"\n").concat(next_lines(text,e,"\n"))
+    var data=[n.join("\n")]
     for(var i=0;i<lines.length;i++)
       data.push(lines[i].substr(item_prefix.length))
     return data
   }
+  else {
+    var lines=selection_lines(text,s,e,"\n\n")
+    var n=prev_lines(text,s,"\n\n").concat(next_lines(text,e,"\n\n"))
+    var data=[n.join("\n\n")]
+    for(var i=0;i<lines.length;i++)
+      data.push(lines[i])
+    return data
+  }
 }
+// text && selection helpers end
 
 function today() {
   var t=new Date()
