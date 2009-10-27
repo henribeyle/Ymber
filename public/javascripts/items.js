@@ -98,12 +98,15 @@ Item.prototype.edit = function() {
             item_split(self,s,e,[_d.tag_value('next')],mes)
         }
       }, {
-        accel: ctrl_comma,
+        accel: ctrl_l,
         func: function(x,s,e) {
-          if(s != e)
-            return x+' selection was:'+x.substring(s,e)
-          else
-            return null
+          if(s == e) return null
+          var pl=prev_lines(x,s,"\n").join('\n')
+          if(pl != '') pl=pl+'\n'
+          var nl=next_lines(x,e,"\n").join('\n')
+          var sl=selection_lines(x,s,e,"\n").
+            map(function(x) { return x!='' ? " - "+x : x }).join('\n')+'\n'
+          return pl+sl+nl
         }
       }, {
         img: '/images/delete.png',

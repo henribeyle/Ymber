@@ -278,7 +278,7 @@ function show_help() {
 '</tr><tr>'+
 '<td>k</td><td>go up one item</td>'+
 '<td>fa</td><td>set filtering method to and</td>'+
-'<td>m@</td><td>insert map coordinates</td>'+
+'<td>ctrl+l</td><td>make a list of selection</td>'+
 '</tr><tr>'+
 '<td>J</td><td>move item down</td>'+
 '<td>c</td><td>open your calendar</td>'+
@@ -286,6 +286,7 @@ function show_help() {
 '</tr><tr>'+
 '<td>K</td><td>move item up</td>'+
 '<td>uu</td><td>undo</td>'+
+'<td>m@</td><td>insert map coordinates</td>'+
 '</tr><tr>'+
 '<td>9</td><td>collapse all items</td>'+
 '<td>ur</td><td>redo</td>'+
