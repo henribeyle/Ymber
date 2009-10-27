@@ -7,6 +7,7 @@ function Data(this_tag, all_tags, all_items) {
   self.main_tag=null
   self.item_show=null
   self.undo_levels=[]
+  self.review=[]
 
   if(this_tag == undefined) {
     assert_failed('this_tag is not defined')
@@ -265,4 +266,18 @@ Data.prototype.save_undo_cookie = function() {
     cd('undo')
   else
     css('undo',this.undo_levels.join(','))
+}
+
+Data.prototype.review_on = function() {
+  $('#review').show()
+}
+
+Data.prototype.review_off = function() {
+  $('#review').hide()
+}
+
+Data.prototype.save_review_cookie = function() {
+}
+
+Data.prototype.review_from_cookie = function() {
 }

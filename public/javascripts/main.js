@@ -49,5 +49,7 @@ $(function() {
   $('#redo_button').click(redo)
   $('#help_button').click(show_help)
 
+  $('#review').click(function() { _d.review_off() })
+
   load_data()
 })

@@ -233,6 +233,10 @@ function main_key_handler(e) {
       load_data()
       break
 
+    case 'alt+r':
+      _d.review_on()
+      break
+
     default:
       clear_command=false
       break

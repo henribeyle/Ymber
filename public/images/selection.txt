@@ -55,6 +55,11 @@ talk.png     -> comment.png            (fatcow-hosting-icons)
 wine.png     -> drink.png              (fatcow-hosting-icons)
 
 ################################################################################
+others:
+
+review       -> 1256663281_kghostview.png (www.grafixport.org)
+
+################################################################################
 
 Compositions:
 
