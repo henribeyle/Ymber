@@ -30,6 +30,8 @@ $(function() {
     function() { $(document).unbind('keyup', main_key_handler) }
   )
 
+  $(document).keydown(disable_ctrl_keys)
+
   $(window).bind('resize', resize_handler)
   resize_handler()
 
