@@ -80,6 +80,10 @@
       var text=ta.val()
       var s=ta[0].selectionStart
       var e=ta[0].selectionEnd
+      var v=clean_text(text,s,e)
+      text=v[0]
+      s=v[1]
+      e=v[2]
 
       $('#editor-ui-overlay,#editor-ui-wrapper').remove()
 
@@ -93,7 +97,15 @@
       if(!is_fun(func)) return
 
       var ta=$('#editor-ui textarea')
-      var a=func(ta.val(),ta[0].selectionStart,ta[0].selectionEnd)
+      var text=ta.val()
+      var s=ta[0].selectionStart
+      var e=ta[0].selectionEnd
+      var v=clean_text(text,s,e)
+      text=v[0]
+      s=v[1]
+      e=v[2]
+
+      var a=func(text,s,e)
       if(a!=null)
         ta.val(a)
     }

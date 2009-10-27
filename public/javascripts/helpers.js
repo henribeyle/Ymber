@@ -206,6 +206,24 @@ function justify(text,max_line_length) {
   return lines.join("\n").replace(/ +$/,'')
 }
 
+function clean_text(x,s,e) {
+  var i,changed,start=s,end=e
+  for(changed=true;changed;) {
+    for(changed=false;;changed=true) {
+      i=x.indexOf(" \n",i)
+      if(i==-1) break
+      x=x.slice(0,i)+x.slice(i+1)
+      if(i<=start) start--
+      if(i<=end) end--
+    }
+  }
+  while(x[x.length-1]=='\n') {
+    x=x.slice(0,x.length-1)
+  }
+  if(end>x.length) end=x.length
+  return [x,start,end]
+}
+
 // text && selection helpers end
 
 function today() {
