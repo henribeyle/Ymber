@@ -189,6 +189,23 @@ function divide(text,s,e,item_prefix) {
     return data
   }
 }
+
+function justify(text,max_line_length) {
+  var lines=[]
+  var w=text.split(/\s+/)
+  var current_line=w[0]
+  for(var i=1;i<w.length;i++) {
+    if(current_line.length + 1 + w[i].length > max_line_length) {
+      lines.push(current_line)
+      current_line=w[i]
+    } else {
+      current_line+=" "+w[i]
+    }
+  }
+  lines.push(current_line)
+  return lines.join("\n").replace(/ +$/,'')
+}
+
 // text && selection helpers end
 
 function today() {
@@ -282,14 +299,15 @@ function show_help() {
 '</tr><tr>'+
 '<td>J</td><td>move item down</td>'+
 '<td>c</td><td>open your calendar</td>'+
-'<td>d@</td><td>insert date</td>'+
+'<td>ctrl+j</td><td>justify selection</td>'+
 '</tr><tr>'+
 '<td>K</td><td>move item up</td>'+
 '<td>uu</td><td>undo</td>'+
-'<td>m@</td><td>insert map coordinates</td>'+
+'<td>d@</td><td>insert date</td>'+
 '</tr><tr>'+
 '<td>9</td><td>collapse all items</td>'+
 '<td>ur</td><td>redo</td>'+
+'<td>m@</td><td>insert map coordinates</td>'+
 '</tr><tr>'+
 '<td>0</td><td>expand all items</td>'+
 '<td>ctrl+.</td><td>split selection</td>'+

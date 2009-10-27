@@ -109,6 +109,17 @@ Item.prototype.edit = function() {
           return pl+sl+nl
         }
       }, {
+        accel: ctrl_j,
+        func: function(x,s,e) {
+          if(s == e) e=s+1
+          var pl=prev_lines(x,s,"\n\n").join('\n\n')
+          if(pl != '') pl=pl+'\n\n'
+          var nl=next_lines(x,e,"\n\n").join('\n\n')
+          var sl=selection_lines(x,s,e,"\n\n").
+            map(function(x) { return justify(x,72) }).join('\n\n')+'\n\n'
+          return pl+sl+nl
+        }
+      }, {
         img: '/images/delete.png',
         title: 'delete',
         accel: ctrl_del,
