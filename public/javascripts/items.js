@@ -96,29 +96,10 @@ Item.prototype.edit = function() {
           else
             item_split(self,s,e,[_d.tag_value('next')],mes)
         }
-      }, {
-        accel: ctrl_l,
-        func: function(x,s,e) {
-          if(s == e) return null
-          var pl=prev_lines(x,s,"\n").join('\n')
-          if(pl != '') pl=pl+'\n'
-          var nl=next_lines(x,e,"\n").join('\n')
-          var sl=selection_lines(x,s,e,"\n").
-            map(function(x) { return x!='' ? " - "+x : x }).join('\n')+'\n'
-          return pl+sl+nl
-        }
-      }, {
-        accel: ctrl_j,
-        func: function(x,s,e) {
-          if(s == e) e=s+1
-          var pl=prev_lines(x,s,"\n\n").join('\n\n')
-          if(pl != '') pl=pl+'\n\n'
-          var nl=next_lines(x,e,"\n\n").join('\n\n')
-          var sl=selection_lines(x,s,e,"\n\n").
-            map(function(x) { return justify(x,72) }).join('\n\n')+'\n\n'
-          return pl+sl+nl
-        }
-      }, {
+      },
+      make_into_a_list_command(),
+      justify_paragraph_command(),
+      {
         img: '/images/delete.png',
         title: 'delete',
         accel: ctrl_del,

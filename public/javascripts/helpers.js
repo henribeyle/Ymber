@@ -253,7 +253,10 @@ function add_item_helper() {
         title: 'cancel',
         accel: esc,
         close: function() {}
-      }, {
+      },
+      make_into_a_list_command(),
+      justify_paragraph_command(),
+      {
         img: '/images/add.png',
         title: 'add',
         accel:  ctrl_enter,
@@ -359,4 +362,34 @@ function tag_compare(x,y) {
     case "vv": return x.value < y.value ? -1 : 1
   }
   return type
+}
+
+function make_into_a_list_command() {
+  return {
+    accel: ctrl_l,
+    func: function(x,s,e) {
+      if(s == e) return null
+      var pl=prev_lines(x,s,"\n").join('\n')
+      if(pl != '') pl=pl+'\n'
+      var nl=next_lines(x,e,"\n").join('\n')
+      var sl=selection_lines(x,s,e,"\n").
+        map(function(x) { return x!='' ? " - "+x : x }).join('\n')+'\n'
+      return pl+sl+nl
+    }
+  }
+}
+
+function justify_paragraph_command() {
+  return {
+    accel: ctrl_j,
+    func: function(x,s,e) {
+      if(s == e) e=s+1
+      var pl=prev_lines(x,s,"\n\n").join('\n\n')
+      if(pl != '') pl=pl+'\n\n'
+      var nl=next_lines(x,e,"\n\n").join('\n\n')
+      var sl=selection_lines(x,s,e,"\n\n").
+        map(function(x) { return justify(x,72) }).join('\n\n')+'\n\n'
+      return pl+sl+nl
+    }
+  }
 }
