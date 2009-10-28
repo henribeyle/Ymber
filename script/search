@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + '/../config/boot'
+require File.dirname(__FILE__) + '/../app/models/item'
+require File.dirname(__FILE__) + '/../app/models/tag'
+
+value=ARGV.join(' ')
+if(value == '') then
+  puts "no value given on command line"
+  exit(-1)
+end
+
+puts "Searching for '\e[1;33m#{value}\e[0m'"
+begin
+  DB.git('grep','-l','-E',"'"+value+"'").split(/\n/).each do |filename|
+    next if filename =~ /^tag/
+    item=Item.find(DB.id(filename))
+    puts ""
+    tagnames=item.tags.map {|x| "\e[1;34m["+x.value+"]\e[0m" }
+    puts "#{tagnames.join(' ')}"
+    puts item.value.gsub(/#{value}/,"\e[1;31m\\&\e[0m")
+  end
+rescue => e
+  puts "ERROR: #{e.to_s}"
+end
