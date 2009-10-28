@@ -343,7 +343,7 @@ function show_help() {
 '<td>@s</td><td>move item to someday with date</td>'+
 '</tr><tr>'+
 '<td>r</td><td>remove a tag from this item</td>'+
-'<td>alt+r</td><td>start reviewing</td>'+
+'<td>alt+r</td><td>start/stop reviewing</td>'+
 '</tr></table>'
 )
 }
