@@ -1,7 +1,7 @@
 function disable_ctrl_keys(e) {
   var key=String.fromCharCode(e.which)
   var ctrl_keys = ['S','Q','W','T','U','I','O',
-    'P','D','F','G','H','J','K','L','B','N']
+    'P','D','H','J','K','L','B','N']
   if(e.ctrlKey)
     for(var i=0;i<ctrl_keys.length;i++)
       if(ctrl_keys[i] == key)
