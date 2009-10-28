@@ -113,7 +113,7 @@ function first_line(s) {
 }
 
 function formatted(s) {
-  var url = /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?|www\.([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?)/g
+  var url = /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([-\w/_\.]*(\?\S+)?)?)?|www\.([-\w\.]+)+(:\d+)?(\/([-\w/_\.]*(\?\S+)?)?)?)/g
   return s.
     replace(url,'<a href="$&">$&</a>').
     replace(/href="www/,'href="http://www').
