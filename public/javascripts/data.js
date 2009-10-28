@@ -24,7 +24,17 @@ function Data(this_tag, all_tags, all_items) {
     return
   }
 
-  to_a(all_tags).each(function(x) {
+  all_tags.sort(function(x,y) {
+    var type = x.extra ? "e" : "v"
+    type += y.extra ? "e" : "v"
+    switch(type) {
+      case "ee": return x.id.to_i() - y.id.to_i()
+      case "ev": return -1
+      case "ve": return 1
+      case "vv": return x.value < y.value ? -1 : 1
+    }
+    return type
+  }).each(function(x) {
     var t=new Tag(x.value,x.extra,x.id)
     self.tags.push(t)
   });
