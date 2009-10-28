@@ -17,7 +17,7 @@ function Item(value,id,data) {
         attr('src','/images/state_collapsed.png').
         addClass('show').
         css('visibility','hidden').
-        click(function() { self.toggle_expand() }))).
+        click(function() { item_toggle_expand(self) }))).
     append(span('value',self.value_format)).
     appendTo(self.ui).
     droppable({
