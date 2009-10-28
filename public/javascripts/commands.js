@@ -113,7 +113,7 @@ function item_new(value,mtag,nT,nF) {
   var dp=encodeURIComponent('item[value]='+value)
   if(mtag) {
     dp+='&'+mtag.map(function(x) {
-      return encodeURIComponent('tag[]='+x.id)
+      return x ? encodeURIComponent('tag[]='+x.id) : null
     }).join('&')
   }
 
