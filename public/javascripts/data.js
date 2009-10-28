@@ -330,13 +330,13 @@ Data.prototype.review_from_cookie = function() {
 Data.prototype.review_item = function(x) {
   if(!this.review) return
   $('.item','#item-'+x).addClass('review-item')
-  this.review_items.push(x)
+  this.review_items.include(x)
   this.save_review_cookie()
 }
 
 Data.prototype.review_tag = function(x) {
   if(!this.review) return
   $('.value','#tag-'+x).addClass('review-tag')
-  this.review_tags.push(x)
+  this.review_tags.include(x)
   this.save_review_cookie()
 }
