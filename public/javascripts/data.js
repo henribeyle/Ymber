@@ -312,14 +312,14 @@ Data.prototype.review_from_cookie = function() {
     self.reviewing=true
   if(self.reviewing) {
     var o=cr('review')
+    var ot=cr('reviewt')
     if(o!=null) {
       o.split(',').each(function(x) {
         self.review_item(x)
       })
     }
-    o=cr('reviewt')
-    if(o!=null) {
-      o.split(',').each(function(x) {
+    if(ot!=null) {
+      ot.split(',').each(function(x) {
         self.review_tag(x)
       })
     }
