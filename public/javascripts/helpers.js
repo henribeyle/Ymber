@@ -371,12 +371,15 @@ function make_into_a_list_command() {
   return {
     accel: ctrl_l,
     func: function(x,s,e) {
-      if(s == e) return null
+      if(s == e) e=s+1
       var pl=prev_lines(x,s,"\n").join('\n')
       if(pl != '') pl=pl+'\n'
       var nl=next_lines(x,e,"\n").join('\n')
-      var sl=selection_lines(x,s,e,"\n").
-        map(function(x) { return x!='' ? " - "+x : x }).join('\n')+'\n'
+      var sl=selection_lines(x,s,e,"\n")
+      if(sl.all(function(x) { return x.substring(0,3)==' - ' }))
+        sl=sl.map(function(x) { return x.replace(/^ - /,'') }).join('\n')+'\n'
+      else
+        sl=sl.map(function(x) { return x!='' ? " - "+x : x }).join('\n')+'\n'
       return pl+sl+nl
     }
   }
