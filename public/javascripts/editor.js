@@ -4,6 +4,7 @@
     text: '',
     title: 'none',
     close: null,
+    disallow_spaces: false,
     commands: []
   }
 
@@ -16,6 +17,11 @@
       //log('[editor]? '+e.which+' type '+e.type)
       if(!my_event(e)) return
       //log('[editor] '+e.which+' type '+e.type)
+      if(opts.disallow_spaces && e.which == 32) {
+        var ta=$('#editor-ui textarea')[0]
+        ta.value=ta.value.replace(/\s/g,'')
+        return false
+      }
 
       var ta=$('#editor-ui textarea')[0]
       var start=ta.selectionStart

@@ -60,6 +60,7 @@ Tag.prototype.edit = function() {
   $.editor({
     title: 'Edit tag',
     text: self.value,
+    disallow_spaces: true,
     rows: 1,
     commands: [ {
         img: './images/delete.png',

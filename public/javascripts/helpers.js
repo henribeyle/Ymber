@@ -272,6 +272,7 @@ function add_tag_helper() {
   $.editor({
     title: 'New tag',
     text: '',
+    disallow_spaces: true,
     rows: 1,
     commands: [ {
         img: '/images/cancel.png',
