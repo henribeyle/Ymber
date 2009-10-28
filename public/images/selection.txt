@@ -64,7 +64,7 @@ review_small -> 1256726160_kghostview.png (www.grafixport.org, icon2 view)
 
 Compositions:
 
-foreach s (next waiting someday)
+foreach s (in next waiting someday)
 composite -geometry +16+16 add_to.png $s.png add_to_$s.png
 end
 

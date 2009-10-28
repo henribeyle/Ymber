@@ -33,41 +33,60 @@ function load_data(nT,nF) {
         _d.review_tag(_d.main_tag.id)
       }
 
-      if(this_tag == 'in') {
+      if(['in','next','waiting','someday'].contains(this_tag)) {
+        $('.main-button').remove()
         $('<img>').
           attr('src',"/images/empty.png").
           addClass('button').
+          addClass('main-button').
           appendTo('#title')
-        $('<img>').
-          attr('src',"/images/add_to_someday.png").
-          attr('title','send to Someday').
-          addClass('button').
-          appendTo('#title').
-          click(function() {
-            if(_d.item_show) {
-              $.select_date(null,function(x) {
-                item_send_to_someday(_d.item_show,x,p_mess('item sent to someday'))
-              })
-            }
-          })
-         $('<img>').
-          attr('src',"/images/add_to_waiting.png").
-          attr('title','send to Waiting').
-          addClass('button').
-          appendTo('#title').
-          click(function() {
-            if(_d.item_show)
-              item_send_to_waiting(_d.item_show,p_mess('item sent to waiting'))
-          })
-        $('<img>').
-          attr('src',"/images/add_to_next.png").
-          attr('title','send to Next').
-          addClass('button').
-          appendTo('#title').
-          click(function() {
-            if(_d.item_show)
-              item_send_to_next(_d.item_show,p_mess('item sent to next'))
-          })
+        if(this_tag != 'someday')
+          $('<img>').
+            attr('src',"/images/add_to_someday.png").
+            attr('title','send to Someday').
+            addClass('button').
+            addClass('main-button').
+            appendTo('#title').
+            click(function() {
+              if(_d.item_show) {
+                $.select_date(null,function(x) {
+                  item_send_to_someday(_d.item_show,x,p_mess('item sent to someday'))
+                })
+              }
+            })
+        if(this_tag != 'waiting')
+          $('<img>').
+            attr('src',"/images/add_to_waiting.png").
+            attr('title','send to Waiting').
+            addClass('button').
+            addClass('main-button').
+            appendTo('#title').
+            click(function() {
+              if(_d.item_show)
+                item_send_to_waiting(_d.item_show,p_mess('item sent to waiting'))
+            })
+        if(this_tag != 'next')
+          $('<img>').
+            attr('src',"/images/add_to_next.png").
+            attr('title','send to Next').
+            addClass('button').
+            addClass('main-button').
+            appendTo('#title').
+            click(function() {
+              if(_d.item_show)
+                item_send_to_next(_d.item_show,p_mess('item sent to next'))
+            })
+        if(this_tag != 'in')
+          $('<img>').
+            attr('src',"/images/add_to_in.png").
+            attr('title','send to In').
+            addClass('button').
+            addClass('main-button').
+            appendTo('#title').
+            click(function() {
+              if(_d.item_show)
+                item_send_to_in(_d.item_show,p_mess('item sent to in'))
+            })
       }
 
       $('#title').droppable({
