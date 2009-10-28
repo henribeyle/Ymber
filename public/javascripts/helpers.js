@@ -256,6 +256,8 @@ function add_item_helper() {
       },
       make_into_a_list_command(),
       justify_paragraph_command(),
+      unindent_lines_command(),
+      indent_lines_command(),
       {
         img: '/images/add.png',
         title: 'add',
@@ -390,6 +392,36 @@ function justify_paragraph_command() {
       var nl=next_lines(x,e,"\n\n").join('\n\n')
       var sl=selection_lines(x,s,e,"\n\n").
         map(function(x) { return justify(x,72) }).join('\n\n')+'\n\n'
+      return pl+sl+nl
+    }
+  }
+}
+
+function unindent_lines_command() {
+  return {
+    accel: ctrl_9,
+    func: function(x,s,e) {
+      if(s == e) e=s+1
+      var pl=prev_lines(x,s,"\n").join('\n')
+      if(pl != '') pl=pl+'\n'
+      var nl=next_lines(x,e,"\n").join('\n')
+      var sl=selection_lines(x,s,e,"\n").
+        map(function(x) { return x.replace(/^  /,'') }).join('\n')+'\n'
+      return pl+sl+nl
+    }
+  }
+}
+
+function indent_lines_command() {
+  return {
+    accel: ctrl_0,
+    func: function(x,s,e) {
+      if(s == e) e=s+1
+      var pl=prev_lines(x,s,"\n").join('\n')
+      if(pl != '') pl=pl+'\n'
+      var nl=next_lines(x,e,"\n").join('\n')
+      var sl=selection_lines(x,s,e,"\n").
+        map(function(x) { return "  "+x }).join('\n')+'\n'
       return pl+sl+nl
     }
   }
