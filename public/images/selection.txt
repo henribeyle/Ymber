@@ -57,7 +57,8 @@ wine.png     -> drink.png              (fatcow-hosting-icons)
 ################################################################################
 others:
 
-review       -> 1256663281_kghostview.png (www.grafixport.org)
+review       -> 1256663281_kghostview.png (www.grafixport.org, icon2 view)
+review_small -> 1256726160_kghostview.png (www.grafixport.org, icon2 view)
 
 ################################################################################
 

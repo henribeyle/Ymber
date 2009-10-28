@@ -47,6 +47,7 @@ $(function() {
   $('#add_tag_button').click(add_tag_helper)
   $('#undo_button').click(undo)
   $('#redo_button').click(redo)
+  $('#review_button').click(toggle_review)
   $('#help_button').click(show_help)
 
   $('#review').click(function() { _d.review_off() })

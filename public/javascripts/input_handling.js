@@ -234,7 +234,7 @@ function main_key_handler(e) {
       break
 
     case 'alt+r':
-      _d.review ? _d.review_off() : _d.review_on()
+      toggle_review()
       break
 
     default:

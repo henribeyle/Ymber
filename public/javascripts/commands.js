@@ -564,3 +564,10 @@ function redo(nT,nF) {
     error: te(nF)
   })
 }
+
+function toggle_review() {
+  if(_d.review)
+    _d.review_off()
+  else
+  _d.review_on()
+}
