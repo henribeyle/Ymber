@@ -147,10 +147,7 @@ Data.prototype.filter_status = function(item) {
 
 Data.prototype.check_filtering = function(item) {
   if(this.filter_status(item)) {
-    if(item==this.item_show) {
-      item.show_mark(false)
-      this.item_show=null
-    }
+    item_disappear(item)
     item.ui.hide()
   }
   else

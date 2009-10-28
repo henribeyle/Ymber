@@ -167,8 +167,7 @@ function item_delete(item,nT,nF) {
       item.tags.concat().each(function(tag) {
         tag.rm(item)
       })
-      if(item==_d.item_show)
-        item_show_next()
+      item_disappear(item)
       _d.rm_item(item)
       _d.save_order_cookie()
       item.destroy_ui()
@@ -229,6 +228,7 @@ function item_remove_tag(item,tag,nT,nF) {
       tag.rm(item)
       item.rm_ui(tag)
       if(tag == _d.main_tag) {
+        item_disappear(item)
         _d.rm_item(item)
         item.destroy_ui()
       }
@@ -460,8 +460,6 @@ function item_send_to_next(item,nT,nF) {
   var tag_next=_d.tag_value('next')
 
   if(item.has(tag_in)) {
-    if(item==_d.item_show && this_tag=='in')
-      item_show_next()
     item_remove_tag(item,tag_in,function() {
       item_add_tag(item,tag_next,function() {
         is_fun(nT) && nT()
@@ -478,8 +476,6 @@ function item_send_to_waiting(item,nT,nF) {
   var tag_waiting=_d.tag_value('waiting')
   item_update(item,'['+today()+'] '+item.value,function(){
     item_remove_tag(item,tag_in,function() {
-      if(item==_d.item_show)
-        item_show_next()
       item_add_tag(item,tag_waiting,function() {
         is_fun(nT) && nT()
         _d.join_undos(3)
@@ -495,8 +491,6 @@ function item_send_to_someday(item,dt,nT,nF) {
   function what() {
     if(item.has(tag_in)) {
       item_remove_tag(item,tag_in,function() {
-        if(item==_d.item_show && this_tag=='in')
-          item_show_next()
         item_add_tag(item,tag_someday,function() {
           is_fun(nT) && nT()
           _d.join_undos(dt ? 3 : 2)
@@ -589,4 +583,15 @@ function toggle_review() {
     _d.review_off()
   else
   _d.review_on()
+}
+
+function item_disappear(item) {
+  if(item==_d.item_show)
+    item_show_next()
+  if(item==_d.item_show)
+    item_show_prev()
+  if(item==_d.item_show) {
+    item.show_mark(false)
+    _d.item_show=null
+  }
 }
