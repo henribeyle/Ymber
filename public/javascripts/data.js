@@ -8,6 +8,7 @@ function Data(this_tag, all_tags, all_items) {
   self.item_show=null
   self.undo_levels=[]
   self.review=[]
+  self.reviewing=false
 
   if(this_tag == undefined) {
     assert_failed('this_tag is not defined')
@@ -270,14 +271,49 @@ Data.prototype.save_undo_cookie = function() {
 
 Data.prototype.review_on = function() {
   $('#review').show()
+  this.reviewing=true
+  this.save_review_cookie()
 }
 
 Data.prototype.review_off = function() {
   $('#review').hide()
+  this.reviewing=false
+  this.review=[]
+  $('.review-item').removeClass('review-item')
+  this.save_review_cookie()
 }
 
 Data.prototype.save_review_cookie = function() {
+  if(this.reviewing)
+    css('reviewing',true)
+  else
+    cd('reviewing')
+  if(this.review.length==0)
+    cd('review')
+  else
+    css('review',this.review.join(','))
 }
 
 Data.prototype.review_from_cookie = function() {
+  var self=this
+  self.review=[]
+  self.reviewing=false
+  if(cr('reviewing')!=null)
+    self.reviewing=true
+  if(self.reviewing) {
+    var o=cr('review')
+    if(o!=null) {
+      o.split(',').each(function(x) {
+        self.review_item(x)
+      })
+    }
+    self.review_on()
+  }
+}
+
+Data.prototype.review_item = function(x) {
+  if(!this.reviewing) return
+  $('#item-'+x).addClass('review-item')
+  this.review.push(x)
+  this.save_review_cookie()
 }

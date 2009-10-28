@@ -25,6 +25,7 @@ function load_data(nT,nF) {
       _d.order_from_cookie()
       _d.filters_from_cookie()
       _d.undo_from_cookie()
+      _d.review_from_cookie()
       if(extra_undo) _d.add_undo(extra_undo)
 
       if(_d.main_tag)
@@ -353,6 +354,7 @@ function item_show_prev(nT,nF) {
 
 function item_expand(item,nT,nF) {
   item.expand()
+  _d.review_item(item.id)
   is_fun(nT) && nT()
 }
 
@@ -363,6 +365,7 @@ function item_collapse(item,nT,nF) {
 
 function item_toggle_expand(item,nT,nF) {
   item.toggle_expand()
+  _d.review_item(item.id)
   is_fun(nT) && nT()
 }
 

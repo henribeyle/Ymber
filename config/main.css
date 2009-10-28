@@ -92,6 +92,10 @@ html{
   position: absolute;
 }
 
+.review-item {
+  opacity: 0.45;
+}
+
 /* items */
 
 #items {
