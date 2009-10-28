@@ -24,30 +24,10 @@ function Data(this_tag, all_tags, all_items) {
     return
   }
 
-  all_tags.sort(function(x,y) {
-    var type = x.extra ? "e" : "v"
-    type += y.extra ? "e" : "v"
-    switch(type) {
-      case "ee": return x.id.to_i() - y.id.to_i()
-      case "ev": return -1
-      case "ve": return 1
-      case "vv": return x.value < y.value ? -1 : 1
-    }
-    return type
-  }).each(function(x) {
+  all_tags.sort(tag_compare).each(function(x) {
     var t=new Tag(x.value,x.extra,x.id)
     self.tags.push(t)
   });
-
-  // reordering tags (in, next, waiting, someday first)
-  ['someday','waiting','next','in'].each(function(x) {
-    var ind=self.tags.index(this_value(x))
-    if(ind!=0) {
-      self.tags[0].ui.before(self.tags[ind].ui)
-      var tag=self.tags.splice(ind,1).shift()
-      self.tags.splice(0,0,tag)
-    }
-  })
 
   try {
     self.main_tag=self.tag_value(this_tag)

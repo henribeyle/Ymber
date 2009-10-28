@@ -348,3 +348,15 @@ function show_help() {
 '</tr></table>'
 )
 }
+
+function tag_compare(x,y) {
+  var type = x.extra ? "e" : "v"
+  type += y.extra ? "e" : "v"
+  switch(type) {
+    case "ee": return x.id.to_i() - y.id.to_i()
+    case "ev": return -1
+    case "ve": return 1
+    case "vv": return x.value < y.value ? -1 : 1
+  }
+  return type
+}

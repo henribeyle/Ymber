@@ -40,15 +40,14 @@ function Item(value,id,data) {
 Item.prototype.add_tag = function(tag) {
   if(this.has(tag))
     assert_failed('tag '+tag.value+' is already in item '+this.value)
-  // search for position (order by tag value)
   for(var i=0;i<this.tags.length;i++) {
-    if(this.tags[i].value > tag.value)
+    if(tag_compare(this.tags[i],tag)>0)
       break
   }
   if(i==this.tags.length)
     this.tags.push(tag)
   else
-    this.tags.splice(i,i,tag)
+    this.tags.splice(i,0,tag)
 }
 Item.prototype.rm = function(tag) { this.tags.splice(this.tag(tag),1) }
 
@@ -148,8 +147,8 @@ Item.prototype.tag_ui = function(tag) {
     drag_deleter({ on_delete: function() {
         item_remove_tag(self,tag,p_mess('tag removed from item')) } })
 
-  var position=this.tags.index(this_value(tag.value))
-  if(position == this.tags.length-1)
+  var position=self.tags.index(this_value(tag.value))
+  if(position == self.tags.length-1)
     el.insertBefore($('.value',self.ui))
   else
     el.insertBefore($('.tag4item',self.ui)[position])
