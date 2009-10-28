@@ -7,9 +7,9 @@ function Data(this_tag, all_tags, all_items) {
   self.main_tag=null
   self.item_show=null
   self.undo_levels=[]
-  self.review=[]
-  self.reviewt=[]
-  self.reviewing=false
+  self.review_items=[]
+  self.review_tags=[]
+  self.review=false
 
   if(this_tag == undefined) {
     assert_failed('this_tag is not defined')
@@ -272,7 +272,7 @@ Data.prototype.save_undo_cookie = function() {
 
 Data.prototype.review_on = function() {
   $('#review').show()
-  this.reviewing=true
+  this.review=true
   this.save_review_cookie()
   if(this.main_tag)
     this.review_tag(this.main_tag.id)
@@ -280,39 +280,39 @@ Data.prototype.review_on = function() {
 
 Data.prototype.review_off = function() {
   $('#review').hide()
-  this.reviewing=false
-  this.review=[]
-  this.reviewt=[]
+  this.review=false
+  this.review_items=[]
+  this.review_tags=[]
   $('.review-item').removeClass('review-item')
   $('.review-tag').removeClass('review-tag')
   this.save_review_cookie()
 }
 
 Data.prototype.save_review_cookie = function() {
-  if(this.reviewing)
-    css('reviewing',true)
+  if(this.review)
+    css('review',true)
   else
-    cd('reviewing')
-  if(this.review.length==0)
     cd('review')
+  if(this.review_items.length==0)
+    cd('review_items')
   else
-    css('review',this.review.join(','))
-  if(this.reviewt.length==0)
-    cd('reviewt')
+    css('review_items',this.review_items.join(','))
+  if(this.review_tags.length==0)
+    cd('review_tags')
   else
-    css('reviewt',this.reviewt.join(','))
+    css('review_tags',this.review_tags.join(','))
 }
 
 Data.prototype.review_from_cookie = function() {
   var self=this
-  self.review=[]
-  self.reviewt=[]
-  self.reviewing=false
-  if(cr('reviewing')!=null)
-    self.reviewing=true
-  if(self.reviewing) {
-    var o=cr('review')
-    var ot=cr('reviewt')
+  self.review_items=[]
+  self.review_tags=[]
+  self.review=false
+  if(cr('review')!=null)
+    self.review=true
+  if(self.review) {
+    var o=cr('review_items')
+    var ot=cr('review_tags')
     if(o!=null) {
       o.split(',').each(function(x) {
         self.review_item(x)
@@ -328,15 +328,15 @@ Data.prototype.review_from_cookie = function() {
 }
 
 Data.prototype.review_item = function(x) {
-  if(!this.reviewing) return
+  if(!this.review) return
   $('.item','#item-'+x).addClass('review-item')
-  this.review.push(x)
+  this.review_items.push(x)
   this.save_review_cookie()
 }
 
 Data.prototype.review_tag = function(x) {
-  if(!this.reviewing) return
+  if(!this.review) return
   $('.value','#tag-'+x).addClass('review-tag')
-  this.reviewt.push(x)
+  this.review_tags.push(x)
   this.save_review_cookie()
 }
