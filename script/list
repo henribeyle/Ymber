@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + '/../config/boot'
+require File.dirname(__FILE__) + '/../app/models/item'
+require File.dirname(__FILE__) + '/../app/models/tag'
+
+if(ARGV.length == 0) then
+  puts "no tags given on command line"
+  exit(-1)
+end
+
+tags=Tag.all
+ARGV.each do |tagname|
+  tag = tags.find { |x| x.value == tagname }
+  if(!tag)
+    puts "Non existing tag: '\e[1;31m#{tagname}\e[0m'"
+    next
+  end
+  puts "Listing items for \e[1;33m#{tagname}\e[0m"
+  tag.items.each do |item|
+    puts ""
+    tagnames=item.tags.map {|x| "\e[1;34m["+x.value+"]\e[0m" }
+    puts "#{tagnames.join(' ')}"
+    puts item.value
+  end
+end
