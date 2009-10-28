@@ -99,6 +99,8 @@ Item.prototype.edit = function() {
       },
       make_into_a_list_command(),
       justify_paragraph_command(),
+      unindent_lines_command(),
+      indent_lines_command(),
       {
         img: '/images/delete.png',
         title: 'delete',
