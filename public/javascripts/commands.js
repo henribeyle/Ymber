@@ -441,9 +441,9 @@ function item_send_to_next(item,nT,nF) {
   var tag_next=_d.tag_value('next')
 
   if(item.has(tag_in)) {
+    if(item==_d.item_show && this_tag=='in')
+      item_show_next()
     item_remove_tag(item,tag_in,function() {
-      if(item==_d.item_show && this_tag=='in')
-        item_show_next()
       item_add_tag(item,tag_next,function() {
         is_fun(nT) && nT()
         _d.join_undos(2)
