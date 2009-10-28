@@ -12,15 +12,9 @@ function Tag(value,extra,id) {
   $('<span>').
     addClass('tag').
     append(span('value',self.value_or_extra())).
-    append(span('nobreak','&nbsp')).
-    append($('<img>').
-      attr('src','/images/go.png').
-      attr('title','go').
-      addClass('go').
-      click(function() { go_to(self.value) })).
     appendTo(self.ui).
     fixClick(function() {
-        self.filtering ? tag_unfilter(self) : tag_filter(self)
+        go_to(self.value)
       },function() {
       clear_selection()
       self.edit()
