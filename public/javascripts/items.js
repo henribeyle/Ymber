@@ -67,6 +67,7 @@ Item.prototype.edit = function() {
     title: 'Edit item',
     rows: 20,
     text: self.value,
+    disallow_spaces: false,
     commands: [ {
         img: '/images/split.png',
         title: 'split',

@@ -13,15 +13,12 @@
 
     var last_selection=''
 
+    var disable_space_if_needed = function(e) { return e.which != 32 }
+
     var input_handler = function(e) {
       //log('[editor]? '+e.which+' type '+e.type)
       if(!my_event(e)) return
       //log('[editor] '+e.which+' type '+e.type)
-      if(opts.disallow_spaces && e.which == 32) {
-        var ta=$('#editor-ui textarea')[0]
-        ta.value=ta.value.replace(/\s/g,'')
-        return false
-      }
 
       var ta=$('#editor-ui textarea')[0]
       var start=ta.selectionStart
@@ -157,8 +154,16 @@
     editor_div.show().css('left',($(window).width()-editor_div.width())/2)
 
     save_input_handler(
-      function() { $(document).bind('keyup mouseup',input_handler) },
-      function() { $(document).unbind('keyup mouseup',input_handler) }
+      function() {
+        $(document).bind('keyup mouseup',input_handler)
+        if(opts.disallow_spaces)
+          $(document).bind('keydown',disable_space_if_needed)
+      },
+      function() {
+        $(document).unbind('keyup mouseup',input_handler)
+        if(opts.disallow_spaces)
+          $(document).unbind('keydown',disable_space_if_needed)
+      }
     )
 
     $('#editor-ui textarea').focus()

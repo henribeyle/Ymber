@@ -248,6 +248,7 @@ function add_item_helper() {
     title: 'New item',
     rows: 20,
     text: '',
+    disallow_spaces: false,
     commands: [ {
         img: '/images/cancel.png',
         title: 'cancel',
