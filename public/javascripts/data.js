@@ -8,6 +8,7 @@ function Data(this_tag, all_tags, all_items) {
   self.item_show=null
   self.undo_levels=[]
   self.review=[]
+  self.reviewt=[]
   self.reviewing=false
 
   if(this_tag == undefined) {
@@ -273,13 +274,17 @@ Data.prototype.review_on = function() {
   $('#review').show()
   this.reviewing=true
   this.save_review_cookie()
+  if(this.main_tag)
+    this.review_tag(this.main_tag.id)
 }
 
 Data.prototype.review_off = function() {
   $('#review').hide()
   this.reviewing=false
   this.review=[]
+  this.reviewt=[]
   $('.review-item').removeClass('review-item')
+  $('.review-tag').removeClass('review-tag')
   this.save_review_cookie()
 }
 
@@ -292,11 +297,16 @@ Data.prototype.save_review_cookie = function() {
     cd('review')
   else
     css('review',this.review.join(','))
+  if(this.reviewt.length==0)
+    cd('reviewt')
+  else
+    css('reviewt',this.reviewt.join(','))
 }
 
 Data.prototype.review_from_cookie = function() {
   var self=this
   self.review=[]
+  self.reviewt=[]
   self.reviewing=false
   if(cr('reviewing')!=null)
     self.reviewing=true
@@ -307,13 +317,26 @@ Data.prototype.review_from_cookie = function() {
         self.review_item(x)
       })
     }
+    o=cr('reviewt')
+    if(o!=null) {
+      o.split(',').each(function(x) {
+        self.review_tag(x)
+      })
+    }
     self.review_on()
   }
 }
 
 Data.prototype.review_item = function(x) {
   if(!this.reviewing) return
-  $('#item-'+x).addClass('review-item')
+  $('.item','#item-'+x).addClass('review-item')
   this.review.push(x)
+  this.save_review_cookie()
+}
+
+Data.prototype.review_tag = function(x) {
+  if(!this.reviewing) return
+  $('.value','#tag-'+x).addClass('review-tag')
+  this.reviewt.push(x)
   this.save_review_cookie()
 }

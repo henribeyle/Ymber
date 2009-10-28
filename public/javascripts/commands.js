@@ -28,8 +28,10 @@ function load_data(nT,nF) {
       _d.review_from_cookie()
       if(extra_undo) _d.add_undo(extra_undo)
 
-      if(_d.main_tag)
+      if(_d.main_tag) {
         $('#title .main').html(_d.main_tag.value_or_extra())
+        _d.review_tag(_d.main_tag.id)
+      }
 
       if(this_tag == 'in') {
         $('<img>').
