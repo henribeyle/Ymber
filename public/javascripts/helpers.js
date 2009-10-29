@@ -321,7 +321,7 @@ function show_help() {
 '</tr><tr>'+
 '<td>k</td><td>go up one item</td>'+
 '<td>fa</td><td>set filtering method to and</td>'+
-'<td>ctrl+l</td><td>make a list of selection</td>'+
+'<td>ctrl+l</td><td>list/unlist selection lines</td>'+
 '</tr><tr>'+
 '<td>J</td><td>move item down</td>'+
 '<td>c</td><td>open your calendar</td>'+
@@ -329,28 +329,32 @@ function show_help() {
 '</tr><tr>'+
 '<td>K</td><td>move item up</td>'+
 '<td>uu</td><td>undo</td>'+
-'<td>d@</td><td>insert date</td>'+
+'<td>ctrl+9</td><td>unindent lines</td>'+
 '</tr><tr>'+
 '<td>9</td><td>collapse all items</td>'+
 '<td>ur</td><td>redo</td>'+
-'<td>m@</td><td>insert map coordinates</td>'+
+'<td>ctrl+0</td><td>indent lines</td>'+
 '</tr><tr>'+
 '<td>0</td><td>expand all items</td>'+
 '<td>ctrl+.</td><td>split selection</td>'+
+'<td>d@</td><td>insert date</td>'+
 '</tr><tr>'+
 '<td>n</td><td>new item</td>'+
-'<td>y</td><td>(yank) move item (or selection) to next</td>'+
+'<td>i</td><td>move item to inbox</td>'+
+'<td>m@</td><td>insert map coordinates</td>'+
 '</tr><tr>'+
 '<td>e</td><td>edit this item</td>'+
-'<td>w</td><td>move item to waiting (only if in inbox)</td>'+
+'<td>y</td><td>(yank) move item (or selection) to next</td>'+
 '</tr><tr>'+
 '<td>o</td><td>open this item</td>'+
+'<td>w</td><td>move item to waiting</td>'+
+'</tr><tr>'+
+'<td>a</td><td>add a tag</td>'+
 '<td>s</td><td>move item to someday</td>'+
 '</tr><tr>'+
-'<td>a</td><td>add a tag to this item</td>'+
+'<td>r</td><td>remove a tag</td>'+
 '<td>@s</td><td>move item to someday with date</td>'+
 '</tr><tr>'+
-'<td>r</td><td>remove a tag from this item</td>'+
 '<td>alt+r</td><td>start/stop reviewing</td>'+
 '</tr></table>'
 )
