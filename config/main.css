@@ -173,6 +173,7 @@ html{
   -moz-border-radius: 10px;
   padding: 3px;
   margin: 2px;
+  overflow: hidden;
 }
 
 #tags .tag .go {
