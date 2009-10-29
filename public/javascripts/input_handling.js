@@ -62,6 +62,7 @@ function main_key_handler(e) {
 // log('[main]? '+e.which)
   if(!my_event(e)) return
 // log('[main] '+e.which)
+
   if(e.which == 8) {
     command=''
     return true
@@ -75,6 +76,8 @@ function main_key_handler(e) {
     c=[')','!','@','#','$','%','^','&','*','('][e.which-48]
   }
 
+  if(e.which == 13)
+    c = 'enter'
   c = e.ctrlKey ? 'ctrl+'+c : c
   c = e.altKey ? 'alt+'+c : c
   command+=c
@@ -240,6 +243,12 @@ function main_key_handler(e) {
 
     case 'alt+r':
       toggle_review()
+      break
+
+    case 'enter':
+      var sel=window.getSelection().anchorNode
+      var item=_d.item_id(sel ? $(sel).oid() : -1)
+      if(item) item_show(item)
       break
 
     default:
