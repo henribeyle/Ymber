@@ -1,7 +1,29 @@
 #!/usr/bin/env ruby
 require File.dirname(__FILE__) + '/../config/boot'
+require File.dirname(__FILE__) + '/../app/models/item'
+require File.dirname(__FILE__) + '/../app/models/tag'
 require 'net/http'
 require 'uri'
+
+def error(x)
+  puts(x)
+  exit(-1)
+end
+
+module Net
+  module HTTPHeader
+    def set_form_data(params, sep = '&')
+      l=[]
+      i=0
+      while(i<params.length)
+        l.push("#{urlencode(params[i].to_s)}=#{urlencode(params[i+1].to_s)}")
+        i+=2
+      end
+      self.body = l.join(sep)
+      self.content_type = 'application/x-www-form-urlencoded'
+    end
+  end
+end
 
 port=3000
 begin
@@ -10,21 +32,37 @@ begin
 rescue
 end
 
-value=ARGV.join(' ')
-if(value == '') then
-  puts "no value given on command line"
-  exit(-1)
+all_tags=Tag.all
+tag_ids=[1]
+args=[]
+i=0
+while(i<ARGV.length)
+  if(ARGV[i] == '-t')
+    error("-t must be followed by a tag name") if(i==ARGV.length-1)
+    i+=1
+    name=ARGV[i]
+    tag=all_tags.find { |x| x.value == ARGV[i] }
+    error("tag not found for #{ARGV[i]}") if(!tag)
+    tag_ids.push(tag.id.to_i)
+  else
+    args.push(ARGV[i])
+  end
+  i+=1
 end
+
+value=args.join(' ')
+error("no value given on command line") if(value == '')
 
 begin
   req = Net::HTTP::Post.new('/items')
-  req.set_form_data({'item[value]' => value, 'tag[]' => '1'}, ';')
+  parms=[]
+  parms.push('item[value]')
+  parms.push(value)
+  tag_ids.each { |x| parms.push('tag[]') ; parms.push(x) }
+  req.set_form_data(parms)
   res = Net::HTTP.new('127.0.0.1', port).start {|http| http.request(req) }
 
-  if(!res.kind_of? Net::HTTPSuccess)
-    puts "failure in connection"
-    exit(-1)
-  end
+  error("failure in connection") if(!res.kind_of? Net::HTTPSuccess)
 
   if(res.body =~ /"status" *: *"error"/)
     res.body.gsub!(/\{"status" *: *"error" *, *"error" *: *"/,'')
@@ -35,10 +73,10 @@ begin
   end
 rescue => e
   begin
-    require File.dirname(__FILE__) + '/../app/models/item'
-    require File.dirname(__FILE__) + '/../app/models/tag'
     item=Item.new(value)
-    item.tags << Tag.find(1)
+    tag_ids.each do |x|
+      item.tags << Tag.find(x)
+    end
     item.save
   rescue => e2
     puts "ERROR: #{e2.to_s}"
