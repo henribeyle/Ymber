@@ -218,6 +218,7 @@ function main_key_handler(e) {
       break
 
     case '@s':
+    case '2s':
       is &&
       $.select_date(null,function(x) {
         item_send_to_someday(is,x,p_mess('item sent to someday'))

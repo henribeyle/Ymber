@@ -510,11 +510,18 @@ function item_send_to_waiting(item,nT,nF) {
 
 function item_send_to_someday(item,dt,nT,nF) {
   var tag_in=_d.tag_value('in')
+  var tag_next=_d.tag_value('next')
+  var tag_waiting=_d.tag_value('waiting')
   var tag_someday=_d.tag_value('someday')
+  var tag_remove=null
+
+  if(item.has(tag_in)) tag_remove=tag_in
+  if(item.has(tag_next)) tag_remove=tag_next
+  if(item.has(tag_waiting)) tag_remove=tag_waiting
 
   function what() {
-    if(item.has(tag_in)) {
-      item_remove_tag(item,tag_in,function() {
+    if(tag_remove!=null) {
+      item_remove_tag(item,tag_remove,function() {
         item_add_tag(item,tag_someday,function() {
           is_fun(nT) && nT()
           _d.join_undos(dt ? 3 : 2)
