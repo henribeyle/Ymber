@@ -25,11 +25,19 @@ function Tag(value,extra,id) {
       cursor: 'move',
       revert: 'invalid'
     })
-  //self.ui.width($('.tag',self.ui).width())
+  self.check_textual()
 }
 
 Tag.prototype.value_or_extra = function() {
   return this.extra != '' ? this.extra : this.value
+}
+
+Tag.prototype.check_textual = function() {
+  var self=this
+  if(self.extra == '')
+    $('.value',self.ui).addClass('textual')
+  else
+    $('.value',self.ui).removeClass('textual')
 }
 
 Tag.prototype.add = function(item) {
@@ -77,9 +85,10 @@ Tag.prototype.edit = function() {
 }
 
 Tag.prototype.update = function(new_value) {
-  this.value=new_value
-  $('.value',this.ui).html(this.value_or_extra())
-  self.ui.width($('.tag',self.ui).width())
+  var self=this
+  self.value=new_value
+  $('.value',self.ui).html(self.value_or_extra())
+  self.check_textual()
 }
 
 Tag.prototype.filter_on = function() {
