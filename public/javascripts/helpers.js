@@ -377,10 +377,15 @@ function make_into_a_list_command() {
     accel: ctrl_l,
     func: function(x,s,e) {
       var same=false
+      var back=false
       var op=1
       if(s == e) {
         same=true
-        e++
+        if(x.charAt(s)=='\n') {
+          back=true
+          s--
+        } else
+          e++
       }
       var pl=prev_lines(x,s,"\n").join('\n')
       if(pl != '') pl=pl+'\n'
@@ -392,6 +397,7 @@ function make_into_a_list_command() {
         op=-1
       } else
         sl=sl.map(function(x) { return x!='' ? " - "+x : x }).join('\n')+'\n'
+      if(back) s++
       s=s+3*op
       e=e+3*li*op
       if(same) e=s
@@ -421,9 +427,14 @@ function unindent_lines_command() {
     accel: ctrl_9,
     func: function(x,s,e) {
       var same=false
+      var back=false
       if(s == e) {
         same=true
-        e++
+        if(x.charAt(s)=='\n') {
+          back=true
+          s--
+        } else
+          e++
       }
       var pl=prev_lines(x,s,"\n").join('\n')
       if(pl != '') pl=pl+'\n'
@@ -431,6 +442,7 @@ function unindent_lines_command() {
       var sl=selection_lines(x,s,e,"\n")
       var li=sl.length
       sl=sl.map(function(x) { return x.replace(/^  /,'') }).join('\n')+'\n'
+      if(back) s++
       s=s-2
       e=e-2*li
       if(same) e=s
@@ -444,9 +456,14 @@ function indent_lines_command() {
     accel: ctrl_0,
     func: function(x,s,e) {
       var same=false
+      var back=false
       if(s == e) {
         same=true
-        e++
+        if(x.charAt(s)=='\n') {
+          back=true
+          s--
+        } else
+          e++
       }
       var pl=prev_lines(x,s,"\n").join('\n')
       if(pl != '') pl=pl+'\n'
@@ -454,6 +471,7 @@ function indent_lines_command() {
       var sl=selection_lines(x,s,e,"\n")
       var li=sl.length
       sl=sl.map(function(x) { return "  "+x }).join('\n')+'\n'
+      if(back) s++
       s=s+2
       e=e+2*li
       if(same) e=s
