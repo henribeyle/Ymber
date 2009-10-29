@@ -455,6 +455,33 @@ function item_move_after(item1,item2,nT,nF) {
   is_fun(nT) && nT()
 }
 
+function item_change_basic_types(item,tag_rm,tag_add,nT,nF) {
+  if(tag_rm!=null) {
+    item_remove_tag(item,tag_rm,function() {
+      item_add_tag(item,tag_add,function() {
+        is_fun(nT) && nT()
+        _d.join_undos(2)
+      },nF)
+    },nF)
+  } else {
+    item_add_tag(item,tag_add,nT,nF)
+  }
+}
+
+function item_send_to_in(item,nT,nF) {
+  var tag_in=_d.tag_value('in')
+  var tag_next=_d.tag_value('next')
+  var tag_waiting=_d.tag_value('waiting')
+  var tag_someday=_d.tag_value('someday')
+  var tag_remove=null
+
+  if(item.has(tag_next)) tag_remove=tag_next
+  if(item.has(tag_waiting)) tag_remove=tag_waiting
+  if(item.has(tag_someday)) tag_remove=tag_someday
+
+  item_change_basic_types(item,tag_remove,tag_in,nT,nF)
+}
+
 function item_send_to_next(item,nT,nF) {
   var tag_in=_d.tag_value('in')
   var tag_next=_d.tag_value('next')
@@ -466,16 +493,7 @@ function item_send_to_next(item,nT,nF) {
   if(item.has(tag_waiting)) tag_remove=tag_waiting
   if(item.has(tag_someday)) tag_remove=tag_someday
 
-  if(tag_remove!=null) {
-    item_remove_tag(item,tag_remove,function() {
-      item_add_tag(item,tag_next,function() {
-        is_fun(nT) && nT()
-        _d.join_undos(2)
-      },nF)
-    },nF)
-  } else {
-    item_add_tag(item,tag_next,nT,nF)
-  }
+  item_change_basic_types(item,tag_remove,tag_next,nT,nF)
 }
 
 function item_send_to_waiting(item,nT,nF) {

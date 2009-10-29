@@ -184,6 +184,11 @@ function main_key_handler(e) {
       }
       break;
 
+    case 'i':
+      is &&
+      item_send_to_in(is,p_mess('item sent to in'))
+      break
+
     case 'y':
       if(is) {
         // higuest precedence, tag 'in'... will always
