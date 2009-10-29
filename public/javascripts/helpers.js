@@ -376,16 +376,26 @@ function make_into_a_list_command() {
   return {
     accel: ctrl_l,
     func: function(x,s,e) {
-      if(s == e) e=s+1
+      var same=false
+      var op=1
+      if(s == e) {
+        same=true
+        e++
+      }
       var pl=prev_lines(x,s,"\n").join('\n')
       if(pl != '') pl=pl+'\n'
       var nl=next_lines(x,e,"\n").join('\n')
       var sl=selection_lines(x,s,e,"\n")
-      if(sl.all(function(x) { return x.substring(0,3)==' - ' }))
+      var li=sl.length
+      if(sl.all(function(x) { return x.substring(0,3)==' - ' })) {
         sl=sl.map(function(x) { return x.replace(/^ - /,'') }).join('\n')+'\n'
-      else
+        op=-1
+      } else
         sl=sl.map(function(x) { return x!='' ? " - "+x : x }).join('\n')+'\n'
-      return pl+sl+nl
+      s=s+3*op
+      e=e+3*li*op
+      if(same) e=s
+      return [pl+sl+nl,s,e] // try to maintain selection
     }
   }
 }
@@ -400,7 +410,8 @@ function justify_paragraph_command() {
       var nl=next_lines(x,e,"\n\n").join('\n\n')
       var sl=selection_lines(x,s,e,"\n\n").
         map(function(x) { return justify(x,72) }).join('\n\n')+'\n\n'
-      return pl+sl+nl
+      var np=(pl+sl).length
+      return [pl+sl+nl,np,np] // go to start of next paragraph
     }
   }
 }
@@ -409,13 +420,21 @@ function unindent_lines_command() {
   return {
     accel: ctrl_9,
     func: function(x,s,e) {
-      if(s == e) e=s+1
+      var same=false
+      if(s == e) {
+        same=true
+        e++
+      }
       var pl=prev_lines(x,s,"\n").join('\n')
       if(pl != '') pl=pl+'\n'
       var nl=next_lines(x,e,"\n").join('\n')
-      var sl=selection_lines(x,s,e,"\n").
-        map(function(x) { return x.replace(/^  /,'') }).join('\n')+'\n'
-      return pl+sl+nl
+      var sl=selection_lines(x,s,e,"\n")
+      var li=sl.length
+      sl=sl.map(function(x) { return x.replace(/^  /,'') }).join('\n')+'\n'
+      s=s-2
+      e=e-2*li
+      if(same) e=s
+      return [pl+sl+nl,s,e] // try to maintain selection
     }
   }
 }
@@ -424,13 +443,21 @@ function indent_lines_command() {
   return {
     accel: ctrl_0,
     func: function(x,s,e) {
-      if(s == e) e=s+1
+      var same=false
+      if(s == e) {
+        same=true
+        e++
+      }
       var pl=prev_lines(x,s,"\n").join('\n')
       if(pl != '') pl=pl+'\n'
       var nl=next_lines(x,e,"\n").join('\n')
-      var sl=selection_lines(x,s,e,"\n").
-        map(function(x) { return "  "+x }).join('\n')+'\n'
-      return pl+sl+nl
+      var sl=selection_lines(x,s,e,"\n")
+      var li=sl.length
+      sl=sl.map(function(x) { return "  "+x }).join('\n')+'\n'
+      s=s+2
+      e=e+2*li
+      if(same) e=s
+      return [pl+sl+nl,s,e] // try to maintain selection
     }
   }
 }

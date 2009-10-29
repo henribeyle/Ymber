@@ -63,9 +63,8 @@
 
       opts.commands.each(function(x) {
         if(is_fun(x.accel) && x.accel(e)) {
-          if(is_fun(x.close))
-            close(x.close)
-          process(x.func)
+          if(is_fun(x.close)) close(x.close)
+          if(is_fun(x.func)) process(x.func)
         }
       })
     }
@@ -97,20 +96,21 @@
     }
 
     function process(func) {
-      if(!is_fun(func)) return
-
       var ta=$('#editor-ui textarea')
       var text=ta.val()
       var s=ta[0].selectionStart
       var e=ta[0].selectionEnd
       var v=clean_text(text,s,e)
-      text=v[0]
-      s=v[1]
-      e=v[2]
+      text=v[0],s=v[1],e=v[2]
 
       var a=func(text,s,e)
-      if(a!=null)
-        ta.val(a)
+      if(a!=null) {
+        ta.val(a[0])
+        if(a.length>2) {
+          ta[0].selectionStart=a[1]
+          ta[0].selectionEnd=a[2]
+        }
+      }
     }
 
     if($('#editor-ui').length != 0) {
@@ -141,7 +141,7 @@
             addClass('button').
             click(function() {
               if(is_fun(x.close)) close(x.close)
-              process(x.func)
+              if(is_fun(x.func)) process(x.func)
             }))
       }
     })
