@@ -343,12 +343,29 @@ function or_filtering(nT,nF) {
   is_fun(nT) && nT()
 }
 
+function item_make_visible(item,nT,nF) {
+  var sc=$(document).scrollTop()
+  var wheight=$(window).height()
+  var height=item.ui.height()
+  var top=item.ui.position().top
+  var last_point=height+top
+
+  if(last_point-sc >= wheight) {
+    window.scrollBy(0,last_point-sc-wheight+5)
+  }
+  var nsc=$(document).scrollTop()
+  if(nsc>top) {
+    window.scrollBy(0,top-nsc-5)
+  }
+}
+
 function item_show(item,nT,nF) {
   if(_d.item_show)
     _d.item_show.show_mark(false)
   _d.item_show=item
   if(_d.item_show) {
     _d.item_show.show_mark(true)
+    item_make_visible(item)
     is_fun(nT) && nT()
   } else {
     is_fun(nF) && nF()
@@ -375,6 +392,7 @@ function item_show_prev(nT,nF) {
 
 function item_expand(item,nT,nF) {
   item.expand()
+  item_make_visible(item)
   _d.review_item(item.id)
   is_fun(nT) && nT()
 }
@@ -386,6 +404,7 @@ function item_collapse(item,nT,nF) {
 
 function item_toggle_expand(item,nT,nF) {
   item.toggle_expand()
+  item_make_visible(item)
   _d.review_item(item.id)
   is_fun(nT) && nT()
 }
@@ -406,6 +425,7 @@ function item_move_selection_down(nT,nF) {
   var item=_d.next(_d.item_show)
   if(item) {
     item_move_after(_d.item_show,item,nT,nF)
+    item_make_visible(_d.item_show)
   }
   else {
     is_fun(nF) && nF()
@@ -420,6 +440,7 @@ function item_move_selection_up(nT,nF) {
   var item=_d.prev(_d.item_show)
   if(item) {
     item_move_before(_d.item_show,item,nT,nF)
+    item_make_visible(_d.item_show)
   }
   else {
     is_fun(nF) && nF()
@@ -580,7 +601,7 @@ function undo(nT,nF) {
     cache: false,
     url: "/undo/"+howmany,
     success: suc(nT,nF,function(a) {
-      console.dir(a)
+      //console.dir(a)
       $.message('undo produced')
       load_data()
     }),
