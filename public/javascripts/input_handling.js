@@ -186,9 +186,9 @@ function main_key_handler(e) {
 
     case 'y':
       if(is) {
-        // higuest precedence, tag 'in' will always
+        // higuest precedence, tag 'in'... will always
         // send the whole thing to 'next'
-        if(this_tag=='in') {
+        if(['in','waiting','someday'].contains(this_tag)) {
           item_send_to_next(is,p_mess('item sent to next'))
         } else {
           var sel=window.getSelection().
@@ -209,19 +209,16 @@ function main_key_handler(e) {
 
     case 'w':
       is &&
-      this_tag=='in' &&
       item_send_to_waiting(is,p_mess('item sent to waiting'))
       break
 
     case 's':
       is &&
-      this_tag=='in' &&
       item_send_to_someday(is,null,p_mess('item sent to someday'))
       break
 
     case '@s':
       is &&
-      this_tag=='in' &&
       $.select_date(null,function(x) {
         item_send_to_someday(is,x,p_mess('item sent to someday'))
       })
