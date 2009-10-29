@@ -372,36 +372,43 @@ function tag_compare(x,y) {
   return type
 }
 
+function treat_lines(x,s,e,f) {
+  var same=false
+  var back=false
+  if(s == e) {
+    same=true
+    if(x.charAt(s)=='\n') {
+      back=true
+      s--
+    } else
+      e++
+  }
+  var v=f(x,s,e)
+  if(back) s++
+  s=s+v[1]
+  e=e+v[2]
+  if(same) e=s
+  return [v[0],s,e]
+}
+
 function make_into_a_list_command() {
   return {
     accel: ctrl_l,
     func: function(x,s,e) {
-      var same=false
-      var back=false
-      var op=1
-      if(s == e) {
-        same=true
-        if(x.charAt(s)=='\n') {
-          back=true
-          s--
+      return treat_lines(x,s,e,function(x,s,e) {
+        var op=1
+        var pl=prev_lines(x,s,"\n").join('\n')
+        if(pl != '') pl=pl+'\n'
+        var nl=next_lines(x,e,"\n").join('\n')
+        var sl=selection_lines(x,s,e,"\n")
+        var li=sl.length
+        if(sl.all(function(x) { return x.substring(0,3)==' - ' })) {
+          sl=sl.map(function(x) { return x.replace(/^ - /,'') }).join('\n')+'\n'
+          op=-1
         } else
-          e++
-      }
-      var pl=prev_lines(x,s,"\n").join('\n')
-      if(pl != '') pl=pl+'\n'
-      var nl=next_lines(x,e,"\n").join('\n')
-      var sl=selection_lines(x,s,e,"\n")
-      var li=sl.length
-      if(sl.all(function(x) { return x.substring(0,3)==' - ' })) {
-        sl=sl.map(function(x) { return x.replace(/^ - /,'') }).join('\n')+'\n'
-        op=-1
-      } else
-        sl=sl.map(function(x) { return x!='' ? " - "+x : x }).join('\n')+'\n'
-      if(back) s++
-      s=s+3*op
-      e=e+3*li*op
-      if(same) e=s
-      return [pl+sl+nl,s,e] // try to maintain selection
+          sl=sl.map(function(x) { return x!='' ? " - "+x : x }).join('\n')+'\n'
+        return [pl+sl+nl,3*op,3*li*op]
+      })
     }
   }
 }
@@ -426,27 +433,15 @@ function unindent_lines_command() {
   return {
     accel: ctrl_9,
     func: function(x,s,e) {
-      var same=false
-      var back=false
-      if(s == e) {
-        same=true
-        if(x.charAt(s)=='\n') {
-          back=true
-          s--
-        } else
-          e++
-      }
-      var pl=prev_lines(x,s,"\n").join('\n')
-      if(pl != '') pl=pl+'\n'
-      var nl=next_lines(x,e,"\n").join('\n')
-      var sl=selection_lines(x,s,e,"\n")
-      var li=sl.length
-      sl=sl.map(function(x) { return x.replace(/^  /,'') }).join('\n')+'\n'
-      if(back) s++
-      s=s-2
-      e=e-2*li
-      if(same) e=s
-      return [pl+sl+nl,s,e] // try to maintain selection
+      return treat_lines(x,s,e,function(x,s,e) {
+        var pl=prev_lines(x,s,"\n").join('\n')
+        if(pl != '') pl=pl+'\n'
+        var nl=next_lines(x,e,"\n").join('\n')
+        var sl=selection_lines(x,s,e,"\n")
+        var li=sl.length
+        sl=sl.map(function(x) { return x.replace(/^  /,'') }).join('\n')+'\n'
+        return [pl+sl+nl,-2,-2*li]
+      })
     }
   }
 }
@@ -455,27 +450,15 @@ function indent_lines_command() {
   return {
     accel: ctrl_0,
     func: function(x,s,e) {
-      var same=false
-      var back=false
-      if(s == e) {
-        same=true
-        if(x.charAt(s)=='\n') {
-          back=true
-          s--
-        } else
-          e++
-      }
-      var pl=prev_lines(x,s,"\n").join('\n')
-      if(pl != '') pl=pl+'\n'
-      var nl=next_lines(x,e,"\n").join('\n')
-      var sl=selection_lines(x,s,e,"\n")
-      var li=sl.length
-      sl=sl.map(function(x) { return "  "+x }).join('\n')+'\n'
-      if(back) s++
-      s=s+2
-      e=e+2*li
-      if(same) e=s
-      return [pl+sl+nl,s,e] // try to maintain selection
+      return treat_lines(x,s,e,function(x,s,e) {
+        var pl=prev_lines(x,s,"\n").join('\n')
+        if(pl != '') pl=pl+'\n'
+        var nl=next_lines(x,e,"\n").join('\n')
+        var sl=selection_lines(x,s,e,"\n")
+        var li=sl.length
+        sl=sl.map(function(x) { return "  "+x }).join('\n')+'\n'
+        return [pl+sl+nl,2,2*li]
+      })
     }
   }
 }
