@@ -76,8 +76,9 @@ function main_key_handler(e) {
     c=[')','!','@','#','$','%','^','&','*','('][e.which-48]
   }
 
-  if(e.which == 13)
-    c = 'enter'
+  if(e.which == 13) c = 'enter'
+  if(e.which == 36) c = 'home'
+  if(e.which == 35) c = 'end'
   c = e.ctrlKey ? 'ctrl+'+c : c
   c = e.altKey ? 'alt+'+c : c
   command+=c
@@ -249,6 +250,22 @@ function main_key_handler(e) {
       var sel=window.getSelection().anchorNode
       var item=_d.item_id(sel ? $(sel).oid() : -1)
       if(item) item_show(item)
+      break
+
+    case 'home':
+      if(is) {
+        is.show_mark(false)
+        _d.item_show=null
+      }
+      item_show_next()
+      break
+
+    case 'end':
+      if(is) {
+        is.show_mark(false)
+        _d.item_show=null
+      }
+      item_show_prev()
       break
 
     default:
