@@ -422,6 +422,9 @@ html{
 
 #editor-ui textarea {
   width: 100%;
+  font-size: 18px;
+  font-family: Tahoma, sans-serif;
+  line-height: 125%;
 }
 
 #editor-ui .button-row {
