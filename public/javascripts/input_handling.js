@@ -71,14 +71,14 @@ function main_key_handler(e) {
 
   var is=_d.item_show
   var c=String.fromCharCode(e.which)
+  if(e.which == 13) c = 'enter'
+  if(e.which == 36) c = 'home'
+  if(e.which == 35) c = 'end'
   c = e.shiftKey ? c.toUpperCase(c) : c.toLowerCase(c)
   if(e.shiftKey && e.which >= 48 && e.which <= 57 ) { // a number pressed
     c=[')','!','@','#','$','%','^','&','*','('][e.which-48]
   }
 
-  if(e.which == 13) c = 'enter'
-  if(e.which == 36) c = 'home'
-  if(e.which == 35) c = 'end'
   c = e.ctrlKey ? 'ctrl+'+c : c
   c = e.altKey ? 'alt+'+c : c
   command+=c
@@ -103,6 +103,12 @@ function main_key_handler(e) {
     case 'k': item_show_prev() ; break
     case 'J': item_move_selection_down() ; break
     case 'K': item_move_selection_up() ; break
+
+    case 'home': item_show_first() ; break
+    case 'end':  item_show_last() ; break
+
+    case 'HOME': item_move_selection_first() ; break
+    case 'END': item_move_selection_last() ; break
 
     case '9': item_collapse_all() ; break
     case '0': item_expand_all() ; break
@@ -250,22 +256,6 @@ function main_key_handler(e) {
       var sel=window.getSelection().anchorNode
       var item=_d.item_id(sel ? $(sel).oid() : -1)
       if(item) item_show(item)
-      break
-
-    case 'home':
-      if(is) {
-        is.show_mark(false)
-        _d.item_show=null
-      }
-      item_show_next()
-      break
-
-    case 'end':
-      if(is) {
-        is.show_mark(false)
-        _d.item_show=null
-      }
-      item_show_prev()
       break
 
     default:

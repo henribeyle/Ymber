@@ -369,6 +369,22 @@ function item_show_prev() {
     item_show(item)
 }
 
+function item_show_first() {
+  if(_d.item_show) {
+    _d.item_show.show_mark(false)
+    _d.item_show=null
+  }
+  item_show_next()
+}
+
+function item_show_last() {
+  if(_d.item_show) {
+    _d.item_show.show_mark(false)
+    _d.item_show=null
+  }
+  item_show_prev()
+}
+
 function item_expand(item) {
   item.expand()
   item_make_visible(item)
@@ -394,9 +410,7 @@ function item_collapse_all() {
 }
 
 function item_move_selection_down() {
-  if(_d.item_show==null) {
-    return
-  }
+  if(_d.item_show==null) return
   var item=_d.next(_d.item_show)
   if(item) {
     item_move_after(_d.item_show,item)
@@ -405,12 +419,30 @@ function item_move_selection_down() {
 }
 
 function item_move_selection_up() {
-  if(_d.item_show==null) {
-    return
-  }
+  if(_d.item_show==null) return
   var item=_d.prev(_d.item_show)
   if(item) {
     item_move_before(_d.item_show,item)
+    item_make_visible(_d.item_show)
+  }
+}
+
+function item_move_selection_last() {
+  if(_d.item_show==null)
+    return
+  var last=_d.prev()
+  if(last!=_d.item_show) {
+    item_move_after(_d.item_show,last)
+    item_make_visible(_d.item_show)
+  }
+}
+
+function item_move_selection_first() {
+  if(_d.item_show==null)
+    return
+  var first=_d.next()
+  if(first!=_d.item_show) {
+    item_move_before(_d.item_show,first)
     item_make_visible(_d.item_show)
   }
 }
