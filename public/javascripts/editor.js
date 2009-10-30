@@ -126,12 +126,14 @@
       click(close).
       appendTo('body')
 
+    var ta=$('<textarea spellcheck="false">').
+        attr('rows',opts.rows).
+        val(opts.text)
+
     var editor_div=$('<div>').
       attr('id','editor-ui').
       append($('<div>').attr('id','editor-ui-title').html(opts.title)).
-      append($('<textarea spellcheck="false">').
-        attr('rows',opts.rows).
-        val(opts.text))
+      append(ta)
 
     var button_row=$('<div>').addClass('button-row').appendTo(editor_div)
 
@@ -168,6 +170,8 @@
       }
     )
 
-    $('#editor-ui textarea').focus()
+    ta.focus()
+    ta[0].selectionStart=0
+    ta[0].selectionEnd=0
   }
 })(jQuery)
