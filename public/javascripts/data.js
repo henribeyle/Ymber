@@ -25,7 +25,7 @@ function Data(this_tag, all_tags, all_items) {
   }
 
   all_tags.sort(tag_compare).each(function(x) {
-    var t=new Tag(x.value,x.extra,x.id)
+    var t=new Tag(x.value,x.extra,x.id,x.item_count)
     self.tags.push(t)
   });
 

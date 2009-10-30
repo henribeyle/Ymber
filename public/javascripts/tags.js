@@ -1,9 +1,10 @@
-function Tag(value,extra,id) {
+function Tag(value,extra,id,count) {
   var self=this
 
   self.value=value
   self.extra=extra ? extra : ''
   self.id=id
+  self.count=count
   self.items=[]
   self.filtering=false
 
@@ -27,11 +28,12 @@ function Tag(value,extra,id) {
     })
 
   $('[title]',self.ui).attr("title", "")
-  var tt=$('<div>').addClass('tooltip').html('# items')
+  var tt=$('<div>').addClass('tooltip')
   self.ui.hover(function(e){
     $("body").append(tt)
     tt.css("left", e.pageX - 12 - tt.width()).
       css("top", e.pageY + 12).
+      html(self.count+' items').
       fadeIn("medium")
   }, function(){ tt.remove() })
 

@@ -18,11 +18,13 @@ public
   attr_reader :value
   attr_reader :extra
   attr_writer :extra
+  attr_reader :item_count
 
   def initialize(value,extra='',id=nil)
     @id=id
     @extra=extra
     @value=new_value(value)
+    @item_count=@id ? DB.list("*@#{@id}").length : 0
   end
 
   def value=(value)
@@ -37,6 +39,7 @@ public
     @id=DB.next_id('tag_value') if @id.nil?
     DB.write_to("tag_value_#{@id}",@value)
     DB.write_to("tag_extra_#{@id}",@extra)
+    @item_count=DB.list("*@#{@id}").length
 
     hash=DB.hash(*DB.list("tag_value_*"))
     if(hash.length != hash.uniq.length) then

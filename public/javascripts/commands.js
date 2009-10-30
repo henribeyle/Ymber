@@ -210,6 +210,7 @@ function item_add_tag(item,tag,nT,nF) {
     success: suc(nT,nF,function(a) {
       item.add_tag(tag)
       tag.add(item)
+      tag.count++
       item.tag_ui(tag)
       _d.add_undo()
     }),
@@ -226,6 +227,7 @@ function item_remove_tag(item,tag,nT,nF) {
     success: suc(nT,nF,function(a) {
       item.rm(tag)
       tag.rm(item)
+      tag.count--
       item.rm_ui(tag)
       if(tag == _d.main_tag) {
         item_disappear(item)
@@ -246,7 +248,7 @@ function tag_new(value,nT,nF) {
     url: "/tags",
     data: { 'tag[value]': value.replace(/\n/,'') },
     success: suc(nT,nF,function(a) {
-      _d.add_tag(new Tag(a.value,a.extra,a.id))
+      _d.add_tag(new Tag(a.value,a.extra,a.id,a.item_count))
       _d.add_undo()
     }),
     error: te(nF)
