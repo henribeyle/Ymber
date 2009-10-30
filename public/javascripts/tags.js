@@ -25,6 +25,16 @@ function Tag(value,extra,id) {
       cursor: 'move',
       revert: 'invalid'
     })
+
+  $('[title]',self.ui).attr("title", "")
+  var tt=$('<div>').addClass('tooltip').html('# items')
+  self.ui.hover(function(e){
+    $("body").append(tt)
+    tt.css("left", e.pageX - 12 - tt.width()).
+      css("top", e.pageY + 12).
+      fadeIn("medium")
+  }, function(){ tt.remove() })
+
   self.check_textual()
 }
 

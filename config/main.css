@@ -100,6 +100,16 @@ html{
   background-color: gray !important;
 }
 
+.tooltip {
+  position: absolute;
+  z-index: 5000;
+  display: none;
+  padding: 5px;
+  border: 1px solid black;
+  -moz-border-radius: 10px;
+  background-color: white;
+}
+
 /* items */
 
 #items {
