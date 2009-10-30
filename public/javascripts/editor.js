@@ -103,6 +103,7 @@
       var v=clean_text(text,s,e)
       text=v[0],s=v[1],e=v[2]
 
+      var sc=ta.scrollTop()
       var a=func(text,s,e)
       if(a!=null) {
         ta.val(a[0])
@@ -110,6 +111,7 @@
           ta[0].selectionStart=a[1]
           ta[0].selectionEnd=a[2]
         }
+        ta.scrollTop(sc)
       }
     }
 
