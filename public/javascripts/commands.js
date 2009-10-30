@@ -301,49 +301,37 @@ function tag_update(tag,value,nT,nF) {
   })
 }
 
-function tag_filter(tag,nT,nF) {
+function tag_filter(tag) {
   if(tag == _d.main_tag || _d.has_filter(tag)) {
-    is_fun(nF) && nF()
     return
   }
 
   tag.filter_on()
   _d.add_filter(tag)
   _d.update_filter()
-  is_fun(nT) && nT()
 }
 
-function tag_unfilter(tag,nT,nF) {
+function tag_unfilter(tag) {
   if(tag == _d.main_tag || !_d.has_filter(tag)) {
-    is_fun(nF) && nF()
     return
   }
 
   tag.filter_off()
   _d.rm_filter(tag)
   _d.update_filter()
-  is_fun(nT) && nT()
 }
 
-function and_filtering(nT,nF) {
-  if(_d.filter_type) {
-    is_fun(nF) && nF()
-  }
+function and_filtering() {
   _d.filter_type=true
   _d.update_filter()
-  is_fun(nT) && nT()
 }
 
-function or_filtering(nT,nF) {
-  if(!_d.filter_type) {
-    is_fun(nF) && nF()
-  }
+function or_filtering() {
   _d.filter_type=false
   _d.update_filter()
-  is_fun(nT) && nT()
 }
 
-function item_make_visible(item,nT,nF) {
+function item_make_visible(item) {
   var sc=$(document).scrollTop()
   var wheight=$(window).height()
   var height=item.ui.height()
@@ -359,98 +347,77 @@ function item_make_visible(item,nT,nF) {
   }
 }
 
-function item_show(item,nT,nF) {
+function item_show(item) {
   if(_d.item_show)
     _d.item_show.show_mark(false)
   _d.item_show=item
   if(_d.item_show) {
     _d.item_show.show_mark(true)
     item_make_visible(item)
-    is_fun(nT) && nT()
-  } else {
-    is_fun(nF) && nF()
   }
 }
 
-function item_show_next(nT,nF) {
+function item_show_next() {
   var item=_d.next(_d.item_show)
   if(item)
-    item_show(item,nT,nF)
-  else {
-    is_fun(nF) && nF()
-  }
+    item_show(item)
 }
 
-function item_show_prev(nT,nF) {
+function item_show_prev() {
   var item=_d.prev(_d.item_show)
   if(item)
-    item_show(item,nT,nF)
-  else {
-    is_fun(nF) && nF()
-  }
+    item_show(item)
 }
 
-function item_expand(item,nT,nF) {
+function item_expand(item) {
   item.expand()
   item_make_visible(item)
   _d.review_item(item.id)
-  is_fun(nT) && nT()
 }
 
-function item_collapse(item,nT,nF) {
+function item_collapse(item) {
   item.collapse()
-  is_fun(nT) && nT()
 }
 
-function item_toggle_expand(item,nT,nF) {
+function item_toggle_expand(item) {
   item.toggle_expand()
   item_make_visible(item)
   _d.review_item(item.id)
-  is_fun(nT) && nT()
 }
 
-function item_expand_all(nT,nF) {
-  _d.items.each(function(item) { item_expand(item,nT,nF) })
+function item_expand_all() {
+  _d.items.each(function(item) { item_expand(item) })
 }
 
-function item_collapse_all(nT,nF) {
-  _d.items.each(function(item) { item_collapse(item,nT,nF) })
+function item_collapse_all() {
+  _d.items.each(function(item) { item_collapse(item) })
 }
 
-function item_move_selection_down(nT,nF) {
+function item_move_selection_down() {
   if(_d.item_show==null) {
-    is_fun(nF) && nF()
     return
   }
   var item=_d.next(_d.item_show)
   if(item) {
-    item_move_after(_d.item_show,item,nT,nF)
+    item_move_after(_d.item_show,item)
     item_make_visible(_d.item_show)
-  }
-  else {
-    is_fun(nF) && nF()
   }
 }
 
-function item_move_selection_up(nT,nF) {
+function item_move_selection_up() {
   if(_d.item_show==null) {
-    is_fun(nF) && nF()
     return
   }
   var item=_d.prev(_d.item_show)
   if(item) {
-    item_move_before(_d.item_show,item,nT,nF)
+    item_move_before(_d.item_show,item)
     item_make_visible(_d.item_show)
-  }
-  else {
-    is_fun(nF) && nF()
   }
 }
 
-function item_move_before(item1,item2,nT,nF) {
+function item_move_before(item1,item2) {
   //log('want to put '+item1.value+' before '+item2.value)
   if(item1==item2) {
-    is_fun(nF) && nF()
     return
   }
 
@@ -459,13 +426,11 @@ function item_move_before(item1,item2,nT,nF) {
 
   item2.ui.before(item1.ui)
   _d.save_order_cookie()
-  is_fun(nT) && nT()
 }
 
-function item_move_after(item1,item2,nT,nF) {
+function item_move_after(item1,item2) {
   //log('want to put '+item1.value+' after '+item2.value)
   if(item1==item2) {
-    is_fun(nF) && nF()
     return
   }
   _d.rm_item(item1)
@@ -473,7 +438,6 @@ function item_move_after(item1,item2,nT,nF) {
 
   item2.ui.after(item1.ui)
   _d.save_order_cookie()
-  is_fun(nT) && nT()
 }
 
 function item_change_basic_types(item,tag_rm,tag_add,prepend,nT,nF) {
