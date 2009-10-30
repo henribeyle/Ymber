@@ -64,7 +64,7 @@
       opts.commands.each(function(x) {
         if(is_fun(x.accel) && x.accel(e)) {
           if(is_fun(x.close)) close(x.close)
-          if(is_fun(x.func)) process(x.func)
+          if(is_fun(x.func)) process(x.func,x.need_input)
         }
       })
     }
@@ -95,7 +95,7 @@
         opts.close(text,s,e)
     }
 
-    function process(func) {
+    function process(func,need_input) {
       var ta=$('#editor-ui textarea')
       var text=ta.val()
       var s=ta[0].selectionStart
@@ -104,7 +104,7 @@
       text=v[0],s=v[1],e=v[2]
 
       var sc=ta.scrollTop()
-      var a=func(text,s,e)
+      var a=func(text,s,e,need_input ? prompt("Command input") : null)
       if(a!=null) {
         ta.val(a[0])
         if(a.length>2) {
@@ -143,7 +143,7 @@
             addClass('button').
             click(function() {
               if(is_fun(x.close)) close(x.close)
-              if(is_fun(x.func)) process(x.func)
+              if(is_fun(x.func)) process(x.func,x.need_input)
             }))
       }
     })

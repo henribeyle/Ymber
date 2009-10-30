@@ -46,6 +46,7 @@ function cancel_next(which,type) {
   cancel_type=type
 }
 
+function ctrl_e(e) { return e.which==69 && e.ctrlKey }
 function ctrl_9(e) { return e.which==57 && e.ctrlKey }
 function ctrl_0(e) { return e.which==48 && e.ctrlKey }
 function ctrl_j(e) { return e.which==74 && e.ctrlKey }
