@@ -10,6 +10,7 @@ function Data(this_tag, all_tags, all_items) {
   self.review_items=[]
   self.review_tags=[]
   self.review=false
+  self.saving_cookies=false
 
   if(this_tag == undefined) {
     assert_failed('this_tag is not defined')
@@ -193,6 +194,7 @@ Data.prototype.order_from_cookie = function() {
 }
 
 Data.prototype.save_order_cookie = function() {
+  if(!this.saving_cookies) return
   cs(this_tag+'_order',this.items.map(get_id).join(','))
 }
 
@@ -210,6 +212,7 @@ Data.prototype.filters_from_cookie = function() {
 }
 
 Data.prototype.save_filters_cookie = function() {
+  if(!this.saving_cookies) return
   cs(this_tag+'_ftype',this.filter_type?'and':'or')
   if(this.filters.length==0)
     cd(this_tag+'_filters')
@@ -251,6 +254,7 @@ Data.prototype.undo_from_cookie = function() {
 }
 
 Data.prototype.save_undo_cookie = function() {
+  if(!this.saving_cookies) return
   if(this.undo_levels.length==0)
     cd('undo')
   else
@@ -276,6 +280,7 @@ Data.prototype.review_off = function() {
 }
 
 Data.prototype.save_review_cookie = function() {
+  if(!this.saving_cookies) return
   if(this.review)
     css('review',true)
   else
@@ -325,5 +330,17 @@ Data.prototype.review_tag = function(x) {
   if(!this.review) return
   $('.value','#tag-'+x).addClass('review-tag')
   this.review_tags.include(x)
+  this.save_review_cookie()
+}
+
+Data.prototype.cookie_status = function() {
+  this.order_from_cookie()
+  this.filters_from_cookie()
+  this.undo_from_cookie()
+  this.review_from_cookie()
+  this.saving_cookies=true
+  this.save_order_cookie()
+  this.save_filters_cookie()
+  this.save_undo_cookie()
   this.save_review_cookie()
 }
