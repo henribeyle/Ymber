@@ -418,8 +418,6 @@ html{
   -moz-border-radius: 10px;
   color: #editor-front#;
   text-align: center;
-  width: 80%;
-  top: 20%;
 }
 
 #editor-ui-title {
@@ -438,8 +436,8 @@ html{
 }
 
 #editor-ui .button-row {
-   margin-top: 10px;
-   display: block;
+  margin-top: 10px;
+  display: block;
 }
 
 #editor-ui .button {

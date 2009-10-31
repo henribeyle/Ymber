@@ -155,7 +155,19 @@
       append(editor_div).
       appendTo('body')
 
-    editor_div.show().css('left',($(window).width()-editor_div.width())/2)
+    var wwidth=$(window).width()
+    editor_div.show().width(wwidth*0.8)
+    editor_div.css('left',(wwidth-editor_div.width())/2)
+
+    var wheight=$(window).height()
+    var eheight=editor_div.height()
+
+    if(eheight>wheight) {
+      ta.height(wheight-100)
+      editor_div.css('top',0).height(wheight)
+    }else {
+      editor_div.css('top',(wheight-editor_div.height())/2)
+    }
 
     save_input_handler(
       function() {
