@@ -29,13 +29,15 @@ function Tag(value,extra,id,count) {
 
   $('[title]',self.ui).attr("title", "")
   var tt=$('<div>').addClass('tooltip')
+  function remove_tooltip() { tt.remove() }
   self.ui.hover(function(e){
     $("body").append(tt)
     tt.css("left", e.pageX - 12 - tt.width()).
       css("top", e.pageY + 12).
       html(self.count+' items').
       fadeIn("medium")
-  }, function(){ tt.remove() })
+    remove_tooltip.delay(2000)
+  }, remove_tooltip)
 
   self.check_textual()
 }
