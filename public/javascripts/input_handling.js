@@ -117,6 +117,7 @@ function main_key_handler(e) {
     case 'n': add_item_helper() ;  break
     case 'e': is && is.edit() ; break
     case 'o': is && item_toggle_expand(is) ; break
+    case 'dd': is && item_delete(is,p_mess('item deleted')) ; break
 
     case 'a':
       if(is!=null) {
