@@ -104,15 +104,23 @@
       text=v[0],s=v[1],e=v[2]
 
       var sc=ta.scrollTop()
-      var a=func(text,s,e,need_input ? prompt("Command input") : null)
-      if(a!=null) {
-        ta.val(a[0])
-        if(a.length>2) {
-          ta[0].selectionStart=a[1]
-          ta[0].selectionEnd=a[2]
+
+      var call_func = function(input) {
+        var a=func(text,s,e,input)
+        if(a!=null) {
+          ta.val(a[0])
+          if(a.length>2) {
+            ta[0].selectionStart=a[1]
+            ta[0].selectionEnd=a[2]
+          }
+          ta.scrollTop(sc)
         }
-        ta.scrollTop(sc)
       }
+
+      if(need_input) {
+        log('i need input')
+        prompt(function(n) { call_func(n) }, 'Command input', '')
+      } else call_func()
     }
 
     if($('#editor-ui').length != 0) {

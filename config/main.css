@@ -445,6 +445,64 @@ html{
   width: 32px;
 }
 
+/* prompt.js */
+
+.prompt-overlay {
+  background-color: black;
+  -moz-opacity: 0.7;
+  opacity: 0.7;
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height:100%;
+  z-index: 1099;
+}
+
+.prompt-wrapper {
+  position: fixed;
+  z-index: 1100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.prompt-ui {
+  margin: 20% auto 0 auto;
+  width: 600px;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  -moz-border-radius: 20px;
+}
+
+.prompt-title {
+  text-align: right;
+  font-weight: bold;
+  font-size: 18px;
+  float: right;
+  height: 1.5em;
+}
+
+.prompt-button-row {
+  text-align: right;
+  margin-top: 10px;
+  height: 32px;
+}
+
+.prompt-button {
+  float: right;
+  margin-left: 10px;
+  padding: 5px;
+  border: 1px dotted white;
+}
+
+.prompt-ui input[type=text] {
+  width: 99%;
+}
+
 /* calendar */
 
 #calendar-parent {
