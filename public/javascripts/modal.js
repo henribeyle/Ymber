@@ -30,8 +30,7 @@
 
     var modal_div=$('<div>').
       attr('id','modal-ui').
-      append(what).
-      show()
+      append(what)
 
     $('<div>').
       attr('id','modal-ui-wrapper').
@@ -44,7 +43,19 @@
       click(close).
       appendTo('body')
 
-    modal_div.css('left',($(window).width()-modal_div.width())/2)
+    var wwidth=$(window).width()
+    modal_div.show().width(wwidth*0.8)
+    modal_div.css('left',(wwidth-modal_div.width())/2)
+
+    var wheight=$(window).height()
+    var eheight=modal_div.height()
+
+    if(eheight>wheight) {
+      modal_div.css('top',0).height(wheight)
+    }else {
+      modal_div.css('top',(wheight-modal_div.height())/2)
+    }
+
 
     save_input_handler(
       function() { $(document).bind('keyup keypress',keys) },
