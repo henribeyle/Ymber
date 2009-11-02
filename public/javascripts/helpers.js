@@ -302,28 +302,34 @@ var primera=[
   ['gt','go to tag (select one)'],
   ['j','go down one item'],
   ['k','go up one item'],
+  ['Home','go to start of list'],
+  ['End','go to end of list'],
   ['J','move item down'],
   ['K','move item up'],
+  ['shift+Home','move item to start'],
+  ['shift+End','move item to end'],
   ['9','collapse all items'],
   ['0','expand all items'],
-  ['n','new item'],
-  ['e','edit this item'],
-  ['o','open this item'],
-  ['a','add a tag'],
-  ['r','remove a tag'],
+  ['c','open your calendar'],
+  ['h','show this help'],
+  ['uu','undo'],
+  ['ur','redo'],
   ['alt+r','start/stop reviewing']]
 
 var segunda=[
+  ['n','new item'],
+  ['e','edit this item'],
+  ['o','open this item'],
+  ['dd','delete this item'],
+  ['a','add a tag'],
+  ['r','remove a tag'],
   ['tn','new tag'],
   ['te','edit tag'],
-  ['ft','filter'],
+  ['ft','filter (select tag)'],
   ['fr','remove filter'],
   ['fc','clear all filters'],
   ['fo','set filtering method to or'],
   ['fa','set filtering method to and'],
-  ['c','open your calendar'],
-  ['uu','undo'],
-  ['ur','redo'],
   ['ctrl+.','split selection'],
   ['i','move item to inbox'],
   ['y','(yank) move item (or selection) to next'],
@@ -342,6 +348,7 @@ var tercera=[
   ['ctrl+j','justify selection'],
   ['ctrl+9','unindent lines'],
   ['ctrl+0','indent lines'],
+  ['ctrl+e','process expression'],
   ['d@','insert date'],
   ['m@','insert map coordinates']]
 
@@ -357,13 +364,14 @@ function show_help() {
 
   var cont=true
   for(var i=1;i<primera.length || i<segunda.length || i<tercera.length;i++) {
+    function print_if(arr) {
+      if(i<arr.length)
+        text+='<td>'+arr[i][0]+'</td><td>'+arr[i][1]+'</td>'
+    }
     text+='<tr>'
-    if(i<primera.length)
-      text+='<td>'+primera[i][0]+'</td><td>'+primera[i][1]+'</td>'
-    if(i<segunda.length)
-      text+='<td>'+segunda[i][0]+'</td><td>'+segunda[i][1]+'</td>'
-    if(i<tercera.length)
-      text+='<td>'+tercera[i][0]+'</td><td>'+tercera[i][1]+'</td>'
+    print_if(primera)
+    print_if(segunda)
+    print_if(tercera)
     text+='</tr>'
   }
   text+='</table>'
