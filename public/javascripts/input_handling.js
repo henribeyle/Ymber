@@ -54,7 +54,8 @@ function ctrl_l(e) { return e.which==76 && e.ctrlKey }
 function ctrl_y(e) { return e.which==89 && e.ctrlKey }
 function ctrl_dot(e) { return e.which==190 && e.ctrlKey }
 function ctrl_del(e) { return e.which==46 && e.ctrlKey }
-function esc(e) { return e.which==27 }
+function esc(e) { return e.which==27 && !e.ctrlKey }
+function ctrl_esc(e) { return e.which==27 && e.ctrlKey }
 function ctrl_enter(e) { return e.which==13 && e.ctrlKey }
 function enter(e) { return e.which==13 }
 

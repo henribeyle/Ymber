@@ -252,7 +252,7 @@ function add_item_helper() {
     commands: [ {
         img: '/images/cancel.png',
         title: 'cancel',
-        accel: esc,
+        accel: ctrl_esc,
         close: function() {}
       },
       make_into_a_list_command(),
@@ -281,7 +281,7 @@ function add_tag_helper() {
     commands: [ {
         img: '/images/cancel.png',
         title: 'cancel',
-        accel: esc,
+        accel: ctrl_esc,
         close: function() {}
       }, {
         img: '/images/add.png',
@@ -340,7 +340,7 @@ var segunda=[
 var tercera=[
   null,
   ['ctrl+enter','save'],
-  ['escape','cancel'],
+  ['ctrl+escape','cancel'],
   ['ctrl+del','delete'],
   ['ctrl+.','split'],
   ['ctrl+y','split and send to next'],
@@ -348,7 +348,7 @@ var tercera=[
   ['ctrl+j','justify selection'],
   ['ctrl+9','unindent lines'],
   ['ctrl+0','indent lines'],
-  ['ctrl+e','process expression'],
+  ['escape','process expression'],
   ['d@','insert date'],
   ['m@','insert map coordinates']]
 
@@ -472,7 +472,7 @@ function indent_lines_command() {
 
 function search_and_replace_command() {
   return {
-    accel: ctrl_e,
+    accel: esc,
     need_input: true,
     func: function(x,s,e,input) {
       return all_selection_lines(x,s,e,function(sl) {
