@@ -310,6 +310,7 @@ var primera=[
   ['shift+End','move item to end'],
   ['9','collapse all items'],
   ['0','expand all items'],
+  ['R','refresh data'],
   ['c','open your calendar'],
   ['h','show this help'],
   ['uu','undo'],
