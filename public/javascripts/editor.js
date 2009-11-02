@@ -118,7 +118,6 @@
       }
 
       if(need_input) {
-        log('i need input')
         prompt(function(n) { call_func(n) }, 'Command input', '')
       } else call_func()
     }
