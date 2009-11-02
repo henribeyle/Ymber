@@ -21,8 +21,12 @@ function prompt(cb, q, a) {
     appendTo('body')
 
   var input=$('<input type="text">').keypress(function(e) {
+    if(!my_event(e)) return
     if((e.keyCode==10)||(e.keyCode==13)) ok()
-    if(e.keyCode==27) cancel()
+    if(e.keyCode==27) {
+      cancel_next(27,'keyup')
+      cancel()
+    }
   }).val(a)
 
   var ww=$('<div>').
