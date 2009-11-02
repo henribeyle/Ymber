@@ -293,72 +293,81 @@ function add_tag_helper() {
   })
 }
 
+
+var primera=[
+  ['gi','go to in'],
+  ['gn','go to next'],
+  ['gw','go to waiting'],
+  ['gs','go to someday'],
+  ['gt','go to tag (select one)'],
+  ['j','go down one item'],
+  ['k','go up one item'],
+  ['J','move item down'],
+  ['K','move item up'],
+  ['9','collapse all items'],
+  ['0','expand all items'],
+  ['n','new item'],
+  ['e','edit this item'],
+  ['o','open this item'],
+  ['a','add a tag'],
+  ['r','remove a tag'],
+  ['alt+r','start/stop reviewing']]
+
+var segunda=[
+  ['tn','new tag'],
+  ['te','edit tag'],
+  ['ft','filter'],
+  ['fr','remove filter'],
+  ['fc','clear all filters'],
+  ['fo','set filtering method to or'],
+  ['fa','set filtering method to and'],
+  ['c','open your calendar'],
+  ['uu','undo'],
+  ['ur','redo'],
+  ['ctrl+.','split selection'],
+  ['i','move item to inbox'],
+  ['y','(yank) move item (or selection) to next'],
+  ['w','move item to waiting'],
+  ['s','move item to someday'],
+  ['@s','move item to someday with date']]
+
+var tercera=[
+  null,
+  ['ctrl+enter','save'],
+  ['escape','cancel'],
+  ['ctrl+del','delete'],
+  ['ctrl+.','split'],
+  ['ctrl+y','split and send to next'],
+  ['ctrl+l','list/unlist selection lines'],
+  ['ctrl+j','justify selection'],
+  ['ctrl+9','unindent lines'],
+  ['ctrl+0','indent lines'],
+  ['d@','insert date'],
+  ['m@','insert map coordinates']]
+
 function show_help() {
-  $.modal('<div style="font-size: 20px;font-weight: bold;">Keyboard shortcuts</div>'+
-'<table style="border-spacing: 3px; text-align: left;"><tr>'+
-'<td>gi</td><td>go to in</td>'+
-'<td>tn</td><td>new tag</td>'+
-'<td colspan="2"><div style="font-size: 18px;font-weight: bold;">inside editor</div></td>'+
-'</tr><tr>'+
-'<td>gn</td><td>go to next</td>'+
-'<td>te</td><td>edit tag</td>'+
-'<td>ctrl+enter</td><td>save</td>'+
-'</tr><tr>'+
-'<td>gw</td><td>go to waiting</td>'+
-'<td>ft</td><td>filter</td>'+
-'<td>escape</td><td>cancel</td>'+
-'</tr><tr>'+
-'<td>gs</td><td>go to someday</td>'+
-'<td>fr</td><td>remove filter</td>'+
-'<td>ctrl+del</td><td>delete</td>'+
-'</tr><tr>'+
-'<td>gt</td><td>go to tag (select one)</td>'+
-'<td>fc</td><td>clear all filters</td>'+
-'<td>ctrl+.</td><td>split</td>'+
-'</tr><tr>'+
-'<td>j</td><td>go down one item</td>'+
-'<td>fo</td><td>set filtering method to or</td>'+
-'<td>ctrl+y</td><td>split and send to next</td>'+
-'</tr><tr>'+
-'<td>k</td><td>go up one item</td>'+
-'<td>fa</td><td>set filtering method to and</td>'+
-'<td>ctrl+l</td><td>list/unlist selection lines</td>'+
-'</tr><tr>'+
-'<td>J</td><td>move item down</td>'+
-'<td>c</td><td>open your calendar</td>'+
-'<td>ctrl+j</td><td>justify selection</td>'+
-'</tr><tr>'+
-'<td>K</td><td>move item up</td>'+
-'<td>uu</td><td>undo</td>'+
-'<td>ctrl+9</td><td>unindent lines</td>'+
-'</tr><tr>'+
-'<td>9</td><td>collapse all items</td>'+
-'<td>ur</td><td>redo</td>'+
-'<td>ctrl+0</td><td>indent lines</td>'+
-'</tr><tr>'+
-'<td>0</td><td>expand all items</td>'+
-'<td>ctrl+.</td><td>split selection</td>'+
-'<td>d@</td><td>insert date</td>'+
-'</tr><tr>'+
-'<td>n</td><td>new item</td>'+
-'<td>i</td><td>move item to inbox</td>'+
-'<td>m@</td><td>insert map coordinates</td>'+
-'</tr><tr>'+
-'<td>e</td><td>edit this item</td>'+
-'<td>y</td><td>(yank) move item (or selection) to next</td>'+
-'</tr><tr>'+
-'<td>o</td><td>open this item</td>'+
-'<td>w</td><td>move item to waiting</td>'+
-'</tr><tr>'+
-'<td>a</td><td>add a tag</td>'+
-'<td>s</td><td>move item to someday</td>'+
-'</tr><tr>'+
-'<td>r</td><td>remove a tag</td>'+
-'<td>@s</td><td>move item to someday with date</td>'+
-'</tr><tr>'+
-'<td>alt+r</td><td>start/stop reviewing</td>'+
-'</tr></table>'
-)
+  var text='<div style="font-size: 20px;font-weight: bold;">Keyboard shortcuts</div>'
+  text+='<table style="border-spacing: 3px; text-align: left;"><tr>'
+
+  text+='<td>'+primera[0][0]+'</td><td>'+primera[0][1]+'</td>'
+  text+='<td>'+segunda[0][0]+'</td><td>'+segunda[0][1]+'</td>'
+  text+='<td colspan="2">'
+  text+='<div style="font-size: 18px;font-weight: bold;">'
+  text+='inside editor</div></td></tr>'
+
+  var cont=true
+  for(var i=1;i<primera.length || i<segunda.length || i<tercera.length;i++) {
+    text+='<tr>'
+    if(i<primera.length)
+      text+='<td>'+primera[i][0]+'</td><td>'+primera[i][1]+'</td>'
+    if(i<segunda.length)
+      text+='<td>'+segunda[i][0]+'</td><td>'+segunda[i][1]+'</td>'
+    if(i<tercera.length)
+      text+='<td>'+tercera[i][0]+'</td><td>'+tercera[i][1]+'</td>'
+    text+='</tr>'
+  }
+  text+='</table>'
+  $.modal(text)
 }
 
 function tag_compare(x,y) {
