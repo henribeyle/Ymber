@@ -44,7 +44,7 @@ History.prototype.load = function() {
   var o=$.cookie('editor_history')
   if(o) {
     self.elems=o.split('\n')
-    self.pos=self.elems.length-1
+    self.pos=self.elems.length
   }
 }
 
