@@ -12,8 +12,24 @@
     var opts = $.extend(defaults, o || {})
 
     var last_selection=''
+    var command_working=false
 
     var disable_space_if_needed = function(e) { return e.which != 32 }
+
+    var tab_into_spaces = function(e) {
+      if(e.which==9) {
+        if(!command_working) {
+          var ta=$('#editor-ui textarea')[0]
+          var start=ta.selectionStart
+          var end=ta.selectionEnd
+          ta.value=ta.value.substr(0,start)+'  '+ta.value.substr(end)
+          ta.selectionStart=start+2
+          ta.selectionEnd=start+2
+        }
+        return false;
+      }
+      return true
+    }
 
     var input_handler = function(e) {
       //log('[editor]? '+e.which+' type '+e.type)
@@ -181,11 +197,13 @@
         $(document).bind('keyup mouseup',input_handler)
         if(opts.disallow_spaces)
           $(document).bind('keydown',disable_space_if_needed)
+        $(document).bind('keydown',tab_into_spaces)
       },
       function() {
         $(document).unbind('keyup mouseup',input_handler)
         if(opts.disallow_spaces)
           $(document).unbind('keydown',disable_space_if_needed)
+        $(document).unbind('keydown',tab_into_spaces)
       }
     )
 
