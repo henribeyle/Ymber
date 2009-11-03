@@ -1,4 +1,52 @@
-(function($) {
+function History(m) {
+  var self=this
+  self.elems=[]
+  self.pos=-1
+  self.max=m
+}
+
+History.prototype.up = function() {
+  var self=this
+  if(self.pos > 0)
+    self.pos--
+}
+
+History.prototype.down = function() {
+  var self=this
+  if(self.pos < self.elems.length)
+    self.pos++
+}
+
+History.prototype.it = function() {
+  var self=this
+  if(self.pos >=0 && self.pos < self.elems.length)
+    return self.elems[self.pos]
+  return ''
+}
+
+History.prototype.push = function(x) {
+  var self=this
+  self.elems.push(x)
+  self.pos=self.elems.length
+}
+
+History.prototype.save = function() {
+  var self=this
+  if(self.elems.length>self.max)
+    self.elems.splice(0,self.elems.length-self.max)
+  $.cookie('editor_history',self.elems.join('\n'),{expires: 1000})
+}
+
+History.prototype.load = function() {
+  var self=this
+  var o=$.cookie('editor_history')
+  if(o) {
+    self.elems=o.split('\n')
+    self.pos=self.elems.length-1
+  }
+}
+
+;(function($) {
   var defaults={
     rows: 20,
     text: '',
@@ -15,8 +63,7 @@
     var command_working=false
     var last_start=null
     var last_end=null
-    var history=[]
-    var history_pos=-1
+    var history=new History(50)
 
     var keydown_handler = function(e) {
       //log('[editor-keydown]? '+e.which+' type '+e.type)
@@ -38,36 +85,21 @@
         return false;
       }
 
-      if(e.which == 38 && command_working) up_history()
-      if(e.which == 40 && command_working) down_history()
+      if(e.which == 38 && command_working) {
+        history.up()
+        $('#editor-ui-command').val(history.it())
+      }
+
+      if(e.which == 40 && command_working) {
+        history.down()
+        $('#editor-ui-command').val(history.it())
+      }
 
       return true
     }
 
-    var up_history = function() {
-      if(history_pos > 0) {
-        history_pos--
-        $('#editor-ui-command').val(history[history_pos])
-      }
-    }
-
-    var down_history = function() {
-      if(history_pos < history.length-1) {
-        history_pos++
-        $('#editor-ui-command').val(history[history_pos])
-      } else if(history_pos == history.length-1) {
-        history_pos++
-        $('#editor-ui-command').val('')
-      }
-    }
-
-    var add_to_history = function(v) {
-      history.push(v)
-      history_pos=history.length
-    }
-
     var process_command = function(expr) {
-      add_to_history(expr)
+      history.push(expr)
       opts.commands.each(function(x) {
         var m=expr.match(x.regex)
         if(x.regex && m && is_fun(x.rfunc)) {
@@ -203,9 +235,7 @@
 
       $('#editor-ui-overlay,#editor-ui-wrapper').remove()
 
-      if(history.length>50)
-        history.splice(0,history.length-50)
-      cs('editor_history',history.join('\n'))
+      history.save()
 
       if(is_fun(func))
         func(text,s,e)
@@ -299,11 +329,7 @@
       }
     )
 
-    var o=cr('editor_history')
-    if(o) {
-      history=o.split('\n')
-      history_pos=history.length-1
-    }
+    history.load()
 
     ta.focus()
     ta[0].selectionStart=0
