@@ -394,26 +394,13 @@ function tag_compare(x,y) {
 }
 
 function all_selection_lines(x,s,e,f) {
-  var same=false
-  var back=false
-  if(s == e) {
-    same=true
-    if(x.charAt(s)=='\n') {
-      back=true
-      s--
-    } else
-      e++
-  }
+  if(s == e) x.charAt(s)=='\n' ?  s-- : e++
   var pl=prev_lines(x,s,"\n").join('\n')
   if(pl != '') pl=pl+'\n'
   var nl=next_lines(x,e,"\n").join('\n')
   var sl=selection_lines(x,s,e,"\n")
-  var v=f(sl)
-  if(back) s++
-  s=s+v[1]
-  e=e+v[2]
-  if(same) e=s
-  return [pl+v[0].join('\n')+'\n'+nl,s,e]
+  var v=f(sl).join('\n')
+  return [pl+v+'\n'+nl,pl.length,(pl+v).length]
 }
 
 function make_into_a_list_command() {
@@ -421,13 +408,10 @@ function make_into_a_list_command() {
     accel: ctrl_l,
     func: function(x,s,e) {
       return all_selection_lines(x,s,e,function(sl) {
-        var op=1
-        if(sl.all(function(x) { return x.substring(0,3)==' - ' })) {
-          sl=sl.map(function(x) { return x.replace(/^ - /,'') })
-          op=-1
-        } else
-          sl=sl.map(function(x) { return x!='' ? " - "+x : x })
-        return [sl,3*op,3*op*sl.length]
+        function have_prefix(x) { return x.length<3 || x.substring(0,3)==' - ' }
+        function add_prefix(x) { return x!='' ? " - "+x : x }
+        function rm_prefix(x) { return x.replace(/^ - /,'') }
+        return sl.all(have_prefix) ? sl.map(rm_prefix) : sl.map(add_prefix)
       })
     }
   }
@@ -454,8 +438,7 @@ function unindent_lines_command() {
     accel: ctrl_9,
     func: function(x,s,e) {
       return all_selection_lines(x,s,e,function(sl) {
-        return [sl.map(function(x) { return x.replace(/^  ?/,'') }),
-          -2,-2*sl.length]
+        return sl.map(function(x) { return x.replace(/^  ?/,'') })
       })
     }
   }
@@ -466,8 +449,7 @@ function indent_lines_command() {
     accel: ctrl_0,
     func: function(x,s,e) {
       return all_selection_lines(x,s,e,function(sl) {
-        return [sl.map(function(x) { return "  "+x }),
-          2,2*sl.length]
+        return sl.map(function(x) { return "  "+x })
       })
     }
   }
@@ -479,7 +461,7 @@ function search_and_replace_expression_command() {
     rfunc: function(x,s,e,matches) {
       return all_selection_lines(x,s,e,function(sl) {
         var regex=new RegExp(matches[1],matches[3])
-        return [sl.map(function(x) { return x.replace(regex,matches[2]) }),0,0]
+        return sl.map(function(x) { return x.replace(regex,matches[2]) })
       })
     }
   }
@@ -490,7 +472,7 @@ function grep_expression_command() {
     regex: /\/(.*)\/!D/,
     rfunc: function(x,s,e,matches) {
       return all_selection_lines(x,s,e,function(sl) {
-        return [sl.grep(function(x) { return x.match(matches[1]) }),0,0]
+        return sl.grep(function(x) { return x.match(matches[1]) })
       })
     }
   }
@@ -500,7 +482,7 @@ function grep_v_expression_command() {
     regex: /\/(.*)\/D/,
     rfunc: function(x,s,e,matches) {
       return all_selection_lines(x,s,e,function(sl) {
-        return [sl.grep(function(x) { return !x.match(matches[1]) }),0,0]
+        return sl.grep(function(x) { return !x.match(matches[1]) })
       })
     }
   }
