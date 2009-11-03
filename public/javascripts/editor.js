@@ -66,9 +66,30 @@
       history_pos=history.length
     }
 
-    var process_command = function(v) {
-      add_to_history(v)
-      //log("'"+v+"' is going to be processed")
+    var process_command = function(expr) {
+      add_to_history(expr)
+      opts.commands.each(function(x) {
+        var m=expr.match(x.regex)
+        if(x.regex && m && is_fun(x.rfunc)) {
+          var ta=$('#editor-ui textarea')
+          var text=ta.val()
+          var s=ta[0].selectionStart
+          var e=ta[0].selectionEnd
+          var v=clean_text(text,s,e)
+          text=v[0],s=v[1],e=v[2]
+
+          var sc=ta.scrollTop()
+          var a=x.rfunc(text,s,e,m)
+          if(a!=null) {
+            ta.val(a[0])
+            if(a.length>2) {
+              ta[0].selectionStart=a[1]
+              ta[0].selectionEnd=a[2]
+            }
+            ta.scrollTop(sc)
+          }
+        }
+      })
     }
 
     var command_input_handler = function(e) {
