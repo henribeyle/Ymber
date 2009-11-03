@@ -473,7 +473,7 @@ function indent_lines_command() {
   }
 }
 
-function search_and_replace_command() {
+function search_and_replace_expression_command() {
   return {
     regex: /s\/(.*)\/(.*)\/([gi])?/,
     rfunc: function(x,s,e,matches) {
