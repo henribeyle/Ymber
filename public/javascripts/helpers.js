@@ -260,6 +260,8 @@ function add_item_helper() {
       unindent_lines_command(),
       indent_lines_command(),
       search_and_replace_command(),
+      grep_command(),
+      grep_v_command(),
       {
         img: '/images/add.png',
         title: 'add',
@@ -478,6 +480,27 @@ function search_and_replace_command() {
       return all_selection_lines(x,s,e,function(sl) {
         var regex=new RegExp(matches[1],matches[3])
         return [sl.map(function(x) { return x.replace(regex,matches[2]) }),0,0]
+      })
+    }
+  }
+}
+
+function grep_command() {
+  return {
+    regex: /\/(.*)\/!D/,
+    rfunc: function(x,s,e,matches) {
+      return all_selection_lines(x,s,e,function(sl) {
+        return [sl.grep(function(x) { return x.match(matches[1]) }),0,0]
+      })
+    }
+  }
+}
+function grep_v_command() {
+  return {
+    regex: /\/(.*)\/D/,
+    rfunc: function(x,s,e,matches) {
+      return all_selection_lines(x,s,e,function(sl) {
+        return [sl.grep(function(x) { return !x.match(matches[1]) }),0,0]
       })
     }
   }
