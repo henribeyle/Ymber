@@ -203,6 +203,10 @@
 
       $('#editor-ui-overlay,#editor-ui-wrapper').remove()
 
+      if(history.length>50)
+        history.splice(0,history.length-50)
+      cs('editor_history',history.join('\n'))
+
       if(is_fun(func))
         func(text,s,e)
       if(is_fun(opts.close))
@@ -294,6 +298,12 @@
         $(document).unbind('keydown',keydown_handler)
       }
     )
+
+    var o=cr('editor_history')
+    if(o) {
+      history=o.split('\n')
+      history_pos=history.length-1
+    }
 
     ta.focus()
     ta[0].selectionStart=0
