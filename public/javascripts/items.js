@@ -102,9 +102,9 @@ Item.prototype.edit = function() {
       justify_paragraph_command(),
       unindent_lines_command(),
       indent_lines_command(),
-      search_and_replace_command(),
-      grep_command(),
-      grep_v_command(),
+      search_and_replace_expression_command(),
+      grep_expression_command(),
+      grep_v_expression_command(),
       {
         img: '/images/delete.png',
         title: 'delete',

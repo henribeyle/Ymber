@@ -259,9 +259,9 @@ function add_item_helper() {
       justify_paragraph_command(),
       unindent_lines_command(),
       indent_lines_command(),
-      search_and_replace_command(),
-      grep_command(),
-      grep_v_command(),
+      search_and_replace_expression_command(),
+      grep_expression_command(),
+      grep_v_expression_command(),
       {
         img: '/images/add.png',
         title: 'add',
@@ -485,7 +485,7 @@ function search_and_replace_command() {
   }
 }
 
-function grep_command() {
+function grep_expression_command() {
   return {
     regex: /\/(.*)\/!D/,
     rfunc: function(x,s,e,matches) {
@@ -495,7 +495,7 @@ function grep_command() {
     }
   }
 }
-function grep_v_command() {
+function grep_v_expression_command() {
   return {
     regex: /\/(.*)\/D/,
     rfunc: function(x,s,e,matches) {
