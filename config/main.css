@@ -440,6 +440,12 @@ html{
   display: block;
 }
 
+#editor-ui-command {
+  float: left;
+  width: 50%;
+  display: none;
+}
+
 #editor-ui .button {
   float: right;
   width: 32px;

@@ -259,7 +259,6 @@ function add_item_helper() {
       justify_paragraph_command(),
       unindent_lines_command(),
       indent_lines_command(),
-      search_and_replace_command(),
       {
         img: '/images/add.png',
         title: 'add',
@@ -466,22 +465,6 @@ function indent_lines_command() {
       return all_selection_lines(x,s,e,function(sl) {
         return [sl.map(function(x) { return "  "+x }),
           2,2*sl.length]
-      })
-    }
-  }
-}
-
-function search_and_replace_command() {
-  return {
-    accel: esc,
-    need_input: true,
-    func: function(x,s,e,input) {
-      return all_selection_lines(x,s,e,function(sl) {
-        if(!input) return [sl,0,0]
-        var m=input.match(/s\/(.*)\/(.*)\/([gi])?/)
-        if(!m) return [sl,0,0]
-        var regex=new RegExp(m[1],m[3])
-        return [sl.map(function(x) { return x.replace(regex,m[2]) }),0,0]
       })
     }
   }

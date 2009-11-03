@@ -13,6 +13,8 @@
 
     var last_selection=''
     var command_working=false
+    var last_start=null
+    var last_end=null
 
     var disable_space_if_needed = function(e) { return e.which != 32 }
 
@@ -31,10 +33,47 @@
       return true
     }
 
+    var add_to_history = function(v) {
+      //log("'"+v+"' has been added to history")
+    }
+
+    var process_command = function(v) {
+      //log("'"+v+"' is going to be processed")
+      add_to_history(v)
+    }
+
+    var command_input_handler = function(e) {
+      if(e.which==27) {
+        command_working=false
+        $('#editor-ui-command').hide()
+        var ta=$('#editor-ui textarea')
+        ta[0].selectionStart=last_start
+        ta[0].selectionEnd=last_end
+        ta.focus()
+      }
+      if(e.which==13) {
+        command_working=false
+        var c=$('#editor-ui-command')
+        var comm=c.val()
+        c.hide()
+        var ta=$('#editor-ui textarea')
+        ta[0].selectionStart=last_start
+        ta[0].selectionEnd=last_end
+        ta.focus()
+        process_command(comm)
+      }
+      return false
+    }
+
     var input_handler = function(e) {
       //log('[editor]? '+e.which+' type '+e.type)
       if(!my_event(e)) return
       //log('[editor] '+e.which+' type '+e.type)
+
+      if(command_working) {
+        command_input_handler(e)
+        return false
+      }
 
       var ta=$('#editor-ui textarea')[0]
       var start=ta.selectionStart
@@ -74,6 +113,15 @@
             $(ta).focus()
           })
         }
+        return false
+      }
+
+      if(e.which==27 && !e.ctrlKey) {
+        command_working=true
+        $('#editor-ui-command').show().focus()
+        var ta=$('#editor-ui textarea')[0]
+        last_start=ta.selectionStart
+        last_end=ta.selectionEnd
         return false
       }
 
@@ -120,22 +168,15 @@
       text=v[0],s=v[1],e=v[2]
 
       var sc=ta.scrollTop()
-
-      var call_func = function(input) {
-        var a=func(text,s,e,input)
-        if(a!=null) {
-          ta.val(a[0])
-          if(a.length>2) {
-            ta[0].selectionStart=a[1]
-            ta[0].selectionEnd=a[2]
-          }
-          ta.scrollTop(sc)
+      var a=func(text,s,e)
+      if(a!=null) {
+        ta.val(a[0])
+        if(a.length>2) {
+          ta[0].selectionStart=a[1]
+          ta[0].selectionEnd=a[2]
         }
+        ta.scrollTop(sc)
       }
-
-      if(need_input) {
-        prompt(function(n) { call_func(n) }, 'Command input', '')
-      } else call_func()
     }
 
     if($('#editor-ui').length != 0) {
@@ -172,6 +213,7 @@
             }))
       }
     })
+    button_row.append($('<input type="text">').attr('id','editor-ui-command'))
 
     $('<div>').
       attr('id','editor-ui-wrapper').
