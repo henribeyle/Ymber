@@ -26,6 +26,8 @@ History.prototype.it = function() {
 
 History.prototype.push = function(x) {
   var self=this
+  if(self.elems.contains(x))
+    self.elems.erase(x)
   self.elems.push(x)
   self.pos=self.elems.length
 }
