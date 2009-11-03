@@ -15,8 +15,14 @@
     var command_working=false
     var last_start=null
     var last_end=null
+    var history=[]
+    var history_pos=-1
 
     var keydown_handler = function(e) {
+      //log('[editor-keydown]? '+e.which+' type '+e.type)
+      if(!my_event(e)) return
+      //log('[editor-keydown] '+e.which+' type '+e.type)
+
       if(opts.disallow_spaces && e.which==32)
         return false
 
@@ -31,16 +37,38 @@
         }
         return false;
       }
+
+      if(e.which == 38 && command_working) up_history()
+      if(e.which == 40 && command_working) down_history()
+
       return true
     }
 
+    var up_history = function() {
+      if(history_pos > 0) {
+        history_pos--
+        $('#editor-ui-command').val(history[history_pos])
+      }
+    }
+
+    var down_history = function() {
+      if(history_pos < history.length-1) {
+        history_pos++
+        $('#editor-ui-command').val(history[history_pos])
+      } else if(history_pos == history.length-1) {
+        history_pos++
+        $('#editor-ui-command').val('')
+      }
+    }
+
     var add_to_history = function(v) {
-      //log("'"+v+"' has been added to history")
+      history.push(v)
+      history_pos=history.length
     }
 
     var process_command = function(v) {
-      //log("'"+v+"' is going to be processed")
       add_to_history(v)
+      //log("'"+v+"' is going to be processed")
     }
 
     var command_input_handler = function(e) {
@@ -119,7 +147,7 @@
 
       if(e.which==27 && !e.ctrlKey) {
         command_working=true
-        $('#editor-ui-command').show().focus()
+        $('#editor-ui-command').show().focus().select()
         var ta=$('#editor-ui textarea')[0]
         last_start=ta.selectionStart
         last_end=ta.selectionEnd
