@@ -51,6 +51,7 @@ while(i<ARGV.length)
 end
 
 value=args.join(' ')
+value=$stdin.readlines.join('') if(value == '')
 error("no value given on command line") if(value == '')
 
 begin
