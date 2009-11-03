@@ -125,15 +125,28 @@ function formatted(s) {
 
 // text && selection helpers
 
-function translate_position(text,pos,divider) {
+function translate_positions(text,divider) {
   var sep=new RegExp(divider)
   var lines=text.split(sep)
   var sepl=divider.length
-  var sum=0
+  var sum=[0]
   for(var i=1;i<lines.length;i++) {
-    sum+=lines[i-1].length + sepl
-    if(pos < sum) return i-1
+    sum.push(lines[i-1].length + sepl+sum[i-1])
   }
+  return sum
+}
+
+function translate_starting_position(text,pos,divider) {
+  var sum=translate_positions(text,divider)
+  for(var i=1;i<sum.length;i++)
+    if(pos < sum[i]) return i-1
+  return i-1
+}
+
+function translate_final_position(text,pos,divider) {
+  var sum=translate_positions(text,divider)
+  for(var i=1;i<sum.length;i++)
+    if(pos <= sum[i]) return i-1
   return i-1
 }
 
@@ -147,18 +160,18 @@ function lines_interval(lines,ls,le) {
 }
 
 function selection_lines(text,start,end,divider) {
-  var ls=translate_position(text,start,divider)
-  var le=translate_position(text,end,divider)
+  var ls=translate_starting_position(text,start,divider)
+  var le=translate_final_position(text,end,divider)
   return lines_interval(text.split(divider),ls,le)
 }
 
 function prev_lines(text,start,divider) {
-  var ls=translate_position(text,start,divider)
+  var ls=translate_starting_position(text,start,divider)
   return lines_interval(text.split(divider),0,ls-1)
 }
 
 function next_lines(text,end,divider) {
-  var le=translate_position(text,end,divider)
+  var le=translate_final_position(text,end,divider)
   return lines_interval(text.split(divider),le+1,-2)
 }
 
