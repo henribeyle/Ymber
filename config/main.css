@@ -438,6 +438,7 @@ html{
 #editor-ui .button-row {
   margin-top: 10px;
   display: block;
+  height: 32px;
 }
 
 #editor-ui-command {
