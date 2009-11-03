@@ -212,7 +212,7 @@ History.prototype.load = function() {
       opts.commands.each(function(x) {
         if(is_fun(x.accel) && x.accel(e)) {
           if(is_fun(x.close)) close(x.close)
-          if(is_fun(x.func)) process(x.func,x.need_input)
+          if(is_fun(x.func)) process(x.func)
         }
       })
     }
@@ -245,7 +245,7 @@ History.prototype.load = function() {
         opts.close(text,s,e)
     }
 
-    function process(func,need_input) {
+    function process(func) {
       var ta=$('#editor-ui textarea')
       var text=ta.val()
       var s=ta[0].selectionStart
