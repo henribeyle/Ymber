@@ -16,9 +16,10 @@
     var last_start=null
     var last_end=null
 
-    var disable_space_if_needed = function(e) { return e.which != 32 }
+    var keydown_handler = function(e) {
+      if(opts.disallow_spaces && e.which==32)
+        return false
 
-    var tab_into_spaces = function(e) {
       if(e.which==9) {
         if(!command_working) {
           var ta=$('#editor-ui textarea')[0]
@@ -237,15 +238,11 @@
     save_input_handler(
       function() {
         $(document).bind('keyup mouseup',input_handler)
-        if(opts.disallow_spaces)
-          $(document).bind('keydown',disable_space_if_needed)
-        $(document).bind('keydown',tab_into_spaces)
+        $(document).bind('keydown',keydown_handler)
       },
       function() {
         $(document).unbind('keyup mouseup',input_handler)
-        if(opts.disallow_spaces)
-          $(document).unbind('keydown',disable_space_if_needed)
-        $(document).unbind('keydown',tab_into_spaces)
+        $(document).unbind('keydown',keydown_handler)
       }
     )
 
