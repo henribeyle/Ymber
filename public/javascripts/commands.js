@@ -548,21 +548,21 @@ function item_send_to_someday(item,dt,nT,nF) {
   item_change_basic_types(item,tag_remove,tag_someday,'@['+dt+'] ',nT,nF)
 }
 
-function item_split(item,start,end,extra_tags,nT,nF) {
-  if(start==end) {
+function item_split(item,ts,extra_tags,nT,nF) {
+  if(ts.empty()) {
     is_fun(nF) && nF()
     return
   }
 
-  var data=divide(item.value,start,end," - ")
+  var data=divide(ts," - ")
   if(data==null) {
     //$.warning('division produced errors')
     is_fun(nF) && nF()
     return
   }
 
-//   for(var i=0;i<data.length;i++)
-//      log("data ["+i+"]= '"+data[i]+"'")
+  //for(var i=0;i<data.length;i++)
+  //   log("data ["+i+"]= '"+data[i]+"'")
   var tags=item.tags.concat()
   if(extra_tags && extra_tags.length!=0)
     tags=tags.concat(extra_tags)
@@ -570,14 +570,13 @@ function item_split(item,start,end,extra_tags,nT,nF) {
   function process_new_data_items() {
     function process_one_data_item(element) {
       item_new(data[element],tags,function() {
-        item_move_after(_d.items.last(),item, function() {
-          if(element>1)
-            process_one_data_item(element-1)
-          else {
-            _d.join_undos(data.length)
-            is_fun(nT) && nT()
-          }
-        })
+        item_move_after(_d.items.last(),item)
+        if(element>1)
+          process_one_data_item(element-1)
+        else {
+          _d.join_undos(data.length)
+          is_fun(nT) && nT()
+        }
       })
     }
     process_one_data_item(data.length-1)

@@ -189,13 +189,24 @@ TextArea.prototype.apply = function(x) {
   }
 }
 
-function TextSegment(ta) {
+function TextSegment(ta,t,s,e) {
   var self=this
-  ta.clean_text()
-  self.text=ta.value()
-  self.start=ta.start()
-  self.end=ta.end()
-  self.scroll=ta.scroll()
+  self.text=''
+  self.start=0
+  self.end=0
+  self.scroll=0
+
+  if(ta) {
+    ta.clean_text()
+    self.text=ta.value()
+    self.start=ta.start()
+    self.end=ta.end()
+    self.scroll=ta.scroll()
+  } else if(t && s && e) {
+    self.text=t
+    self.start=s
+    self.end=e
+  }
 
   function poss(divider) {
     var sep=new RegExp(divider)
@@ -234,6 +245,11 @@ function TextSegment(ta) {
   self.prev_p=p[0]
   self.sel_p=p[1]
   self.next_p=p[2]
+}
+
+TextSegment.prototype.empty = function() {
+  var self=this
+  return self.start==self.end
 }
 
 TextSegment.prototype.each_line = function(f) {

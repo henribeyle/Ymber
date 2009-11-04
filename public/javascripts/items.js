@@ -75,13 +75,13 @@ Item.prototype.edit = function() {
         close: function(ts) {
           if(ts.text!=self.value)
             item_update(self,ts.text,function() {
-              item_split(self,ts.start,ts.end,[],function() {
+              item_split(self,ts,[],function() {
                 _d.join_undos(2)
                 p_mess('item has been split')()
               })
             })
           else
-            item_split(self,ts.start,ts.end,[],p_mess('item has been split'))
+            item_split(self,ts,[],p_mess('item has been split'))
         }
       }, {
         accel: ctrl_y,
@@ -89,13 +89,13 @@ Item.prototype.edit = function() {
           var mes=p_mess('item has been split (and sent to next)')
           if(ts.text!=self.value)
             item_update(self,ts.text,function() {
-              item_split(self,ts.start,ts.end,[_d.tag_value('next')],function() {
+              item_split(self,ts,[_d.tag_value('next')],function() {
                 _d.join_undos(2)
                 mes()
               })
             })
           else
-            item_split(self,ts.start,ts.end,[_d.tag_value('next')],mes)
+            item_split(self,ts,[_d.tag_value('next')],mes)
         }
       },
       make_into_a_list_command(),

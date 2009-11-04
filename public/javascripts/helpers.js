@@ -305,30 +305,34 @@ function justify(text,max_line_length) {
   return lines.join("\n").replace(/ +$/,'')
 }
 
-function divide(text,s,e,item_prefix) {
-  var lines=selection_lines(text,s,e,"\n")
-
-  var many_elements=true
-  for(var i=0;i<lines.length;i++) {
-    if(lines[i].substr(0,item_prefix.length) != item_prefix) {
-      many_elements=false
-      break
-    }
+function divide(ts,item_prefix) {
+  function have_prefix(x) {
+    return x.length<item_prefix.length ||
+      x.substring(0,item_prefix.length)==item_prefix
   }
+  var many_elements=true
+  ts.each_line(function(x) {
+    if(!have_prefix(x))
+      many_elements=false
+    return x
+  })
 
   if(many_elements) {
-    var n=prev_lines(text,s,"\n").concat(next_lines(text,e,"\n"))
-    var data=[n.join("\n")]
-    for(var i=0;i<lines.length;i++)
-      data.push(lines[i].substr(item_prefix.length))
+    var data=[]
+    data.push(ts.prev_l_text()+ts.next_l_text())
+    ts.each_line(function(x) {
+      data.push(x.substr(item_prefix.length))
+      return x
+    })
     return data
   }
   else {
-    var lines=selection_lines(text,s,e,"\n\n")
-    var n=prev_lines(text,s,"\n\n").concat(next_lines(text,e,"\n\n"))
-    var data=[n.join("\n\n")]
-    for(var i=0;i<lines.length;i++)
-      data.push(lines[i])
+    var data=[]
+    data.push(ts.prev_p_text()+ts.next_p_text())
+    ts.each_paragraph(function(x) {
+      data.push(x)
+      return x
+    })
     return data
   }
 }
