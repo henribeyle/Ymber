@@ -72,30 +72,30 @@ Item.prototype.edit = function() {
         img: '/images/split.png',
         title: 'split',
         accel: ctrl_dot,
-        close: function(x,s,e) {
-          if(x!=self.value)
-            item_update(self,x,function() {
-              item_split(self,s,e,[],function() {
+        close: function(ts) {
+          if(ts.text!=self.value)
+            item_update(self,ts.text,function() {
+              item_split(self,ts.start,ts.end,[],function() {
                 _d.join_undos(2)
                 p_mess('item has been split')()
               })
             })
           else
-            item_split(self,s,e,[],p_mess('item has been split'))
+            item_split(self,ts.start,ts.end,[],p_mess('item has been split'))
         }
       }, {
         accel: ctrl_y,
-        close: function(x,s,e) {
+        close: function(ts) {
           var mes=p_mess('item has been split (and sent to next)')
-          if(x!=self.value)
-            item_update(self,x,function() {
-              item_split(self,s,e,[_d.tag_value('next')],function() {
+          if(ts.text!=self.value)
+            item_update(self,ts.text,function() {
+              item_split(self,ts.start,ts.end,[_d.tag_value('next')],function() {
                 _d.join_undos(2)
                 mes()
               })
             })
           else
-            item_split(self,s,e,[_d.tag_value('next')],mes)
+            item_split(self,ts.start,ts.end,[_d.tag_value('next')],mes)
         }
       },
       make_into_a_list_command(),
@@ -109,7 +109,7 @@ Item.prototype.edit = function() {
         img: '/images/delete.png',
         title: 'delete',
         accel: ctrl_del,
-        close: function(x) { item_delete(self,p_mess('item deleted')) }
+        close: function() { item_delete(self,p_mess('item deleted')) }
       }, {
         img: '/images/cancel.png',
         title: 'cancel',
@@ -119,7 +119,7 @@ Item.prototype.edit = function() {
         img: '/images/ok.png',
         title: 'accept',
         accel:  ctrl_enter,
-        close: function(x) { item_update(self,x,p_mess('item updated')) }
+        close: function(ts) { item_update(self,ts.text,p_mess('item updated')) }
       }
     ]
   })

@@ -64,7 +64,7 @@ TextArea.prototype.scroll = function(x) {
     self.taj.scrollTop(x)
 }
 
-TextArea.prototype.start =function(x) {
+TextArea.prototype.start = function(x) {
   var self=this
   if(x == undefined)
     return self.ta.selectionStart
@@ -72,7 +72,7 @@ TextArea.prototype.start =function(x) {
     self.ta.selectionStart=x
 }
 
-TextArea.prototype.end =function(x) {
+TextArea.prototype.end = function(x) {
   var self=this
   if(x == undefined)
     return self.ta.selectionEnd
@@ -136,11 +136,6 @@ TextArea.prototype.clean_text = function() {
   self.end(end)
 }
 
-TextArea.prototype.focus = function() {
-  var self=this
-  self.taj.focus()
-}
-
 TextArea.prototype.replace = function(x,y) {
   var self=this
   self.ta.value = self.ta.value.replace(x,y)
@@ -161,7 +156,7 @@ TextArea.prototype.restore_position = function() {
   var self=this
   self.start(self.r_start)
   self.end(self.r_end)
-  self.focus()
+  self.taj.focus()
 }
 
 TextArea.prototype.goto_start = function(x) {
@@ -171,7 +166,7 @@ TextArea.prototype.goto_start = function(x) {
     s+=x
   self.start(s)
   self.end(s)
-  self.focus()
+  self.taj.focus()
 }
 
 TextArea.prototype.goto_end = function(x) {
@@ -181,7 +176,135 @@ TextArea.prototype.goto_end = function(x) {
     e+=x
   self.start(e)
   self.end(e)
-  self.focus()
+  self.taj.focus()
+}
+
+TextArea.prototype.apply = function(x) {
+  var self=this
+  if(x) {
+    self.value(x.text)
+    self.start(x.start)
+    self.end(x.end)
+    self.scroll(x.scroll)
+  }
+}
+
+function TextSegment(ta) {
+  var self=this
+  ta.clean_text()
+  self.text=ta.value()
+  self.start=ta.start()
+  self.end=ta.end()
+  self.scroll=ta.scroll()
+
+  function poss(divider) {
+    var sep=new RegExp(divider)
+    var items=self.text.split(sep)
+    var sepl=divider.length
+    var sum=0
+    var nstart=-1
+    var nend=-1
+    for(var i=1;i<items.length;i++) {
+      sum+=items[i-1].length + sepl
+      if(nstart==-1 && self.start < sum)
+        nstart=i-1
+      if(nend==-1 && nstart!=-1 && self.end <= sum)
+        nend=i-1
+    }
+    if(nstart==-1) nstart=i-1
+    if(nend==-1) nend=i-1
+    var prev=[]
+    var sel=[]
+    var next=[]
+    for(var i=0;i<nstart;i++)
+      prev.push(items[i])
+    for(var i=nstart;i<=nend;i++)
+      sel.push(items[i])
+    for(var i=nend+1;i<items.length;i++)
+      next.push(items[i])
+    return [prev,sel,next]
+  }
+
+  var l=poss("\n")
+  self.prev_l=l[0]
+  self.sel_l=l[1]
+  self.next_l=l[2]
+
+  var p=poss("\n\n")
+  self.prev_p=p[0]
+  self.sel_p=p[1]
+  self.next_p=p[2]
+}
+
+TextSegment.prototype.each_line = function(f) {
+  var self=this
+  self.sel_l=self.sel_l.map(f)
+}
+
+TextSegment.prototype.each_paragraph = function(f) {
+  var self=this
+  self.sel_p=self.sel_p.map(f)
+}
+
+TextSegment.prototype.prev_l_text = function() {
+  var self=this
+  var p=self.prev_l.join('\n')
+  if(p!='') p+='\n'
+  return p
+}
+
+TextSegment.prototype.sel_l_text = function() {
+  var self=this
+  return self.sel_l.join('\n')+'\n'
+}
+
+TextSegment.prototype.next_l_text = function() {
+  var self=this
+  return self.next_l.join('\n')
+}
+
+TextSegment.prototype.prev_p_text = function() {
+  var self=this
+  var p=self.prev_p.join('\n\n')
+  if(p!='') p+='\n\n'
+  return p
+}
+
+TextSegment.prototype.sel_p_text = function() {
+  var self=this
+  return self.sel_p.join('\n\n')+'\n\n'
+}
+
+TextSegment.prototype.next_p_text = function() {
+  var self=this
+  return self.next_p.join('\n\n')
+}
+
+
+TextSegment.prototype.reset_from_lines = function() {
+  var self=this
+  var p=self.prev_l_text()
+  var s=self.sel_l_text()
+  var n=self.next_l_text()
+  self.text=p+s+n
+  self.start=p.length
+  self.end=(p+s).length-1
+}
+
+TextSegment.prototype.reset_from_paragraphs = function() {
+  var self=this
+  var p=self.prev_p_text()
+  var s=self.sel_p_text()
+  var n=self.next_p_text()
+  self.text=p+s+n
+  self.start=p.length
+  self.end=(p+s).length-2
+}
+
+TextSegment.prototype.goto = function(x) {
+  var self=this
+  self.start=x
+  self.end=x
 }
 
 ;(function($) {
@@ -189,7 +312,6 @@ TextArea.prototype.goto_end = function(x) {
     rows: 20,
     text: '',
     title: 'none',
-    close: null,
     disallow_spaces: false,
     commands: []
   }
@@ -246,7 +368,8 @@ TextArea.prototype.goto_end = function(x) {
         history.push(comm)
         opts.commands.each(function(x) {
           var m=comm.match(x.regex)
-          if(x.regex && m && is_fun(x.func)) process_func(x.func,m)
+          if(x.regex && m && is_fun(x.func))
+            ta.apply(x.func(new TextSegment(ta),m))
         })
       }
       return false
@@ -309,7 +432,7 @@ TextArea.prototype.goto_end = function(x) {
       opts.commands.each(function(x) {
         if(is_fun(x.accel) && x.accel(e)) {
           if(is_fun(x.close)) close(x.close)
-          if(is_fun(x.func)) process_func(x.func)
+          if(is_fun(x.func)) ta.apply(x.func(new TextSegment(ta)))
         }
       })
     }
@@ -323,33 +446,14 @@ TextArea.prototype.goto_end = function(x) {
       $.map_hide()
       restore_input_handler()
 
-      ta.clean_text()
-      var text=ta.value()
-      var s=ta.start()
-      var e=ta.end()
+      var ts=new TextSegment(ta)
 
       $('#editor-ui-overlay,#editor-ui-wrapper').remove()
 
       history.save()
 
       if(is_fun(func))
-        func(text,s,e)
-      if(is_fun(opts.close))
-        opts.close(text,s,e)
-    }
-
-    function process_func(func,extra) {
-      ta.clean_text()
-      var sc=ta.scroll()
-      var a=func(ta.value(),ta.start(),ta.end(),extra)
-      if(a!=null) {
-        ta.value(a[0])
-        if(a.length>2) {
-          ta.start(a[1])
-          ta.end(a[2])
-        }
-        ta.scroll(sc)
-      }
+        func(ts)
     }
 
     if($('#editor-ui').length != 0) {
@@ -380,7 +484,7 @@ TextArea.prototype.goto_end = function(x) {
             addClass('button').
             click(function() {
               if(is_fun(x.close)) close(x.close)
-              if(is_fun(x.func)) process_func(x.func,x.need_input)
+              if(is_fun(x.func)) ta.apply(x.func(new TextSegment(ta)))
             }))
       }
     })
@@ -422,3 +526,91 @@ TextArea.prototype.goto_end = function(x) {
     ta.restore_position()
   }
 })(jQuery)
+
+function justify_paragraph_command() {
+  return {
+    accel: ctrl_j,
+    func: function(ts) {
+      ts.each_paragraph(function(x) { return justify(x,72) })
+      ts.reset_from_paragraphs()
+      ts.goto((ts.prev_p_text()+ts.sel_p_text()).length)
+      return ts
+    }
+  }
+}
+
+function unindent_lines_command() {
+  return {
+    accel: ctrl_9,
+    func: function(ts) {
+      ts.each_line(function(x) { return x.replace(/^  ?/,'') })
+      ts.reset_from_lines()
+      return ts
+    }
+  }
+}
+
+function make_into_a_list_command() {
+  return {
+    accel: ctrl_l,
+    func: function(ts) {
+      function have_prefix(x) { return x.length<3 || x.substring(0,3)==' - ' }
+      function add_prefix(x) { return x!='' ? " - "+x : x }
+      function rm_prefix(x) { return x.replace(/^ - /,'') }
+      var all_have=true
+      ts.each_line(function(x) {
+        if(!have_prefix(x))
+          all_have=false
+        return x
+      })
+      ts.each_line(all_have ? rm_prefix : add_prefix )
+      ts.reset_from_lines()
+      return ts
+    }
+  }
+}
+
+function indent_lines_command() {
+  return {
+    accel: ctrl_0,
+    func: function(ts) {
+      ts.each_line(function(x) { return "  "+x })
+      ts.reset_from_lines()
+      return ts
+    }
+  }
+}
+
+function search_and_replace_expression_command() {
+  return {
+    regex: /^\s*s\/(.*)\/(.*)\/([gi])?\s*$/,
+    func: function(ts,matches) {
+      var regex=new RegExp(matches[1],matches[3])
+      ts.each_line(function(x) { return x.replace(regex,matches[2]) })
+      ts.reset_from_lines()
+      return ts
+    }
+  }
+}
+
+function grep_expression_command() {
+  return {
+    regex: /^\s*\/(.*)\/!D\s*$/,
+    func: function(ts,matches) {
+      ts.each_line(function(x) { return x.match(matches[1]) ? x : null })
+      ts.reset_from_lines()
+      return ts
+    }
+  }
+}
+
+function grep_v_expression_command() {
+  return {
+    regex: /^\s*\/(.*)\/D\s*$/,
+    func: function(ts,matches) {
+      ts.each_line(function(x) { return !x.match(matches[1]) ? x : null })
+      ts.reset_from_lines()
+      return ts
+    }
+  }
+}

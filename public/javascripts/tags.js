@@ -82,7 +82,7 @@ Tag.prototype.edit = function() {
         img: './images/delete.png',
         title: 'delete',
         accel: ctrl_del,
-        close: function(x) { tag_delete(self,p_mess('tag deleted')) }
+        close: function() { tag_delete(self,p_mess('tag deleted')) }
       }, {
         img: './images/cancel.png',
         title: 'cancel',
@@ -92,7 +92,7 @@ Tag.prototype.edit = function() {
         img: './images/ok.png',
         title: 'accept',
         accel:  enter,
-        close: function(x) { tag_update(self,x,p_mess('tag updated')) }
+        close: function(ts) { tag_update(self,ts.text,p_mess('tag updated')) }
       }
     ]
   })

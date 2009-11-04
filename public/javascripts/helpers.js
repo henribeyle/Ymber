@@ -123,104 +123,6 @@ function formatted(s) {
     replace(/<\/li><br\/>/g,'</li>')
 }
 
-// text && selection helpers
-
-function translate_positions(text,divider) {
-  var sep=new RegExp(divider)
-  var lines=text.split(sep)
-  var sepl=divider.length
-  var sum=[0]
-  for(var i=1;i<lines.length;i++) {
-    sum.push(lines[i-1].length + sepl+sum[i-1])
-  }
-  return sum
-}
-
-function translate_starting_position(text,pos,divider) {
-  var sum=translate_positions(text,divider)
-  for(var i=1;i<sum.length;i++)
-    if(pos < sum[i]) return i-1
-  return i-1
-}
-
-function translate_final_position(text,pos,divider) {
-  var sum=translate_positions(text,divider)
-  for(var i=1;i<sum.length;i++)
-    if(pos <= sum[i]) return i-1
-  return i-1
-}
-
-function lines_interval(lines,ls,le) {
-  var ext=[]
-  if(ls==-1) ls=0
-  if(le==-2) le=lines.length-1
-  for(var i=ls;i<=le;i++)
-    ext.push(lines[i])
-  return ext
-}
-
-function selection_lines(text,start,end,divider) {
-  var ls=translate_starting_position(text,start,divider)
-  var le=translate_final_position(text,end,divider)
-  return lines_interval(text.split(divider),ls,le)
-}
-
-function prev_lines(text,start,divider) {
-  var ls=translate_starting_position(text,start,divider)
-  return lines_interval(text.split(divider),0,ls-1)
-}
-
-function next_lines(text,end,divider) {
-  var le=translate_final_position(text,end,divider)
-  return lines_interval(text.split(divider),le+1,-2)
-}
-
-function divide(text,s,e,item_prefix) {
-  var lines=selection_lines(text,s,e,"\n")
-
-  var many_elements=true
-  for(var i=0;i<lines.length;i++) {
-    if(lines[i].substr(0,item_prefix.length) != item_prefix) {
-      many_elements=false
-      break
-    }
-  }
-
-  if(many_elements) {
-    var n=prev_lines(text,s,"\n").concat(next_lines(text,e,"\n"))
-    var data=[n.join("\n")]
-    for(var i=0;i<lines.length;i++)
-      data.push(lines[i].substr(item_prefix.length))
-    return data
-  }
-  else {
-    var lines=selection_lines(text,s,e,"\n\n")
-    var n=prev_lines(text,s,"\n\n").concat(next_lines(text,e,"\n\n"))
-    var data=[n.join("\n\n")]
-    for(var i=0;i<lines.length;i++)
-      data.push(lines[i])
-    return data
-  }
-}
-
-function justify(text,max_line_length) {
-  var lines=[]
-  var w=text.split(/\s+/)
-  var current_line=w[0]
-  for(var i=1;i<w.length;i++) {
-    if(current_line.length + 1 + w[i].length > max_line_length) {
-      lines.push(current_line)
-      current_line=w[i]
-    } else {
-      current_line+=" "+w[i]
-    }
-  }
-  lines.push(current_line)
-  return lines.join("\n").replace(/ +$/,'')
-}
-
-// text && selection helpers end
-
 function today() {
   var t=new Date()
   var d=t.getDate()
@@ -261,8 +163,8 @@ function add_item_helper() {
         img: '/images/add.png',
         title: 'add',
         accel:  ctrl_enter,
-        close: function(x) {
-          item_new(x,[_d.main_tag],p_mess('new item'))
+        close: function(ts) {
+          item_new(ts.text,[_d.main_tag],p_mess('new item'))
         }
       }
     ]
@@ -284,12 +186,11 @@ function add_tag_helper() {
         img: '/images/add.png',
         title: 'add',
         accel:  enter,
-        close: function(x) { tag_new(x,p_mess('new tag')) }
+        close: function(ts) { tag_new(ts.text,p_mess('new tag')) }
       }
     ]
   })
 }
-
 
 var primera=[
   ['gi','go to in'],
@@ -388,97 +289,46 @@ function tag_compare(x,y) {
   return type
 }
 
-function all_selection_lines(x,s,e,f) {
-  if(s == e) x.charAt(s)=='\n' ?  s-- : e++
-  var pl=prev_lines(x,s,"\n").join('\n')
-  if(pl != '') pl=pl+'\n'
-  var nl=next_lines(x,e,"\n").join('\n')
-  var sl=selection_lines(x,s,e,"\n")
-  var v=f(sl).join('\n')
-  return [pl+v+'\n'+nl,pl.length,(pl+v).length]
-}
-
-function make_into_a_list_command() {
-  return {
-    accel: ctrl_l,
-    func: function(x,s,e) {
-      return all_selection_lines(x,s,e,function(sl) {
-        function have_prefix(x) { return x.length<3 || x.substring(0,3)==' - ' }
-        function add_prefix(x) { return x!='' ? " - "+x : x }
-        function rm_prefix(x) { return x.replace(/^ - /,'') }
-        return sl.all(have_prefix) ? sl.map(rm_prefix) : sl.map(add_prefix)
-      })
+function justify(text,max_line_length) {
+  var lines=[]
+  var w=text.split(/\s+/)
+  var current_line=w[0]
+  for(var i=1;i<w.length;i++) {
+    if(current_line.length + 1 + w[i].length > max_line_length) {
+      lines.push(current_line)
+      current_line=w[i]
+    } else {
+      current_line+=" "+w[i]
     }
   }
+  lines.push(current_line)
+  return lines.join("\n").replace(/ +$/,'')
 }
 
-function justify_paragraph_command() {
-  return {
-    accel: ctrl_j,
-    func: function(x,s,e) {
-      if(s == e) e=s+1
-      var pl=prev_lines(x,s,"\n\n").join('\n\n')
-      if(pl != '') pl=pl+'\n\n'
-      var nl=next_lines(x,e,"\n\n").join('\n\n')
-      var sl=selection_lines(x,s,e,"\n\n").
-        map(function(x) { return justify(x,72) }).join('\n\n')+'\n\n'
-      var np=(pl+sl).length
-      return [pl+sl+nl,np,np] // go to start of next paragraph
-    }
-  }
-}
+function divide(text,s,e,item_prefix) {
+  var lines=selection_lines(text,s,e,"\n")
 
-function unindent_lines_command() {
-  return {
-    accel: ctrl_9,
-    func: function(x,s,e) {
-      return all_selection_lines(x,s,e,function(sl) {
-        return sl.map(function(x) { return x.replace(/^  ?/,'') })
-      })
+  var many_elements=true
+  for(var i=0;i<lines.length;i++) {
+    if(lines[i].substr(0,item_prefix.length) != item_prefix) {
+      many_elements=false
+      break
     }
   }
-}
 
-function indent_lines_command() {
-  return {
-    accel: ctrl_0,
-    func: function(x,s,e) {
-      return all_selection_lines(x,s,e,function(sl) {
-        return sl.map(function(x) { return "  "+x })
-      })
-    }
+  if(many_elements) {
+    var n=prev_lines(text,s,"\n").concat(next_lines(text,e,"\n"))
+    var data=[n.join("\n")]
+    for(var i=0;i<lines.length;i++)
+      data.push(lines[i].substr(item_prefix.length))
+    return data
   }
-}
-
-function search_and_replace_expression_command() {
-  return {
-    regex: /s\/(.*)\/(.*)\/([gi])?/,
-    func: function(x,s,e,matches) {
-      return all_selection_lines(x,s,e,function(sl) {
-        var regex=new RegExp(matches[1],matches[3])
-        return sl.map(function(x) { return x.replace(regex,matches[2]) })
-      })
-    }
-  }
-}
-
-function grep_expression_command() {
-  return {
-    regex: /\/(.*)\/!D/,
-    func: function(x,s,e,matches) {
-      return all_selection_lines(x,s,e,function(sl) {
-        return sl.grep(function(x) { return x.match(matches[1]) })
-      })
-    }
-  }
-}
-function grep_v_expression_command() {
-  return {
-    regex: /\/(.*)\/D/,
-    func: function(x,s,e,matches) {
-      return all_selection_lines(x,s,e,function(sl) {
-        return sl.grep(function(x) { return !x.match(matches[1]) })
-      })
-    }
+  else {
+    var lines=selection_lines(text,s,e,"\n\n")
+    var n=prev_lines(text,s,"\n\n").concat(next_lines(text,e,"\n\n"))
+    var data=[n.join("\n\n")]
+    for(var i=0;i<lines.length;i++)
+      data.push(lines[i])
+    return data
   }
 }
