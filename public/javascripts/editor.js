@@ -52,6 +52,8 @@ function TextArea(id) {
   var self=this
   self.taj=$(id)
   self.ta=self.taj[0]
+  self.r_start=0
+  self.r_end=0
 }
 
 TextArea.prototype.scroll = function(x) {
@@ -149,6 +151,39 @@ TextArea.prototype.readjust_height = function(h) {
   self.taj.height(h)
 }
 
+TextArea.prototype.remember_position = function() {
+  var self=this
+  self.r_start=self.start()
+  self.r_end=self.end()
+}
+
+TextArea.prototype.restore_position = function() {
+  var self=this
+  self.start(self.r_start)
+  self.end(self.r_end)
+  self.focus()
+}
+
+TextArea.prototype.goto_start = function(x) {
+  var self=this
+  var s=self.r_start
+  if(x != undefined)
+    s+=x
+  self.start(s)
+  self.end(s)
+  self.focus()
+}
+
+TextArea.prototype.goto_end = function(x) {
+  var self=this
+  var e=self.r_end
+  if(x != undefined)
+    e+=x
+  self.start(e)
+  self.end(e)
+  self.focus()
+}
+
 ;(function($) {
   var defaults={
     rows: 20,
@@ -164,8 +199,6 @@ TextArea.prototype.readjust_height = function(h) {
 
     var command_working=false
     var last_selection=''
-    var last_start=null
-    var last_end=null
     var history=new History(50)
 
     var keydown_handler = function(e) {
@@ -178,10 +211,9 @@ TextArea.prototype.readjust_height = function(h) {
 
       if(e.which==9) {
         if(!command_working) {
-          var s=ta.start()
+          ta.remember_position()
           ta.value(ta.prev()+'  '+ta.next())
-          ta.start(s+2)
-          ta.end(s+2)
+          ta.goto_start(2)
         }
         return false;
       }
@@ -199,43 +231,23 @@ TextArea.prototype.readjust_height = function(h) {
       return true
     }
 
-    var process_command = function(expr) {
-      history.push(expr)
-      opts.commands.each(function(x) {
-        var m=expr.match(x.regex)
-        if(x.regex && m && is_fun(x.rfunc)) {
-          ta.clean_text()
-          var a=x.rfunc(ta.value(),ta.start(),ta.end(),m)
-          var sc=ta.scroll()
-          if(a!=null) {
-            ta.value(a[0])
-            if(a.length>2) {
-              ta.start(a[1])
-              ta.end(a[2])
-            }
-            ta.scroll(sc)
-          }
-        }
-      })
-    }
-
     var command_input_handler = function(e) {
       if(e.which==27) {
         command_working=false
         $('#editor-ui-command').hide()
-        ta.start(last_start)
-        ta.end(last_end)
-        ta.focus()
+        ta.restore_position()
       }
       if(e.which==13) {
         command_working=false
         var c=$('#editor-ui-command')
         var comm=c.val()
         c.hide()
-        ta.start(last_start)
-        ta.end(last_end)
-        ta.focus()
-        process_command(comm)
+        ta.restore_position()
+        history.push(comm)
+        opts.commands.each(function(x) {
+          var m=comm.match(x.regex)
+          if(x.regex && m && is_fun(x.rfunc)) process_func(x.rfunc,m)
+        })
       }
       return false
     }
@@ -251,24 +263,19 @@ TextArea.prototype.readjust_height = function(h) {
       }
 
       var sel=ta.selection()
+      ta.remember_position()
       if(sel!='' && sel!=last_selection) {
         if($.is_date(sel)) {
           $.select_date(sel,function(x) {
-            var e=ta.end()
             ta.value(ta.prev()+x+ta.next())
-            ta.start(e)
-            ta.end(e)
-            ta.focus()
+            ta.goto_end()
           })
         }
         if($.is_map(sel)) {
           $.map_show(sel,function(lat,lng) {
             if(!lat) return
-            var e=ta.end()
             ta.value(ta.prev()+'{'+lat+','+lng+'}'+ta.next())
-            ta.start(e)
-            ta.end(e)
-            ta.focus()
+            ta.goto_end()
           })
         }
         last_selection=sel
@@ -277,23 +284,17 @@ TextArea.prototype.readjust_height = function(h) {
 
       if(e.which==50 && ta.just_written('d@')) {
         $.select_date(null,function(x) {
-          var s=ta.start()
           ta.replace('d@', x)
-          ta.start(s+x.length-2)
-          ta.end(s+x.length-2)
-          ta.focus()
+          ta.goto_start(x.length-2)
         })
         return false
       }
       if(e.which==50 && ta.just_written('m@')) {
         $.map_show(null,function(lat,lng) {
           if(!lat) return
-          var s=ta.start()
           var r='{'+lat+','+lng+'}'
           ta.replace('m@', r);
-          ta.start(s+r.length-2)
-          ta.end(s+r.length-2)
-          ta.focus()
+          ta.goto_start(r.length-2)
         })
         return false
       }
@@ -301,15 +302,14 @@ TextArea.prototype.readjust_height = function(h) {
       if(e.which==27 && !e.ctrlKey) {
         command_working=true
         $('#editor-ui-command').show().focus().select()
-        last_start=ta.start()
-        last_end=ta.end()
+        ta.remember_position()
         return false
       }
 
       opts.commands.each(function(x) {
         if(is_fun(x.accel) && x.accel(e)) {
           if(is_fun(x.close)) close(x.close)
-          if(is_fun(x.func)) process(x.func)
+          if(is_fun(x.func)) process_func(x.func)
         }
       })
     }
@@ -338,14 +338,10 @@ TextArea.prototype.readjust_height = function(h) {
         opts.close(text,s,e)
     }
 
-    function process(func) {
+    function process_func(func,extra) {
       ta.clean_text()
-      var text=ta.value()
-      var s=ta.start()
-      var e=ta.end()
-
       var sc=ta.scroll()
-      var a=func(text,s,e)
+      var a=func(ta.value(),ta.start(),ta.end(),extra)
       if(a!=null) {
         ta.value(a[0])
         if(a.length>2) {
@@ -384,7 +380,7 @@ TextArea.prototype.readjust_height = function(h) {
             addClass('button').
             click(function() {
               if(is_fun(x.close)) close(x.close)
-              if(is_fun(x.func)) process(x.func,x.need_input)
+              if(is_fun(x.func)) process_func(x.func,x.need_input)
             }))
       }
     })
@@ -423,8 +419,6 @@ TextArea.prototype.readjust_height = function(h) {
 
     history.load()
 
-    ta.start(0)
-    ta.end(0)
-    ta.focus()
+    ta.restore_position()
   }
 })(jQuery)
