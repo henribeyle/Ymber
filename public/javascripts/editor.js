@@ -48,6 +48,107 @@ History.prototype.load = function() {
   }
 }
 
+function TextArea(id) {
+  var self=this
+  self.taj=$(id)
+  self.ta=self.taj[0]
+}
+
+TextArea.prototype.scroll = function(x) {
+  var self=this
+  if(x == undefined)
+    return self.taj.scrollTop()
+  else
+    self.taj.scrollTop(x)
+}
+
+TextArea.prototype.start =function(x) {
+  var self=this
+  if(x == undefined)
+    return self.ta.selectionStart
+  else
+    self.ta.selectionStart=x
+}
+
+TextArea.prototype.end =function(x) {
+  var self=this
+  if(x == undefined)
+    return self.ta.selectionEnd
+  else
+    self.ta.selectionEnd=x
+}
+
+TextArea.prototype.prev = function() {
+  var self=this
+  return self.ta.value.substr(0,self.start())
+}
+
+TextArea.prototype.selection = function() {
+  var self=this
+  return self.ta.value.substring(self.start(),self.end())
+}
+
+TextArea.prototype.next = function() {
+  var self=this
+  return self.ta.value.substr(self.end())
+}
+
+TextArea.prototype.value = function(x) {
+  var self=this
+  if(x == undefined)
+    return self.ta.value
+  else
+    self.ta.value=x
+}
+
+TextArea.prototype.just_written = function(x) {
+  var self=this
+  var start=self.start()
+  if(start < x.length) return false
+  var t=self.value().substring(start-x.length,start)
+  return t == x
+}
+
+TextArea.prototype.clean_text = function() {
+  var self=this
+  var text=self.value()
+  var start=self.start()
+  var end=self.end()
+  var i,changed
+  for(changed=true;changed;) {
+    for(changed=false;;changed=true) {
+      i=text.indexOf(" \n",i)
+      if(i==-1) break
+      text=text.slice(0,i)+text.slice(i+1)
+      if(i<=start) start--
+      if(i<=end) end--
+    }
+  }
+  while(text[text.length-1]=='\n') {
+    text=text.slice(0,text.length-1)
+  }
+  if(end>text.length) end=text.length
+
+  self.value(text)
+  self.start(start)
+  self.end(end)
+}
+
+TextArea.prototype.focus = function() {
+  var self=this
+  self.taj.focus()
+}
+
+TextArea.prototype.replace = function(x,y) {
+  var self=this
+  self.ta.value = self.ta.value.replace(x,y)
+}
+
+TextArea.prototype.readjust_height = function(h) {
+  var self=this
+  self.taj.height(h)
+}
+
 ;(function($) {
   var defaults={
     rows: 20,
@@ -61,8 +162,8 @@ History.prototype.load = function() {
   $.editor = function(o) {
     var opts = $.extend(defaults, o || {})
 
-    var last_selection=''
     var command_working=false
+    var last_selection=''
     var last_start=null
     var last_end=null
     var history=new History(50)
@@ -77,12 +178,10 @@ History.prototype.load = function() {
 
       if(e.which==9) {
         if(!command_working) {
-          var ta=$('#editor-ui textarea')[0]
-          var start=ta.selectionStart
-          var end=ta.selectionEnd
-          ta.value=ta.value.substr(0,start)+'  '+ta.value.substr(end)
-          ta.selectionStart=start+2
-          ta.selectionEnd=start+2
+          var s=ta.start()
+          ta.value(ta.prev()+'  '+ta.next())
+          ta.start(s+2)
+          ta.end(s+2)
         }
         return false;
       }
@@ -105,22 +204,16 @@ History.prototype.load = function() {
       opts.commands.each(function(x) {
         var m=expr.match(x.regex)
         if(x.regex && m && is_fun(x.rfunc)) {
-          var ta=$('#editor-ui textarea')
-          var text=ta.val()
-          var s=ta[0].selectionStart
-          var e=ta[0].selectionEnd
-          var v=clean_text(text,s,e)
-          text=v[0],s=v[1],e=v[2]
-
-          var sc=ta.scrollTop()
-          var a=x.rfunc(text,s,e,m)
+          ta.clean_text()
+          var a=x.rfunc(ta.value(),ta.start(),ta.end(),m)
+          var sc=ta.scroll()
           if(a!=null) {
-            ta.val(a[0])
+            ta.value(a[0])
             if(a.length>2) {
-              ta[0].selectionStart=a[1]
-              ta[0].selectionEnd=a[2]
+              ta.start(a[1])
+              ta.end(a[2])
             }
-            ta.scrollTop(sc)
+            ta.scroll(sc)
           }
         }
       })
@@ -130,9 +223,8 @@ History.prototype.load = function() {
       if(e.which==27) {
         command_working=false
         $('#editor-ui-command').hide()
-        var ta=$('#editor-ui textarea')
-        ta[0].selectionStart=last_start
-        ta[0].selectionEnd=last_end
+        ta.start(last_start)
+        ta.end(last_end)
         ta.focus()
       }
       if(e.which==13) {
@@ -140,9 +232,8 @@ History.prototype.load = function() {
         var c=$('#editor-ui-command')
         var comm=c.val()
         c.hide()
-        var ta=$('#editor-ui textarea')
-        ta[0].selectionStart=last_start
-        ta[0].selectionEnd=last_end
+        ta.start(last_start)
+        ta.end(last_end)
         ta.focus()
         process_command(comm)
       }
@@ -159,53 +250,59 @@ History.prototype.load = function() {
         return false
       }
 
-      var ta=$('#editor-ui textarea')[0]
-      var start=ta.selectionStart
-      var end=ta.selectionEnd
-      var sel=ta.value.substring(start,end)
-      var prev=ta.value.substr(0,start)
-      var next=ta.value.substr(end)
+      var sel=ta.selection()
       if(sel!='' && sel!=last_selection) {
         if($.is_date(sel)) {
           $.select_date(sel,function(x) {
-            $(ta).val(prev+x+next).focus()
-            ta.setSelectionRange(end, end)
+            var e=ta.end()
+            ta.value(ta.prev()+x+ta.next())
+            ta.start(e)
+            ta.end(e)
+            ta.focus()
           })
         }
         if($.is_map(sel)) {
-          $.map_show(sel,function(t,g) {
-            if(!t) return
-            $(ta).val(prev+'{'+t+','+g+'}'+next).focus()
-            ta.setSelectionRange(end, end)
+          $.map_show(sel,function(lat,lng) {
+            if(!lat) return
+            var e=ta.end()
+            ta.value(ta.prev()+'{'+lat+','+lng+'}'+ta.next())
+            ta.start(e)
+            ta.end(e)
+            ta.focus()
           })
         }
         last_selection=sel
         return false
       }
 
-      if(e.which==50 && start>=2 ) {
-        if(ta.value.charAt(start-2)=='d') {
-          $.select_date(null,function(x) {
-            ta.value = ta.value.replace('d@', x)
-            $(ta).focus()
-          })
-        }
-        if(ta.value.charAt(start-2)=='m') {
-          $.map_show(null,function(lat,lng) {
-            if(!lat) return
-            ta.value = ta.value.replace('m@', '{'+lat+','+lng+'}');
-            $(ta).focus()
-          })
-        }
+      if(e.which==50 && ta.just_written('d@')) {
+        $.select_date(null,function(x) {
+          var s=ta.start()
+          ta.replace('d@', x)
+          ta.start(s+x.length-2)
+          ta.end(s+x.length-2)
+          ta.focus()
+        })
+        return false
+      }
+      if(e.which==50 && ta.just_written('m@')) {
+        $.map_show(null,function(lat,lng) {
+          if(!lat) return
+          var s=ta.start()
+          var r='{'+lat+','+lng+'}'
+          ta.replace('m@', r);
+          ta.start(s+r.length-2)
+          ta.end(s+r.length-2)
+          ta.focus()
+        })
         return false
       }
 
       if(e.which==27 && !e.ctrlKey) {
         command_working=true
         $('#editor-ui-command').show().focus().select()
-        var ta=$('#editor-ui textarea')[0]
-        last_start=ta.selectionStart
-        last_end=ta.selectionEnd
+        last_start=ta.start()
+        last_end=ta.end()
         return false
       }
 
@@ -226,14 +323,10 @@ History.prototype.load = function() {
       $.map_hide()
       restore_input_handler()
 
-      var ta=$('#editor-ui textarea')
-      var text=ta.val()
-      var s=ta[0].selectionStart
-      var e=ta[0].selectionEnd
-      var v=clean_text(text,s,e)
-      text=v[0]
-      s=v[1]
-      e=v[2]
+      ta.clean_text()
+      var text=ta.value()
+      var s=ta.start()
+      var e=ta.end()
 
       $('#editor-ui-overlay,#editor-ui-wrapper').remove()
 
@@ -246,22 +339,20 @@ History.prototype.load = function() {
     }
 
     function process(func) {
-      var ta=$('#editor-ui textarea')
-      var text=ta.val()
-      var s=ta[0].selectionStart
-      var e=ta[0].selectionEnd
-      var v=clean_text(text,s,e)
-      text=v[0],s=v[1],e=v[2]
+      ta.clean_text()
+      var text=ta.value()
+      var s=ta.start()
+      var e=ta.end()
 
-      var sc=ta.scrollTop()
+      var sc=ta.scroll()
       var a=func(text,s,e)
       if(a!=null) {
-        ta.val(a[0])
+        ta.value(a[0])
         if(a.length>2) {
-          ta[0].selectionStart=a[1]
-          ta[0].selectionEnd=a[2]
+          ta.start(a[1])
+          ta.end(a[2])
         }
-        ta.scrollTop(sc)
+        ta.scroll(sc)
       }
     }
 
@@ -276,14 +367,12 @@ History.prototype.load = function() {
       click(close).
       appendTo('body')
 
-    var ta=$('<textarea spellcheck="false">').
-        attr('rows',opts.rows).
-        val(opts.text)
-
     var editor_div=$('<div>').
       attr('id','editor-ui').
       append($('<div>').attr('id','editor-ui-title').html(opts.title)).
-      append(ta)
+      append($('<textarea spellcheck="false">').
+        attr('rows',opts.rows).
+        val(opts.text))
 
     var button_row=$('<div>').addClass('button-row').appendTo(editor_div)
 
@@ -309,12 +398,13 @@ History.prototype.load = function() {
     var wwidth=$(window).width()
     editor_div.show().width(wwidth*0.8)
     editor_div.css('left',(wwidth-editor_div.width())/2)
+    var ta=new TextArea('#editor-ui textarea')
 
     var wheight=$(window).height()
     var eheight=editor_div.height()
 
     if(eheight>wheight) {
-      ta.height(wheight-100)
+      ta.readjust_height(wheight-100)
       editor_div.css('top',0).height(wheight)
     }else {
       editor_div.css('top',(wheight-editor_div.height())/2)
@@ -333,8 +423,8 @@ History.prototype.load = function() {
 
     history.load()
 
+    ta.start(0)
+    ta.end(0)
     ta.focus()
-    ta[0].selectionStart=0
-    ta[0].selectionEnd=0
   }
 })(jQuery)
