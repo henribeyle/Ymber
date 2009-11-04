@@ -453,7 +453,7 @@ function indent_lines_command() {
 function search_and_replace_expression_command() {
   return {
     regex: /s\/(.*)\/(.*)\/([gi])?/,
-    rfunc: function(x,s,e,matches) {
+    func: function(x,s,e,matches) {
       return all_selection_lines(x,s,e,function(sl) {
         var regex=new RegExp(matches[1],matches[3])
         return sl.map(function(x) { return x.replace(regex,matches[2]) })
@@ -465,7 +465,7 @@ function search_and_replace_expression_command() {
 function grep_expression_command() {
   return {
     regex: /\/(.*)\/!D/,
-    rfunc: function(x,s,e,matches) {
+    func: function(x,s,e,matches) {
       return all_selection_lines(x,s,e,function(sl) {
         return sl.grep(function(x) { return x.match(matches[1]) })
       })
@@ -475,7 +475,7 @@ function grep_expression_command() {
 function grep_v_expression_command() {
   return {
     regex: /\/(.*)\/D/,
-    rfunc: function(x,s,e,matches) {
+    func: function(x,s,e,matches) {
       return all_selection_lines(x,s,e,function(sl) {
         return sl.grep(function(x) { return !x.match(matches[1]) })
       })

@@ -246,7 +246,7 @@ TextArea.prototype.goto_end = function(x) {
         history.push(comm)
         opts.commands.each(function(x) {
           var m=comm.match(x.regex)
-          if(x.regex && m && is_fun(x.rfunc)) process_func(x.rfunc,m)
+          if(x.regex && m && is_fun(x.func)) process_func(x.func,m)
         })
       }
       return false
