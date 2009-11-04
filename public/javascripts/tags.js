@@ -81,7 +81,6 @@ Tag.prototype.edit = function() {
     commands: [ {
         img: './images/delete.png',
         title: 'delete',
-        accel: ctrl_del,
         close: function() { tag_delete(self,p_mess('tag deleted')) }
       }, {
         img: './images/cancel.png',

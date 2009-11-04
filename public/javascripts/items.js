@@ -108,7 +108,6 @@ Item.prototype.edit = function() {
       {
         img: '/images/delete.png',
         title: 'delete',
-        accel: ctrl_del,
         close: function() { item_delete(self,p_mess('item deleted')) }
       }, {
         img: '/images/cancel.png',

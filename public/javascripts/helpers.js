@@ -240,7 +240,6 @@ var tercera=[
   null,
   ['ctrl+enter','save'],
   ['ctrl+escape','cancel'],
-  ['ctrl+del','delete'],
   ['ctrl+.','split'],
   ['ctrl+y','split and send to next'],
   ['ctrl+l','list/unlist selection lines'],
