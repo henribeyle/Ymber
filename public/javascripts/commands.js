@@ -545,7 +545,9 @@ function item_send_to_someday(item,dt,nT,nF) {
   if(item.has(tag_next)) tag_remove=tag_next
   if(item.has(tag_waiting)) tag_remove=tag_waiting
 
-  item_change_basic_types(item,tag_remove,tag_someday,'@['+dt+'] ',nT,nF)
+  if(dt) dt='@['+dt+'] '
+
+  item_change_basic_types(item,tag_remove,tag_someday,dt,nT,nF)
 }
 
 function item_split(item,ts,extra_tags,nT,nF) {
