@@ -10,15 +10,15 @@ function Tag(value,extra,id,count) {
 
   self.ui=$('<span>').attr('id','tag-'+self.id).appendTo('#tags')
 
-  $('<span>').
+  $('<a>').attr('href','/'+self.value).
     addClass('tag').
     append(span('value',self.value_or_extra())).
     appendTo(self.ui).
-    fixClick(function() {
+    fixClick(function(e) {
         go_to(self.value)
-      },function() {
-      clear_selection()
-      self.edit()
+      },function(e) {
+        clear_selection()
+        self.edit()
     }).
     draggable({
       opacity: 0.5,

@@ -9,4 +9,45 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *
  */
-if(jQuery)(function($){$.fn.fixClick=function(B,A){var _=this;this.click=B;this.dblclick=A;this.firstClick=false;this.timer=null;this.delay=250;$(this).click(function($){var A=this;this.e=$;_.firstClick==false?_.timer=setTimeout(function(){_.click(A.e);_.firstClick=false},_.delay):"";_.firstClick=true}).dblclick(function($){clearTimeout(_.timer);_.firstClick=false;_.dblclick($)});return this}})(jQuery)
+if(jQuery) (function($){$.fn.fixClick =  function(click,dblclick) {
+
+  //Closure #1
+  var app = this;
+
+  this.click = click;
+
+  this.dblclick = dblclick;
+
+  this.firstClick = false;
+
+  this.timer = null;
+
+  //default dblclick delay
+  this.delay = 250;
+
+  $(this).click(function(e){
+    e.stopPropagation()
+
+    //Closure #2
+    var ins = this;
+    this.e = e;
+
+    app.firstClick == false ?
+    app.timer = setTimeout(function() {
+      app.click(ins.e);
+      app.firstClick = false;
+    }, app.delay) : '';
+
+    app.firstClick = true;
+    return false
+  }).dblclick(function(e){
+    e.stopPropagation()
+
+    clearTimeout(app.timer);
+    app.firstClick = false;
+    app.dblclick(e);
+    return false
+  });
+
+  return this;
+}})(jQuery);
