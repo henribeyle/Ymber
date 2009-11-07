@@ -105,6 +105,7 @@ Item.prototype.edit = function() {
       search_and_replace_expression_command(),
       grep_expression_command(),
       grep_v_expression_command(),
+      search_next_expression_command(),
       {
         img: '/images/delete.png',
         title: 'delete',

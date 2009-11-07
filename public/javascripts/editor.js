@@ -317,10 +317,10 @@ TextSegment.prototype.reset_from_paragraphs = function() {
   self.end=(p+s).length-2
 }
 
-TextSegment.prototype.goto = function(x) {
+TextSegment.prototype.goto = function(x,y) {
   var self=this
   self.start=x
-  self.end=x
+  self.end=(y == undefined) ? x : y
 }
 
 ;(function($) {
@@ -626,6 +626,39 @@ function grep_v_expression_command() {
     func: function(ts,matches) {
       ts.each_line(function(x) { return !x.match(matches[1]) ? x : null })
       ts.reset_from_lines()
+      return ts
+    }
+  }
+}
+
+function search_next_expression_command() {
+  return {
+    regex: /^\s*\/(.*)(\/i)?\s*$/,
+    func: function(ts,matches) {
+      var mod='g'
+      var r=matches[1].toString()
+      if(r.match(/\/i$/)) {
+        mod='gi'
+        r=r.slice(0,-2)
+      } else if(r.match(/\/$/)) {
+        r=r.slice(0,-1)
+      }
+      b=ts.text.match(new RegExp(r,mod))
+      if(b == null) return ts
+      var pos=[]
+      var posI=0
+      for(var i=0;i<b.length;i++) {
+        var p=ts.text.indexOf(b[i],posI)
+        pos.push(p)
+        posI=p+1
+      }
+
+      var s=ts.start
+      for(var i=0;i<b.length;i++) {
+        if(pos[i] > s) break
+      }
+      if(i==b.length) i=0
+      ts.goto(pos[i],pos[i]+b[i].length)
       return ts
     }
   }
