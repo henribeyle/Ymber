@@ -65,6 +65,7 @@ function main_key_handler(e) {
   if(!my_event(e)) return
 // log('[main] '+e.which)
 
+  if(_d == null) return true
   if(e.which == 8) {
     command=''
     return true
