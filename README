@@ -1,14 +1,90 @@
-TL;DR
+Hello user,
 
-rake db:gitdb:drop db:gitdb:create db:gitdb:common
+These are the instructions to get this application (which I call §, you can
+call it whatever you want) up and running. I wrote this application as a
+replacement for my todo list, which was basically a set of text files. I am
+still continually developing it, trying to make it suit my needs but if you
+feel that there is something that you want it to have, let me know and we will
+see if there is some way to make it real.
+
+The idea behind this application is simple, there are two only entities, items
+and tags, which have a many to many relationship, i.e. an item may be related
+to many tags and each tag may have relation to many items. Some tags have a
+special behaviour, and others are just plain normal words you can add.
+
+The four main tags, in, next, waiting and someday are mutually exclusive and
+sort of follow the guidelines behind the excellent book Getting Things Done, by
+David Allen. Do not expect to find here everything from GTD, this is my view of
+GTD and other stuff (org-mode, pomodoro techniques), but as I said before I am
+open to suggestions, so feel free to drop me a line with your comments.
+
+- Prerequisites:
+
+You certainly need ruby 1.8.7, git support (not only for getting the source,
+the database is also stored in git) and Firefox 3.5. This last one is probably
+not mandatory, but I have only tested it in Firefox (I am open to patches for
+other browsers).
+
+- Installation
+
+In order to install this application, you must download it into your machine.
+This app only works locally, it binds itself into 127.0.0.1 so it is not
+recommended for multiuser environments. Once downloaded and installed someplace
+in your hard disk, everything is very simple.
+
+- CSS colour generation
+
+First of all, you need to generate a css file. The css file is generated from a
+file inside the config directory called main.css. In order to generate it you
+must run the script/process_css file, which takes care of transforming the
+original css using different colour patters I have taken from colour lovers web
+site [3]. You have to issue one of the following commands:
+
+script/process_css eyes
+script/process_css same_old_thing
+script/process_css summer_of_love
+script/process_css warp
+
+After you have started the application, you are free to run any other of these
+commands and change the colour theme, or even edit the script/process_css file
+and put in your own colour theme.
+
+- Generating the initial database
+
+The database is by default stored in the db directory as a git filesystem. In
+order everything to work, you need to build the database. This is easily done
+with rake tasks. The following one:
+
+rake db:gitdb:create
+
+is the only mandatory one, since it will create the git structure and insert
+the necessary tags for this application to work. The following command
+
+rake db:gitdb:common
+
+is responsible for inserting many more tags into the database, some of which
+seem useful to me. I advise you to put them in, you can always remove them
+later from the application itself if you do not want them. Finally you can
+delete the whole database by ussuing a
+
+rake db:gitdb:drop
+
+- Running the application
+
+The application is run by default via Ruby's Webrick web server. In order
+to do so, run the following:
+
 ./script/server
-go to http://127.0.0.1:3000
 
-################################################################################
+You can then check that everything is working by going to the following
+url http://127.0.0.1:3000/
 
-If you want to configure the app, keep on reading. Configure parameters are in
-config/config.yml. This file is in yaml. No parameters are mandatory. The
-parameters that can be set are:
+- Configuration
+
+There is a file which if present, may change certain functionality for this
+application. All configure parameters are in config/config.yml which is a YAML
+configuration file. The configuration parameters are not mandatory. The
+current parameters that can be set are:
 
 port: number
 detach: true|false
@@ -31,10 +107,10 @@ determines if the server detaches as a daemon or not. The debug boolean
 variable (if set to false) just allows the hooking of a particular function to
 the window.error function, so that errors are shown with our notice library. If
 you set it to true, the error will not be captured by ourselves, but rather by
-Firebug or your debugger, therefore allowing a better debugging experience.
-The gitdb value may be a directory where you want to store your data. If you
-do not set it, it will be assumed to be the db directory inside the RAILS_ROOT
-directory.
+Firebug or your debugger, therefore allowing a better debugging experience
+(probably not what you want, but who knows if you are like me). The gitdb value
+may be a directory where you want to store your data. If you do not set it, it
+will be assumed to be the db directory inside the RAILS_ROOT directory.
 
 The other two increase/decrease functionality. The google_key will allow you to
 use google maps to put data points in the notes. To get a key you must sign in
@@ -43,27 +119,73 @@ particular server. I have selected one for myself for the server at 127.0.0.1
 which is good enough for this application. The calendar url can be found in [2]
 and follow the procedure. Dont get the frame, just the url loaded in the frame.
 
-The first time you run it you must create the database. This is easily done
-with rake tasks. The following one:
+- Running it:
 
-rake db:gitdb:create
+I am planning to record some videos of how to use it. For the time being, just
+play around yourself, drag and drop and follow the shortcuts help.
 
-is the only mandatory one, since it will create the git structure and insert
-the necessary tags for this application to work. The following command
+- Command line scripts
 
-rake db:gitdb:common
+There are three scripts (four if you consider process_css) inside script
+directory which are not part of the typical rails application and are useful.
+The three scripts are called in, list and search.
 
-will insert more tags into the database, some of which seem useful to me (you
-can skip it if you do not want them). Finally you can delete the whole database
-by ussuing a
+'search' tries to look into items for a particular words, set of words or
+regular expression. For example:
 
-rake db:gitdb:drop
+search whatever
 
-To run
+will list all items (with the tags they have) that contain the whatever word.
+Right now it is a very simple script, so do not expect a lot from it.
 
-./script/server
+'list' will list all the items in a particular tag, and obviously accepts a
+tagname in the command line:
+
+list in
+
+'in' is the most powerful one. It allows to send something into the 'in' tag.
+It will try to contact the server and if it is not running, it will try to
+access the git database directly. Some uses are:
+
+in This will appear as a new item in state 'in'
+in -t hola This will appear in state in plus it will have the tag hola also
+
+If you do not put anything in the command line, in will read its standard
+input for the item. This allows you to program other applications to send
+something into in. For example, in my mutt configuration file I have the
+following entry:
+
+macro index \ci ":set pipe_decode\n|vipe|.../script/in\n:unset pipe_decode\n" \
+                "send document into todo inbox"
+
+Thus by issuing Ctrl+I in any mail, it will be sent to the todo app inbox
+(vipe is a very good app which allows you to edit pipes using vi, in debian
+you can find it in moreutils package)
+
+- Adding images to tags
+
+If you use a tag a lot of time and want an image to appear instead of having
+the text word you can do so by playing around inside the database. Inside the
+database, there are two files for each tag. One of them is called tag_value_id
+and the other tag_extra_id (where id is a number). Find the tag you want to
+change.
+
+# grep MyWord db/tag_value*
+tag_value_26:MyWord
+
+Then edit the tag_extra_26 file (notice the same id is being used) and place
+whatever html you want. Something like the following:
+
+<img src='/images/myword.png' title='MyWord'/>
+
+and don't forget to put the myword.png file inside the public/images directory.
+When finished, you should update the database:
+
+git add .
+git commit -m 'added my own image for MyWord'
 
 References
 
 [1] http://code.google.com/apis/maps/signup.html
 [2] http://www.google.com/support/calendar/bin/answer.py?hl=en&answer=41207
+[3] http://www.colourlovers.com/
