@@ -35,14 +35,6 @@ $(function() {
   $(window).bind('resize', resize_handler)
   resize_handler()
 
-  $('.map-popup').live('click',function() {
-    $.map_show($(this).text())
-  })
-
-  $('.more-stuff').live('click',function() {
-    item_expand(_d.item_id($(this).oid()))
-  })
-
   $('#add_item_button').click(add_item_helper)
   $('#add_tag_button').click(add_tag_helper)
   $('#undo_button').click(undo)

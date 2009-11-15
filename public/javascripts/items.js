@@ -35,6 +35,7 @@ function Item(value,id,data) {
     clear_selection()
     self.edit()
   })
+  self.live_check()
 }
 
 Item.prototype.add_tag = function(tag) {
@@ -146,6 +147,7 @@ Item.prototype.update = function(value) {
   var v=this.expanded ? value : first_line(value)
   this.value_format=formatted(v)
   $('.value',this.ui).html(this.value_format)
+  this.live_check()
 }
 
 Item.prototype.update_tag = function(tag) {
@@ -178,4 +180,10 @@ Item.prototype.expand = function() {
   this.expanded=true
   this.update(this.value)
   $('img.show',this.ui).attr('src','/images/state_expanded.png')
+}
+
+Item.prototype.live_check = function() {
+  var self=this
+  $('.map-popup',self.ui).click(function() { $.map_show($(this).text()) })
+  $('.more-stuff',self.ui).click(function() { item_expand(self) })
 }
