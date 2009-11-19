@@ -1,11 +1,11 @@
 Hello user,
 
-These are the instructions to get this application (which I call §, you can
-call it whatever you want) up and running. I wrote this application as a
-replacement for my todo list, which was basically a set of text files. I am
-still continually developing it, trying to make it suit my needs but if you
-feel that there is something that you want it to have, let me know and we will
-see if there is some way to make it real.
+These are the instructions to get Ymber up and running. I wrote this
+application as a replacement for my todo list, which was basically a set of
+text files. I am still continually developing it, trying to make it suit my
+needs but if you feel that there is something that you want it to have, let me
+know and we will see if there is some way to make it real. By the way, it is
+licensed GPLv3 or above. Read the COPYING or look at [4] for more information.
 
 The idea behind this application is simple, there are two only entities, items
 and tags, which have a many to many relationship, i.e. an item may be related
@@ -189,3 +189,4 @@ References
 [1] http://code.google.com/apis/maps/signup.html
 [2] http://www.google.com/support/calendar/bin/answer.py?hl=en&answer=41207
 [3] http://www.colourlovers.com/
+[4] http://www.gnu.org/licenses/gpl.html
